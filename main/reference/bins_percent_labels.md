@@ -2,7 +2,7 @@
 
 This creates labels for quantile based bins in percent. This assumes the
 right-closed intervals as produced by
-[`cut_quantile_bins()`](https://insightsengineering.github.io/tern/reference/cut_quantile_bins.md).
+[`cut_quantile_bins()`](https://pharmaverse.github.io/tern/reference/cut_quantile_bins.md).
 
 ## Usage
 

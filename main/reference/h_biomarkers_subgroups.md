@@ -43,9 +43,9 @@ h_tab_surv_one_biomarker(
   (`data.frame`)\
   results for a single biomarker. For `h_tab_rsp_one_biomarker()`, the
   results returned by
-  [`extract_rsp_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_rsp_biomarkers.md).
+  [`extract_rsp_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_rsp_biomarkers.md).
   For `h_tab_surv_one_biomarker()`, the results returned by
-  [`extract_survival_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_survival_biomarkers.md).
+  [`extract_survival_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_survival_biomarkers.md).
 
 - afuns:
 
@@ -77,7 +77,7 @@ h_tab_surv_one_biomarker(
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .formats:

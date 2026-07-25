@@ -3,7 +3,7 @@
 **\[stable\]**
 
 Description function that produces the labels for
-[`s_count_abnormal_by_baseline()`](https://insightsengineering.github.io/tern/reference/abnormal_by_baseline.md).
+[`s_count_abnormal_by_baseline()`](https://pharmaverse.github.io/tern/reference/abnormal_by_baseline.md).
 
 ## Usage
 
@@ -21,7 +21,7 @@ d_count_abnormal_by_baseline(abnormal)
 ## Value
 
 Abnormal category labels for
-[`s_count_abnormal_by_baseline()`](https://insightsengineering.github.io/tern/reference/abnormal_by_baseline.md).
+[`s_count_abnormal_by_baseline()`](https://pharmaverse.github.io/tern/reference/abnormal_by_baseline.md).
 
 ## Examples
 

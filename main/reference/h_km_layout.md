@@ -28,7 +28,7 @@ h_km_layout(
 
   (`list` of `gtable`)\
   list as obtained by
-  [`h_decompose_gg()`](https://insightsengineering.github.io/tern/reference/h_decompose_gg.md).
+  [`h_decompose_gg()`](https://pharmaverse.github.io/tern/reference/h_decompose_gg.md).
 
 - title:
 

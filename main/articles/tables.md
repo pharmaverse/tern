@@ -35,11 +35,11 @@ Analyze functions are used in combination with the `rtables` layout
 functions, in the pipeline which creates the `rtables` table. They apply
 some statistical logic to the layout of the `rtables` table. The table
 layout is materialized with the
-[`rtables::build_table`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html)
+[`rtables::build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)
 function and the data.
 
 The `tern` analyze functions are wrappers around
-[`rtables::analyze`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html)
+[`rtables::analyze`](https://rdrr.io/pkg/rtables/man/analyze.html)
 function, they offer various methods useful from the perspective of
 clinical trials and other statistical projects.
 
@@ -70,14 +70,14 @@ The descriptions for each function type:
 - formatted analysis functions `a_*`. These apply formatting to results
   from their corresponding statistics functions. They are used as `afun`
   in
-  [`rtables::analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html).
+  [`rtables::analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html).
 - analyze functions `rtables::analyze(..., afun = tern::a_*)`. Analyze
   functions are used in combination with the `rtables` layout functions,
   in the pipeline which creates the table. They are the last element of
   the chain.
 
 We will use the native
-[`rtables::analyze`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html)
+[`rtables::analyze`](https://rdrr.io/pkg/rtables/man/analyze.html)
 function with the `tern` formatted analysis functions as a `afun`
 parameter.
 
@@ -95,9 +95,9 @@ and the `rtables` interface.
 
 | Table | `tern` analyze functions |
 |----|:---|
-| **Demographic Table** | [`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md) and [`summarize_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md) |
-| **Adverse event Table** | [`count_occurrences()`](https://insightsengineering.github.io/tern/reference/count_occurrences.md) |
-| **Response Table** | [`estimate_proportion()`](https://insightsengineering.github.io/tern/reference/estimate_proportion.md), [`estimate_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md) and [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md) |
+| **Demographic Table** | [`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md) and [`summarize_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md) |
+| **Adverse event Table** | [`count_occurrences()`](https://pharmaverse.github.io/tern/reference/count_occurrences.md) |
+| **Response Table** | [`estimate_proportion()`](https://pharmaverse.github.io/tern/reference/estimate_proportion.md), [`estimate_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md) and [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md) |
 
 ### Demographic Table
 
@@ -107,7 +107,7 @@ treatment arms and variables summarized in the table are demographic
 properties such as age, sex, race, etc.
 
 In the example below the only function from `tern` is
-[`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+[`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
 and the remaining layout functions are from `rtables`.
 
 ``` r
@@ -181,27 +181,26 @@ basic_table() |>
 ```
 
 The `tern` package includes many functions similar to
-[`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+[`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 These functions are called layout creating functions and are used in
 combination with other `rtables` layout functions just like in the
 examples above. Layout creating functions are wrapping calls to
-`rtables`
-[`analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html),
-[`analyze_colvars()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze_colvars.html)
+`rtables` [`analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html),
+[`analyze_colvars()`](https://rdrr.io/pkg/rtables/man/analyze_colvars.html)
 and
-[`summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+[`summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
 and provide options for easy formatting and analysis modifications.
 
 To customize the display for the demographics table, we can do so via
 the arguments in
-[`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+[`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 Most layout creating functions in `tern` include the standard arguments
 `.stats`, `.formats`, `.labels` and `.indent_mods` which control which
 statistics are displayed and how the numbers are formatted. Refer to the
 package help with
-[`help("analyze_vars")`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+[`help("analyze_vars")`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
 or
-[`?analyze_vars`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+[`?analyze_vars`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
 to see the full set of options.
 
 For this example we will change the default summary for numeric
@@ -301,7 +300,7 @@ creating functions in a tabulation pipeline.
 
 We start by creating the high-level summary. The layout creating
 function in `tern` that can do this is
-[`summarize_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md):
+[`summarize_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md):
 
 ``` r
 
@@ -332,7 +331,7 @@ Note that for this table, the denominator used for percentages and shown
 in the header of the table `(N = xx)` is defined based on the
 subject-level dataset `adsl`. This is done by using the `alt_df_counts`
 argument in
-[`build_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html),
+[`build_table()`](https://rdrr.io/pkg/rtables/man/build_table.html),
 which provides an alternative data set for deriving the counts in the
 header. This is often required when we work with data sets that include
 multiple records per patient as `df`, such as `adae` here.
@@ -354,9 +353,9 @@ Statistic function to understand the logic used to calculate the numbers
 in a table and see what options may be available to modify the analysis.
 
 For example, the Statistics function calculating the numbers in
-[`summarize_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md)
+[`summarize_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md)
 is
-[`s_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md).
+[`s_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md).
 The results of this Statistics function is a list with the elements
 `unique`, `nonunique` and `unique_count`:
 
@@ -387,14 +386,14 @@ is handled at the layout creating function level with the `.formats`
 argument.
 
 Now that we know what types of statistics can be derived by
-[`s_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md),
+[`s_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md),
 we can try modifying the default layout returned by
-[`summarize_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md).
+[`summarize_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md).
 Instead of reporting the `unique` and `nonqunie` statistics, we specify
 that the analysis should include only the `unique_count` statistic. The
 result will show only the counts of unique patients. Note we make this
 update in both the `.stats` and `.labels` argument of
-[`summarize_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md).
+[`summarize_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md).
 
 ``` r
 
@@ -422,9 +421,9 @@ Let’s now continue building on the layout for the adverse event table.
 After we have the top-level summary, we can repeat the same summary at
 each system organ class level. To do this we split the analysis data
 with
-[`split_rows_by()`](https://insightsengineering.github.io/rtables/latest-tag/reference/split_rows_by.html)
+[`split_rows_by()`](https://rdrr.io/pkg/rtables/man/split_rows_by.html)
 before calling again
-[`summarize_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md).
+[`summarize_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md).
 
 ``` r
 
@@ -490,7 +489,7 @@ basic_table() |>
 The table looks almost ready. For the final step, we need a layout
 creating function that can produce a count table of event frequencies.
 The layout creating function for this is
-[`count_occurrences()`](https://insightsengineering.github.io/tern/reference/count_occurrences.md).
+[`count_occurrences()`](https://pharmaverse.github.io/tern/reference/count_occurrences.md).
 Let’s first try using this function in a simpler layout without row
 splits:
 
@@ -624,7 +623,7 @@ anl <- adrs |>
 
 To create a summary of the proportion of responders in each treatment
 group, use the
-[`estimate_proportion()`](https://insightsengineering.github.io/tern/reference/estimate_proportion.md)
+[`estimate_proportion()`](https://pharmaverse.github.io/tern/reference/estimate_proportion.md)
 layout creating function:
 
 ``` r
@@ -646,7 +645,7 @@ basic_table() |>
 
 To specify which arm in the table should be used as the reference, use
 the argument `ref_group` from
-[`split_cols_by()`](https://insightsengineering.github.io/rtables/latest-tag/reference/split_cols_by.html).
+[`split_cols_by()`](https://rdrr.io/pkg/rtables/man/split_cols_by.html).
 Below we change the reference arm to “B: Placebo” and so this arm is
 displayed as the first column:
 
@@ -690,7 +689,7 @@ basic_table() |>
 
 The next table section needed should summarize the difference in
 response rates between the reference arm each comparison arm. Use
-[`estimate_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md)
+[`estimate_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
 layout creating function for this:
 
 ``` r
@@ -714,7 +713,7 @@ basic_table() |>
 
 The final section needed to complete the table includes a statistical
 test for the difference in response rates. Use the
-[`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md)
+[`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
 layout creating function for this:
 
 ``` r
@@ -798,12 +797,12 @@ type of analysis.
 
 The `tern` analyze functions introduced in this vignette are:
 
-- [`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
-- [`summarize_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md)
-- [`count_occurrences()`](https://insightsengineering.github.io/tern/reference/count_occurrences.md)
-- [`estimate_proportion()`](https://insightsengineering.github.io/tern/reference/estimate_proportion.md)
-- [`estimate_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md)
-- [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md)
+- [`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
+- [`summarize_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md)
+- [`count_occurrences()`](https://pharmaverse.github.io/tern/reference/count_occurrences.md)
+- [`estimate_proportion()`](https://pharmaverse.github.io/tern/reference/estimate_proportion.md)
+- [`estimate_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
+- [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
 
 Layout creating functions build a formatted `layout` by controlling
 features such as labels, numerical display formats and indentation.

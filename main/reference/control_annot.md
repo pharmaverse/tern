@@ -4,7 +4,7 @@
 
 Auxiliary functions for controlling arguments for formatting the
 annotation tables that can be added to plots generated via
-[`g_km()`](https://insightsengineering.github.io/tern/reference/g_km.md).
+[`g_km()`](https://pharmaverse.github.io/tern/reference/g_km.md).
 
 ## Usage
 
@@ -78,21 +78,21 @@ A list of components with the same names as the arguments.
 
 - `control_surv_med_annot()`: Control function for formatting the median
   survival time annotation table. This annotation table can be added in
-  [`g_km()`](https://insightsengineering.github.io/tern/reference/g_km.md)
-  by setting `annot_surv_med=TRUE`, and can be configured using the
+  [`g_km()`](https://pharmaverse.github.io/tern/reference/g_km.md) by
+  setting `annot_surv_med=TRUE`, and can be configured using the
   `control_surv_med_annot()` function by setting it as the
   `control_annot_surv_med` argument.
 
 - `control_coxph_annot()`: Control function for formatting the Cox-PH
   annotation table. This annotation table can be added in
-  [`g_km()`](https://insightsengineering.github.io/tern/reference/g_km.md)
-  by setting `annot_coxph=TRUE`, and can be configured using the
+  [`g_km()`](https://pharmaverse.github.io/tern/reference/g_km.md) by
+  setting `annot_coxph=TRUE`, and can be configured using the
   `control_coxph_annot()` function by setting it as the
   `control_annot_coxph` argument.
 
 ## See also
 
-[`g_km()`](https://insightsengineering.github.io/tern/reference/g_km.md)
+[`g_km()`](https://pharmaverse.github.io/tern/reference/g_km.md)
 
 ## Examples
 

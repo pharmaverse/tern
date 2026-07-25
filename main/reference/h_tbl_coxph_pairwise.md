@@ -53,7 +53,7 @@ h_tbl_coxph_pairwise(
 
   (`list`)\
   parameters for comparison details, specified using the helper function
-  [`control_coxph()`](https://insightsengineering.github.io/tern/reference/control_coxph.md).
+  [`control_coxph()`](https://pharmaverse.github.io/tern/reference/control_coxph.md).
   Some possible parameter options are:
 
   - `pval_method` (`string`)\

@@ -251,7 +251,7 @@ g_lineplot(
   the `h_format_row` function through the `format` parameter. Names of
   `table_format` must match the names of statistics returned by `sfun`
   function. Can be a character vector with values from
-  [`formatters::list_valid_format_labels()`](https://insightsengineering.github.io/formatters/latest-tag/reference/list_formats.html)
+  [`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
   or custom format functions.
 
 - table_labels:

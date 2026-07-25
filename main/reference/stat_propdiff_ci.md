@@ -69,9 +69,9 @@ statistics: proportion difference, CI lower bound, and CI upper bound.
 ## See also
 
 Split function
-[`add_riskdiff()`](https://insightsengineering.github.io/tern/reference/add_riskdiff.md)
+[`add_riskdiff()`](https://pharmaverse.github.io/tern/reference/add_riskdiff.md)
 which, when used as `split_fun` within
-[`rtables::split_cols_by()`](https://insightsengineering.github.io/rtables/latest-tag/reference/split_cols_by.html)
+[`rtables::split_cols_by()`](https://rdrr.io/pkg/rtables/man/split_cols_by.html)
 with `riskdiff` argument is set to `TRUE` in subsequent analyze
 functions, adds a column containing proportion (risk) difference to an
 `rtables` layout.

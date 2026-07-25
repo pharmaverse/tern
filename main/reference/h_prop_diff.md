@@ -127,7 +127,7 @@ A named `list` of elements `diff` (proportion difference) and `diff_ci`
   stratification factors. This implementation follows closely the one
   proposed by Yan and Su (2010) . Weights can be estimated from the
   heuristic proposed in
-  [`prop_strat_wilson()`](https://insightsengineering.github.io/tern/reference/h_proportions.md)
+  [`prop_strat_wilson()`](https://pharmaverse.github.io/tern/reference/h_proportions.md)
   or from CMH-derived weights (see `prop_diff_cmh()`).
 
 - `prop_diff_uncond_exact()`: Unconditional exact confidence interval
@@ -168,7 +168,7 @@ Intervals for Multiple Binomial Proportions.” *Stat. Biopharm. Res.*,
 
 ## See also
 
-[`prop_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md)
+[`prop_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
 for implementation of these helper functions.
 
 ## Examples

@@ -47,7 +47,7 @@ extract_rsp_biomarkers(
   (named `list`)\
   controls for the response definition and the confidence level produced
   by
-  [`control_logistic()`](https://insightsengineering.github.io/tern/reference/control_logistic.md).
+  [`control_logistic()`](https://pharmaverse.github.io/tern/reference/control_logistic.md).
 
 - label_all:
 
@@ -68,7 +68,7 @@ variable reflecting binary response.
 
 ## See also
 
-[`h_logistic_mult_cont_df()`](https://insightsengineering.github.io/tern/reference/h_response_biomarkers_subgroups.md)
+[`h_logistic_mult_cont_df()`](https://pharmaverse.github.io/tern/reference/h_response_biomarkers_subgroups.md)
 which is used internally.
 
 ## Examples

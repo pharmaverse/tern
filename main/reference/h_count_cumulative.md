@@ -68,7 +68,7 @@ A named vector with items:
 
 ## See also
 
-[count_cumulative](https://insightsengineering.github.io/tern/reference/count_cumulative.md)
+[count_cumulative](https://pharmaverse.github.io/tern/reference/count_cumulative.md)
 
 ## Examples
 

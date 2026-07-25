@@ -78,7 +78,7 @@ h_odds_ratio_subgroups_df(
   (`string` or `NULL`)\
   specifies the test used to calculate the p-value for the difference
   between two proportions. For options, see
-  [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md).
+  [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md).
   Default is `NULL` so no test is performed.
 
 ## Value

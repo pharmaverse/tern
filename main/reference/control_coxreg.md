@@ -50,9 +50,9 @@ A `list` of items with names corresponding to the arguments.
 
 ## See also
 
-[`fit_coxreg_univar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+[`fit_coxreg_univar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
 and
-[`fit_coxreg_multivar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md).
+[`fit_coxreg_multivar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md).
 
 ## Examples
 

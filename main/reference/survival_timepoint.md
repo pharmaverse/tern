@@ -98,7 +98,7 @@ a_surv_timepoint(
   (`list`)\
   parameters for comparison details, specified by using the helper
   function
-  [`control_surv_timepoint()`](https://insightsengineering.github.io/tern/reference/control_surv_timepoint.md).
+  [`control_surv_timepoint()`](https://pharmaverse.github.io/tern/reference/control_surv_timepoint.md).
   Some possible parameter options are:
 
   - `conf_level` (`proportion`)\
@@ -162,7 +162,7 @@ a_surv_timepoint(
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .formats:
@@ -208,7 +208,7 @@ a_surv_timepoint(
 
 - `surv_timepoint()` returns a layout object suitable for passing to
   further layouting functions, or to
-  [`rtables::build_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html).
+  [`rtables::build_table()`](https://rdrr.io/pkg/rtables/man/build_table.html).
   Adding this function to an `rtable` layout will add formatted rows
   containing the statistics from `s_surv_timepoint()` and/or
   `s_surv_timepoint_diff()` to the table layout depending on the value
@@ -244,14 +244,14 @@ a_surv_timepoint(
 &nbsp;
 
 - `a_surv_timepoint()` returns the corresponding list with formatted
-  [`rtables::CellValue()`](https://insightsengineering.github.io/rtables/latest-tag/reference/CellValue.html).
+  [`rtables::CellValue()`](https://rdrr.io/pkg/rtables/man/CellValue.html).
 
 ## Functions
 
 - `surv_timepoint()`: Layout-creating function which can take statistics
   function arguments and additional format arguments. This function is a
   wrapper for
-  [`rtables::analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html).
+  [`rtables::analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html).
 
 - `s_surv_timepoint()`: Statistics function which analyzes survival
   rate.

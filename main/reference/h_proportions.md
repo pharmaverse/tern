@@ -4,7 +4,7 @@
 
 Functions to calculate different proportion confidence intervals for use
 in
-[`estimate_proportion()`](https://insightsengineering.github.io/tern/reference/estimate_proportion.md).
+[`estimate_proportion()`](https://pharmaverse.github.io/tern/reference/estimate_proportion.md).
 
 ## Usage
 
@@ -108,13 +108,13 @@ Intervals for Multiple Binomial Proportions.” *Stat. Biopharm. Res.*,
 
 ## See also
 
-[estimate_proportion](https://insightsengineering.github.io/tern/reference/estimate_proportion.md),
+[estimate_proportion](https://pharmaverse.github.io/tern/reference/estimate_proportion.md),
 descriptive function
-[`d_proportion()`](https://insightsengineering.github.io/tern/reference/d_proportion.md),
+[`d_proportion()`](https://pharmaverse.github.io/tern/reference/d_proportion.md),
 and helper functions
-[`strata_normal_quantile()`](https://insightsengineering.github.io/tern/reference/strata_normal_quantile.md)
+[`strata_normal_quantile()`](https://pharmaverse.github.io/tern/reference/strata_normal_quantile.md)
 and
-[`update_weights_strat_wilson()`](https://insightsengineering.github.io/tern/reference/update_weights_strat_wilson.md).
+[`update_weights_strat_wilson()`](https://pharmaverse.github.io/tern/reference/update_weights_strat_wilson.md).
 
 ## Examples
 

@@ -66,7 +66,7 @@ A `list` of 3 elements: `n_it`, `weights`, and `diff_v`.
 ## See also
 
 For references and details see
-[`prop_strat_wilson()`](https://insightsengineering.github.io/tern/reference/h_proportions.md).
+[`prop_strat_wilson()`](https://pharmaverse.github.io/tern/reference/h_proportions.md).
 
 ## Examples
 

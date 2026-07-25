@@ -6,11 +6,11 @@ The `tabulate_survival_subgroups()` function creates a layout element to
 tabulate survival duration by subgroup, returning statistics including
 median survival time and hazard ratio for each population subgroup. The
 table is created from `df`, a list of data frames returned by
-[`extract_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/extract_survival_subgroups.md),
+[`extract_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/extract_survival_subgroups.md),
 with the statistics to include specified via the `vars` parameter.
 
 A forest plot can be created from the resulting table using the
-[`g_forest()`](https://insightsengineering.github.io/tern/reference/g_forest.md)
+[`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
 function.
 
 ## Usage
@@ -56,7 +56,7 @@ a_survival_subgroups(
   (`list`)\
   list of data frames containing all analysis variables. List should be
   created using
-  [`extract_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/extract_survival_subgroups.md).
+  [`extract_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/extract_survival_subgroups.md).
 
 - vars:
 
@@ -91,7 +91,7 @@ a_survival_subgroups(
 
   **\[deprecated\]**\
   please assign the `label_all` parameter within the
-  [`extract_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/extract_survival_subgroups.md)
+  [`extract_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/extract_survival_subgroups.md)
   function when creating `df`.
 
 - time_unit:
@@ -105,7 +105,7 @@ a_survival_subgroups(
   (`list`)\
   if a risk (proportion) difference column should be added, a list of
   settings to apply within the column. See
-  [`control_riskdiff()`](https://insightsengineering.github.io/tern/reference/control_riskdiff.md)
+  [`control_riskdiff()`](https://pharmaverse.github.io/tern/reference/control_riskdiff.md)
   for details. If `NULL`, no risk difference column will be added. If
   `riskdiff$arm_x` and `riskdiff$arm_y` are `NULL`, the first level of
   `df$survtime$arm` will be used as `arm_x` and the second level as
@@ -125,7 +125,7 @@ a_survival_subgroups(
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .formats:
@@ -150,7 +150,7 @@ a_survival_subgroups(
   (`string`)\
   label of the level of the parent split currently being summarized
   (must be present as second argument in Content Row Functions). See
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
   for more information.
 
 - .stats:
@@ -163,7 +163,7 @@ a_survival_subgroups(
 An `rtables` table summarizing survival by subgroup.
 
 - `a_survival_subgroups()` returns the corresponding list with formatted
-  [`rtables::CellValue()`](https://insightsengineering.github.io/rtables/latest-tag/reference/CellValue.html).
+  [`rtables::CellValue()`](https://rdrr.io/pkg/rtables/man/CellValue.html).
 
 ## Details
 
@@ -176,16 +176,16 @@ forest plot.
 - `tabulate_survival_subgroups()`: Table-creating function which creates
   a table summarizing survival by subgroup. This function is a wrapper
   for
-  [`rtables::analyze_colvars()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze_colvars.html)
+  [`rtables::analyze_colvars()`](https://rdrr.io/pkg/rtables/man/analyze_colvars.html)
   and
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html).
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html).
 
 - `a_survival_subgroups()`: Formatted analysis function which is used as
   `afun` in `tabulate_survival_subgroups()`.
 
 ## See also
 
-[`extract_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/extract_survival_subgroups.md)
+[`extract_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/extract_survival_subgroups.md)
 
 ## Examples
 

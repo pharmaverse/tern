@@ -165,7 +165,7 @@ a_glm_count(
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .formats:
@@ -216,7 +216,7 @@ a_glm_count(
 
 - `summarize_glm_count()` returns a layout object suitable for passing
   to further layouting functions, or to
-  [`rtables::build_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html).
+  [`rtables::build_table()`](https://rdrr.io/pkg/rtables/man/build_table.html).
   Adding this function to an `rtable` layout will add formatted rows
   containing the statistics from `s_glm_count()` to the table layout.
 
@@ -240,13 +240,13 @@ a_glm_count(
 &nbsp;
 
 - `a_glm_count()` returns the corresponding list with formatted
-  [`rtables::CellValue()`](https://insightsengineering.github.io/rtables/latest-tag/reference/CellValue.html).
+  [`rtables::CellValue()`](https://rdrr.io/pkg/rtables/man/CellValue.html).
 
 ## Details
 
 `summarize_glm_count()` uses `s_glm_count()` to calculate the statistics
 for the table. This analysis function uses
-[`h_glm_count()`](https://insightsengineering.github.io/tern/reference/h_glm_count.md)
+[`h_glm_count()`](https://pharmaverse.github.io/tern/reference/h_glm_count.md)
 to estimate the GLM with
 [`stats::glm()`](https://rdrr.io/r/stats/glm.html) for Poisson and
 Quasi-Poisson distributions or
@@ -258,7 +258,7 @@ At this point, rates and confidence intervals are estimated from the
 model using either
 [`emmeans::emmeans()`](https://rvlenth.github.io/emmeans/reference/emmeans.html)
 when `rate_mean_method = "emmeans"` or
-[`h_ppmeans()`](https://insightsengineering.github.io/tern/reference/h_ppmeans.md)
+[`h_ppmeans()`](https://pharmaverse.github.io/tern/reference/h_ppmeans.md)
 when `rate_mean_method = "ppmeans"`.
 
 If a reference group is specified while building the table with
@@ -274,7 +274,7 @@ equal to the first `arm` value.
 - `summarize_glm_count()`: Layout-creating function which can take
   statistics function arguments and additional format arguments. This
   function is a wrapper for
-  [`rtables::analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html).
+  [`rtables::analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html).
 
 - `s_glm_count()`: Statistics function that produces a named list of
   results of the investigated Poisson model.

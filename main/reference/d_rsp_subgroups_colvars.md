@@ -3,7 +3,7 @@
 **\[stable\]**
 
 Internal function to check variables included in
-[`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md)
+[`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md)
 and create column labels.
 
 ## Usage
@@ -29,7 +29,7 @@ d_rsp_subgroups_colvars(vars, conf_level = NULL, method = NULL)
   (`string` or `NULL`)\
   specifies the test used to calculate the p-value for the difference
   between two proportions. For options, see
-  [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md).
+  [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md).
   Default is `NULL` so no test is performed.
 
 ## Value

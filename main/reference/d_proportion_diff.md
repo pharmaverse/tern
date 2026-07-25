@@ -3,7 +3,7 @@
 **\[stable\]**
 
 This is an auxiliary function that describes the analysis in
-[`s_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md).
+[`s_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md).
 
 ## Usage
 
@@ -35,4 +35,4 @@ A `string` describing the analysis.
 
 ## See also
 
-[prop_diff](https://insightsengineering.github.io/tern/reference/prop_diff.md)
+[prop_diff](https://pharmaverse.github.io/tern/reference/prop_diff.md)

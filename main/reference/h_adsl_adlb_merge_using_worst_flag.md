@@ -5,7 +5,7 @@
 Helper function that merges ADSL and ADLB datasets so that missing lab
 test records are inserted in the output dataset. Remember that
 `na_level` must match the needed pre-processing done with
-[`df_explicit_na()`](https://insightsengineering.github.io/tern/reference/df_explicit_na.md)
+[`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
 to have the desired output.
 
 ## Usage

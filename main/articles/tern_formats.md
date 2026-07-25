@@ -15,9 +15,9 @@ is, the format of the output will change. Whereas when using the
 value.
 
 To see the available formatting functions available in `tern` see
-[`?formatting_functions`](https://insightsengineering.github.io/tern/reference/formatting_functions.md).
+[`?formatting_functions`](https://pharmaverse.github.io/tern/reference/formatting_functions.md).
 To see the available format strings available in `formatters` see
-[`formatters::list_valid_format_labels()`](https://insightsengineering.github.io/formatters/latest-tag/reference/list_formats.html).
+[`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html).
 
 ## Comparing `tern` & `formatters` Formats
 
@@ -32,7 +32,7 @@ library(dplyr)
 ```
 
 The example below demonstrates the use of `tern` formatting in the
-[`count_abnormal()`](https://insightsengineering.github.io/tern/reference/abnormal.md)
+[`count_abnormal()`](https://pharmaverse.github.io/tern/reference/abnormal.md)
 function. The example “low” category has a non-zero numerator value so
 both a fraction and a percentage value are displayed, while the “high”
 value has a numerator value of zero and so the fraction value is
@@ -67,7 +67,7 @@ basic_table() |>
 ```
 
 In the following example the
-[`count_abnormal()`](https://insightsengineering.github.io/tern/reference/abnormal.md)
+[`count_abnormal()`](https://pharmaverse.github.io/tern/reference/abnormal.md)
 function is utilized again. This time both “low” values and “high”
 values have a non-zero numerator and so both show a percentage.
 
@@ -135,7 +135,7 @@ basic_table() |>
 The same concept occurs when using any of the available formats from the
 `formatters` package. The following example displays the same result
 using the `"xx.x / xx.x"` format instead. Use
-[`formatters::list_valid_format_labels()`](https://insightsengineering.github.io/formatters/latest-tag/reference/list_formats.html)
+[`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
 to see the full list of available formats in `formatters`.
 
 ``` r
@@ -183,9 +183,9 @@ aspects when setting custom behaviors:
 
 Two functions that set a fixed number of decimal places (specifically 1)
 are
-[`format_fraction_fixed_dp()`](https://insightsengineering.github.io/tern/reference/format_fraction_fixed_dp.md)
+[`format_fraction_fixed_dp()`](https://pharmaverse.github.io/tern/reference/format_fraction_fixed_dp.md)
 and
-[`format_count_fraction_fixed_dp()`](https://insightsengineering.github.io/tern/reference/format_count_fraction_fixed_dp.md).
+[`format_count_fraction_fixed_dp()`](https://pharmaverse.github.io/tern/reference/format_count_fraction_fixed_dp.md).
 By default, formatting functions will remove trailing zeros, but these
 two functions will always have one decimal place in their percentage,
 even if the digit is a zero. See the following example:
@@ -207,10 +207,10 @@ format_count_fraction_fixed_dp(x = c(2, 0.25))
 
 Functions that set custom values according to a certain threshold
 include
-[`format_extreme_values()`](https://insightsengineering.github.io/tern/reference/format_extreme_values.md),
-[`format_extreme_values_ci()`](https://insightsengineering.github.io/tern/reference/format_extreme_values_ci.md),
+[`format_extreme_values()`](https://pharmaverse.github.io/tern/reference/format_extreme_values.md),
+[`format_extreme_values_ci()`](https://pharmaverse.github.io/tern/reference/format_extreme_values_ci.md),
 and
-[`format_fraction_threshold()`](https://insightsengineering.github.io/tern/reference/format_fraction_threshold.md).
+[`format_fraction_threshold()`](https://pharmaverse.github.io/tern/reference/format_fraction_threshold.md).
 The extreme value formats work similarly to allow the user to specify
 the maximum number of digits to include, and very large or very small
 values are given a special string value. For example:
@@ -227,7 +227,7 @@ extreme_format(Inf)
 ```
 
 The
-[`format_fraction_threshold()`](https://insightsengineering.github.io/tern/reference/format_fraction_threshold.md)
+[`format_fraction_threshold()`](https://pharmaverse.github.io/tern/reference/format_fraction_threshold.md)
 function allows the user to specify a lower percentage threshold, below
 which values are instead assigned a special string value. For example:
 
@@ -253,7 +253,7 @@ the Formatting Function Customization section above.
 
 In this section we will create a custom formatting function derived from
 the
-[`format_fraction_fixed_dp()`](https://insightsengineering.github.io/tern/reference/format_fraction_fixed_dp.md)
+[`format_fraction_fixed_dp()`](https://pharmaverse.github.io/tern/reference/format_fraction_fixed_dp.md)
 function. First we will take a look at this function in detail and then
 we will customize it.
 

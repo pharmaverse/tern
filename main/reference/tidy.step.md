@@ -17,7 +17,7 @@ tidy(x, ...)
 
   (`matrix`)\
   results from
-  [`fit_survival_step()`](https://insightsengineering.github.io/tern/reference/fit_survival_step.md).
+  [`fit_survival_step()`](https://pharmaverse.github.io/tern/reference/fit_survival_step.md).
 
 - ...:
 
@@ -31,7 +31,7 @@ also used for plotting.
 
 ## See also
 
-[`g_step()`](https://insightsengineering.github.io/tern/reference/g_step.md)
+[`g_step()`](https://pharmaverse.github.io/tern/reference/g_step.md)
 which consumes the result from this function.
 
 ## Examples

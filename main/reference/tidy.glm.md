@@ -43,7 +43,7 @@ A `data.frame` containing the tidied model.
 
 ## See also
 
-[h_logistic_regression](https://insightsengineering.github.io/tern/reference/h_logistic_regression.md)
+[h_logistic_regression](https://pharmaverse.github.io/tern/reference/h_logistic_regression.md)
 for relevant helper functions.
 
 ## Examples

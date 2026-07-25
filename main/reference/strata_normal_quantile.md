@@ -37,7 +37,7 @@ Stratified quantile.
 
 ## See also
 
-[`prop_strat_wilson()`](https://insightsengineering.github.io/tern/reference/h_proportions.md)
+[`prop_strat_wilson()`](https://pharmaverse.github.io/tern/reference/h_proportions.md)
 
 ## Examples
 

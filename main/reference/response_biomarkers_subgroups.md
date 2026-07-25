@@ -7,11 +7,11 @@ tabulate the estimated biomarker effects on a binary response endpoint
 across subgroups, returning statistics including response rate and odds
 ratio for each population subgroup. The table is created from `df`, a
 list of data frames returned by
-[`extract_rsp_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_rsp_biomarkers.md),
+[`extract_rsp_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_rsp_biomarkers.md),
 with the statistics to include specified via the `vars` parameter.
 
 A forest plot can be created from the resulting table using the
-[`g_forest()`](https://insightsengineering.github.io/tern/reference/g_forest.md)
+[`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
 function.
 
 ## Usage
@@ -35,7 +35,7 @@ tabulate_rsp_biomarkers(
 
   (`data.frame`)\
   containing all analysis variables, as returned by
-  [`extract_rsp_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_rsp_biomarkers.md).
+  [`extract_rsp_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_rsp_biomarkers.md).
 
 - vars:
 
@@ -69,7 +69,7 @@ tabulate_rsp_biomarkers(
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .formats:
@@ -103,14 +103,14 @@ input for forest plots.
 ## Note
 
 In contrast to
-[`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md)
+[`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md)
 this tabulation function does not start from an input layout `lyt`. This
 is because internally the table is created by combining multiple
 subtables.
 
 ## See also
 
-[`extract_rsp_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_rsp_biomarkers.md)
+[`extract_rsp_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_rsp_biomarkers.md)
 
 ## Examples
 

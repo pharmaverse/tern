@@ -7,11 +7,11 @@ to tabulate the estimated effects of multiple continuous biomarker
 variables on survival across subgroups, returning statistics including
 median survival time and hazard ratio for each population subgroup. The
 table is created from `df`, a list of data frames returned by
-[`extract_survival_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_survival_biomarkers.md),
+[`extract_survival_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_survival_biomarkers.md),
 with the statistics to include specified via the `vars` parameter.
 
 A forest plot can be created from the resulting table using the
-[`g_forest()`](https://insightsengineering.github.io/tern/reference/g_forest.md)
+[`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
 function.
 
 ## Usage
@@ -39,7 +39,7 @@ tabulate_survival_biomarkers(
 
   (`data.frame`)\
   containing all analysis variables, as returned by
-  [`extract_survival_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_survival_biomarkers.md).
+  [`extract_survival_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_survival_biomarkers.md).
 
 - vars:
 
@@ -70,13 +70,13 @@ tabulate_survival_biomarkers(
 
   (`list`)\
   a list of parameters as returned by the helper function
-  [`control_coxreg()`](https://insightsengineering.github.io/tern/reference/control_coxreg.md).
+  [`control_coxreg()`](https://pharmaverse.github.io/tern/reference/control_coxreg.md).
 
 - label_all:
 
   **\[deprecated\]**\
   please assign the `label_all` parameter within the
-  [`extract_survival_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_survival_biomarkers.md)
+  [`extract_survival_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_survival_biomarkers.md)
   function when creating `df`.
 
 - time_unit:
@@ -99,7 +99,7 @@ tabulate_survival_biomarkers(
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .formats:
@@ -138,14 +138,14 @@ input for forest plots.
 ## Note
 
 In contrast to
-[`tabulate_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md)
+[`tabulate_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md)
 this tabulation function does not start from an input layout `lyt`. This
 is because internally the table is created by combining multiple
 subtables.
 
 ## See also
 
-[`extract_survival_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_survival_biomarkers.md)
+[`extract_survival_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_survival_biomarkers.md)
 
 ## Examples
 

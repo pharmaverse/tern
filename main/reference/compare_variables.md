@@ -5,7 +5,7 @@
 The analyze function `compare_vars()` creates a layout element to
 summarize and compare one or more variables, using the S3 generic
 function
-[`s_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+[`s_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
 to calculate a list of summary statistics. A list of all available
 statistics for numeric variables can be viewed by running
 `get_stats("analyze_vars_numeric", add_pval = TRUE)` and for non-numeric
@@ -15,7 +15,7 @@ parameter to specify the statistics to include in your output summary
 table.
 
 Prior to using this function in your table layout you must use
-[`rtables::split_cols_by()`](https://insightsengineering.github.io/rtables/latest-tag/reference/split_cols_by.html)
+[`rtables::split_cols_by()`](https://rdrr.io/pkg/rtables/man/split_cols_by.html)
 to create a column split on the variable to be used in comparisons, and
 specify a reference group via the `ref_group` parameter. Comparisons can
 be performed for each group (column) against the specified reference
@@ -146,7 +146,7 @@ s_compare(x, ...)
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .formats:
@@ -176,14 +176,14 @@ s_compare(x, ...)
 
 - `compare_vars()` returns a layout object suitable for passing to
   further layouting functions, or to
-  [`rtables::build_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html).
+  [`rtables::build_table()`](https://rdrr.io/pkg/rtables/man/build_table.html).
   Adding this function to an `rtable` layout will add formatted rows
   containing the statistics from `s_compare()` to the table layout.
 
 &nbsp;
 
 - `s_compare()` returns output of
-  [`s_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`s_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   and comparisons versus the reference group in the form of p-values.
 
 ## Functions
@@ -191,7 +191,7 @@ s_compare(x, ...)
 - `compare_vars()`: Layout-creating function which can take statistics
   function arguments and additional format arguments. This function is a
   wrapper for
-  [`rtables::analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html).
+  [`rtables::analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html).
 
 - `s_compare()`: S3 generic function to produce a comparison summary.
 
@@ -222,7 +222,7 @@ s_compare(x, ...)
   default. To include `NA` values set `na.rm = FALSE` and missing values
   will be displayed as an `NA` level. Alternatively, an explicit factor
   level can be defined for `NA` values during pre-processing via
-  [`df_explicit_na()`](https://insightsengineering.github.io/tern/reference/df_explicit_na.md).
+  [`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md).
 
 - For character variables, automatic conversion to factor does not
   guarantee that the table will be generated correctly. In particular
@@ -235,9 +235,9 @@ s_compare(x, ...)
 
 ## See also
 
-[`s_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+[`s_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
 which is used internally to compute a summary within `s_compare()`, and
-[`a_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+[`a_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
 which is used (with `compare = TRUE`) as the analysis function for
 `compare_vars()`.
 

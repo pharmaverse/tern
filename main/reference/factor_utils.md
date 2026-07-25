@@ -135,12 +135,12 @@ fct_collapse_only(.f, ..., .na_level = "<Missing>")
 
 Any existing `NA`s in the input vector will not be replaced by the
 missing level. If needed,
-[`explicit_na()`](https://insightsengineering.github.io/tern/reference/explicit_na.md)
+[`explicit_na()`](https://pharmaverse.github.io/tern/reference/explicit_na.md)
 can be called separately on the result.
 
 ## See also
 
-[`cut_quantile_bins()`](https://insightsengineering.github.io/tern/reference/cut_quantile_bins.md)
+[`cut_quantile_bins()`](https://pharmaverse.github.io/tern/reference/cut_quantile_bins.md)
 for splitting numeric vectors into quantile bins.
 
 [`forcats::fct_na_value_to_level()`](https://forcats.tidyverse.org/reference/fct_na_value_to_level.html)

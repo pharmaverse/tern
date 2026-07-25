@@ -3,7 +3,7 @@
 **\[stable\]**
 
 Helper function for
-[`s_count_occurrences_by_grade()`](https://insightsengineering.github.io/tern/reference/count_occurrences_by_grade.md)
+[`s_count_occurrences_by_grade()`](https://pharmaverse.github.io/tern/reference/count_occurrences_by_grade.md)
 to insert grade groupings into list with individual grade frequencies.
 The order of the final result follows the order of `grade_groups`. The
 elements under any-grade group (if any), i.e. the grade group equal to

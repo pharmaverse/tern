@@ -9,29 +9,29 @@ guide you through an example function in the package, explaining the
 purpose of many of its building blocks and how they can be used.
 
 As we recently worked on it we will consider
-[`summarize_change()`](https://insightsengineering.github.io/tern/reference/summarize_change.md)
+[`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md)
 as an example. This function is used to calculate the change from a
 baseline value for a given variable. A realistic example can be found in
 [`LBT03`](https://insightsengineering.github.io/tlg-catalog/stable/tables/lab-results/lbt03.html)
 from the TLG-catalog.
 
-[`summarize_change()`](https://insightsengineering.github.io/tern/reference/summarize_change.md)
+[`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md)
 is the main function that is available to the user. You can find lists
 of these functions in
-[`?tern::analyze_functions`](https://insightsengineering.github.io/tern/reference/analyze_functions.md).
+[`?tern::analyze_functions`](https://pharmaverse.github.io/tern/reference/analyze_functions.md).
 All of these are build around
-[`rtables::analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html)
+[`rtables::analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html)
 function, which is the core analysis function in `rtables`. All these
 wrapper functions call specific analysis functions (always written as
 `a_*`) that are meant to handle the statistic functions (always written
 as `s_*`) and format the results with the `rtables::in_row()` function.
 We can summarize this structure as follows:
 
-[`summarize_change()`](https://insightsengineering.github.io/tern/reference/summarize_change.md)
+[`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md)
 (1)-\>
-[`a_change_from_baseline()`](https://insightsengineering.github.io/tern/reference/summarize_change.md)
+[`a_change_from_baseline()`](https://pharmaverse.github.io/tern/reference/summarize_change.md)
 (2)-\>
-\[[`s_change_from_baseline()`](https://insightsengineering.github.io/tern/reference/summarize_change.md) +
+\[[`s_change_from_baseline()`](https://pharmaverse.github.io/tern/reference/summarize_change.md) +
 `rtables::in_row()`\]
 
 The main questions that may arise are:
@@ -88,7 +88,7 @@ dta_test <- data.frame(
 ```
 
 Classic use of
-[`summarize_change()`](https://insightsengineering.github.io/tern/reference/summarize_change.md).
+[`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md).
 
 ``` r
 
@@ -259,25 +259,25 @@ and `NA` values, we had to decide how to correctly handle these and
 additional extra arguments. We follow the following scheme:
 
 Level 1:
-[`summarize_change()`](https://insightsengineering.github.io/tern/reference/summarize_change.md):
+[`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md):
 all parameters without a starting dot `.*` are used or added to
 `extra_args`. Specifically, here we solve `NA` values by using
 `inclNAs = TRUE` always in
-[`rtables::analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html).
+[`rtables::analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html).
 This will keep `NA` values to the analysis function `a_*`. Please follow
 the way `na_rm` is used in `summarize_change`, and you will see how to
 retrieve it from `...` only when you need it. In this case, only at the
 [`summary()`](https://rdrr.io/r/base/summary.html) level. `na_str`,
 instead is set only on the top level (in the
-[`rtables::analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html)
+[`rtables::analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html)
 call). We may want to be statistic-dependent in the future, but we still
 need to think how to accomplish that. We add the
-[`rtables::additional_fun_params`](https://insightsengineering.github.io/rtables/latest-tag/reference/additional_fun_params.html)
+[`rtables::additional_fun_params`](https://rdrr.io/pkg/rtables/man/additional_fun_params.html)
 to the analysis function so to make them available as `...` in the next
 level. Note that they all can be retrieved with `list(...)[["na_rm"]]`.
 
 Level 2:
-[`a_change_from_baseline()`](https://insightsengineering.github.io/tern/reference/summarize_change.md):
+[`a_change_from_baseline()`](https://pharmaverse.github.io/tern/reference/summarize_change.md):
 all parameters starting with a dot `.` are ideally used or transmitted
 into lower functions from here. Mainly `.stats`, `.formats`, `.labels`,
 and `.indent_mods` are used only at this level. We also bring forward

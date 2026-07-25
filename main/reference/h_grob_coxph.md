@@ -3,7 +3,7 @@
 **\[deprecated\]**
 
 Grob of `rtable` output from
-[`h_tbl_coxph_pairwise()`](https://insightsengineering.github.io/tern/reference/h_tbl_coxph_pairwise.md)
+[`h_tbl_coxph_pairwise()`](https://pharmaverse.github.io/tern/reference/h_tbl_coxph_pairwise.md)
 
 ## Usage
 
@@ -23,7 +23,7 @@ h_grob_coxph(
 - ...:
 
   arguments to pass to
-  [`h_tbl_coxph_pairwise()`](https://insightsengineering.github.io/tern/reference/h_tbl_coxph_pairwise.md).
+  [`h_tbl_coxph_pairwise()`](https://pharmaverse.github.io/tern/reference/h_tbl_coxph_pairwise.md).
 
 - x:
 

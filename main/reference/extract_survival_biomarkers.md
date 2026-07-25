@@ -46,7 +46,7 @@ extract_survival_biomarkers(
 
   (`list`)\
   a list of parameters as returned by the helper function
-  [`control_coxreg()`](https://insightsengineering.github.io/tern/reference/control_coxreg.md).
+  [`control_coxreg()`](https://pharmaverse.github.io/tern/reference/control_coxreg.md).
 
 - label_all:
 
@@ -61,6 +61,6 @@ A `data.frame` with columns `biomarker`, `biomarker_label`, `n_tot`,
 
 ## See also
 
-[`h_coxreg_mult_cont_df()`](https://insightsengineering.github.io/tern/reference/h_survival_biomarkers_subgroups.md)
+[`h_coxreg_mult_cont_df()`](https://pharmaverse.github.io/tern/reference/h_survival_biomarkers_subgroups.md)
 which is used internally,
-[`tabulate_survival_biomarkers()`](https://insightsengineering.github.io/tern/reference/survival_biomarkers_subgroups.md).
+[`tabulate_survival_biomarkers()`](https://pharmaverse.github.io/tern/reference/survival_biomarkers_subgroups.md).

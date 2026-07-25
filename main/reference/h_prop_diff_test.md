@@ -74,7 +74,7 @@ A p-value.
 
 ## See also
 
-[`prop_diff_test()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md)
+[`prop_diff_test()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
 for implementation of these helper functions.
 
 Schouten correction is based upon Schouten et al. (1980) .

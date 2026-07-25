@@ -21,9 +21,9 @@ tidy(x, ...)
 
   (`list`)\
   result of the Cox regression model fitted by
-  [`fit_coxreg_univar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+  [`fit_coxreg_univar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
   (for univariate models) or
-  [`fit_coxreg_multivar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+  [`fit_coxreg_multivar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
   (for multivariate models).
 
 - ...:
@@ -59,17 +59,17 @@ returns:
   regression.
 
   Tidy up the result of a Cox regression model fitted by
-  [`fit_coxreg_univar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md).
+  [`fit_coxreg_univar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md).
 
 - `tidy(coxreg.multivar)`: Custom tidy method for a multivariate Cox
   regression.
 
   Tidy up the result of a Cox regression model fitted by
-  [`fit_coxreg_multivar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md).
+  [`fit_coxreg_multivar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md).
 
 ## See also
 
-[cox_regression](https://insightsengineering.github.io/tern/reference/cox_regression.md)
+[cox_regression](https://pharmaverse.github.io/tern/reference/cox_regression.md)
 
 ## Examples
 

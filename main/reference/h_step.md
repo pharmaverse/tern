@@ -45,7 +45,7 @@ h_step_rsp_est(
 
   (named `list`)\
   output from
-  [`control_step()`](https://insightsengineering.github.io/tern/reference/control_step.md).
+  [`control_step()`](https://pharmaverse.github.io/tern/reference/control_step.md).
 
 - data:
 

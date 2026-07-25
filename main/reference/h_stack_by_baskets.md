@@ -7,7 +7,7 @@ all adverse events belonging to selected Standardized/Customized
 queries. The new dataset will only contain records of the adverse events
 belonging to any of the selected baskets. Remember that `na_str` must
 match the needed pre-processing done with
-[`df_explicit_na()`](https://insightsengineering.github.io/tern/reference/df_explicit_na.md)
+[`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
 to have the desired output.
 
 ## Usage

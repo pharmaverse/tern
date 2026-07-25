@@ -18,7 +18,7 @@ decorate_grob_factory(npages, ...)
 - ...:
 
   arguments passed on to
-  [`decorate_grob()`](https://insightsengineering.github.io/tern/reference/decorate_grob.md).
+  [`decorate_grob()`](https://pharmaverse.github.io/tern/reference/decorate_grob.md).
 
 ## Value
 

@@ -28,7 +28,7 @@ A `vector` of column counts.
 
 ## See also
 
-[`combine_groups()`](https://insightsengineering.github.io/tern/reference/combine_groups.md)
+[`combine_groups()`](https://pharmaverse.github.io/tern/reference/combine_groups.md)
 
 ## Examples
 

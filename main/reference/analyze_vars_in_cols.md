@@ -7,7 +7,7 @@ element to generate a column-wise analysis table.
 
 This function sets the analysis methods as column labels and is a
 wrapper for
-[`rtables::analyze_colvars()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze_colvars.html).
+[`rtables::analyze_colvars()`](https://rdrr.io/pkg/rtables/man/analyze_colvars.html).
 It was designed principally for PK tables.
 
 ## Usage
@@ -74,7 +74,7 @@ analyze_vars_in_cols(
   (`flag`)\
   defaults to `FALSE` and applies the analysis to the current label
   rows. This is a wrapper of
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
   and it can accept `labelstr` to define row labels. This behavior is
   not supported as we never need to overload row labels.
 
@@ -93,7 +93,7 @@ analyze_vars_in_cols(
   Can also be `"1/3"` to implement 1/3 imputation rule or `"1/2"` to
   implement 1/2 imputation rule. In order to use an imputation rule, the
   `avalcat_var` argument must be specified. See
-  [`imputation_rule()`](https://insightsengineering.github.io/tern/reference/imputation_rule.md)
+  [`imputation_rule()`](https://pharmaverse.github.io/tern/reference/imputation_rule.md)
   for more details on imputation.
 
 - avalcat_var:
@@ -143,14 +143,14 @@ analyze_vars_in_cols(
   (`character` or `NULL`)\
   alignment for table contents (not including labels). When `NULL`,
   `"center"` is applied. See
-  [`formatters::list_valid_aligns()`](https://insightsengineering.github.io/formatters/latest-tag/reference/list_formats.html)
+  [`formatters::list_valid_aligns()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
   for a list of all currently supported alignments.
 
 ## Value
 
 A layout object suitable for passing to further layouting functions, or
 to
-[`rtables::build_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html).
+[`rtables::build_table()`](https://rdrr.io/pkg/rtables/man/build_table.html).
 Adding this function to an `rtable` layout will summarize the given
 variables, arrange the output in columns, and add it to the table
 layout.
@@ -158,9 +158,9 @@ layout.
 ## Note
 
 - This is an experimental implementation of
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
   and
-  [`rtables::analyze_colvars()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze_colvars.html)
+  [`rtables::analyze_colvars()`](https://rdrr.io/pkg/rtables/man/analyze_colvars.html)
   that may be subjected to changes as `rtables` extends its support to
   more complex analysis pipelines in the column space. We encourage
   users to read the examples carefully and file issues for different use
@@ -173,8 +173,8 @@ layout.
 
 ## See also
 
-[`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md),
-[`rtables::analyze_colvars()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze_colvars.html).
+[`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md),
+[`rtables::analyze_colvars()`](https://rdrr.io/pkg/rtables/man/analyze_colvars.html).
 
 ## Examples
 

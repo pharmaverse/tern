@@ -4,9 +4,9 @@
 
 Sets a list of parameters for summaries of descriptive statistics.
 Typically used internally to specify details for
-[`s_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+[`s_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 This function family is mainly used by
-[`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+[`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 
 ## Usage
 

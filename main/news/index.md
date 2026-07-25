@@ -5,71 +5,71 @@
 #### Enhancements
 
 - Added `factor_level_method` argument to
-  [`df_explicit_na()`](https://insightsengineering.github.io/tern/reference/df_explicit_na.md)
+  [`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
   to control factor level ordering when converting character or logical
   columns. Supported methods: `"sort_auto"` (default, locale-aware,
   preserves original behavior), `"sort_radix"` (byte-order / ASCII
   sort), and `"data"` (first-appearance order).
   ([\#1322](https://github.com/insightsengineering/tern/issues/1322))
 - Added `factor_as_factor` argument to
-  [`df_explicit_na()`](https://insightsengineering.github.io/tern/reference/df_explicit_na.md)
+  [`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
   to allow re-encoding of existing factor columns using
   `factor_level_method`. Defaults to `FALSE` to preserve original
   behavior.
 - Added `factor_level_last_pattern` argument to
-  [`df_explicit_na()`](https://insightsengineering.github.io/tern/reference/df_explicit_na.md)
+  [`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
   to move factor levels matching a regular expression to the end (before
   `na_level`).
 - Added `alternative` argument to
-  [`s_coxph_pairwise()`](https://insightsengineering.github.io/tern/reference/survival_coxph_pairwise.md)
+  [`s_coxph_pairwise()`](https://pharmaverse.github.io/tern/reference/survival_coxph_pairwise.md)
   to allow one-sided hypothesis testing.
 - Added `lr_stat_df` to the parameters return list of
-  [`s_coxph_pairwise()`](https://insightsengineering.github.io/tern/reference/survival_coxph_pairwise.md).
+  [`s_coxph_pairwise()`](https://pharmaverse.github.io/tern/reference/survival_coxph_pairwise.md).
 - Added `uncond_exact_diff` method to
-  [`estimate_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md)
+  [`estimate_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
   for the unconditional exact confidence interval for the difference in
   proportions by inverting one-sided tail tests over a nuisance
   parameter.
 - Added `cmh_sato` method to
-  [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md)
+  [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
   for CMH testing with the Sato variance estimator.
   ([\#1482](https://github.com/insightsengineering/tern/issues/1482))
 - Added `range_with_cens_info` statistic to
-  [`s_surv_time()`](https://insightsengineering.github.io/tern/reference/survival_time.md).
+  [`s_surv_time()`](https://pharmaverse.github.io/tern/reference/survival_time.md).
 - Added `lsmean_se`, `lsmean_ci`, and `lsmean_diffci` statistics to
-  [`s_ancova()`](https://insightsengineering.github.io/tern/reference/summarize_ancova.md).
+  [`s_ancova()`](https://pharmaverse.github.io/tern/reference/summarize_ancova.md).
 - Added
-  [`s_ancova()`](https://insightsengineering.github.io/tern/reference/summarize_ancova.md)
+  [`s_ancova()`](https://pharmaverse.github.io/tern/reference/summarize_ancova.md)
   to exported functions.
 - In `estimate_proportion_diff` now also the standard error is available
   for selected methods in the `se_diff` statistic.
 - Exported
-  [`h_incidence_rate()`](https://insightsengineering.github.io/tern/reference/h_incidence_rate.md)
+  [`h_incidence_rate()`](https://pharmaverse.github.io/tern/reference/h_incidence_rate.md)
   to allow to reuse the incidence rate estimation logic.
 - Exported
-  [`prop_chisq()`](https://insightsengineering.github.io/tern/reference/h_prop_diff_test.md),
-  [`prop_cmh()`](https://insightsengineering.github.io/tern/reference/h_prop_diff_test.md),
-  [`prop_fisher()`](https://insightsengineering.github.io/tern/reference/h_prop_diff_test.md),
+  [`prop_chisq()`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md),
+  [`prop_cmh()`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md),
+  [`prop_fisher()`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md),
   and
-  [`prop_schouten()`](https://insightsengineering.github.io/tern/reference/h_prop_diff_test.md)
+  [`prop_schouten()`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)
   for standalone proportion difference testing.
 - Added `digits` argument to
-  [`h_tbl_median_surv()`](https://insightsengineering.github.io/tern/reference/h_tbl_median_surv.md)
+  [`h_tbl_median_surv()`](https://pharmaverse.github.io/tern/reference/h_tbl_median_surv.md)
   and
-  [`control_surv_med_annot()`](https://insightsengineering.github.io/tern/reference/control_annot.md)
+  [`control_surv_med_annot()`](https://pharmaverse.github.io/tern/reference/control_annot.md)
   to control the [`signif()`](https://rdrr.io/r/base/Round.html)
   precision of the median survival time and confidence interval values
   annotated in
-  [`g_km()`](https://insightsengineering.github.io/tern/reference/g_km.md).
+  [`g_km()`](https://pharmaverse.github.io/tern/reference/g_km.md).
   ([\#1469](https://github.com/insightsengineering/tern/issues/1469))
 
 #### Bug Fixes
 
 - Fixed bug in
-  [`prop_diff_cmh()`](https://insightsengineering.github.io/tern/reference/h_prop_diff.md)
+  [`prop_diff_cmh()`](https://pharmaverse.github.io/tern/reference/h_prop_diff.md)
   which previously failed when strata combinations had 0 observations.
 - Fixed one-sided p-values in
-  [`prop_cmh()`](https://insightsengineering.github.io/tern/reference/h_prop_diff_test.md)
+  [`prop_cmh()`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)
   with Wilson-Hilferty transformation — the sign of the effect was lost,
   producing incorrect p-values for `alternative = "less"` and
   `alternative = "greater"`.
@@ -77,7 +77,7 @@
 #### Miscellaneous
 
 - Relaxed
-  [`fit_logistic()`](https://insightsengineering.github.io/tern/reference/fit_logistic.md)
+  [`fit_logistic()`](https://pharmaverse.github.io/tern/reference/fit_logistic.md)
   tests to compare only the formula right-hand side, so they no longer
   break when
   [`survival::clogit()`](https://rdrr.io/pkg/survival/man/clogit.html)
@@ -86,7 +86,7 @@
 - Updated `roxygen2` to 8.0.0 and added `@exportS3Method` tags for S3
   methods in `decorate_grob.R` and `utils_grid.R`.
 - Converted
-  [`s_surv_time()`](https://insightsengineering.github.io/tern/reference/survival_time.md)
+  [`s_surv_time()`](https://pharmaverse.github.io/tern/reference/survival_time.md)
   to exported functions.
 
 ## tern 0.9.10
@@ -96,18 +96,18 @@ CRAN release: 2025-12-18
 #### Enhancements
 
 - Added `alternative` argument to
-  [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md)
+  [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
   to allow one-sided hypothesis testing.
 - Added `cmh_sato` method to
-  [`estimate_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md)
+  [`estimate_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
   for Cochran-Mantel-Haenszel proportion difference confidence interval
   using the Sato variance estimator.
 - Added `cmh_mn` method to
-  [`estimate_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md)
+  [`estimate_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
   for Cochran-Mantel-Haenszel proportion difference confidence interval
   using the Miettinen and Nurminen method.
 - Added `cmh_wh` (CMH with Wilson-Hilferty transformation) method to
-  [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md)
+  [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
   for stratified proportion difference testing.
 - `analyze_vars` now accepts `format`, `formats_var` and `na_strs_var`
   and passes them directly down to `analyze`
@@ -120,20 +120,20 @@ CRAN release: 2025-12-18
 #### Bug Fixes
 
 - Fixed bug in
-  [`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md)
+  [`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md)
   and
-  [`tabulate_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md)
+  [`tabulate_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md)
   preventing risk difference column format specified via
-  [`control_riskdiff()`](https://insightsengineering.github.io/tern/reference/control_riskdiff.md)
+  [`control_riskdiff()`](https://pharmaverse.github.io/tern/reference/control_riskdiff.md)
   from being applied.
 - Fixed bug in
-  [`a_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`a_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   causing an error when all values of a factor input variable were `NA`.
 - Fixed `NA` behavior in `s_summary.factor` and `s_summary.character`
   when `na.rm = FALSE` to ensure that `NA` values are always represented
   in output tables.
 - Unified explicit `NA` behavior for missing values in
-  [`explicit_na()`](https://insightsengineering.github.io/tern/reference/explicit_na.md).
+  [`explicit_na()`](https://pharmaverse.github.io/tern/reference/explicit_na.md).
 
 ## tern 0.9.9
 
@@ -142,39 +142,38 @@ CRAN release: 2025-06-20
 #### Enhancements
 
 - Updated
-  [`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md)
+  [`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md)
   and
-  [`tabulate_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md)
+  [`tabulate_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md)
   to specify parameter `parent_name` when using
-  [`split_rows_by()`](https://insightsengineering.github.io/rtables/latest-tag/reference/split_rows_by.html)
-  and
-  [`analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html)
+  [`split_rows_by()`](https://rdrr.io/pkg/rtables/man/split_rows_by.html)
+  and [`analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html)
   internally to enhance table paths.
 
 #### Bug Fixes
 
 - Fixed bug in
-  [`g_lineplot()`](https://insightsengineering.github.io/tern/reference/g_lineplot.md)
+  [`g_lineplot()`](https://pharmaverse.github.io/tern/reference/g_lineplot.md)
   where `table_format` and `table_labels` arguments were ignored.
 - Fixed bug in
-  [`g_lineplot()`](https://insightsengineering.github.io/tern/reference/g_lineplot.md)
+  [`g_lineplot()`](https://pharmaverse.github.io/tern/reference/g_lineplot.md)
   to allow use of a function as a format for table stats.
 
 #### Miscellaneous
 
 - Converted
-  [`assert_df_with_factors()`](https://insightsengineering.github.io/tern/reference/assertions.md),
-  [`assert_df_with_variables()`](https://insightsengineering.github.io/tern/reference/assertions.md),
-  [`assert_proportion_value()`](https://insightsengineering.github.io/tern/reference/assertions.md),
-  [`check_diff_prop_ci()`](https://insightsengineering.github.io/tern/reference/check_diff_prop_ci.md),
-  [`clogit_with_tryCatch()`](https://insightsengineering.github.io/tern/reference/clogit_with_tryCatch.md),
-  [`get_covariates()`](https://insightsengineering.github.io/tern/reference/get_covariates.md),
-  [`labels_or_names()`](https://insightsengineering.github.io/tern/reference/labels_or_names.md),
-  [`range_noinf()`](https://insightsengineering.github.io/tern/reference/range_noinf.md)
+  [`assert_df_with_factors()`](https://pharmaverse.github.io/tern/reference/assertions.md),
+  [`assert_df_with_variables()`](https://pharmaverse.github.io/tern/reference/assertions.md),
+  [`assert_proportion_value()`](https://pharmaverse.github.io/tern/reference/assertions.md),
+  [`check_diff_prop_ci()`](https://pharmaverse.github.io/tern/reference/check_diff_prop_ci.md),
+  [`clogit_with_tryCatch()`](https://pharmaverse.github.io/tern/reference/clogit_with_tryCatch.md),
+  [`get_covariates()`](https://pharmaverse.github.io/tern/reference/get_covariates.md),
+  [`labels_or_names()`](https://pharmaverse.github.io/tern/reference/labels_or_names.md),
+  [`range_noinf()`](https://pharmaverse.github.io/tern/reference/range_noinf.md)
   ,
-  [`s_surv_timepoint()`](https://insightsengineering.github.io/tern/reference/survival_timepoint.md),
+  [`s_surv_timepoint()`](https://pharmaverse.github.io/tern/reference/survival_timepoint.md),
   and
-  [`s_test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md)
+  [`s_test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
   to exported functions.
 
 ## tern 0.9.8
@@ -184,62 +183,62 @@ CRAN release: 2025-04-14
 #### Enhancements
 
 - Refactored
-  [`count_abnormal()`](https://insightsengineering.github.io/tern/reference/abnormal.md),
-  [`count_abnormal_by_baseline()`](https://insightsengineering.github.io/tern/reference/abnormal_by_baseline.md),
-  [`count_abnormal_by_marked()`](https://insightsengineering.github.io/tern/reference/abnormal_by_marked.md),
-  [`count_abnormal_by_worst_grade()`](https://insightsengineering.github.io/tern/reference/abnormal_by_worst_grade.md),
-  [`count_abnormal_lab_worsen_by_baseline()`](https://insightsengineering.github.io/tern/reference/abnormal_lab_worsen_by_baseline.md),
-  [`count_cumulative()`](https://insightsengineering.github.io/tern/reference/count_cumulative.md),
-  [`count_missed_doses()`](https://insightsengineering.github.io/tern/reference/count_missed_doses.md),
-  [`coxph_pairwise()`](https://insightsengineering.github.io/tern/reference/survival_coxph_pairwise.md),
-  [`estimate_multinomial_rsp()`](https://insightsengineering.github.io/tern/reference/estimate_multinomial_rsp.md),
-  [`estimate_proportion()`](https://insightsengineering.github.io/tern/reference/estimate_proportion.md),
-  [`estimate_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md),
-  [`estimate_odds_ratio()`](https://insightsengineering.github.io/tern/reference/odds_ratio.md),
-  [`summarize_ancova()`](https://insightsengineering.github.io/tern/reference/summarize_ancova.md),
-  [`summarize_glm_count()`](https://insightsengineering.github.io/tern/reference/summarize_glm_count.md),
-  [`summarize_num_patients()`](https://insightsengineering.github.io/tern/reference/summarize_num_patients.md),
-  [`surv_timepoint()`](https://insightsengineering.github.io/tern/reference/survival_timepoint.md),
+  [`count_abnormal()`](https://pharmaverse.github.io/tern/reference/abnormal.md),
+  [`count_abnormal_by_baseline()`](https://pharmaverse.github.io/tern/reference/abnormal_by_baseline.md),
+  [`count_abnormal_by_marked()`](https://pharmaverse.github.io/tern/reference/abnormal_by_marked.md),
+  [`count_abnormal_by_worst_grade()`](https://pharmaverse.github.io/tern/reference/abnormal_by_worst_grade.md),
+  [`count_abnormal_lab_worsen_by_baseline()`](https://pharmaverse.github.io/tern/reference/abnormal_lab_worsen_by_baseline.md),
+  [`count_cumulative()`](https://pharmaverse.github.io/tern/reference/count_cumulative.md),
+  [`count_missed_doses()`](https://pharmaverse.github.io/tern/reference/count_missed_doses.md),
+  [`coxph_pairwise()`](https://pharmaverse.github.io/tern/reference/survival_coxph_pairwise.md),
+  [`estimate_multinomial_rsp()`](https://pharmaverse.github.io/tern/reference/estimate_multinomial_rsp.md),
+  [`estimate_proportion()`](https://pharmaverse.github.io/tern/reference/estimate_proportion.md),
+  [`estimate_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md),
+  [`estimate_odds_ratio()`](https://pharmaverse.github.io/tern/reference/odds_ratio.md),
+  [`summarize_ancova()`](https://pharmaverse.github.io/tern/reference/summarize_ancova.md),
+  [`summarize_glm_count()`](https://pharmaverse.github.io/tern/reference/summarize_glm_count.md),
+  [`summarize_num_patients()`](https://pharmaverse.github.io/tern/reference/summarize_num_patients.md),
+  [`surv_timepoint()`](https://pharmaverse.github.io/tern/reference/survival_timepoint.md),
   and
-  [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md)
+  [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
   to work without
-  [`make_afun()`](https://insightsengineering.github.io/rtables/latest-tag/reference/make_afun.html).
+  [`make_afun()`](https://rdrr.io/pkg/rtables/man/make_afun.html).
 - Refactored
-  [`afun_riskdiff()`](https://insightsengineering.github.io/tern/reference/afun_riskdiff.md),
-  [`count_occurrences()`](https://insightsengineering.github.io/tern/reference/count_occurrences.md),
-  [`count_occurrences_by_grade()`](https://insightsengineering.github.io/tern/reference/count_occurrences_by_grade.md),
-  [`count_patients_with_event()`](https://insightsengineering.github.io/tern/reference/count_patients_with_event.md),
-  [`count_patients_with_flags()`](https://insightsengineering.github.io/tern/reference/count_patients_with_flags.md),
-  [`count_values()`](https://insightsengineering.github.io/tern/reference/count_values.md),
-  [`estimate_incidence_rate()`](https://insightsengineering.github.io/tern/reference/incidence_rate.md),
-  [`h_tab_one_biomarker()`](https://insightsengineering.github.io/tern/reference/h_biomarkers_subgroups.md),
-  [`summarize_change()`](https://insightsengineering.github.io/tern/reference/summarize_change.md),
-  [`summarize_colvars()`](https://insightsengineering.github.io/tern/reference/summarize_colvars.md),
-  [`summarize_patients_exposure_in_cols()`](https://insightsengineering.github.io/tern/reference/summarize_patients_exposure_in_cols.md),
-  [`survival_time()`](https://insightsengineering.github.io/tern/reference/survival_time.md),
-  [`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md),
-  [`tabulate_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md),
-  [`tabulate_rsp_biomarkers()`](https://insightsengineering.github.io/tern/reference/response_biomarkers_subgroups.md),
+  [`afun_riskdiff()`](https://pharmaverse.github.io/tern/reference/afun_riskdiff.md),
+  [`count_occurrences()`](https://pharmaverse.github.io/tern/reference/count_occurrences.md),
+  [`count_occurrences_by_grade()`](https://pharmaverse.github.io/tern/reference/count_occurrences_by_grade.md),
+  [`count_patients_with_event()`](https://pharmaverse.github.io/tern/reference/count_patients_with_event.md),
+  [`count_patients_with_flags()`](https://pharmaverse.github.io/tern/reference/count_patients_with_flags.md),
+  [`count_values()`](https://pharmaverse.github.io/tern/reference/count_values.md),
+  [`estimate_incidence_rate()`](https://pharmaverse.github.io/tern/reference/incidence_rate.md),
+  [`h_tab_one_biomarker()`](https://pharmaverse.github.io/tern/reference/h_biomarkers_subgroups.md),
+  [`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md),
+  [`summarize_colvars()`](https://pharmaverse.github.io/tern/reference/summarize_colvars.md),
+  [`summarize_patients_exposure_in_cols()`](https://pharmaverse.github.io/tern/reference/summarize_patients_exposure_in_cols.md),
+  [`survival_time()`](https://pharmaverse.github.io/tern/reference/survival_time.md),
+  [`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md),
+  [`tabulate_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md),
+  [`tabulate_rsp_biomarkers()`](https://pharmaverse.github.io/tern/reference/response_biomarkers_subgroups.md),
   and
-  [`tabulate_survival_biomarkers()`](https://insightsengineering.github.io/tern/reference/survival_biomarkers_subgroups.md)
+  [`tabulate_survival_biomarkers()`](https://pharmaverse.github.io/tern/reference/survival_biomarkers_subgroups.md)
   to align with new analysis function style.
 - Added `geom_sd` and `geom_mean_sd` to
-  [`s_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`s_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   as default available statistics.
 - Added `denom` parameter to
-  [`estimate_proportion()`](https://insightsengineering.github.io/tern/reference/estimate_proportion.md).
+  [`estimate_proportion()`](https://pharmaverse.github.io/tern/reference/estimate_proportion.md).
 - Added `weights_emmeans` argument to
-  [`summarize_ancova()`](https://insightsengineering.github.io/tern/reference/summarize_ancova.md).
+  [`summarize_ancova()`](https://pharmaverse.github.io/tern/reference/summarize_ancova.md).
 
 #### Bug Fixes
 
 - Fixed bug in
-  [`a_count_patients_with_flags()`](https://insightsengineering.github.io/tern/reference/count_patients_with_flags.md)
+  [`a_count_patients_with_flags()`](https://pharmaverse.github.io/tern/reference/count_patients_with_flags.md)
   preventing select custom label/indentation formats from being applied.
 - Fixed bug in
-  [`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md)
+  [`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md)
   and
-  [`tabulate_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md)
+  [`tabulate_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md)
   preventing the `pct` option from having an effect when adding a risk
   difference column.
 - Fixed bug with the order of `.stats` when adding custom statistical
@@ -250,31 +249,31 @@ CRAN release: 2025-04-14
 #### Miscellaneous
 
 - Began deprecation of the unused `table_names` argument to
-  [`count_abnormal_lab_worsen_by_baseline()`](https://insightsengineering.github.io/tern/reference/abnormal_lab_worsen_by_baseline.md).
+  [`count_abnormal_lab_worsen_by_baseline()`](https://pharmaverse.github.io/tern/reference/abnormal_lab_worsen_by_baseline.md).
 - Began deprecation of the unused
-  [`h_split_param()`](https://insightsengineering.github.io/tern/reference/h_split_param.md)
+  [`h_split_param()`](https://pharmaverse.github.io/tern/reference/h_split_param.md)
   function.
 - Began deprecation of the unused `label_all` parameter to
-  [`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md),
+  [`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md),
   with redirection to the same parameter in
-  [`extract_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/extract_rsp_subgroups.md).
+  [`extract_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/extract_rsp_subgroups.md).
 - Began deprecation of the no longer used helper functions
-  [`h_tab_one_biomarker()`](https://insightsengineering.github.io/tern/reference/h_biomarkers_subgroups.md),
-  [`h_tab_rsp_one_biomarker()`](https://insightsengineering.github.io/tern/reference/h_biomarkers_subgroups.md),
+  [`h_tab_one_biomarker()`](https://pharmaverse.github.io/tern/reference/h_biomarkers_subgroups.md),
+  [`h_tab_rsp_one_biomarker()`](https://pharmaverse.github.io/tern/reference/h_biomarkers_subgroups.md),
   and
-  [`h_tab_surv_one_biomarker()`](https://insightsengineering.github.io/tern/reference/h_biomarkers_subgroups.md).
+  [`h_tab_surv_one_biomarker()`](https://pharmaverse.github.io/tern/reference/h_biomarkers_subgroups.md).
 - Updated documentation to remove suggestions to use
-  [`make_afun()`](https://insightsengineering.github.io/rtables/latest-tag/reference/make_afun.html).
+  [`make_afun()`](https://rdrr.io/pkg/rtables/man/make_afun.html).
 - Added warnings for `geom_mean` statistical output.
 - Moved helper functions
-  [`h_tab_rsp_one_biomarker()`](https://insightsengineering.github.io/tern/reference/h_biomarkers_subgroups.md)
+  [`h_tab_rsp_one_biomarker()`](https://pharmaverse.github.io/tern/reference/h_biomarkers_subgroups.md)
   and
-  [`h_tab_surv_one_biomarker()`](https://insightsengineering.github.io/tern/reference/h_biomarkers_subgroups.md)
+  [`h_tab_surv_one_biomarker()`](https://pharmaverse.github.io/tern/reference/h_biomarkers_subgroups.md)
   into `h_biomarkers_subgroups.R`.
 - Reorganized the utility documentation related to factors
   (`utils_factor.R`) into a single file.
 - Converted
-  [`as_factor_keep_attributes()`](https://insightsengineering.github.io/tern/reference/factor_utils.md)
+  [`as_factor_keep_attributes()`](https://pharmaverse.github.io/tern/reference/factor_utils.md)
   to an exported function.
 - Removed internal function `ungroup_stats()` and replaced its usage
   with the `get_*_from_stats()` functions.
@@ -288,75 +287,75 @@ CRAN release: 2025-01-17
 #### Enhancements
 
 - Added the `denom` parameter to
-  [`s_count_cumulative()`](https://insightsengineering.github.io/tern/reference/count_cumulative.md),
-  [`s_count_missed_doses()`](https://insightsengineering.github.io/tern/reference/count_missed_doses.md),
+  [`s_count_cumulative()`](https://pharmaverse.github.io/tern/reference/count_cumulative.md),
+  [`s_count_missed_doses()`](https://pharmaverse.github.io/tern/reference/count_missed_doses.md),
   and
-  [`s_count_occurrences_by_grade()`](https://insightsengineering.github.io/tern/reference/count_occurrences_by_grade.md).
+  [`s_count_occurrences_by_grade()`](https://pharmaverse.github.io/tern/reference/count_occurrences_by_grade.md).
 - Added `"N_row"` as an optional input to `denom` in
-  [`s_count_occurrences()`](https://insightsengineering.github.io/tern/reference/count_occurrences.md).
+  [`s_count_occurrences()`](https://pharmaverse.github.io/tern/reference/count_occurrences.md).
 - Added `rel_height_plot` parameter to
-  [`g_lineplot()`](https://insightsengineering.github.io/tern/reference/g_lineplot.md)
+  [`g_lineplot()`](https://pharmaverse.github.io/tern/reference/g_lineplot.md)
   to control the line plot height relative to annotation table height.
 - Added `as_list` parameter to
-  [`g_lineplot()`](https://insightsengineering.github.io/tern/reference/g_lineplot.md)
+  [`g_lineplot()`](https://pharmaverse.github.io/tern/reference/g_lineplot.md)
   to allow users to return the line plot and annotation table elements
   as a list instead of stacked for more complex customization.
 - Added vignette “Understanding `tern` functions” for future reference.
 - Added to
-  [`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   statistical names that are used by
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html).
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html).
 - Added the possibility to integrate custom statistical functions to
   default ones in
-  [`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+  [`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 - Refactored
-  [`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   and
-  [`a_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`a_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   to take all options from
-  [`?rtables::additional_fun_params`](https://insightsengineering.github.io/rtables/latest-tag/reference/additional_fun_params.html).
+  [`?rtables::additional_fun_params`](https://rdrr.io/pkg/rtables/man/additional_fun_params.html).
 - Refactored
-  [`summarize_change()`](https://insightsengineering.github.io/tern/reference/summarize_change.md)
+  [`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md)
   and
-  [`count_values()`](https://insightsengineering.github.io/tern/reference/count_values.md)
+  [`count_values()`](https://pharmaverse.github.io/tern/reference/count_values.md)
   to work without
-  [`make_afun()`](https://insightsengineering.github.io/rtables/latest-tag/reference/make_afun.html).
+  [`make_afun()`](https://rdrr.io/pkg/rtables/man/make_afun.html).
 - Refactored
-  [`a_count_occurrences_by_grade()`](https://insightsengineering.github.io/tern/reference/count_occurrences_by_grade.md),
-  [`a_count_patients_with_event()`](https://insightsengineering.github.io/tern/reference/count_patients_with_event.md),
+  [`a_count_occurrences_by_grade()`](https://pharmaverse.github.io/tern/reference/count_occurrences_by_grade.md),
+  [`a_count_patients_with_event()`](https://pharmaverse.github.io/tern/reference/count_patients_with_event.md),
   and
-  [`a_count_patients_with_flags()`](https://insightsengineering.github.io/tern/reference/count_patients_with_flags.md)
+  [`a_count_patients_with_flags()`](https://pharmaverse.github.io/tern/reference/count_patients_with_flags.md)
   to no longer use
-  [`make_afun()`](https://insightsengineering.github.io/rtables/latest-tag/reference/make_afun.html).
+  [`make_afun()`](https://rdrr.io/pkg/rtables/man/make_afun.html).
 - Refactored
-  [`get_labels_from_stats()`](https://insightsengineering.github.io/tern/reference/default_stats_formats_labels.md)
+  [`get_labels_from_stats()`](https://pharmaverse.github.io/tern/reference/default_stats_formats_labels.md)
   to use a named list of levels for each statistic instead of row names.
 - Updated the `table_font_size` parameter of
-  [`g_lineplot()`](https://insightsengineering.github.io/tern/reference/g_lineplot.md)
+  [`g_lineplot()`](https://pharmaverse.github.io/tern/reference/g_lineplot.md)
   to control the size of all text in the annotation table, including
   labels.
 - Merged
-  [`compare_vars()`](https://insightsengineering.github.io/tern/reference/compare_variables.md)
+  [`compare_vars()`](https://pharmaverse.github.io/tern/reference/compare_variables.md)
   into
-  [`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   as overlap was significant.
 
 #### Bug Fixes
 
 - Fixed bug in
-  [`a_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`a_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   causing non-unique `row_name` values to occur when multiple statistics
   are selected for count variables.
 
 #### Miscellaneous
 
 - Reverted deprecation of quick get functions
-  [`summary_formats()`](https://insightsengineering.github.io/tern/reference/default_stats_formats_labels.md)
+  [`summary_formats()`](https://pharmaverse.github.io/tern/reference/default_stats_formats_labels.md)
   and
-  [`summary_labels()`](https://insightsengineering.github.io/tern/reference/default_stats_formats_labels.md).
+  [`summary_labels()`](https://pharmaverse.github.io/tern/reference/default_stats_formats_labels.md).
   Added disclaimer about underlying use of `get_stats`.
 - Corrected handling of extra arguments and `NA` for
-  [`summarize_change()`](https://insightsengineering.github.io/tern/reference/summarize_change.md).
+  [`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md).
 - Removed `count_fraction_fixed_dp` exception by assigning it to the
   result of `count_fraction` with a different format output.
 
@@ -399,13 +398,13 @@ CRAN release: 2024-09-24
   new `label_fmt` argument to the same function.
 - Added `fraction` statistic to the `analyze_var_count` method group.
 - Improved
-  [`summarize_glm_count()`](https://insightsengineering.github.io/tern/reference/summarize_glm_count.md)
+  [`summarize_glm_count()`](https://pharmaverse.github.io/tern/reference/summarize_glm_count.md)
   documentation and all its associated functions to better describe the
   results and the functions’ purpose.
 - Added `method` argument to
-  [`s_odds_ratio()`](https://insightsengineering.github.io/tern/reference/odds_ratio.md)
+  [`s_odds_ratio()`](https://pharmaverse.github.io/tern/reference/odds_ratio.md)
   and
-  [`estimate_odds_ratio()`](https://insightsengineering.github.io/tern/reference/odds_ratio.md)
+  [`estimate_odds_ratio()`](https://pharmaverse.github.io/tern/reference/odds_ratio.md)
   to control whether exact or approximate conditional likelihood
   calculations are used.
 
@@ -568,9 +567,9 @@ CRAN release: 2023-12-08
 - Added function `rtable2gg` that converts `rtable` objects to `ggplot`
   objects.
 - Added helper function to set default `na_str` globally with
-  [`set_default_na_str()`](https://insightsengineering.github.io/tern/reference/default_na_str.md)
+  [`set_default_na_str()`](https://pharmaverse.github.io/tern/reference/default_na_str.md)
   and added
-  [`default_na_str()`](https://insightsengineering.github.io/tern/reference/default_na_str.md)
+  [`default_na_str()`](https://pharmaverse.github.io/tern/reference/default_na_str.md)
   for all interested functions.
 
 #### Enhancements
@@ -687,12 +686,12 @@ CRAN release: 2023-12-08
 - Grouped functions relating to valid method names and their default
   formats and labels into new source file `utils_defaults_handling.R`.
 - Started deprecation of `summary_custom()` and
-  [`a_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`a_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   as a `S3` method.
 - Renamed statistical method for `p-value` in the discrete case to
   `pval_counts`.
 - Removed `a_summary_internal()` in favor of only one main
-  [`a_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+  [`a_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 
 ## tern 0.9.0
 
@@ -1101,7 +1100,7 @@ CRAN release: 2023-06-19
 - Fixed tests to respect the new standard print for `NA` coming from
   `rtables`.
 - Fixed error in tests coming from changes in
-  [`formatters::var_labels`](https://insightsengineering.github.io/formatters/latest-tag/reference/var_labels.html).
+  [`formatters::var_labels`](https://rdrr.io/pkg/formatters/man/var_labels.html).
 - Fixed `prop_diff` functions to respect success responses (`TRUE`
   values).
 - Fixed error coming from comparing factors vector to characters vector.
@@ -1223,7 +1222,7 @@ CRAN release: 2023-06-19
 
 - Added `h_pkparam_sort` to order `PK PARAM` value based on the order of
   the dataset generated by
-  [`d_pkparam()`](https://insightsengineering.github.io/tern/reference/d_pkparam.md).
+  [`d_pkparam()`](https://pharmaverse.github.io/tern/reference/d_pkparam.md).
 - Added `d_pkparam` to generate PK parameter map for sorting.
 
 #### Enhancements
@@ -1542,9 +1541,9 @@ proportion for the level of a factor with
 of Cox regressions with `fit_coxreg_univar`, `fit_coxreg_multivar` and
 `summarize_coxreg`, respectively. \* Pruning occurrence tables (or
 tables with counts and fractions) with flexible rules, see
-[`?prune_occurrences`](https://insightsengineering.github.io/tern/reference/prune_occurrences.md)
+[`?prune_occurrences`](https://pharmaverse.github.io/tern/reference/prune_occurrences.md)
 for details. \* Sorting occurrence tables using different options, see
-[`?score_occurrences`](https://insightsengineering.github.io/tern/reference/score_occurrences.md)
+[`?score_occurrences`](https://pharmaverse.github.io/tern/reference/score_occurrences.md)
 for details. \* Fitting and tabulating MMRM models with `fit_mmrm` and
 `as.rtable` and `summarize_lsmeans`, see `?tabulate_mmrm` for details.
 \* Counting the number of unique and non-unique patients with

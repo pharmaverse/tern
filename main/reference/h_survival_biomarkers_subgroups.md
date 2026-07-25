@@ -34,7 +34,7 @@ h_coxreg_mult_cont_df(variables, data, control = control_coxreg())
 
   (`list`)\
   a list of parameters as returned by the helper function
-  [`control_coxreg()`](https://insightsengineering.github.io/tern/reference/control_coxreg.md).
+  [`control_coxreg()`](https://pharmaverse.github.io/tern/reference/control_coxreg.md).
 
 ## Value
 
@@ -52,9 +52,9 @@ h_coxreg_mult_cont_df(variables, data, control = control_coxreg())
   function variable list to the "Cox regression" variable list. The
   reason is that currently there is an inconsistency between the
   variable names accepted by
-  [`extract_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/extract_survival_subgroups.md)
+  [`extract_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/extract_survival_subgroups.md)
   and
-  [`fit_coxreg_multivar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md).
+  [`fit_coxreg_multivar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md).
 
 - `h_coxreg_mult_cont_df()`: Prepares estimates for number of events,
   patients and median survival times, as well as hazard ratio estimates,

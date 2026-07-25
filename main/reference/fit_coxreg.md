@@ -38,7 +38,7 @@ fit_coxreg_multivar(variables, data, control = control_coxreg())
 
   (`list`)\
   a list of parameters as returned by the helper function
-  [`control_coxreg()`](https://insightsengineering.github.io/tern/reference/control_coxreg.md).
+  [`control_coxreg()`](https://pharmaverse.github.io/tern/reference/control_coxreg.md).
 
 ## Value
 
@@ -84,9 +84,9 @@ When using `fit_coxreg_univar` there should be two study arms.
 
 ## See also
 
-[h_cox_regression](https://insightsengineering.github.io/tern/reference/h_cox_regression.md)
+[h_cox_regression](https://pharmaverse.github.io/tern/reference/h_cox_regression.md)
 for relevant helper functions,
-[cox_regression](https://insightsengineering.github.io/tern/reference/cox_regression.md).
+[cox_regression](https://pharmaverse.github.io/tern/reference/cox_regression.md).
 
 ## Examples
 

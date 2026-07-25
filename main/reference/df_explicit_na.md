@@ -106,9 +106,8 @@ values will be set as the last level.
 
 ## See also
 
-[`sas_na()`](https://insightsengineering.github.io/tern/reference/sas_na.md)
-and
-[`explicit_na()`](https://insightsengineering.github.io/tern/reference/explicit_na.md)
+[`sas_na()`](https://pharmaverse.github.io/tern/reference/sas_na.md) and
+[`explicit_na()`](https://pharmaverse.github.io/tern/reference/explicit_na.md)
 for other missing data helper functions.
 
 ## Examples

@@ -60,11 +60,11 @@ Analytical functions are used in combination with other `rtables` layout
 functions, in the pipeline which creates the `rtables` table. They apply
 some statistical logic to the layout of the `rtables` table. The table
 layout is materialized with the
-[`rtables::build_table`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html)
+[`rtables::build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)
 function and the data.
 
 The `tern` analytical functions are wrappers around the
-[`rtables::analyze`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html)
+[`rtables::analyze`](https://rdrr.io/pkg/rtables/man/analyze.html)
 function; they offer various methods useful from the perspective of
 clinical trials and other statistical projects.
 
@@ -77,7 +77,7 @@ website](https://insightsengineering.github.io/tern/latest-tag/reference/index.h
 In the `rtables` code below we first describe the two tables and assign
 the descriptions to the variables `lyt` and `lyt2`. We then built the
 tables using the actual data with
-[`rtables::build_table`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html).
+[`rtables::build_table`](https://rdrr.io/pkg/rtables/man/build_table.html).
 The description of a table is called a table **layout**. The **analyze
 instruction** adds to the layout that the `ARM` variable should be
 analyzed with the `mean` analysis function and the result should be
@@ -102,8 +102,7 @@ lyt <- rtables::basic_table() |>
 ```
 
 Below, the only `tern` function used is `analyze_vars` which replaces
-the
-[`rtables::analyze`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html)
+the [`rtables::analyze`](https://rdrr.io/pkg/rtables/man/analyze.html)
 function used above.
 
 ``` r

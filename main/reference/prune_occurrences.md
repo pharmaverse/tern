@@ -5,7 +5,7 @@
 Family of constructor and condition functions to flexibly prune
 occurrence tables. The condition functions always return whether the row
 result is higher than the threshold. Since they are of class
-[`CombinationFunction()`](https://insightsengineering.github.io/tern/reference/combination_function.md)
+[`CombinationFunction()`](https://pharmaverse.github.io/tern/reference/combination_function.md)
 they can be logically combined with other condition functions.
 
 ## Usage
@@ -51,7 +51,7 @@ has_counts_difference(atleast, ...)
 - ...:
 
   arguments for row or column access, see
-  [`rtables_access`](https://insightsengineering.github.io/tern/reference/rtables_access.md):
+  [`rtables_access`](https://pharmaverse.github.io/tern/reference/rtables_access.md):
   either `col_names` (`character`) including the names of the columns
   which should be used, or alternatively `col_indices` (`integer`)
   giving the indices directly instead.
@@ -59,7 +59,7 @@ has_counts_difference(atleast, ...)
 ## Value
 
 - `keep_rows()` returns a pruning function that can be used with
-  [`rtables::prune_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/prune_table.html)
+  [`rtables::prune_table()`](https://rdrr.io/pkg/rtables/man/prune_table.html)
   to prune an `rtables` table.
 
 &nbsp;
@@ -140,7 +140,7 @@ Since most table specifications are worded positively, we name our
 constructor and condition functions positively, too. However, note that
 the result of `keep_rows()` says what should be pruned, to conform with
 the
-[`rtables::prune_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/prune_table.html)
+[`rtables::prune_table()`](https://rdrr.io/pkg/rtables/man/prune_table.html)
 interface.
 
 ## Examples

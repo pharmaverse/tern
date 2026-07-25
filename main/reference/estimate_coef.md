@@ -87,7 +87,7 @@ of 0.95.
 
 ## See also
 
-[`s_cox_multivariate()`](https://insightsengineering.github.io/tern/reference/s_cox_multivariate.md).
+[`s_cox_multivariate()`](https://pharmaverse.github.io/tern/reference/s_cox_multivariate.md).
 
 ## Examples
 

@@ -3,7 +3,7 @@
 **\[stable\]**
 
 This is a helper function that describes the analysis in
-[`s_count_cumulative()`](https://insightsengineering.github.io/tern/reference/count_cumulative.md).
+[`s_count_cumulative()`](https://pharmaverse.github.io/tern/reference/count_cumulative.md).
 
 ## Usage
 
@@ -32,4 +32,4 @@ d_count_cumulative(threshold, lower_tail = TRUE, include_eq = TRUE)
 ## Value
 
 Labels for
-[`s_count_cumulative()`](https://insightsengineering.github.io/tern/reference/count_cumulative.md).
+[`s_count_cumulative()`](https://pharmaverse.github.io/tern/reference/count_cumulative.md).

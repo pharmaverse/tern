@@ -4,7 +4,7 @@
 
 This is an auxiliary function for controlling arguments for Cox-PH
 model, typically used internally to specify details of Cox-PH model for
-[`s_coxph_pairwise()`](https://insightsengineering.github.io/tern/reference/survival_coxph_pairwise.md).
+[`s_coxph_pairwise()`](https://pharmaverse.github.io/tern/reference/survival_coxph_pairwise.md).
 `conf_level` refers to Hazard Ratio estimation.
 
 ## Usage

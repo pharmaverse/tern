@@ -3,7 +3,7 @@
 **\[stable\]**
 
 Functions to calculate odds ratios in
-[`estimate_odds_ratio()`](https://insightsengineering.github.io/tern/reference/odds_ratio.md).
+[`estimate_odds_ratio()`](https://pharmaverse.github.io/tern/reference/odds_ratio.md).
 
 ## Usage
 
@@ -52,7 +52,7 @@ A named `list` of elements `or_ci` and `n_tot`.
 
 ## See also
 
-[odds_ratio](https://insightsengineering.github.io/tern/reference/odds_ratio.md)
+[odds_ratio](https://pharmaverse.github.io/tern/reference/odds_ratio.md)
 
 ## Examples
 

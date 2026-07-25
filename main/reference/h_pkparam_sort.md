@@ -19,7 +19,7 @@ h_pkparam_sort(pk_data, key_var = "PARAMCD")
 
   (`string`)\
   key variable used to merge pk_data and metadata created by
-  [`d_pkparam()`](https://insightsengineering.github.io/tern/reference/d_pkparam.md).
+  [`d_pkparam()`](https://pharmaverse.github.io/tern/reference/d_pkparam.md).
 
 ## Value
 

@@ -45,4 +45,4 @@ h_ppmeans(obj, .df_row, arm, conf_level)
 
 ## See also
 
-[`summarize_glm_count()`](https://insightsengineering.github.io/tern/reference/summarize_glm_count.md).
+[`summarize_glm_count()`](https://pharmaverse.github.io/tern/reference/summarize_glm_count.md).

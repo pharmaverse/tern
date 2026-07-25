@@ -3,7 +3,7 @@
 **\[stable\]**
 
 Note that this uses the
-[`decorate_grob_factory()`](https://insightsengineering.github.io/tern/reference/decorate_grob_factory.md)
+[`decorate_grob_factory()`](https://pharmaverse.github.io/tern/reference/decorate_grob_factory.md)
 function.
 
 ## Usage
@@ -22,7 +22,7 @@ decorate_grob_set(grobs, ...)
 - ...:
 
   arguments passed on to
-  [`decorate_grob()`](https://insightsengineering.github.io/tern/reference/decorate_grob.md).
+  [`decorate_grob()`](https://pharmaverse.github.io/tern/reference/decorate_grob.md).
 
 ## Value
 

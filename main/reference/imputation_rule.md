@@ -26,7 +26,7 @@ imputation_rule(
 
   (named `list`)\
   a named list of statistics, typically the results of
-  [`s_summary()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+  [`s_summary()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 
 - stat:
 
@@ -62,7 +62,7 @@ should be displayed according to the specified imputation rule.
 
 ## See also
 
-[`analyze_vars_in_cols()`](https://insightsengineering.github.io/tern/reference/analyze_vars_in_cols.md)
+[`analyze_vars_in_cols()`](https://pharmaverse.github.io/tern/reference/analyze_vars_in_cols.md)
 where this function can be implemented by setting the `imp_rule`
 argument.
 

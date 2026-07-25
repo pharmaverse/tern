@@ -33,7 +33,7 @@ h_incidence_rate_byar(person_years, n_events, alpha = 0.05)
   (`list`)\
   parameters for estimation details, specified by using the helper
   function
-  [`control_incidence_rate()`](https://insightsengineering.github.io/tern/reference/control_incidence_rate.md).
+  [`control_incidence_rate()`](https://pharmaverse.github.io/tern/reference/control_incidence_rate.md).
   Possible parameter options are:
 
   - `conf_level`: (`proportion`)\
@@ -84,7 +84,7 @@ Estimated incidence rate, `rate`, and associated confidence interval,
 
 ## See also
 
-[incidence_rate](https://insightsengineering.github.io/tern/reference/incidence_rate.md)
+[incidence_rate](https://pharmaverse.github.io/tern/reference/incidence_rate.md)
 
 ## Examples
 

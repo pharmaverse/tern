@@ -60,7 +60,7 @@ a_coxreg(
 
   (`list`)\
   a list of parameters as returned by the helper function
-  [`control_coxreg()`](https://insightsengineering.github.io/tern/reference/control_coxreg.md).
+  [`control_coxreg()`](https://pharmaverse.github.io/tern/reference/control_coxreg.md).
 
 - at:
 
@@ -135,7 +135,7 @@ a_coxreg(
 
   (`data.frame`)\
   contains the resulting model fit from a
-  [fit_coxreg](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+  [fit_coxreg](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
   function with tidying applied via
   [`broom::tidy()`](https://generics.r-lib.org/reference/tidy.html).
 
@@ -168,7 +168,7 @@ a_coxreg(
   (`string`)\
   label of the level of the parent split currently being summarized
   (must be present as second argument in Content Row Functions). See
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
   for more information.
 
 - eff:
@@ -198,7 +198,7 @@ a_coxreg(
 
 - `summarize_coxreg()` returns a layout object suitable for passing to
   further layouting functions, or to
-  [`rtables::build_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html).
+  [`rtables::build_table()`](https://rdrr.io/pkg/rtables/man/build_table.html).
   Adding this function to an `rtable` layout will add a Cox regression
   table containing the chosen statistics to the table layout.
 
@@ -210,7 +210,7 @@ a_coxreg(
 &nbsp;
 
 - `a_coxreg()` returns formatted
-  [`rtables::CellValue()`](https://insightsengineering.github.io/rtables/latest-tag/reference/CellValue.html).
+  [`rtables::CellValue()`](https://rdrr.io/pkg/rtables/man/CellValue.html).
 
 ## Details
 
@@ -226,35 +226,35 @@ survival analysis (NEST Team, 2020).
 - `summarize_coxreg()`: Layout-creating function which creates a Cox
   regression summary table layout. This function is a wrapper for
   several `rtables` layouting functions. This function is a wrapper for
-  [`rtables::analyze_colvars()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze_colvars.html)
+  [`rtables::analyze_colvars()`](https://rdrr.io/pkg/rtables/man/analyze_colvars.html)
   and
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html).
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html).
 
 - `s_coxreg()`: Statistics function that transforms results tabulated
   from
-  [`fit_coxreg_univar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+  [`fit_coxreg_univar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
   or
-  [`fit_coxreg_multivar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+  [`fit_coxreg_multivar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
   into a list.
 
 - `a_coxreg()`: Analysis function which is used as `afun` in
-  [`rtables::analyze()`](https://insightsengineering.github.io/rtables/latest-tag/reference/analyze.html)
+  [`rtables::analyze()`](https://rdrr.io/pkg/rtables/man/analyze.html)
   and `cfun` in
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
   within `summarize_coxreg()`.
 
 ## See also
 
-[fit_coxreg](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+[fit_coxreg](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
 for relevant fitting functions,
-[h_cox_regression](https://insightsengineering.github.io/tern/reference/h_cox_regression.md)
+[h_cox_regression](https://pharmaverse.github.io/tern/reference/h_cox_regression.md)
 for relevant helper functions, and
-[tidy_coxreg](https://insightsengineering.github.io/tern/reference/tidy_coxreg.md)
+[tidy_coxreg](https://pharmaverse.github.io/tern/reference/tidy_coxreg.md)
 for custom tidy methods.
 
-[`fit_coxreg_univar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+[`fit_coxreg_univar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
 and
-[`fit_coxreg_multivar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+[`fit_coxreg_multivar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
 which also take the `variables`, `data`, `at` (univariate only), and
 `control` arguments but return unformatted univariate and multivariate
 Cox regression models, respectively.

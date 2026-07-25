@@ -35,7 +35,7 @@ h_logistic_mult_cont_df(variables, data, control = control_logistic())
   (named `list`)\
   controls for the response definition and the confidence level produced
   by
-  [`control_logistic()`](https://insightsengineering.github.io/tern/reference/control_logistic.md).
+  [`control_logistic()`](https://pharmaverse.github.io/tern/reference/control_logistic.md).
 
 ## Value
 
@@ -53,9 +53,9 @@ h_logistic_mult_cont_df(variables, data, control = control_logistic())
   function variable list to the "logistic regression" variable list. The
   reason is that currently there is an inconsistency between the
   variable names accepted by
-  [`extract_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/extract_rsp_subgroups.md)
+  [`extract_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/extract_rsp_subgroups.md)
   and
-  [`fit_logistic()`](https://insightsengineering.github.io/tern/reference/fit_logistic.md).
+  [`fit_logistic()`](https://pharmaverse.github.io/tern/reference/fit_logistic.md).
 
 - `h_logistic_mult_cont_df()`: prepares estimates for number of
   responses, patients and overall response rate, as well as odds ratio

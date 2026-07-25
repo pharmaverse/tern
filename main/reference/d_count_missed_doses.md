@@ -22,4 +22,4 @@ labels.
 
 ## See also
 
-[`s_count_missed_doses()`](https://insightsengineering.github.io/tern/reference/count_missed_doses.md)
+[`s_count_missed_doses()`](https://pharmaverse.github.io/tern/reference/count_missed_doses.md)

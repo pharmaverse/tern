@@ -13,7 +13,7 @@ The (conditional) logistic regression model which is fit is:
 `response ~ arm * poly(biomarker, degree) + covariates + strata(strata)`
 
 where `degree` is specified by
-[`control_step()`](https://insightsengineering.github.io/tern/reference/control_step.md).
+[`control_step()`](https://pharmaverse.github.io/tern/reference/control_step.md).
 
 ## Usage
 
@@ -38,9 +38,9 @@ fit_rsp_step(variables, data, control = c(control_step(), control_logistic()))
 
   (named `list`)\
   combined control list from
-  [`control_step()`](https://insightsengineering.github.io/tern/reference/control_step.md)
+  [`control_step()`](https://pharmaverse.github.io/tern/reference/control_step.md)
   and
-  [`control_logistic()`](https://insightsengineering.github.io/tern/reference/control_logistic.md).
+  [`control_logistic()`](https://pharmaverse.github.io/tern/reference/control_logistic.md).
 
 ## Value
 
@@ -56,9 +56,9 @@ model.
 
 ## See also
 
-[`control_step()`](https://insightsengineering.github.io/tern/reference/control_step.md)
+[`control_step()`](https://pharmaverse.github.io/tern/reference/control_step.md)
 and
-[`control_logistic()`](https://insightsengineering.github.io/tern/reference/control_logistic.md)
+[`control_logistic()`](https://pharmaverse.github.io/tern/reference/control_logistic.md)
 for the available customization options.
 
 ## Examples

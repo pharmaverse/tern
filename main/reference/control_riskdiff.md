@@ -4,9 +4,9 @@
 
 Sets a list of parameters to use when generating a risk (proportion)
 difference column. Used as input to the `riskdiff` parameter of
-[`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md)
+[`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md)
 and
-[`tabulate_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md).
+[`tabulate_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md).
 
 ## Usage
 
@@ -39,7 +39,7 @@ control_riskdiff(
   (`string` or `function`)\
   the format label (string) or formatting function to apply to the risk
   difference statistic. See the `3d` string options in
-  [`formatters::list_valid_format_labels()`](https://insightsengineering.github.io/formatters/latest-tag/reference/list_formats.html)
+  [`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
   for possible format strings. Defaults to `"xx.x (xx.x - xx.x)"`.
 
 - col_label:
@@ -61,10 +61,10 @@ A `list` of items with names corresponding to the arguments.
 
 ## See also
 
-[`add_riskdiff()`](https://insightsengineering.github.io/tern/reference/add_riskdiff.md),
-[`tabulate_rsp_subgroups()`](https://insightsengineering.github.io/tern/reference/response_subgroups.md),
+[`add_riskdiff()`](https://pharmaverse.github.io/tern/reference/add_riskdiff.md),
+[`tabulate_rsp_subgroups()`](https://pharmaverse.github.io/tern/reference/response_subgroups.md),
 and
-[`tabulate_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md).
+[`tabulate_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md).
 
 ## Examples
 

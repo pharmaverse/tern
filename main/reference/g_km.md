@@ -85,7 +85,7 @@ g_km(
   (`list`)\
   parameters for comparison details, specified by using the helper
   function
-  [`control_surv_timepoint()`](https://insightsengineering.github.io/tern/reference/control_surv_timepoint.md).
+  [`control_surv_timepoint()`](https://pharmaverse.github.io/tern/reference/control_surv_timepoint.md).
   Some possible parameter options are:
 
   - `conf_level` (`proportion`)\
@@ -234,7 +234,7 @@ g_km(
 
   (`list`)\
   parameters for comparison details, specified using the helper function
-  [`control_coxph()`](https://insightsengineering.github.io/tern/reference/control_coxph.md).
+  [`control_coxph()`](https://pharmaverse.github.io/tern/reference/control_coxph.md).
   Some possible parameter options are:
 
   - `pval_method` (`string`)\
@@ -261,9 +261,9 @@ g_km(
   (`list`)\
   parameters to control the position and size of the annotation table
   added to the plot when `annot_surv_med = TRUE`, specified using the
-  [`control_surv_med_annot()`](https://insightsengineering.github.io/tern/reference/control_annot.md)
+  [`control_surv_med_annot()`](https://pharmaverse.github.io/tern/reference/control_annot.md)
   function. Parameter options are: `x`, `y`, `w`, `h`, and `fill`. See
-  [`control_surv_med_annot()`](https://insightsengineering.github.io/tern/reference/control_annot.md)
+  [`control_surv_med_annot()`](https://pharmaverse.github.io/tern/reference/control_annot.md)
   for details.
 
 - control_annot_coxph:
@@ -271,10 +271,10 @@ g_km(
   (`list`)\
   parameters to control the position and size of the annotation table
   added to the plot when `annot_coxph = TRUE`, specified using the
-  [`control_coxph_annot()`](https://insightsengineering.github.io/tern/reference/control_annot.md)
+  [`control_coxph_annot()`](https://pharmaverse.github.io/tern/reference/control_annot.md)
   function. Parameter options are: `x`, `y`, `w`, `h`, `fill`, and
   `ref_lbls`. See
-  [`control_coxph_annot()`](https://insightsengineering.github.io/tern/reference/control_annot.md)
+  [`control_coxph_annot()`](https://pharmaverse.github.io/tern/reference/control_annot.md)
   for details.
 
 - legend_pos:

@@ -3,7 +3,7 @@
 **\[stable\]**
 
 Internal function to check variables included in
-[`tabulate_survival_subgroups()`](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md)
+[`tabulate_survival_subgroups()`](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md)
 and create column labels.
 
 ## Usage

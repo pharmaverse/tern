@@ -4,9 +4,9 @@
 
 Prepares estimates of median survival times and treatment hazard ratios
 for population subgroups in data frames. Simple wrapper for
-[`h_survtime_subgroups_df()`](https://insightsengineering.github.io/tern/reference/h_survival_duration_subgroups.md)
+[`h_survtime_subgroups_df()`](https://pharmaverse.github.io/tern/reference/h_survival_duration_subgroups.md)
 and
-[`h_coxph_subgroups_df()`](https://insightsengineering.github.io/tern/reference/h_survival_duration_subgroups.md).
+[`h_coxph_subgroups_df()`](https://pharmaverse.github.io/tern/reference/h_survival_duration_subgroups.md).
 Result is a `list` of two `data.frame`s: `survtime` and `hr`.
 `variables` corresponds to the names of variables found in `data`,
 passed as a named `list` and requires elements `tte`, `is_event`, `arm`
@@ -49,7 +49,7 @@ extract_survival_subgroups(
   (`list`)\
   parameters for comparison details, specified by using the helper
   function
-  [`control_coxph()`](https://insightsengineering.github.io/tern/reference/control_coxph.md).
+  [`control_coxph()`](https://pharmaverse.github.io/tern/reference/control_coxph.md).
   Some possible parameter options are:
 
   - `pval_method` (`string`)\
@@ -91,4 +91,4 @@ A named `list` of two elements:
 
 ## See also
 
-[survival_duration_subgroups](https://insightsengineering.github.io/tern/reference/survival_duration_subgroups.md)
+[survival_duration_subgroups](https://pharmaverse.github.io/tern/reference/survival_duration_subgroups.md)

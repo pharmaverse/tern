@@ -70,7 +70,7 @@ Global Data Standards Repository
 
 ## See also
 
-[`estimate_coef()`](https://insightsengineering.github.io/tern/reference/estimate_coef.md).
+[`estimate_coef()`](https://pharmaverse.github.io/tern/reference/estimate_coef.md).
 
 ## Examples
 

@@ -3,7 +3,7 @@
 **\[stable\]**
 
 Helper function to prepare an ADLB data frame to be used as input in
-[`count_abnormal_by_worst_grade()`](https://insightsengineering.github.io/tern/reference/abnormal_by_worst_grade.md).
+[`count_abnormal_by_worst_grade()`](https://pharmaverse.github.io/tern/reference/abnormal_by_worst_grade.md).
 The following pre-processing steps are applied:
 
 1.  `adlb` is filtered on variable `avisit` to only include
@@ -75,7 +75,7 @@ two new variables: `GRADE_DIR` and `GRADE_ANL`.
 
 ## See also
 
-[abnormal_by_worst_grade](https://insightsengineering.github.io/tern/reference/abnormal_by_worst_grade.md)
+[abnormal_by_worst_grade](https://pharmaverse.github.io/tern/reference/abnormal_by_worst_grade.md)
 
 ## Examples
 

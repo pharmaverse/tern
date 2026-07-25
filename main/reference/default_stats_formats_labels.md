@@ -6,7 +6,7 @@ Utility functions to get valid statistic methods for different method
 groups (`.stats`) and their associated formats (`.formats`), labels
 (`.labels`), and indent modifiers (`.indent_mods`). This utility is used
 across `tern`, but some of its working principles can be seen in
-[`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+[`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 See notes to understand why this is experimental.
 
 ## Usage
@@ -119,7 +119,7 @@ summary_labels(type = "numeric", include_pval = FALSE)
   (named `vector`)\
   custom formats to use instead of defaults. Can be a character vector
   with values from
-  [`formatters::list_valid_format_labels()`](https://insightsengineering.github.io/formatters/latest-tag/reference/list_formats.html)
+  [`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
   or custom format functions. Defaults to `NULL` for any rows with no
   value is provided. See Details.
 
@@ -214,7 +214,7 @@ summary_labels(type = "numeric", include_pval = FALSE)
 ## Details
 
 Current choices for `type` are `counts` and `numeric` for
-[`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+[`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
 and affect `get_stats()`.
 
 if `formats_in` is `"default"`, instead of populating the return value
@@ -258,9 +258,9 @@ retrieve relevant information.
 
 - `summary_formats()`: Quick function to retrieve default formats for
   summary statistics:
-  [`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   and
-  [`analyze_vars_in_cols()`](https://insightsengineering.github.io/tern/reference/analyze_vars_in_cols.md)
+  [`analyze_vars_in_cols()`](https://pharmaverse.github.io/tern/reference/analyze_vars_in_cols.md)
   principally.
 
 - `summary_labels()`: Quick function to retrieve default labels for
@@ -275,11 +275,11 @@ methods according to more reasonable groupings.
 
 Formats in `tern` and `rtables` can be functions that take in the table
 cell value and return a string. This is well documented in
-[`vignette("custom_appearance", package = "rtables")`](https://insightsengineering.github.io/rtables/latest-tag/articles/custom_appearance.html).
+[`vignette("custom_appearance", package = "rtables")`](https://cran.rstudio.com/web/packages/rtables/vignettes/custom_appearance.html).
 
 ## See also
 
-[formatting_functions](https://insightsengineering.github.io/tern/reference/formatting_functions.md)
+[formatting_functions](https://pharmaverse.github.io/tern/reference/formatting_functions.md)
 
 ## Examples
 

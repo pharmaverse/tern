@@ -2,10 +2,10 @@
 
 This takes the label of the latest row split level and adds the row
 total from `df` in parentheses. This function differs from
-[`c_label_n_alt()`](https://insightsengineering.github.io/tern/reference/c_label_n_alt.md)
+[`c_label_n_alt()`](https://pharmaverse.github.io/tern/reference/c_label_n_alt.md)
 by taking row counts from `df` rather than `alt_counts_df`, and is used
 by
-[`add_rowcounts()`](https://insightsengineering.github.io/tern/reference/add_rowcounts.md)
+[`add_rowcounts()`](https://pharmaverse.github.io/tern/reference/add_rowcounts.md)
 when `alt_counts` is set to `FALSE`.
 
 ## Usage
@@ -26,7 +26,7 @@ c_label_n(df, labelstr, .N_row)
   (`string`)\
   label of the level of the parent split currently being summarized
   (must be present as second argument in Content Row Functions). See
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
   for more information.
 
 - .N_row:
@@ -39,7 +39,7 @@ c_label_n(df, labelstr, .N_row)
 ## Value
 
 A list with formatted
-[`rtables::CellValue()`](https://insightsengineering.github.io/rtables/latest-tag/reference/CellValue.html)
+[`rtables::CellValue()`](https://rdrr.io/pkg/rtables/man/CellValue.html)
 with the row count value and the correct label.
 
 ## Note
@@ -50,6 +50,6 @@ refer to the first column of the data only.
 
 ## See also
 
-[`c_label_n_alt()`](https://insightsengineering.github.io/tern/reference/c_label_n_alt.md)
+[`c_label_n_alt()`](https://pharmaverse.github.io/tern/reference/c_label_n_alt.md)
 which performs the same function but retrieves row counts from
 `alt_counts_df` instead of `df`.

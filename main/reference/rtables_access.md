@@ -105,7 +105,7 @@ check_names_indices(table_row, col_names = NULL, col_indices = NULL)
 
 ## See also
 
-[prune_occurrences](https://insightsengineering.github.io/tern/reference/prune_occurrences.md)
+[prune_occurrences](https://pharmaverse.github.io/tern/reference/prune_occurrences.md)
 for usage of these functions.
 
 ## Examples

@@ -3,7 +3,7 @@
 **\[stable\]**
 
 Formatting function for the majority of default methods used in
-[`analyze_vars()`](https://insightsengineering.github.io/tern/reference/analyze_variables.md).
+[`analyze_vars()`](https://pharmaverse.github.io/tern/reference/analyze_variables.md).
 For non-derived values, the significant digits of data is used (e.g.
 range), while derived values have one more digits (measure of location
 and dispersion like mean, standard deviation). This function can be
@@ -24,9 +24,9 @@ format_auto(dt_var, x_stat)
   (`numeric`)\
   variable data the statistics were calculated from. Used only to find
   significant digits. In
-  [analyze_vars](https://insightsengineering.github.io/tern/reference/analyze_variables.md)
+  [analyze_vars](https://pharmaverse.github.io/tern/reference/analyze_variables.md)
   this comes from `.df_row` (see
-  [rtables::additional_fun_params](https://insightsengineering.github.io/rtables/latest-tag/reference/additional_fun_params.html)),
+  [rtables::additional_fun_params](https://rdrr.io/pkg/rtables/man/additional_fun_params.html)),
   and it is the row data after the above row splits. No column split is
   considered.
 
@@ -49,19 +49,19 @@ from statistical evaluation. It can be more than one element (e.g. for
 ## See also
 
 Other formatting functions:
-[`extreme_format`](https://insightsengineering.github.io/tern/reference/extreme_format.md),
-[`format_count_fraction()`](https://insightsengineering.github.io/tern/reference/format_count_fraction.md),
-[`format_count_fraction_fixed_dp()`](https://insightsengineering.github.io/tern/reference/format_count_fraction_fixed_dp.md),
-[`format_count_fraction_lt10()`](https://insightsengineering.github.io/tern/reference/format_count_fraction_lt10.md),
-[`format_extreme_values()`](https://insightsengineering.github.io/tern/reference/format_extreme_values.md),
-[`format_extreme_values_ci()`](https://insightsengineering.github.io/tern/reference/format_extreme_values_ci.md),
-[`format_fraction()`](https://insightsengineering.github.io/tern/reference/format_fraction.md),
-[`format_fraction_fixed_dp()`](https://insightsengineering.github.io/tern/reference/format_fraction_fixed_dp.md),
-[`format_fraction_threshold()`](https://insightsengineering.github.io/tern/reference/format_fraction_threshold.md),
-[`format_range_cens()`](https://insightsengineering.github.io/tern/reference/format_range_cens.md),
-[`format_sigfig()`](https://insightsengineering.github.io/tern/reference/format_sigfig.md),
-[`format_xx()`](https://insightsengineering.github.io/tern/reference/format_xx.md),
-[`formatting_functions`](https://insightsengineering.github.io/tern/reference/formatting_functions.md)
+[`extreme_format`](https://pharmaverse.github.io/tern/reference/extreme_format.md),
+[`format_count_fraction()`](https://pharmaverse.github.io/tern/reference/format_count_fraction.md),
+[`format_count_fraction_fixed_dp()`](https://pharmaverse.github.io/tern/reference/format_count_fraction_fixed_dp.md),
+[`format_count_fraction_lt10()`](https://pharmaverse.github.io/tern/reference/format_count_fraction_lt10.md),
+[`format_extreme_values()`](https://pharmaverse.github.io/tern/reference/format_extreme_values.md),
+[`format_extreme_values_ci()`](https://pharmaverse.github.io/tern/reference/format_extreme_values_ci.md),
+[`format_fraction()`](https://pharmaverse.github.io/tern/reference/format_fraction.md),
+[`format_fraction_fixed_dp()`](https://pharmaverse.github.io/tern/reference/format_fraction_fixed_dp.md),
+[`format_fraction_threshold()`](https://pharmaverse.github.io/tern/reference/format_fraction_threshold.md),
+[`format_range_cens()`](https://pharmaverse.github.io/tern/reference/format_range_cens.md),
+[`format_sigfig()`](https://pharmaverse.github.io/tern/reference/format_sigfig.md),
+[`format_xx()`](https://pharmaverse.github.io/tern/reference/format_xx.md),
+[`formatting_functions`](https://pharmaverse.github.io/tern/reference/formatting_functions.md)
 
 ## Examples
 

@@ -61,7 +61,7 @@ direction.
 
 ## See also
 
-[abnormal_lab_worsen_by_baseline](https://insightsengineering.github.io/tern/reference/abnormal_lab_worsen_by_baseline.md)
+[abnormal_lab_worsen_by_baseline](https://pharmaverse.github.io/tern/reference/abnormal_lab_worsen_by_baseline.md)
 
 ## Examples
 

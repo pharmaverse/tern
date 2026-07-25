@@ -1,7 +1,7 @@
 # Worst case tail probability for unconditional exact CI calculation
 
 This function is an internal helper for
-[`prop_diff_uncond_exact()`](https://insightsengineering.github.io/tern/reference/h_prop_diff.md).
+[`prop_diff_uncond_exact()`](https://pharmaverse.github.io/tern/reference/h_prop_diff.md).
 
 ## Usage
 

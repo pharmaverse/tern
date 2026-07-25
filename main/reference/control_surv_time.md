@@ -5,7 +5,7 @@
 This is an auxiliary function for controlling arguments for `survfit`
 model, typically used internally to specify details of `survfit` model
 for
-[`s_surv_time()`](https://insightsengineering.github.io/tern/reference/survival_time.md).
+[`s_surv_time()`](https://pharmaverse.github.io/tern/reference/survival_time.md).
 `conf_level` refers to survival time estimation.
 
 ## Usage

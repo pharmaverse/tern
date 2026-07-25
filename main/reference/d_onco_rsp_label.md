@@ -23,7 +23,7 @@ Response labels.
 
 ## See also
 
-[`estimate_multinomial_rsp()`](https://insightsengineering.github.io/tern/reference/estimate_multinomial_rsp.md)
+[`estimate_multinomial_rsp()`](https://pharmaverse.github.io/tern/reference/estimate_multinomial_rsp.md)
 
 ## Examples
 

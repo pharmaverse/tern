@@ -4,7 +4,7 @@
 
 This is an auxiliary function for controlling arguments for the
 incidence rate, used internally to specify details in
-[`s_incidence_rate()`](https://insightsengineering.github.io/tern/reference/incidence_rate.md).
+[`s_incidence_rate()`](https://pharmaverse.github.io/tern/reference/incidence_rate.md).
 
 ## Usage
 
@@ -47,7 +47,7 @@ A list of components with the same names as the arguments.
 
 ## See also
 
-[incidence_rate](https://insightsengineering.github.io/tern/reference/incidence_rate.md)
+[incidence_rate](https://pharmaverse.github.io/tern/reference/incidence_rate.md)
 
 ## Examples
 

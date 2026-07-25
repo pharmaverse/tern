@@ -27,7 +27,7 @@ score_occurrences_cont_cols(...)
 - ...:
 
   arguments for row or column access, see
-  [`rtables_access`](https://insightsengineering.github.io/tern/reference/rtables_access.md):
+  [`rtables_access`](https://pharmaverse.github.io/tern/reference/rtables_access.md):
   either `col_names` (`character`) including the names of the columns
   which should be used, or alternatively `col_indices` (`integer`)
   giving the indices directly instead.
@@ -59,7 +59,7 @@ score_occurrences_cont_cols(...)
 
 - `score_occurrences_cols()`: Scoring functions can be produced by this
   constructor to only include specific columns in the scoring. See
-  [`h_row_counts()`](https://insightsengineering.github.io/tern/reference/rtables_access.md)
+  [`h_row_counts()`](https://pharmaverse.github.io/tern/reference/rtables_access.md)
   for further information.
 
 - `score_occurrences_subtable()`: Scoring functions produced by this
@@ -70,15 +70,15 @@ score_occurrences_cont_cols(...)
 - `score_occurrences_cont_cols()`: Produces a score function for sorting
   table by summing the first content row in specified columns. Note that
   this is extending
-  [`rtables::cont_n_onecol()`](https://insightsengineering.github.io/rtables/latest-tag/reference/score_funs.html)
+  [`rtables::cont_n_onecol()`](https://rdrr.io/pkg/rtables/man/score_funs.html)
   and
-  [`rtables::cont_n_allcols()`](https://insightsengineering.github.io/rtables/latest-tag/reference/score_funs.html).
+  [`rtables::cont_n_allcols()`](https://rdrr.io/pkg/rtables/man/score_funs.html).
 
 ## See also
 
-[`h_row_first_values()`](https://insightsengineering.github.io/tern/reference/rtables_access.md)
+[`h_row_first_values()`](https://pharmaverse.github.io/tern/reference/rtables_access.md)
 
-[`h_row_counts()`](https://insightsengineering.github.io/tern/reference/rtables_access.md)
+[`h_row_counts()`](https://pharmaverse.github.io/tern/reference/rtables_access.md)
 
 ## Examples
 

@@ -170,7 +170,7 @@ g_forest(
 ## Details
 
 Given a
-[`rtables::rtable()`](https://insightsengineering.github.io/rtables/latest-tag/reference/rtable.html)
+[`rtables::rtable()`](https://rdrr.io/pkg/rtables/man/rtable.html)
 object with at least one column with a single value and one column with
 2 values, converts table to a
 [`ggplot2::ggplot()`](https://ggplot2.tidyverse.org/reference/ggplot.html)

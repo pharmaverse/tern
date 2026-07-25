@@ -3,9 +3,9 @@
 **\[stable\]**
 
 Helper functions used in
-[`fit_coxreg_univar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+[`fit_coxreg_univar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
 and
-[`fit_coxreg_multivar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md).
+[`fit_coxreg_multivar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md).
 
 ## Usage
 
@@ -59,7 +59,7 @@ h_coxreg_multivar_extract(var, data, mod, control = control_coxreg())
 
   (`list`)\
   a list of controls as returned by
-  [`control_coxreg()`](https://insightsengineering.github.io/tern/reference/control_coxreg.md).
+  [`control_coxreg()`](https://pharmaverse.github.io/tern/reference/control_coxreg.md).
 
 - var:
 
@@ -94,12 +94,12 @@ h_coxreg_multivar_extract(var, data, mod, control = control_coxreg())
 
 - `h_coxreg_univar_formulas()`: Helper for Cox regression formula.
   Creates a list of formulas. It is used internally by
-  [`fit_coxreg_univar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+  [`fit_coxreg_univar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
   for the comparison of univariate Cox regression models.
 
 - `h_coxreg_multivar_formula()`: Helper for multivariate Cox regression
   formula. Creates a formulas string. It is used internally by
-  [`fit_coxreg_multivar()`](https://insightsengineering.github.io/tern/reference/fit_coxreg.md)
+  [`fit_coxreg_multivar()`](https://pharmaverse.github.io/tern/reference/fit_coxreg.md)
   for the comparison of multivariate Cox regression models. Interactions
   will not be included in multivariate Cox regression model.
 
@@ -112,7 +112,7 @@ h_coxreg_multivar_extract(var, data, mod, control = control_coxreg())
 
 ## See also
 
-[cox_regression](https://insightsengineering.github.io/tern/reference/cox_regression.md)
+[cox_regression](https://pharmaverse.github.io/tern/reference/cox_regression.md)
 
 ## Examples
 

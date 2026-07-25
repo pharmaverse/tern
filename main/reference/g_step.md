@@ -23,7 +23,7 @@ g_step(
 
   (`tibble`)\
   result of
-  [`tidy.step()`](https://insightsengineering.github.io/tern/reference/tidy.step.md).
+  [`tidy.step()`](https://pharmaverse.github.io/tern/reference/tidy.step.md).
 
 - use_percentile:
 
@@ -53,7 +53,7 @@ A `ggplot` STEP graph.
 ## See also
 
 Custom tidy method
-[`tidy.step()`](https://insightsengineering.github.io/tern/reference/tidy.step.md).
+[`tidy.step()`](https://pharmaverse.github.io/tern/reference/tidy.step.md).
 
 ## Examples
 

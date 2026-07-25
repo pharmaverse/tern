@@ -4,12 +4,12 @@ In the risk difference column, this function uses the statistics
 function associated with `afun` to calculates risk difference values
 from arm X (reference group) and arm Y. These arms are specified when
 configuring the risk difference column which is done using the
-[`add_riskdiff()`](https://insightsengineering.github.io/tern/reference/add_riskdiff.md)
+[`add_riskdiff()`](https://pharmaverse.github.io/tern/reference/add_riskdiff.md)
 split function in the previous call to
-[`rtables::split_cols_by()`](https://insightsengineering.github.io/rtables/latest-tag/reference/split_cols_by.html).
+[`rtables::split_cols_by()`](https://rdrr.io/pkg/rtables/man/split_cols_by.html).
 For all other columns, applies `afun` as usual. This function utilizes
 the
-[`stat_propdiff_ci()`](https://insightsengineering.github.io/tern/reference/stat_propdiff_ci.md)
+[`stat_propdiff_ci()`](https://pharmaverse.github.io/tern/reference/stat_propdiff_ci.md)
 function to perform risk difference calculations.
 
 ## Usage
@@ -40,7 +40,7 @@ afun_riskdiff(
   (`string`)\
   label of the level of the parent split currently being summarized
   (must be present as second argument in Content Row Functions). See
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
   for more information.
 
 - afun:
@@ -64,7 +64,7 @@ afun_riskdiff(
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .formats:
@@ -87,16 +87,16 @@ afun_riskdiff(
 ## Value
 
 A list of formatted
-[`rtables::CellValue()`](https://insightsengineering.github.io/rtables/latest-tag/reference/CellValue.html).
+[`rtables::CellValue()`](https://rdrr.io/pkg/rtables/man/CellValue.html).
 
 ## See also
 
-- [`stat_propdiff_ci()`](https://insightsengineering.github.io/tern/reference/stat_propdiff_ci.md)
+- [`stat_propdiff_ci()`](https://pharmaverse.github.io/tern/reference/stat_propdiff_ci.md)
   for details on risk difference calculation.
 
 - Split function
-  [`add_riskdiff()`](https://insightsengineering.github.io/tern/reference/add_riskdiff.md)
+  [`add_riskdiff()`](https://pharmaverse.github.io/tern/reference/add_riskdiff.md)
   which, when used as `split_fun` within
-  [`rtables::split_cols_by()`](https://insightsengineering.github.io/rtables/latest-tag/reference/split_cols_by.html)
+  [`rtables::split_cols_by()`](https://rdrr.io/pkg/rtables/man/split_cols_by.html)
   with `riskdiff` argument set to `TRUE` in subsequent analyze functions
   calls, adds a risk difference column to a table layout.

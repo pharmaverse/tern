@@ -4,9 +4,9 @@
 
 Prepares response rates and odds ratios for population subgroups in data
 frames. Simple wrapper for
-[`h_odds_ratio_subgroups_df()`](https://insightsengineering.github.io/tern/reference/h_response_subgroups.md)
+[`h_odds_ratio_subgroups_df()`](https://pharmaverse.github.io/tern/reference/h_response_subgroups.md)
 and
-[`h_proportion_subgroups_df()`](https://insightsengineering.github.io/tern/reference/h_response_subgroups.md).
+[`h_proportion_subgroups_df()`](https://pharmaverse.github.io/tern/reference/h_response_subgroups.md).
 Result is a list of two `data.frames`: `prop` and `or`. `variables`
 corresponds to the names of variables found in `data`, passed as a named
 `list` and requires elements `rsp`, `arm` and optionally `subgroups` and
@@ -55,7 +55,7 @@ extract_rsp_subgroups(
   (`string` or `NULL`)\
   specifies the test used to calculate the p-value for the difference
   between two proportions. For options, see
-  [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md).
+  [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md).
   Default is `NULL` so no test is performed.
 
 - label_all:
@@ -75,4 +75,4 @@ A named list of two elements:
 
 ## See also
 
-[response_subgroups](https://insightsengineering.github.io/tern/reference/response_subgroups.md)
+[response_subgroups](https://pharmaverse.github.io/tern/reference/response_subgroups.md)

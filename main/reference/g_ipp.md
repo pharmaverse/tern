@@ -125,7 +125,7 @@ A `ggplot` object or a list of `ggplot` objects.
 ## See also
 
 Relevant helper function
-[`h_g_ipp()`](https://insightsengineering.github.io/tern/reference/h_g_ipp.md).
+[`h_g_ipp()`](https://pharmaverse.github.io/tern/reference/h_g_ipp.md).
 
 ## Examples
 

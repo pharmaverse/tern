@@ -102,8 +102,8 @@ A `ggplot` line plot.
 
 ## See also
 
-[`g_ipp()`](https://insightsengineering.github.io/tern/reference/g_ipp.md)
-which uses this function.
+[`g_ipp()`](https://pharmaverse.github.io/tern/reference/g_ipp.md) which
+uses this function.
 
 ## Examples
 

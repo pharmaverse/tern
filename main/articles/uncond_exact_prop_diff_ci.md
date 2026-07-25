@@ -2,7 +2,7 @@
 
 This vignette explains the construction of the unconditional exact
 confidence interval for the difference in proportions using the
-[`estimate_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff.md)
+[`estimate_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
 function with `method = "uncond_exact_diff"` from the `tern` package.
 This method is particularly useful when dealing with small sample sizes
 or when the assumptions of other methods (like the normal approximation)
@@ -110,7 +110,7 @@ greater than $`\alpha/2`$ for the upper limit.
 ## Implementation
 
 The
-[`prop_diff_uncond_exact()`](https://insightsengineering.github.io/tern/reference/h_prop_diff.md)
+[`prop_diff_uncond_exact()`](https://pharmaverse.github.io/tern/reference/h_prop_diff.md)
 function in the `tern` package implements the above definition of the
 unconditional exact confidence interval for the difference in
 proportions.

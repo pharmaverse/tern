@@ -12,7 +12,7 @@ The model which is fit is:
 `Surv(time, event) ~ arm * poly(biomarker, degree) + covariates + strata(strata)`
 
 where `degree` is specified by
-[`control_step()`](https://insightsengineering.github.io/tern/reference/control_step.md).
+[`control_step()`](https://pharmaverse.github.io/tern/reference/control_step.md).
 
 ## Usage
 
@@ -41,9 +41,9 @@ fit_survival_step(
 
   (named `list`)\
   combined control list from
-  [`control_step()`](https://insightsengineering.github.io/tern/reference/control_step.md)
+  [`control_step()`](https://pharmaverse.github.io/tern/reference/control_step.md)
   and
-  [`control_coxph()`](https://insightsengineering.github.io/tern/reference/control_coxph.md).
+  [`control_coxph()`](https://pharmaverse.github.io/tern/reference/control_coxph.md).
 
 ## Value
 
@@ -59,9 +59,9 @@ model.
 
 ## See also
 
-[`control_step()`](https://insightsengineering.github.io/tern/reference/control_step.md)
+[`control_step()`](https://pharmaverse.github.io/tern/reference/control_step.md)
 and
-[`control_coxph()`](https://insightsengineering.github.io/tern/reference/control_coxph.md)
+[`control_coxph()`](https://pharmaverse.github.io/tern/reference/control_coxph.md)
 for the available customization options.
 
 ## Examples

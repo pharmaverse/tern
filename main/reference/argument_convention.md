@@ -14,7 +14,7 @@ that are used repeatedly to express an analysis.
   (`character` or `NULL`)\
   alignment for table contents (not including labels). When `NULL`,
   `"center"` is applied. See
-  [`formatters::list_valid_aligns()`](https://insightsengineering.github.io/formatters/latest-tag/reference/list_formats.html)
+  [`formatters::list_valid_aligns()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
   for a list of all currently supported alignments.
 
 - .all_col_counts:
@@ -22,7 +22,7 @@ that are used repeatedly to express an analysis.
   (`integer`)\
   vector where each value represents a global count for a column. Values
   are taken from `alt_counts_df` if specified (see
-  [`rtables::build_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html)).
+  [`rtables::build_table()`](https://rdrr.io/pkg/rtables/man/build_table.html)).
 
 - .df_row:
 
@@ -85,7 +85,7 @@ that are used repeatedly to express an analysis.
   (`character`)\
   names of the statistics that are passed directly to name single
   statistics (`.stats`). This option is visible when producing
-  [`rtables::as_result_df()`](https://insightsengineering.github.io/rtables/latest-tag/reference/data.frame_export.html)
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
   with `make_ard = TRUE`.
 
 - .var:
@@ -165,7 +165,7 @@ that are used repeatedly to express an analysis.
   (`string`)\
   label of the level of the parent split currently being summarized
   (must be present as second argument in Content Row Functions). See
-  [`rtables::summarize_row_groups()`](https://insightsengineering.github.io/rtables/latest-tag/reference/summarize_row_groups.html)
+  [`rtables::summarize_row_groups()`](https://rdrr.io/pkg/rtables/man/summarize_row_groups.html)
   for more information.
 
 - lyt:
@@ -178,7 +178,7 @@ that are used repeatedly to express an analysis.
   (`string` or `NULL`)\
   specifies the test used to calculate the p-value for the difference
   between two proportions. For options, see
-  [`test_proportion_diff()`](https://insightsengineering.github.io/tern/reference/prop_diff_test.md).
+  [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md).
   Default is `NULL` so no test is performed.
 
 - na.rm:
@@ -213,10 +213,10 @@ that are used repeatedly to express an analysis.
 
   (`flag`)\
   whether a risk difference column is present. When set to `TRUE`,
-  [`add_riskdiff()`](https://insightsengineering.github.io/tern/reference/add_riskdiff.md)
+  [`add_riskdiff()`](https://pharmaverse.github.io/tern/reference/add_riskdiff.md)
   must be used as `split_fun` in the prior column split of the table
   layout, specifying which columns should be compared. See
-  [`stat_propdiff_ci()`](https://insightsengineering.github.io/tern/reference/stat_propdiff_ci.md)
+  [`stat_propdiff_ci()`](https://pharmaverse.github.io/tern/reference/stat_propdiff_ci.md)
   for details on risk difference calculation.
 
 - rsp:

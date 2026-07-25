@@ -64,7 +64,7 @@ h_coxreg_inter_estimations(
 
   (`list`)\
   a list of controls as returned by
-  [`control_coxreg()`](https://insightsengineering.github.io/tern/reference/control_coxreg.md).
+  [`control_coxreg()`](https://pharmaverse.github.io/tern/reference/control_coxreg.md).
 
 - ...:
 
@@ -109,7 +109,7 @@ h_coxreg_inter_estimations(
 
 - `h_coxreg_extract_interaction()` returns the result of an interaction
   test and the estimated values. If no interaction,
-  [`h_coxreg_univar_extract()`](https://insightsengineering.github.io/tern/reference/h_cox_regression.md)
+  [`h_coxreg_univar_extract()`](https://pharmaverse.github.io/tern/reference/h_cox_regression.md)
   is applied instead.
 
 &nbsp;
@@ -172,7 +172,7 @@ is obtained as \$sqrt(Var b2 + Var b5 + 2 \* covariance (b2,b5))\$.
   can be generated correctly. It is therefore better to always
   pre-process the dataset such that factors are manually created from
   character variables before passing the dataset to
-  [`rtables::build_table()`](https://insightsengineering.github.io/rtables/latest-tag/reference/build_table.html).
+  [`rtables::build_table()`](https://rdrr.io/pkg/rtables/man/build_table.html).
 
 ## Examples
 

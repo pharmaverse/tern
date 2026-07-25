@@ -64,7 +64,7 @@ h_logistic_inter_terms(x, fit_glm, conf_level = 0.95, at = NULL)
   logistic regression models fitted by
   [`survival::clogit()`](https://rdrr.io/pkg/survival/man/clogit.html),
   currently this is used only by
-  [`extract_rsp_biomarkers()`](https://insightsengineering.github.io/tern/reference/extract_rsp_biomarkers.md).
+  [`extract_rsp_biomarkers()`](https://pharmaverse.github.io/tern/reference/extract_rsp_biomarkers.md).
 
 - interaction_vars:
 

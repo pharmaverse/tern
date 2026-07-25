@@ -3,7 +3,7 @@
 **\[stable\]**
 
 This is a helper function that describes the analysis in
-[`s_proportion()`](https://insightsengineering.github.io/tern/reference/estimate_proportion.md).
+[`s_proportion()`](https://pharmaverse.github.io/tern/reference/estimate_proportion.md).
 
 ## Usage
 
