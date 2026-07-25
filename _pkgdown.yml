@@ -1,5 +1,5 @@
 ---
-url: https://insightsengineering.github.io/tern
+url: https://pharmaverse.github.io/tern
 
 template:
   package: nesttemplate
@@ -20,7 +20,7 @@ navbar:
           href: unit-test-report-non-cran/
     github:
       icon: fa-github
-      href: https://github.com/insightsengineering/tern
+      href: https://github.com/pharmaverse/tern
       aria-label: GitHub
 
 reference:
