@@ -47,6 +47,14 @@
 #'   is no longer used.
 #' @param newpage `r lifecycle::badge("deprecated")` `g_forest` is now generated as a `ggplot` object. This argument
 #'   is no longer used.
+#' @param exclude_rows (`integerish` or `NULL`)\cr vector of positive row
+#'   indices specifying rows to exclude from the forest plot. Row indices are
+#'   specified relative to [rtables::as_result_df()] applied to `tbl`. Values
+#'   must be between 1 and the number of rows in the result data frame, with no
+#'   missing values. The specified rows are removed before plotting. This can be
+#'   used to omit rows that should not be displayed in the forest plot, such as
+#'   rows containing non-plottable values. Defaults to `NULL`, meaning that all
+#'   rows are considered for plotting.
 #'
 #' @return `ggplot` forest plot and table.
 #'
@@ -77,6 +85,7 @@
 #' tbl <- basic_table() |>
 #'   tabulate_rsp_subgroups(df)
 #' g_forest(tbl)
+#' g_forest(tbl, exclude_rows = 1)
 #'
 #' # Odds ratio only table.
 #'
@@ -177,7 +186,8 @@ g_forest <- function(tbl,
                      as_list = FALSE,
                      gp = lifecycle::deprecated(),
                      draw = lifecycle::deprecated(),
-                     newpage = lifecycle::deprecated()) {
+                     newpage = lifecycle::deprecated(),
+                     exclude_rows = NULL) {
   # Deprecated argument warnings
   if (lifecycle::is_present(width_row_names)) {
     lifecycle::deprecate_warn(
@@ -220,6 +230,10 @@ g_forest <- function(tbl,
   checkmate::assert_number(font_size, lower = 0)
   checkmate::assert_character(col, null.ok = TRUE)
   checkmate::assert_true(is.null(col) | length(col) == 1 | length(col) == nrow(tbl))
+  checkmate::assert_integerish(
+    exclude_rows,
+    lower = 1L, upper = nrow(as_result_df(tbl)), any.missing = FALSE, min.len = 1L, null.ok = TRUE
+  )
 
   # Extract info from table
   mat <- matrix_form(tbl, indent_rownames = TRUE)
@@ -241,6 +255,9 @@ g_forest <- function(tbl,
   }
 
   tbl_df <- as_result_df(tbl)
+  if (!is.null(exclude_rows)) {
+    tbl_df <- tbl_df[-exclude_rows, ]
+  }
   dat_cols <- seq(which(names(tbl_df) == "node_class") + 1, ncol(tbl_df))
   tbl_df <- tbl_df[, c(which(names(tbl_df) == "row_num"), dat_cols)]
   names(tbl_df) <- c("row_num", tbl_stats)
@@ -252,7 +269,9 @@ g_forest <- function(tbl,
     tbl_df[["empty_ci"]] <- rep(list(c(NA_real_, NA_real_)), nrow(tbl_df))
     ci_col <- which(names(tbl_df) == "empty_ci")
   }
-  if (length(tbl_df[, ci_col][[1]]) != 2) stop("CI column must have two elements (lower and upper limits).")
+  if (nrow(tbl_df) >= 1 && length(tbl_df[, ci_col][[1]]) != 2) {
+    stop("CI column must have two elements (lower and upper limits).")
+  }
 
   if (!is.null(col_x)) {
     x_col <- col_x + 1
@@ -278,17 +297,16 @@ g_forest <- function(tbl,
   x_labels <- x_at
 
   # Apply log transformation
-  if (logx) {
+  if (logx && nrow(tbl_df) >= 1) {
     x_t <- log(x)
     lwr_t <- log(lwr)
     upr_t <- log(upr)
-    xlim_t <- log(xlim)
   } else {
     x_t <- x
     lwr_t <- lwr
     upr_t <- upr
-    xlim_t <- xlim
   }
+  xlim_t <- if (logx) log(xlim) else xlim
 
   # Set up plot area
   gg_plt <- ggplot(data = tbl_df) +

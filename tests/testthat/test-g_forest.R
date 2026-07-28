@@ -99,6 +99,55 @@ testthat::test_that("g_forest as_list argument works", {
   expect_snapshot_ggplot("g_forest_plot_only", g_forest_plot_only, width = 2, height = 3)
 })
 
+testthat::test_that("g_forest validates exclude_rows", {
+  tbl <- basic_table() |>
+    tabulate_rsp_subgroups(df)
+
+  testthat::expect_error(
+    g_forest(tbl, exclude_rows = 0)
+  )
+
+  testthat::expect_error(
+    g_forest(tbl, exclude_rows = -1)
+  )
+
+  testthat::expect_error(
+    g_forest(tbl, exclude_rows = NA_integer_)
+  )
+
+  testthat::expect_error(
+    g_forest(tbl, exclude_rows = nrow(as_result_df(tbl)) + 1)
+  )
+
+  testthat::expect_error(
+    g_forest(tbl, exclude_rows = "1")
+  )
+})
+
+testthat::test_that("g_forest exclude_rows works", {
+  tbl <- basic_table() |>
+    tabulate_rsp_subgroups(df)
+
+  testthat::expect_silent(
+    p <- g_forest(tbl, exclude_rows = c(2, 4))
+  )
+
+  expect_snapshot_ggplot("g_forest_exclude_rows", p, width = 15, height = 3)
+})
+
+testthat::test_that("g_forest works when all rows are excluded", {
+  tbl <- basic_table() |>
+    tabulate_rsp_subgroups(df)
+
+  exclude_rows <- seq_len(nrow(as_result_df(tbl)))
+
+  testthat::expect_silent(
+    p <- g_forest(tbl, exclude_rows = exclude_rows)
+  )
+
+  expect_snapshot_ggplot("g_forest_exclude_all_rows", p, width = 15, height = 3)
+})
+
 testthat::test_that("g_forest argument deprecation warnings work", {
   tbl <- basic_table() |>
     tabulate_rsp_subgroups(df)

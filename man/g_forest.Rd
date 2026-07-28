@@ -25,7 +25,8 @@ g_forest(
   as_list = FALSE,
   gp = lifecycle::deprecated(),
   draw = lifecycle::deprecated(),
-  newpage = lifecycle::deprecated()
+  newpage = lifecycle::deprecated(),
+  exclude_rows = NULL
 )
 }
 \arguments{
@@ -91,6 +92,15 @@ is no longer used.}
 
 \item{newpage}{\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}} \code{g_forest} is now generated as a \code{ggplot} object. This argument
 is no longer used.}
+
+\item{exclude_rows}{(\code{integerish} or \code{NULL})\cr vector of positive row
+indices specifying rows to exclude from the forest plot. Row indices are
+specified relative to \code{\link[rtables:as_result_df]{rtables::as_result_df()}} applied to \code{tbl}. Values
+must be between 1 and the number of rows in the result data frame, with no
+missing values. The specified rows are removed before plotting. This can be
+used to omit rows that should not be displayed in the forest plot, such as
+rows containing non-plottable values. Defaults to \code{NULL}, meaning that all
+rows are considered for plotting.}
 }
 \value{
 \code{ggplot} forest plot and table.
@@ -130,6 +140,7 @@ df <- extract_rsp_subgroups(
 tbl <- basic_table() |>
   tabulate_rsp_subgroups(df)
 g_forest(tbl)
+g_forest(tbl, exclude_rows = 1)
 
 # Odds ratio only table.
 
