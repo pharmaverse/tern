@@ -49,12 +49,13 @@
 #'   is no longer used.
 #' @param exclude_rows (`integerish` or `NULL`)\cr vector of positive row
 #'   indices specifying rows to exclude from the forest plot. Row indices are
-#'   specified relative to [rtables::as_result_df()] applied to `tbl`. Values
-#'   must be between 1 and the number of rows in the result data frame, with no
-#'   missing values. The specified rows are removed before plotting. This can be
-#'   used to omit rows that should not be displayed in the forest plot, such as
-#'   rows containing non-plottable values. Defaults to `NULL`, meaning that all
-#'   rows are considered for plotting.
+#'   specified relative to the data frame obtained by applying
+#'   [rtables::as_result_df()] to `tbl`. No elements of `exclude_rows` may be
+#'   missing.
+#'   The specified rows are removed before plotting. This can be used to omit
+#'   rows that should not be displayed in the forest plot, such as rows
+#'   containing non-plottable values. Defaults to `NULL`, meaning that all rows
+#'   are considered for plotting.
 #'
 #' @return `ggplot` forest plot and table.
 #'
@@ -230,9 +231,10 @@ g_forest <- function(tbl,
   checkmate::assert_number(font_size, lower = 0)
   checkmate::assert_character(col, null.ok = TRUE)
   checkmate::assert_true(is.null(col) | length(col) == 1 | length(col) == nrow(tbl))
+  tbl_df <- as_result_df(tbl)
   checkmate::assert_integerish(
     exclude_rows,
-    lower = 1L, upper = nrow(as_result_df(tbl)), any.missing = FALSE, min.len = 1L, null.ok = TRUE
+    lower = 1L, upper = nrow(tbl_df), any.missing = FALSE, min.len = 1L, null.ok = TRUE
   )
 
   # Extract info from table
@@ -254,7 +256,6 @@ g_forest <- function(tbl,
     arms <- NULL
   }
 
-  tbl_df <- as_result_df(tbl)
   if (!is.null(exclude_rows)) {
     tbl_df <- tbl_df[-exclude_rows, ]
   }
@@ -296,7 +297,8 @@ g_forest <- function(tbl,
   if (is.null(x_at)) x_at <- union(xlim, vline)
   x_labels <- x_at
 
-  # Apply log transformation
+  # Apply log transformation.
+  # When nrow(tbl_df) == 0, x, lwr, and upr are NULL, so log() would fail.
   if (logx && nrow(tbl_df) >= 1) {
     x_t <- log(x)
     lwr_t <- log(lwr)
