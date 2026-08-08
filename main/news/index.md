@@ -4,6 +4,10 @@
 
 #### Enhancements
 
+- Added the `exclude_rows` argument to
+  [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
+  to allow excluding selected rows from the forest plot before plotting.
+  ([\#1498](https://github.com/insightsengineering/tern/issues/1498))
 - Added `factor_level_method` argument to
   [`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
   to control factor level ordering when converting character or logical

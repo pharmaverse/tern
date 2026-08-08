@@ -26,7 +26,8 @@ g_forest(
   as_list = FALSE,
   gp = lifecycle::deprecated(),
   draw = lifecycle::deprecated(),
-  newpage = lifecycle::deprecated()
+  newpage = lifecycle::deprecated(),
+  exclude_rows = NULL
 )
 ```
 
@@ -163,6 +164,19 @@ g_forest(
   **\[deprecated\]** `g_forest` is now generated as a `ggplot` object.
   This argument is no longer used.
 
+- exclude_rows:
+
+  (`integerish` or `NULL`)\
+  vector of positive row indices specifying rows to exclude from the
+  forest plot. Row indices are specified relative to the data frame
+  obtained by applying
+  [`rtables::as_result_df()`](https://rdrr.io/pkg/rtables/man/data.frame_export.html)
+  to `tbl`. No elements of `exclude_rows` may be missing. The specified
+  rows are removed before plotting. This can be used to omit rows that
+  should not be displayed in the forest plot, such as rows containing
+  non-plottable values. Defaults to `NULL`, meaning that all rows are
+  considered for plotting.
+
 ## Value
 
 `ggplot` forest plot and table.
@@ -205,8 +219,13 @@ df <- extract_rsp_subgroups(
 
 tbl <- basic_table() |>
   tabulate_rsp_subgroups(df)
+
 g_forest(tbl)
 
+# \donttest{
+g_forest(tbl, exclude_rows = 1)
+
+# }
 
 # Odds ratio only table.
 
