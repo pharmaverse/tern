@@ -85,8 +85,11 @@
 #'
 #' tbl <- basic_table() |>
 #'   tabulate_rsp_subgroups(df)
+#'
 #' g_forest(tbl)
+#' \donttest{
 #' g_forest(tbl, exclude_rows = 1)
+#' }
 #'
 #' # Odds ratio only table.
 #'
