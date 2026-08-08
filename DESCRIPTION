@@ -25,9 +25,9 @@ Authors@R: c(
 Description: Table, Listings, and Graphs (TLG) library for common outputs
     used in clinical trials.
 License: Apache License 2.0
-URL: https://insightsengineering.github.io/tern/,
-    https://github.com/insightsengineering/tern/
-BugReports: https://github.com/insightsengineering/tern/issues
+URL: https://pharmaverse.github.io/tern/,
+    https://github.com/pharmaverse/tern/
+BugReports: https://github.com/pharmaverse/tern/issues
 Depends:
     R (>= 4.4.0),
     rtables (>= 0.6.15)
