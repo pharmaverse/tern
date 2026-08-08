@@ -7,11 +7,11 @@ data.
 
 Useful links:
 
-- <https://insightsengineering.github.io/tern/>
+- <https://pharmaverse.github.io/tern/>
 
-- <https://github.com/insightsengineering/tern/>
+- <https://github.com/pharmaverse/tern/>
 
-- Report bugs at <https://github.com/insightsengineering/tern/issues>
+- Report bugs at <https://github.com/pharmaverse/tern/issues>
 
 ## Author
 

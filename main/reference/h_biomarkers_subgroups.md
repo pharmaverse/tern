@@ -163,8 +163,7 @@ h_tab_rsp_one_biomarker(
 #> Warning: `h_tab_one_biomarker()` was deprecated in tern 0.9.8.
 #> ℹ This function is no longer used within `tern`.
 #> ℹ The deprecated feature was likely used in the tern package.
-#>   Please report the issue at
-#>   <https://github.com/insightsengineering/tern/issues>.
+#>   Please report the issue at <https://github.com/pharmaverse/tern/issues>.
 #>                Total n   Responders   Response (%)   Odds Ratio      95% CI      p-value (Wald)
 #> ———————————————————————————————————————————————————————————————————————————————————————————————
 #> All patients     200        164          82.0%          0.98      (0.88, 1.08)       0.6353    

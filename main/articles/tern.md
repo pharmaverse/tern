@@ -10,7 +10,7 @@ functionality for tabulation is built on top of the more general purpose
 
 [**It is strongly recommended that you start by reading the
 “Introduction to `rtables`” vignette to get familiar with the concept of
-`rtables`.**](https://insightsengineering.github.io/rtables/latest-tag/articles/rtables.html)
+`rtables`.**](https://pharmaverse.github.io/rtables/latest-tag/articles/rtables.html)
 
 ------------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ data visualizations helper functions:
 
 The reference of `tern` functions is available on [the tern website
 functions
-reference](https://insightsengineering.github.io/tern/latest-tag/reference/index.html).
+reference](https://pharmaverse.github.io/tern/latest-tag/reference/index.html).
 
 ------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ Examples of the `tern` analytical functions are `count_occurrences`,
 `summarize_ancova` and `analyze_vars`. As there is no one prefix to
 identify all `tern` analytical functions it is recommended to use the
 reference subsection on [the tern
-website](https://insightsengineering.github.io/tern/latest-tag/reference/index.html).
+website](https://pharmaverse.github.io/tern/latest-tag/reference/index.html).
 
 In the `rtables` code below we first describe the two tables and assign
 the descriptions to the variables `lyt` and `lyt2`. We then built the
@@ -211,7 +211,7 @@ g_lineplot(
 
 All `tern` functions used for plot generation are `g_` prefixed and are
 listed on [the tern website functions
-reference](https://insightsengineering.github.io/tern/latest-tag/reference/index.html#graphs).
+reference](https://pharmaverse.github.io/tern/latest-tag/reference/index.html#graphs).
 
 ## Interactive Apps
 
@@ -232,4 +232,4 @@ flexibility to meet the analysis needs in both regulatory and
 exploratory reporting contexts.
 
 **For more information please explore [the tern
-website](https://insightsengineering.github.io/tern/latest-tag/).**
+website](https://pharmaverse.github.io/tern/latest-tag/).**

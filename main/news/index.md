@@ -7,14 +7,14 @@
 - Added the `exclude_rows` argument to
   [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
   to allow excluding selected rows from the forest plot before plotting.
-  ([\#1498](https://github.com/insightsengineering/tern/issues/1498))
+  ([\#1498](https://github.com/pharmaverse/tern/issues/1498))
 - Added `factor_level_method` argument to
   [`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
   to control factor level ordering when converting character or logical
   columns. Supported methods: `"sort_auto"` (default, locale-aware,
   preserves original behavior), `"sort_radix"` (byte-order / ASCII
   sort), and `"data"` (first-appearance order).
-  ([\#1322](https://github.com/insightsengineering/tern/issues/1322))
+  ([\#1322](https://github.com/pharmaverse/tern/issues/1322))
 - Added `factor_as_factor` argument to
   [`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
   to allow re-encoding of existing factor columns using
@@ -37,7 +37,7 @@
 - Added `cmh_sato` method to
   [`test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
   for CMH testing with the Sato variance estimator.
-  ([\#1482](https://github.com/insightsengineering/tern/issues/1482))
+  ([\#1482](https://github.com/pharmaverse/tern/issues/1482))
 - Added `range_with_cens_info` statistic to
   [`s_surv_time()`](https://pharmaverse.github.io/tern/reference/survival_time.md).
 - Added `lsmean_se`, `lsmean_ci`, and `lsmean_diffci` statistics to
@@ -65,7 +65,7 @@
   precision of the median survival time and confidence interval values
   annotated in
   [`g_km()`](https://pharmaverse.github.io/tern/reference/g_km.md).
-  ([\#1469](https://github.com/insightsengineering/tern/issues/1469))
+  ([\#1469](https://github.com/pharmaverse/tern/issues/1469))
 
 #### Bug Fixes
 
@@ -86,7 +86,7 @@
   break when
   [`survival::clogit()`](https://rdrr.io/pkg/survival/man/clogit.html)
   changes the internally generated response term.
-  ([\#1484](https://github.com/insightsengineering/tern/issues/1484))
+  ([\#1484](https://github.com/pharmaverse/tern/issues/1484))
 - Updated `roxygen2` to 8.0.0 and added `@exportS3Method` tags for S3
   methods in `decorate_grob.R` and `utils_grid.R`.
 - Converted

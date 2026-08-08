@@ -50,8 +50,7 @@ num |>
 #> Warning: `stack_grobs()` was deprecated in tern 0.9.4.
 #> ℹ `tern` plotting functions no longer generate `grob` objects.
 #> ℹ The deprecated feature was likely used in the tern package.
-#>   Please report the issue at
-#>   <https://github.com/insightsengineering/tern/issues>.
+#>   Please report the issue at <https://github.com/pharmaverse/tern/issues>.
 showViewport()
 
 # }

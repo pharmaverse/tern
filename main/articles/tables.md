@@ -6,9 +6,9 @@ The `tern` R package provides functions to create common analyses from
 clinical trials in `R`. The core functionality for tabulation is built
 on the more general purpose `rtables` package. New users should first
 begin by reading the [“Introduction to
-tern”](https://insightsengineering.github.io/tern/latest-tag/articles/tern.html)
+tern”](https://pharmaverse.github.io/tern/latest-tag/articles/tern.html)
 and [“Introduction to
-`rtables`”](https://insightsengineering.github.io/rtables/latest-release/articles/rtables.html)
+`rtables`”](https://pharmaverse.github.io/rtables/latest-release/articles/rtables.html)
 vignettes.
 
 The packages used in this vignette are:
@@ -47,7 +47,7 @@ Examples of the `tern` analyze functions are `count_occurrences`,
 `summarize_ancova` or `analyze_vars`. As there is no one prefix to
 identify all `tern` analyze functions it is recommended to use the [the
 tern website functions
-reference](https://insightsengineering.github.io/tern/latest-tag/reference/index.html).
+reference](https://pharmaverse.github.io/tern/latest-tag/reference/index.html).
 
 ### Internals of `tern` Analyze Functions
 

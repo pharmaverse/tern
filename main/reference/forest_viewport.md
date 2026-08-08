@@ -81,8 +81,7 @@ v <- forest_viewport(tbl)
 #> ℹ `g_forest` now generates `ggplot` objects. This function is no longer used
 #>   within `tern`.
 #> ℹ The deprecated feature was likely used in the tern package.
-#>   Please report the issue at
-#>   <https://github.com/insightsengineering/tern/issues>.
+#>   Please report the issue at <https://github.com/pharmaverse/tern/issues>.
 
 grid::grid.newpage()
 showViewport(v)
