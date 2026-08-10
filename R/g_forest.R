@@ -280,12 +280,17 @@ g_forest <- function(tbl,
   tbl_df <- tbl_df[, dat_cols, drop = FALSE]
   names(tbl_df) <- make.unique(mat_strings[nlines_hdr, -1])
 
-  # Check table data columns
-  if (!is.null(col_ci)) {
-    if (nrow(tbl_df) >= 1 && length(tbl_df[, col_ci][[1]]) <= 1) {
+  # Check CI column.
+  if (nrow(tbl_df) >= 1 && !is.null(col_ci)) {
+    ci_len <- length(tbl_df[, col_ci][[1]])
+    if (ci_len < 2) {
       stop("CI column must have at least two elements (lower and upper limits).")
     }
+    if (!is.null(col_x) && col_x == col_ci && ci_len != 3) {
+      stop("x / CI column must have three elements (point estimate, lower and upper limits).")
+    }
   }
+
   # col_symbol_size
   sym_size <- if (!is.null(col_symbol_size)) {
     unlist(tbl_df[, col_symbol_size])

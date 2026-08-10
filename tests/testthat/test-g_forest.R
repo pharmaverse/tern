@@ -106,38 +106,38 @@ testthat::test_that("g_forest handles NULL col_x/col_ci", {
     rrow("row 2", rcell(11), rcell(c(7, 13), format = "(xx, xx)"))
   )
 
-  # col_x = NULL
+  # nolint: col_x = NULL
   testthat::expect_silent(
-    pN1 <- g_forest(tbl, col_x = NULL, col_ci = 2, vline = 10, xlim = c(5, 15))
+    p_n2 <- g_forest(tbl, col_x = NULL, col_ci = 2, vline = 10, xlim = c(5, 15))
   )
   testthat::expect_silent(
-    pN1_logF <- g_forest(tbl, col_x = NULL, col_ci = 2, vline = 10, xlim = c(5, 15), logx = FALSE)
-  )
-
-  # col_ci = NULL
-  testthat::expect_silent(
-    p1N <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15))
-  )
-  testthat::expect_silent(
-    p1N_logF <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+    p_n2_logf <- g_forest(tbl, col_x = NULL, col_ci = 2, vline = 10, xlim = c(5, 15), logx = FALSE)
   )
 
-  # col_x, col_ci = NULL
+  # nolint: col_ci = NULL
   testthat::expect_silent(
-    pNN <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15))
+    p_1n <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15))
   )
   testthat::expect_silent(
-    pNN_logF <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+    p_1n_logf <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
   )
 
-  expect_snapshot_ggplot("g_forest_x_NULL", pN1, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_x_NULL_logF", pN1_logF, width = 15, height = 3)
+  # nolint: col_ci = NULL
+  testthat::expect_silent(
+    p_nn <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15))
+  )
+  testthat::expect_silent(
+    p_nn_logf <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
 
-  expect_snapshot_ggplot("g_forest_ci_NULL", p1N, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_ci_NULL_logF", p1N_logF, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_x_NULL", p_n2, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_x_NULL_logf", p_n2_logf, width = 15, height = 3)
 
-  expect_snapshot_ggplot("g_forest_NULL", pNN, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_NULL_logF", pNN_logF, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_ci_NULL", p_1n, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_ci_NULL_logf", p_1n_logf, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_NULL", p_nn, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_NULL_logf", p_nn_logf, width = 15, height = 3)
 })
 
 testthat::test_that("g_forest validates exclude_rows", {
@@ -210,38 +210,38 @@ testthat::test_that("g_forest handles NULL col_x/col_ci in same column", {
     rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
   )
 
-  # col_x = NULL
+  # nolint: col_x = NULL
   testthat::expect_silent(
-    pN1 <- g_forest(tbl, col_x = NULL, col_ci = 1, vline = 10, xlim = c(5, 15))
+    p_n1 <- g_forest(tbl, col_x = NULL, col_ci = 1, vline = 10, xlim = c(5, 15))
   )
   testthat::expect_silent(
-    pN1_logF <- g_forest(tbl, col_x = NULL, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
-  )
-
-  # col_ci = NULL
-  testthat::expect_silent(
-    p1N <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15))
-  )
-  testthat::expect_silent(
-    p1N_logF <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+    p_n1_logf <- g_forest(tbl, col_x = NULL, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
   )
 
-  # col_x, col_ci = NULL
+  # nolint: col_ci = NULL
   testthat::expect_silent(
-    pNN <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15))
+    p_1n <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15))
   )
   testthat::expect_silent(
-    pNN_logF <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+    p_1n_logf <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
   )
 
-  expect_snapshot_ggplot("g_forest_same_x_ci_x_NULL", pN1, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_same_x_ci_x_NULL_logF", pN1_logF, width = 15, height = 3)
+  # nolint: col_x, col_ci = NULL
+  testthat::expect_silent(
+    p_nn <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15))
+  )
+  testthat::expect_silent(
+    p_nn_logf <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
 
-  expect_snapshot_ggplot("g_forest_same_x_ci_ci_NULL", p1N, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_same_x_ci_ci_NULL_logF", p1N_logF, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_x_NULL", p_n1, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_x_NULL_logf", p_n1_logf, width = 15, height = 3)
 
-  expect_snapshot_ggplot("g_forest_same_x_ci_NULL", pNN, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_same_x_ci_NULL_logF", pNN_logF, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_ci_NULL", p_1n, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_ci_NULL_logf", p_1n_logf, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_same_x_ci_NULL", p_nn, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_NULL_logf", p_nn_logf, width = 15, height = 3)
 })
 
 testthat::test_that("g_forest handles NULL col_x/col_ci in same column (all rows excluded)", {
@@ -251,38 +251,41 @@ testthat::test_that("g_forest handles NULL col_x/col_ci in same column (all rows
     rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
   )
 
-  # col_x = NULL
+  # nolint: col_x = NULL
   testthat::expect_silent(
-    pN1 <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = 1)
+    p_n1 <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = 1)
   )
   testthat::expect_silent(
-    pN1_logF <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = 1, logx = FALSE)
-  )
-
-  # col_ci = NULL
-  testthat::expect_silent(
-    p1N <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = 1, col_ci = NULL)
-  )
-  testthat::expect_silent(
-    p1N_logF <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = 1, col_ci = NULL, logx = FALSE)
+    p_n1_logf <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = 1, logx = FALSE)
   )
 
-  # col_x, col_ci = NULL
+  # nolint: col_ci = NULL
   testthat::expect_silent(
-    pNN <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = NULL)
+    p_1n <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = 1, col_ci = NULL)
   )
   testthat::expect_silent(
-    pNN_logF <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = NULL, logx = FALSE)
+    p_1n_logf <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = 1, col_ci = NULL, logx = FALSE)
   )
 
-  expect_snapshot_ggplot("g_forest_same_x_ci_excl_x_NULL", pN1, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_same_x_ci_excl_x_NULL_logF", pN1_logF, width = 15, height = 3)
+  # nolint: col_x, col_ci = NULL
+  testthat::expect_silent(
+    p_nn <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = NULL)
+  )
+  testthat::expect_silent(
+    p_nn_logf <- g_forest(
+      tbl,
+      exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = NULL, logx = FALSE
+    )
+  )
 
-  expect_snapshot_ggplot("g_forest_same_x_ci_excl_ci_NULL", p1N, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_same_x_ci_excl_ci_NULL_logF", p1N_logF, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_x_NULL", p_n1, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_x_NULL_logf", p_n1_logf, width = 15, height = 3)
 
-  expect_snapshot_ggplot("g_forest_same_x_ci_excl_NULL", pNN, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_same_x_ci_excl_NULL_logF", pNN_logF, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_ci_NULL", p_1n, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_ci_NULL_logf", p_1n_logf, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_NULL", p_nn, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_NULL_logf", p_nn_logf, width = 15, height = 3)
 })
 
 testthat::test_that("g_forest argument deprecation warnings work", {
