@@ -10,12 +10,14 @@
 #' @inheritParams argument_convention
 #' @param tbl (`VTableTree`)\cr `rtables` table with at least one column with a single value and one column with 2
 #'   values.
-#' @param col_x (`integer(1)` or `NULL`)\cr column index with estimator. By default tries to get this from
-#'   `tbl` attribute `col_x`, otherwise needs to be manually specified. If `NULL`, points will be excluded
-#'   from forest plot.
-#' @param col_ci (`integer(1)` or `NULL`)\cr column index with confidence intervals. By default tries to get this from
-#'   `tbl` attribute `col_ci`, otherwise needs to be manually specified. If `NULL`, lines will be excluded
-#'   from forest plot.
+#' @param col_x (`integer(1)` or `NULL`)\cr column index with estimator.
+#'   By default tries to get this from `tbl` attribute `col_x`, otherwise needs
+#'   to be manually specified. If `NULL`, points will be excluded from forest plot.
+#' @param col_ci (`integer(1)` or `NULL`)\cr column index with confidence intervals.
+#'   By default tries to get this from `tbl` attribute `col_ci`, otherwise needs
+#'   to be manually specified. If `NULL`, lines will be excluded from forest plot.
+#'   The estimator and confidence interval can be stored in the same column.
+#'   In this case, `col_x` and `col_ci` must be the same.
 #' @param vline (`numeric(1)` or `NULL`)\cr x coordinate for vertical line, if `NULL` then the line is omitted.
 #' @param forest_header (`character(2)`)\cr text displayed to the left and right of `vline`, respectively.
 #'   If `vline = NULL` then `forest_header` is not printed. By default tries to get this from `tbl` attribute
@@ -89,6 +91,16 @@
 #' g_forest(tbl)
 #' \donttest{
 #' g_forest(tbl, exclude_rows = 1)
+#'
+#' # Estimates and confidence intervals in the same column.
+#'
+#' tbl <- rtable(
+#'   header = rheader(rrow("", "point est (CI)")),
+#'   rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
+#'   rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
+#' )
+#' tbl
+#' g_forest(tbl, col_x = 1, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
 #' }
 #'
 #' # Odds ratio only table.
@@ -245,7 +257,7 @@ g_forest <- function(tbl,
   mat_strings <- formatters::mf_strings(mat)
   nlines_hdr <- formatters::mf_nlheader(mat)
   nrows_body <- nrow(mat_strings) - nlines_hdr
-  tbl_stats <- mat_strings[nlines_hdr, -1]
+  tbl_stats <- make.unique(mat_strings[nlines_hdr, -1])
 
   # Generate and modify table as ggplot object
   gg_table <- rtable2gg(tbl, fontsize = font_size, colwidths = width_columns, lbl_col_padding = lbl_col_padding) +
@@ -273,8 +285,8 @@ g_forest <- function(tbl,
     tbl_df[["empty_ci"]] <- rep(list(c(NA_real_, NA_real_)), nrow(tbl_df))
     ci_col <- which(names(tbl_df) == "empty_ci")
   }
-  if (nrow(tbl_df) >= 1 && length(tbl_df[, ci_col][[1]]) != 2) {
-    stop("CI column must have two elements (lower and upper limits).")
+  if (nrow(tbl_df) >= 1 && length(tbl_df[, ci_col][[1]]) <= 1) {
+    stop("CI column must have at least two elements (lower and upper limits).")
   }
 
   if (!is.null(col_x)) {
@@ -289,10 +301,23 @@ g_forest <- function(tbl,
     sym_size <- rep(1, nrow(tbl_df))
   }
 
-  tbl_df[, c("ci_lwr", "ci_upr")] <- t(sapply(tbl_df[, ci_col], unlist))
-  x <- unlist(tbl_df[, x_col])
-  lwr <- unlist(tbl_df[["ci_lwr"]])
-  upr <- unlist(tbl_df[["ci_upr"]])
+  x_ci <- if (nrow(tbl_df) >= 1) {
+    x_ci_df <- tbl_df[, unique(c(x_col, ci_col)), drop = FALSE]
+    x_ci_list <- lapply(x_ci_df, function(col) {
+      matrix(
+        unlist(col),
+        nrow = nrow(tbl_df),
+        byrow = length(col[[1]]) != 1L
+      )
+    })
+    do.call(cbind, x_ci_list)
+  } else {
+    NULL
+  }
+
+  x <- x_ci[, 1]
+  lwr <- x_ci[, 2]
+  upr <- x_ci[, 3]
   row_num <- nrow(mat_strings) - tbl_df[["row_num"]] - as.numeric(nlines_hdr == 2)
 
   if (is.null(col)) col <- "#343cff"

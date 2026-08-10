@@ -33,13 +33,15 @@ g_forest(
 \item{tbl}{(\code{VTableTree})\cr \code{rtables} table with at least one column with a single value and one column with 2
 values.}
 
-\item{col_x}{(\code{integer(1)} or \code{NULL})\cr column index with estimator. By default tries to get this from
-\code{tbl} attribute \code{col_x}, otherwise needs to be manually specified. If \code{NULL}, points will be excluded
-from forest plot.}
+\item{col_x}{(\code{integer(1)} or \code{NULL})\cr column index with estimator.
+By default tries to get this from \code{tbl} attribute \code{col_x}, otherwise needs
+to be manually specified. If \code{NULL}, points will be excluded from forest plot.}
 
-\item{col_ci}{(\code{integer(1)} or \code{NULL})\cr column index with confidence intervals. By default tries to get this from
-\code{tbl} attribute \code{col_ci}, otherwise needs to be manually specified. If \code{NULL}, lines will be excluded
-from forest plot.}
+\item{col_ci}{(\code{integer(1)} or \code{NULL})\cr column index with confidence intervals.
+By default tries to get this from \code{tbl} attribute \code{col_ci}, otherwise needs
+to be manually specified. If \code{NULL}, lines will be excluded from forest plot.
+The estimator and confidence interval can be stored in the same column.
+In this case, \code{col_x} and \code{col_ci} must be the same.}
 
 \item{vline}{(\code{numeric(1)} or \code{NULL})\cr x coordinate for vertical line, if \code{NULL} then the line is omitted.}
 
@@ -144,6 +146,16 @@ tbl <- basic_table() |>
 g_forest(tbl)
 \donttest{
 g_forest(tbl, exclude_rows = 1)
+
+# Estimates and confidence intervals in the same column.
+
+tbl <- rtable(
+  header = rheader(rrow("", "point est (CI)")),
+  rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
+  rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
+)
+tbl
+g_forest(tbl, col_x = 1, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
 }
 
 # Odds ratio only table.

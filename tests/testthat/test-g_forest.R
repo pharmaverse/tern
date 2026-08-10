@@ -148,6 +148,20 @@ testthat::test_that("g_forest works when all rows are excluded", {
   expect_snapshot_ggplot("g_forest_exclude_all_rows", p, width = 15, height = 3)
 })
 
+testthat::test_that("g_forest works for point estimates and confidence intervals in the same column", {
+  tbl <- rtable(
+    header = rheader(rrow("", "point est (CI)")),
+    rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
+    rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
+  )
+
+  testthat::expect_silent(
+    p <- g_forest(tbl, col_x = 1, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
+
+  expect_snapshot_ggplot("g_forest_the_same_x_ci", p, width = 15, height = 3)
+})
+
 testthat::test_that("g_forest argument deprecation warnings work", {
   tbl <- basic_table() |>
     tabulate_rsp_subgroups(df)
