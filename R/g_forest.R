@@ -302,8 +302,8 @@ g_forest <- function(tbl,
   }
 
   x_ci <- if (nrow(tbl_df) >= 1) {
-    x_ci_df <- tbl_df[, unique(c(x_col, ci_col)), drop = FALSE]
-    x_ci_list <- lapply(x_ci_df, function(col) {
+    tbl_x_ci <- tbl_df[, unique(c(x_col, ci_col)), drop = FALSE]
+    x_ci_list <- lapply(tbl_x_ci, function(col) {
       byrow <- length(col[[1]]) != 1L
       matrix(unlist(col), nrow = nrow(tbl_df), byrow = byrow)
     })
