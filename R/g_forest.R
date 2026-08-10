@@ -83,17 +83,25 @@
 #'   variables = list(rsp = "rsp", arm = "ARM", subgroups = c("SEX", "STRATA2")),
 #'   data = adrs
 #' )
-#' # Full commonly used response table.
 #'
+#' # Full commonly used response table.
 #' tbl <- basic_table() |>
 #'   tabulate_rsp_subgroups(df)
-#'
+#' tbl
 #' g_forest(tbl)
 #' \donttest{
 #' g_forest(tbl, exclude_rows = 1)
-#'
+#' }
+#' # Odds ratio only table.
+#' tbl_or <- basic_table() |>
+#'   tabulate_rsp_subgroups(df, vars = c("n_tot", "or", "ci"))
+#' tbl_or
+#' g_forest(
+#'   tbl_or,
+#'   forest_header = c("Comparison\nBetter", "Treatment\nBetter")
+#' )
+#' \donttest{
 #' # Estimates and confidence intervals in the same column.
-#'
 #' tbl <- rtable(
 #'   header = rheader(rrow("", "point est (CI)")),
 #'   rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
@@ -102,16 +110,6 @@
 #' tbl
 #' g_forest(tbl, col_x = 1, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
 #' }
-#'
-#' # Odds ratio only table.
-#'
-#' tbl_or <- basic_table() |>
-#'   tabulate_rsp_subgroups(df, vars = c("n_tot", "or", "ci"))
-#' g_forest(
-#'   tbl_or,
-#'   forest_header = c("Comparison\nBetter", "Treatment\nBetter")
-#' )
-#'
 #' # Survival forest plot example.
 #' adtte <- tern_ex_adtte
 #' # Save variable labels before data processing steps.
@@ -277,6 +275,7 @@ g_forest <- function(tbl,
   dat_cols <- seq(which(names(tbl_df) == "node_class") + 1, ncol(tbl_df))
   tbl_df <- tbl_df[, c(which(names(tbl_df) == "row_num"), dat_cols)]
   names(tbl_df) <- c("row_num", tbl_stats)
+  row_num <- nrow(mat_strings) - tbl_df[["row_num"]] - as.numeric(nlines_hdr == 2)
 
   # Check table data columns
   if (!is.null(col_ci)) {
@@ -315,7 +314,6 @@ g_forest <- function(tbl,
   x <- x_ci[, 1]
   lwr <- x_ci[, 2]
   upr <- x_ci[, 3]
-  row_num <- nrow(mat_strings) - tbl_df[["row_num"]] - as.numeric(nlines_hdr == 2)
 
   # Apply log transformation.
   x_ci_t <- if (logx && !is.null(x_ci)) {

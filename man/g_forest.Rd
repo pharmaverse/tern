@@ -138,17 +138,25 @@ df <- extract_rsp_subgroups(
   variables = list(rsp = "rsp", arm = "ARM", subgroups = c("SEX", "STRATA2")),
   data = adrs
 )
-# Full commonly used response table.
 
+# Full commonly used response table.
 tbl <- basic_table() |>
   tabulate_rsp_subgroups(df)
-
+tbl
 g_forest(tbl)
 \donttest{
 g_forest(tbl, exclude_rows = 1)
-
+}
+# Odds ratio only table.
+tbl_or <- basic_table() |>
+  tabulate_rsp_subgroups(df, vars = c("n_tot", "or", "ci"))
+tbl_or
+g_forest(
+  tbl_or,
+  forest_header = c("Comparison\nBetter", "Treatment\nBetter")
+)
+\donttest{
 # Estimates and confidence intervals in the same column.
-
 tbl <- rtable(
   header = rheader(rrow("", "point est (CI)")),
   rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
@@ -157,16 +165,6 @@ tbl <- rtable(
 tbl
 g_forest(tbl, col_x = 1, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
 }
-
-# Odds ratio only table.
-
-tbl_or <- basic_table() |>
-  tabulate_rsp_subgroups(df, vars = c("n_tot", "or", "ci"))
-g_forest(
-  tbl_or,
-  forest_header = c("Comparison\nBetter", "Treatment\nBetter")
-)
-
 # Survival forest plot example.
 adtte <- tern_ex_adtte
 # Save variable labels before data processing steps.
