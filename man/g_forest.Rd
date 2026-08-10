@@ -40,8 +40,12 @@ to be manually specified. If \code{NULL}, points will be excluded from forest pl
 \item{col_ci}{(\code{integer(1)} or \code{NULL})\cr column index with confidence intervals.
 By default tries to get this from \code{tbl} attribute \code{col_ci}, otherwise needs
 to be manually specified. If \code{NULL}, lines will be excluded from forest plot.
+
 The estimator and confidence interval can be stored in the same column.
-In this case, \code{col_x} and \code{col_ci} must be the same.}
+In this case, \code{col_x} and \code{col_ci} must be the same, and the values in each
+row of the column indicated by \code{col_x}/\code{col_ci} must be ordered as the
+point estimate, lower confidence interval bound, and upper confidence
+interval bound, respectively.}
 
 \item{vline}{(\code{numeric(1)} or \code{NULL})\cr x coordinate for vertical line, if \code{NULL} then the line is omitted.}
 

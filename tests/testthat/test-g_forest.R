@@ -99,6 +99,47 @@ testthat::test_that("g_forest as_list argument works", {
   expect_snapshot_ggplot("g_forest_plot_only", g_forest_plot_only, width = 2, height = 3)
 })
 
+testthat::test_that("g_forest handles NULL col_x/col_ci", {
+  tbl <- rtable(
+    header = rheader(rrow("", "est", "CI")),
+    rrow("row 1", rcell(10), rcell(c(8, 12), format = "(xx, xx)")),
+    rrow("row 2", rcell(11), rcell(c(7, 13), format = "(xx, xx)"))
+  )
+
+  # col_x = NULL
+  testthat::expect_silent(
+    pN1 <- g_forest(tbl, col_x = NULL, col_ci = 2, vline = 10, xlim = c(5, 15))
+  )
+  testthat::expect_silent(
+    pN1_logF <- g_forest(tbl, col_x = NULL, col_ci = 2, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
+
+  # col_ci = NULL
+  testthat::expect_silent(
+    p1N <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15))
+  )
+  testthat::expect_silent(
+    p1N_logF <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
+
+  # col_x, col_ci = NULL
+  testthat::expect_silent(
+    pNN <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15))
+  )
+  testthat::expect_silent(
+    pNN_logF <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
+
+  expect_snapshot_ggplot("g_forest_x_NULL", pN1, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_x_NULL_logF", pN1_logF, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_ci_NULL", p1N, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_ci_NULL_logF", p1N_logF, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_NULL", pNN, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_NULL_logF", pNN_logF, width = 15, height = 3)
+})
+
 testthat::test_that("g_forest validates exclude_rows", {
   tbl <- basic_table() |>
     tabulate_rsp_subgroups(df)
@@ -148,7 +189,7 @@ testthat::test_that("g_forest works when all rows are excluded", {
   expect_snapshot_ggplot("g_forest_exclude_all_rows", p, width = 15, height = 3)
 })
 
-testthat::test_that("g_forest works for point estimates and confidence intervals in the same column", {
+testthat::test_that("g_forest works for point est. and CI in the same column", {
   tbl <- rtable(
     header = rheader(rrow("", "point est (CI)")),
     rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
@@ -159,7 +200,89 @@ testthat::test_that("g_forest works for point estimates and confidence intervals
     p <- g_forest(tbl, col_x = 1, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
   )
 
-  expect_snapshot_ggplot("g_forest_the_same_x_ci", p, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci", p, width = 15, height = 3)
+})
+
+testthat::test_that("g_forest handles NULL col_x/col_ci in same column", {
+  tbl <- rtable(
+    header = rheader(rrow("", "point est (CI)")),
+    rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
+    rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
+  )
+
+  # col_x = NULL
+  testthat::expect_silent(
+    pN1 <- g_forest(tbl, col_x = NULL, col_ci = 1, vline = 10, xlim = c(5, 15))
+  )
+  testthat::expect_silent(
+    pN1_logF <- g_forest(tbl, col_x = NULL, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
+
+  # col_ci = NULL
+  testthat::expect_silent(
+    p1N <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15))
+  )
+  testthat::expect_silent(
+    p1N_logF <- g_forest(tbl, col_x = 1, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
+
+  # col_x, col_ci = NULL
+  testthat::expect_silent(
+    pNN <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15))
+  )
+  testthat::expect_silent(
+    pNN_logF <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
+  )
+
+  expect_snapshot_ggplot("g_forest_same_x_ci_x_NULL", pN1, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_x_NULL_logF", pN1_logF, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_same_x_ci_ci_NULL", p1N, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_ci_NULL_logF", p1N_logF, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_same_x_ci_NULL", pNN, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_NULL_logF", pNN_logF, width = 15, height = 3)
+})
+
+testthat::test_that("g_forest handles NULL col_x/col_ci in same column (all rows excluded)", {
+  tbl <- rtable(
+    header = rheader(rrow("", "point est (CI)")),
+    rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
+    rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
+  )
+
+  # col_x = NULL
+  testthat::expect_silent(
+    pN1 <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = 1)
+  )
+  testthat::expect_silent(
+    pN1_logF <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = 1, logx = FALSE)
+  )
+
+  # col_ci = NULL
+  testthat::expect_silent(
+    p1N <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = 1, col_ci = NULL)
+  )
+  testthat::expect_silent(
+    p1N_logF <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = 1, col_ci = NULL, logx = FALSE)
+  )
+
+  # col_x, col_ci = NULL
+  testthat::expect_silent(
+    pNN <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = NULL)
+  )
+  testthat::expect_silent(
+    pNN_logF <- g_forest(tbl, exclude_rows = 1:2, vline = 10, xlim = c(5, 15), col_x = NULL, col_ci = NULL, logx = FALSE)
+  )
+
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_x_NULL", pN1, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_x_NULL_logF", pN1_logF, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_ci_NULL", p1N, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_ci_NULL_logF", p1N_logF, width = 15, height = 3)
+
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_NULL", pNN, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_same_x_ci_excl_NULL_logF", pNN_logF, width = 15, height = 3)
 })
 
 testthat::test_that("g_forest argument deprecation warnings work", {

@@ -16,8 +16,12 @@
 #' @param col_ci (`integer(1)` or `NULL`)\cr column index with confidence intervals.
 #'   By default tries to get this from `tbl` attribute `col_ci`, otherwise needs
 #'   to be manually specified. If `NULL`, lines will be excluded from forest plot.
+#'
 #'   The estimator and confidence interval can be stored in the same column.
-#'   In this case, `col_x` and `col_ci` must be the same.
+#'   In this case, `col_x` and `col_ci` must be the same, and the values in each
+#'   row of the column indicated by `col_x`/`col_ci` must be ordered as the
+#'   point estimate, lower confidence interval bound, and upper confidence
+#'   interval bound, respectively.
 #' @param vline (`numeric(1)` or `NULL`)\cr x coordinate for vertical line, if `NULL` then the line is omitted.
 #' @param forest_header (`character(2)`)\cr text displayed to the left and right of `vline`, respectively.
 #'   If `vline = NULL` then `forest_header` is not printed. By default tries to get this from `tbl` attribute
@@ -255,7 +259,6 @@ g_forest <- function(tbl,
   mat_strings <- formatters::mf_strings(mat)
   nlines_hdr <- formatters::mf_nlheader(mat)
   nrows_body <- nrow(mat_strings) - nlines_hdr
-  tbl_stats <- make.unique(mat_strings[nlines_hdr, -1])
 
   # Generate and modify table as ggplot object
   gg_table <- rtable2gg(tbl, fontsize = font_size, colwidths = width_columns, lbl_col_padding = lbl_col_padding) +
@@ -272,36 +275,26 @@ g_forest <- function(tbl,
   if (!is.null(exclude_rows)) {
     tbl_df <- tbl_df[-exclude_rows, ]
   }
-  dat_cols <- seq(which(names(tbl_df) == "node_class") + 1, ncol(tbl_df))
-  tbl_df <- tbl_df[, c(which(names(tbl_df) == "row_num"), dat_cols)]
-  names(tbl_df) <- c("row_num", tbl_stats)
   row_num <- nrow(mat_strings) - tbl_df[["row_num"]] - as.numeric(nlines_hdr == 2)
+  dat_cols <- seq(which(names(tbl_df) == "node_class") + 1, ncol(tbl_df))
+  tbl_df <- tbl_df[, dat_cols, drop = FALSE]
+  names(tbl_df) <- make.unique(mat_strings[nlines_hdr, -1])
 
   # Check table data columns
   if (!is.null(col_ci)) {
-    ci_col <- col_ci + 1
-  } else {
-    tbl_df[["empty_ci"]] <- rep(list(c(NA_real_, NA_real_)), nrow(tbl_df))
-    ci_col <- which(names(tbl_df) == "empty_ci")
+    if (nrow(tbl_df) >= 1 && length(tbl_df[, col_ci][[1]]) <= 1) {
+      stop("CI column must have at least two elements (lower and upper limits).")
+    }
   }
-  if (nrow(tbl_df) >= 1 && length(tbl_df[, ci_col][[1]]) <= 1) {
-    stop("CI column must have at least two elements (lower and upper limits).")
-  }
-
-  if (!is.null(col_x)) {
-    x_col <- col_x + 1
+  # col_symbol_size
+  sym_size <- if (!is.null(col_symbol_size)) {
+    unlist(tbl_df[, col_symbol_size])
   } else {
-    tbl_df[["empty_x"]] <- NA_real_
-    x_col <- which(names(tbl_df) == "empty_x")
-  }
-  if (!is.null(col_symbol_size)) {
-    sym_size <- unlist(tbl_df[, col_symbol_size + 1])
-  } else {
-    sym_size <- rep(1, nrow(tbl_df))
+    rep(1, nrow(tbl_df))
   }
 
   x_ci <- if (nrow(tbl_df) >= 1) {
-    tbl_x_ci <- tbl_df[, unique(c(x_col, ci_col)), drop = FALSE]
+    tbl_x_ci <- tbl_df[, unique(c(col_x, col_ci)), drop = FALSE]
     x_ci_list <- lapply(tbl_x_ci, function(col) {
       byrow <- length(col[[1]]) != 1L
       matrix(unlist(col), nrow = nrow(tbl_df), byrow = byrow)
@@ -310,10 +303,6 @@ g_forest <- function(tbl,
   } else {
     NULL
   }
-  # `x`, `lwr`, and `upr` are NULL when x_ci = NULL.
-  x <- x_ci[, 1]
-  lwr <- x_ci[, 2]
-  upr <- x_ci[, 3]
 
   # Apply log transformation.
   x_ci_t <- if (logx && !is.null(x_ci)) {
@@ -321,9 +310,26 @@ g_forest <- function(tbl,
   } else {
     x_ci
   }
-  x_t <- x_ci_t[, 1]
-  lwr_t <- x_ci_t[, 2]
-  upr_t <- x_ci_t[, 3]
+
+  # Extract vectors: x, lwr, and upr, and their log transformations.
+  # Note that x, lwr, and upr are NULL when x_ci is NULL.
+  # x
+  if (is.null(col_x)) {
+    x <- x_t <- rep(NA_real_, nrow(tbl_df))
+  } else {
+    x <- x_ci[, 1L]
+    x_t <- x_ci_t[, 1L]
+  }
+  # ci
+  if (is.null(col_ci)) {
+    lwr <- upr <- lwr_t <- upr_t <- rep(NA_real_, nrow(tbl_df))
+  } else {
+    lwr <- x_ci[, ncol(x_ci) - 1]
+    upr <- x_ci[, ncol(x_ci)]
+    lwr_t <- x_ci_t[, ncol(x_ci_t) - 1]
+    upr_t <- x_ci_t[, ncol(x_ci_t)]
+  }
+
   xlim_t <- if (logx) log(xlim) else xlim
 
   if (is.null(col)) col <- "#343cff"
