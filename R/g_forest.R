@@ -317,7 +317,7 @@ g_forest <- function(tbl,
   }
 
   # Extract vectors: x, lwr, and upr, and their log transformations.
-  # Note that x, lwr, and upr are NULL when x_ci is NULL.
+  # Note that when x_ci is NULL, x_ci[, i] is NULL for any index i.
   # x
   if (is.null(col_x)) {
     x <- x_t <- rep(NA_real_, nrow(tbl_df))
