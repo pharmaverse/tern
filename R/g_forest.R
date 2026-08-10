@@ -304,39 +304,34 @@ g_forest <- function(tbl,
   x_ci <- if (nrow(tbl_df) >= 1) {
     x_ci_df <- tbl_df[, unique(c(x_col, ci_col)), drop = FALSE]
     x_ci_list <- lapply(x_ci_df, function(col) {
-      matrix(
-        unlist(col),
-        nrow = nrow(tbl_df),
-        byrow = length(col[[1]]) != 1L
-      )
+      byrow <- length(col[[1]]) != 1L
+      matrix(unlist(col), nrow = nrow(tbl_df), byrow = byrow)
     })
     do.call(cbind, x_ci_list)
   } else {
     NULL
   }
-
+  # `x`, `lwr`, and `upr` are NULL when x_ci = NULL.
   x <- x_ci[, 1]
   lwr <- x_ci[, 2]
   upr <- x_ci[, 3]
   row_num <- nrow(mat_strings) - tbl_df[["row_num"]] - as.numeric(nlines_hdr == 2)
 
+  # Apply log transformation.
+  x_ci_t <- if (logx && !is.null(x_ci)) {
+    log(x_ci)
+  } else {
+    x_ci
+  }
+  x_t <- x_ci_t[, 1]
+  lwr_t <- x_ci_t[, 2]
+  upr_t <- x_ci_t[, 3]
+  xlim_t <- if (logx) log(xlim) else xlim
+
   if (is.null(col)) col <- "#343cff"
   if (length(col) == 1) col <- rep(col, nrow(tbl_df))
   if (is.null(x_at)) x_at <- union(xlim, vline)
   x_labels <- x_at
-
-  # Apply log transformation.
-  # When nrow(tbl_df) == 0, x, lwr, and upr are NULL, so log() would fail.
-  if (logx && nrow(tbl_df) >= 1) {
-    x_t <- log(x)
-    lwr_t <- log(lwr)
-    upr_t <- log(upr)
-  } else {
-    x_t <- x
-    lwr_t <- lwr
-    upr_t <- upr
-  }
-  xlim_t <- if (logx) log(xlim) else xlim
 
   # Set up plot area
   gg_plt <- ggplot(data = tbl_df) +
