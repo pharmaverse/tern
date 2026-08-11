@@ -242,8 +242,8 @@ g_forest <- function(tbl,
   }
 
   checkmate::assert_class(tbl, "VTableTree")
-  checkmate::assert_number(col_x, lower = 0, upper = ncol(tbl), null.ok = TRUE)
-  checkmate::assert_number(col_ci, lower = 0, upper = ncol(tbl), null.ok = TRUE)
+  checkmate::assert_int(col_x, lower = 1L, upper = ncol(tbl), null.ok = TRUE)
+  checkmate::assert_int(col_ci, lower = 1L, upper = ncol(tbl), null.ok = TRUE)
   checkmate::assert_number(col_symbol_size, lower = 0, upper = ncol(tbl), null.ok = TRUE)
   checkmate::assert_number(font_size, lower = 0)
   checkmate::assert_character(col, null.ok = TRUE)
@@ -261,47 +261,46 @@ g_forest <- function(tbl,
   nrows_body <- nrow(mat_strings) - nlines_hdr
 
   # Generate and modify table as ggplot object
-  gg_table <- rtable2gg(tbl, fontsize = font_size, colwidths = width_columns, lbl_col_padding = lbl_col_padding) +
+  gg_table <- rtable2gg(
+    tbl,
+    fontsize = font_size, colwidths = width_columns, lbl_col_padding = lbl_col_padding
+  ) +
     theme(plot.margin = margin(0, 0, 0, 0.025, "npc"))
   gg_table$scales$scales[[1]]$expand <- c(0.01, 0.01)
   gg_table$scales$scales[[2]]$limits[2] <- nrow(mat_strings) + 1
-  if (nlines_hdr == 2) {
+  arms <- if (nlines_hdr == 2) {
     gg_table$scales$scales[[2]]$expand <- c(0, 0)
-    arms <- unique(mat_strings[1, ][nzchar(trimws(mat_strings[1, ]))])
+    unique(mat_strings[1, ][nzchar(trimws(mat_strings[1, ]))])
   } else {
-    arms <- NULL
+    NULL
   }
 
+  # Optionally exclude rows and keep only the data columns in `tbl_df`.
   if (!is.null(exclude_rows)) {
     tbl_df <- tbl_df[-exclude_rows, ]
   }
   row_num <- nrow(mat_strings) - tbl_df[["row_num"]] - as.numeric(nlines_hdr == 2)
-  dat_cols <- seq(which(names(tbl_df) == "node_class") + 1, ncol(tbl_df))
-  tbl_df <- tbl_df[, dat_cols, drop = FALSE]
+  node_class_idx <- match("node_class", names(tbl_df))
+  tbl_df <- tbl_df[, -seq_len(node_class_idx), drop = FALSE]
   names(tbl_df) <- make.unique(mat_strings[nlines_hdr, -1])
 
-  # Check CI column.
-  if (nrow(tbl_df) >= 1 && !is.null(col_ci)) {
-    ci_len <- length(tbl_df[, col_ci][[1]])
-    if (ci_len < 2) {
-      stop("CI column must have at least two elements (lower and upper limits).")
+  # Validate the number of elements in a CI cell.
+  if (nrow(tbl_df) >= 1L && !is.null(col_ci)) {
+    # Since an `rtables` column is homogeneous, use the first row to determine the CI cell length.
+    ci_len <- length(tbl_df[, col_ci][[1L]])
+    if (ci_len < 2L) {
+      stop("A CI cell must contain at least two elements (lower and upper limits).")
     }
-    if (!is.null(col_x) && col_x == col_ci && ci_len != 3) {
-      stop("x / CI column must have three elements (point estimate, lower and upper limits).")
+    if (!is.null(col_x) && col_x == col_ci && ci_len != 3L) {
+      stop("An x / CI cell must contain three elements (point estimate, lower and upper limits).")
     }
   }
 
-  # col_symbol_size
-  sym_size <- if (!is.null(col_symbol_size)) {
-    unlist(tbl_df[, col_symbol_size])
-  } else {
-    rep(1, nrow(tbl_df))
-  }
-
-  x_ci <- if (nrow(tbl_df) >= 1) {
+  x_ci <- if (nrow(tbl_df) >= 1L) {
     tbl_x_ci <- tbl_df[, unique(c(col_x, col_ci)), drop = FALSE]
     x_ci_list <- lapply(tbl_x_ci, function(col) {
-      byrow <- length(col[[1]]) != 1L
+      # Since an `rtables` column is homogeneous, use the first row to determine the fill direction.
+      byrow <- length(col[[1L]]) != 1L
       matrix(unlist(col), nrow = nrow(tbl_df), byrow = byrow)
     })
     do.call(cbind, x_ci_list)
@@ -309,7 +308,7 @@ g_forest <- function(tbl,
     NULL
   }
 
-  # Apply log transformation.
+  # Optionally apply a log transformation to `x_ci`.
   x_ci_t <- if (logx && !is.null(x_ci)) {
     log(x_ci)
   } else {
@@ -317,25 +316,38 @@ g_forest <- function(tbl,
   }
 
   # Extract vectors: x, lwr, and upr, and their log transformations.
-  # Note that when x_ci is NULL, x_ci[, i] is NULL for any index i.
-  # x
+  #
+  # If `nrow(tbl_df) == 0`, `x_ci` (`x_ci_t`) is `NULL`, so
+  # `x_ci[, i]` (`x_ci_t[, i]`) is `NULL` for any `i`.
+  #
+  # At this point, `x_ci` (`x_ci_t`) has at least one column whenever
+  # `nrow(tbl_df) >= 1` and `col_x` is not `NULL`.
   if (is.null(col_x)) {
     x <- x_t <- rep(NA_real_, nrow(tbl_df))
   } else {
     x <- x_ci[, 1L]
     x_t <- x_ci_t[, 1L]
   }
-  # ci
+  # At this point, `x_ci` (`x_ci_t`) has at least two columns whenever
+  # `nrow(tbl_df) >= 1` and `col_ci` is not `NULL` (see the
+  # "Validate the number of elements in a CI cell" section above).
   if (is.null(col_ci)) {
     lwr <- upr <- lwr_t <- upr_t <- rep(NA_real_, nrow(tbl_df))
   } else {
-    lwr <- x_ci[, ncol(x_ci) - 1]
+    lwr <- x_ci[, ncol(x_ci) - 1L]
     upr <- x_ci[, ncol(x_ci)]
-    lwr_t <- x_ci_t[, ncol(x_ci_t) - 1]
+    lwr_t <- x_ci_t[, ncol(x_ci_t) - 1L]
     upr_t <- x_ci_t[, ncol(x_ci_t)]
   }
 
   xlim_t <- if (logx) log(xlim) else xlim
+
+  # col_symbol_size
+  sym_size <- if (!is.null(col_symbol_size)) {
+    unlist(tbl_df[, col_symbol_size])
+  } else {
+    rep(1L, nrow(tbl_df))
+  }
 
   if (is.null(col)) col <- "#343cff"
   if (length(col) == 1) col <- rep(col, nrow(tbl_df))
