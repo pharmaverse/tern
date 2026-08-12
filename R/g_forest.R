@@ -286,8 +286,11 @@ g_forest <- function(tbl,
 
   # Validate the number of elements in a CI cell.
   if (nrow(tbl_df) >= 1L && !is.null(col_ci)) {
-    # Since an `rtables` column is homogeneous, use the first row to determine the CI cell length.
     ci_len <- length(tbl_df[, col_ci][[1L]])
+    # Assert that `tbl_df[, col_ci]` column is homogeneous.
+    checkmate::assert_true(
+      all(sapply(tbl_df[, col_ci], length) == ci_len)
+    )
     if (ci_len < 2L) {
       stop("A CI cell must contain at least two elements (lower and upper limits).")
     }
