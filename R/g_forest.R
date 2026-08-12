@@ -10,12 +10,18 @@
 #' @inheritParams argument_convention
 #' @param tbl (`VTableTree`)\cr `rtables` table with at least one column with a single value and one column with 2
 #'   values.
-#' @param col_x (`integer(1)` or `NULL`)\cr column index with estimator. By default tries to get this from
-#'   `tbl` attribute `col_x`, otherwise needs to be manually specified. If `NULL`, points will be excluded
-#'   from forest plot.
-#' @param col_ci (`integer(1)` or `NULL`)\cr column index with confidence intervals. By default tries to get this from
-#'   `tbl` attribute `col_ci`, otherwise needs to be manually specified. If `NULL`, lines will be excluded
-#'   from forest plot.
+#' @param col_x (`integer(1)` or `NULL`)\cr column index with estimator.
+#'   By default tries to get this from `tbl` attribute `col_x`, otherwise needs
+#'   to be manually specified. If `NULL`, points will be excluded from forest plot.
+#' @param col_ci (`integer(1)` or `NULL`)\cr column index with confidence intervals.
+#'   By default tries to get this from `tbl` attribute `col_ci`, otherwise needs
+#'   to be manually specified. If `NULL`, lines will be excluded from forest plot.
+#'
+#'   The estimator and confidence interval can be stored in the same column.
+#'   In this case, `col_x` and `col_ci` must be the same, and the values in each
+#'   row of the column indicated by `col_x`/`col_ci` must be ordered as the
+#'   point estimate, lower confidence interval bound, and upper confidence
+#'   interval bound, respectively.
 #' @param vline (`numeric(1)` or `NULL`)\cr x coordinate for vertical line, if `NULL` then the line is omitted.
 #' @param forest_header (`character(2)`)\cr text displayed to the left and right of `vline`, respectively.
 #'   If `vline = NULL` then `forest_header` is not printed. By default tries to get this from `tbl` attribute
@@ -81,25 +87,33 @@
 #'   variables = list(rsp = "rsp", arm = "ARM", subgroups = c("SEX", "STRATA2")),
 #'   data = adrs
 #' )
-#' # Full commonly used response table.
 #'
+#' # Full commonly used response table.
 #' tbl <- basic_table() |>
 #'   tabulate_rsp_subgroups(df)
-#'
+#' tbl
 #' g_forest(tbl)
 #' \donttest{
 #' g_forest(tbl, exclude_rows = 1)
 #' }
-#'
 #' # Odds ratio only table.
-#'
 #' tbl_or <- basic_table() |>
 #'   tabulate_rsp_subgroups(df, vars = c("n_tot", "or", "ci"))
+#' tbl_or
 #' g_forest(
 #'   tbl_or,
 #'   forest_header = c("Comparison\nBetter", "Treatment\nBetter")
 #' )
-#'
+#' \donttest{
+#' # Estimates and confidence intervals in the same column.
+#' tbl <- rtable(
+#'   header = rheader(rrow("", "point est (CI)")),
+#'   rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
+#'   rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
+#' )
+#' tbl
+#' g_forest(tbl, col_x = 1, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
+#' }
 #' # Survival forest plot example.
 #' adtte <- tern_ex_adtte
 #' # Save variable labels before data processing steps.
@@ -228,8 +242,8 @@ g_forest <- function(tbl,
   }
 
   checkmate::assert_class(tbl, "VTableTree")
-  checkmate::assert_number(col_x, lower = 0, upper = ncol(tbl), null.ok = TRUE)
-  checkmate::assert_number(col_ci, lower = 0, upper = ncol(tbl), null.ok = TRUE)
+  checkmate::assert_int(col_x, lower = 1L, upper = ncol(tbl), null.ok = TRUE)
+  checkmate::assert_int(col_ci, lower = 1L, upper = ncol(tbl), null.ok = TRUE)
   checkmate::assert_number(col_symbol_size, lower = 0, upper = ncol(tbl), null.ok = TRUE)
   checkmate::assert_number(font_size, lower = 0)
   checkmate::assert_character(col, null.ok = TRUE)
@@ -245,73 +259,105 @@ g_forest <- function(tbl,
   mat_strings <- formatters::mf_strings(mat)
   nlines_hdr <- formatters::mf_nlheader(mat)
   nrows_body <- nrow(mat_strings) - nlines_hdr
-  tbl_stats <- mat_strings[nlines_hdr, -1]
 
   # Generate and modify table as ggplot object
-  gg_table <- rtable2gg(tbl, fontsize = font_size, colwidths = width_columns, lbl_col_padding = lbl_col_padding) +
+  gg_table <- rtable2gg(
+    tbl,
+    fontsize = font_size, colwidths = width_columns, lbl_col_padding = lbl_col_padding
+  ) +
     theme(plot.margin = margin(0, 0, 0, 0.025, "npc"))
   gg_table$scales$scales[[1]]$expand <- c(0.01, 0.01)
   gg_table$scales$scales[[2]]$limits[2] <- nrow(mat_strings) + 1
-  if (nlines_hdr == 2) {
+  arms <- if (nlines_hdr == 2) {
     gg_table$scales$scales[[2]]$expand <- c(0, 0)
-    arms <- unique(mat_strings[1, ][nzchar(trimws(mat_strings[1, ]))])
+    unique(mat_strings[1, ][nzchar(trimws(mat_strings[1, ]))])
   } else {
-    arms <- NULL
+    NULL
   }
 
+  # Optionally exclude rows and keep only the data columns in `tbl_df`.
   if (!is.null(exclude_rows)) {
     tbl_df <- tbl_df[-exclude_rows, ]
   }
-  dat_cols <- seq(which(names(tbl_df) == "node_class") + 1, ncol(tbl_df))
-  tbl_df <- tbl_df[, c(which(names(tbl_df) == "row_num"), dat_cols)]
-  names(tbl_df) <- c("row_num", tbl_stats)
-
-  # Check table data columns
-  if (!is.null(col_ci)) {
-    ci_col <- col_ci + 1
-  } else {
-    tbl_df[["empty_ci"]] <- rep(list(c(NA_real_, NA_real_)), nrow(tbl_df))
-    ci_col <- which(names(tbl_df) == "empty_ci")
-  }
-  if (nrow(tbl_df) >= 1 && length(tbl_df[, ci_col][[1]]) != 2) {
-    stop("CI column must have two elements (lower and upper limits).")
-  }
-
-  if (!is.null(col_x)) {
-    x_col <- col_x + 1
-  } else {
-    tbl_df[["empty_x"]] <- NA_real_
-    x_col <- which(names(tbl_df) == "empty_x")
-  }
-  if (!is.null(col_symbol_size)) {
-    sym_size <- unlist(tbl_df[, col_symbol_size + 1])
-  } else {
-    sym_size <- rep(1, nrow(tbl_df))
-  }
-
-  tbl_df[, c("ci_lwr", "ci_upr")] <- t(sapply(tbl_df[, ci_col], unlist))
-  x <- unlist(tbl_df[, x_col])
-  lwr <- unlist(tbl_df[["ci_lwr"]])
-  upr <- unlist(tbl_df[["ci_upr"]])
   row_num <- nrow(mat_strings) - tbl_df[["row_num"]] - as.numeric(nlines_hdr == 2)
+  node_class_idx <- match("node_class", names(tbl_df))
+  tbl_df <- tbl_df[, -seq_len(node_class_idx), drop = FALSE]
+  names(tbl_df) <- make.unique(mat_strings[nlines_hdr, -1])
+
+  # Validate the number of elements in a CI cell.
+  if (nrow(tbl_df) >= 1L && !is.null(col_ci)) {
+    ci_len <- length(tbl_df[, col_ci][[1L]])
+    # Assert that `tbl_df[, col_ci]` column is homogeneous.
+    checkmate::assert_true(
+      all(sapply(tbl_df[, col_ci], length) == ci_len)
+    )
+    if (ci_len < 2L) {
+      stop("A CI cell must contain at least two elements (lower and upper limits).")
+    }
+    if (!is.null(col_x) && col_x == col_ci && ci_len != 3L) {
+      stop("An x / CI cell must contain three elements (point estimate, lower and upper limits).")
+    }
+  }
+
+  x_ci <- if (nrow(tbl_df) >= 1L) {
+    tbl_x_ci <- tbl_df[, unique(c(col_x, col_ci)), drop = FALSE]
+    x_ci_list <- lapply(tbl_x_ci, function(col) {
+      # Since an `rtables` column is homogeneous, use the first row to determine the fill direction.
+      byrow <- length(col[[1L]]) != 1L
+      matrix(unlist(col), nrow = nrow(tbl_df), byrow = byrow)
+    })
+    do.call(cbind, x_ci_list)
+  } else {
+    NULL
+  }
+
+  # Optionally apply a log transformation to `x_ci`.
+  x_ci_t <- if (logx && !is.null(x_ci)) {
+    log(x_ci)
+  } else {
+    x_ci
+  }
+
+  # Extract vectors: x, lwr, and upr, and their log transformations.
+  #
+  # If `nrow(tbl_df) == 0`, `x_ci` (`x_ci_t`) is `NULL`, so
+  # `x_ci[, i]` (`x_ci_t[, i]`) is `NULL` for any `i`.
+  #
+  # At this point, `x_ci` (`x_ci_t`) has at least one column whenever
+  # `nrow(tbl_df) >= 1` and `col_x` is not `NULL`.
+  if (is.null(col_x)) {
+    x <- x_t <- rep(NA_real_, nrow(tbl_df))
+  } else {
+    x <- x_ci[, 1L]
+    x_t <- x_ci_t[, 1L]
+  }
+  # At this point, `x_ci` (`x_ci_t`) has at least two columns whenever
+  # `nrow(tbl_df) >= 1` and `col_ci` is not `NULL` (see the
+  # "Validate the number of elements in a CI cell" section above).
+  if (is.null(col_ci)) {
+    lwr <- upr <- lwr_t <- upr_t <- rep(NA_real_, nrow(tbl_df))
+  } else {
+    checkmate::assert_matrix(x_ci, min.cols = 2, null.ok = TRUE)
+    checkmate::assert_matrix(x_ci_t, min.cols = 2, null.ok = TRUE)
+    lwr <- x_ci[, ncol(x_ci) - 1L]
+    upr <- x_ci[, ncol(x_ci)]
+    lwr_t <- x_ci_t[, ncol(x_ci_t) - 1L]
+    upr_t <- x_ci_t[, ncol(x_ci_t)]
+  }
+
+  xlim_t <- if (logx) log(xlim) else xlim
+
+  # col_symbol_size
+  sym_size <- if (!is.null(col_symbol_size)) {
+    unlist(tbl_df[, col_symbol_size])
+  } else {
+    rep(1L, nrow(tbl_df))
+  }
 
   if (is.null(col)) col <- "#343cff"
   if (length(col) == 1) col <- rep(col, nrow(tbl_df))
   if (is.null(x_at)) x_at <- union(xlim, vline)
   x_labels <- x_at
-
-  # Apply log transformation.
-  # When nrow(tbl_df) == 0, x, lwr, and upr are NULL, so log() would fail.
-  if (logx && nrow(tbl_df) >= 1) {
-    x_t <- log(x)
-    lwr_t <- log(lwr)
-    upr_t <- log(upr)
-  } else {
-    x_t <- x
-    lwr_t <- lwr
-    upr_t <- upr
-  }
-  xlim_t <- if (logx) log(xlim) else xlim
 
   # Set up plot area
   gg_plt <- ggplot(data = tbl_df) +

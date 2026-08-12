@@ -1,6 +1,8 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+* Updated `g_forest()` to support point estimates and confidence intervals
+  stored in a single column. (#1499)
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected
   rows from the forest plot before plotting. (#1498)
 * Added `factor_level_method` argument to `df_explicit_na()` to control factor level ordering
