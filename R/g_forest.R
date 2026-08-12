@@ -334,6 +334,8 @@ g_forest <- function(tbl,
   if (is.null(col_ci)) {
     lwr <- upr <- lwr_t <- upr_t <- rep(NA_real_, nrow(tbl_df))
   } else {
+    checkmate::assert_matrix(x_ci, min.cols = 2, null.ok = TRUE)
+    checkmate::assert_matrix(x_ci_t, min.cols = 2, null.ok = TRUE)
     lwr <- x_ci[, ncol(x_ci) - 1L]
     upr <- x_ci[, ncol(x_ci)]
     lwr_t <- x_ci_t[, ncol(x_ci_t) - 1L]
