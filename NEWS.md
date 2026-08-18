@@ -24,6 +24,7 @@
 * Added `digits` argument to `h_tbl_median_surv()` and `control_surv_med_annot()` to control the `signif()` precision of the median survival time and confidence interval values annotated in `g_km()`. (#1469)
 
 ### Bug Fixes
+* Fixed bug in `format_sigfig()` with trailing zeros for x < 0.1 (#1510).
 * Fixed bug in `prop_diff_cmh()` which previously failed when strata combinations had 0 observations.
 * Fixed one-sided p-values in `prop_cmh()` with Wilson-Hilferty transformation — the sign of the effect was lost, producing incorrect p-values for `alternative = "less"` and `alternative = "greater"`.
 

@@ -125,6 +125,15 @@ testthat::test_that("format_sigfig works with easy inputs", {
   testthat::expect_snapshot(res)
 })
 
+testthat::test_that("format_sigfig does not add trailing zeros for x < 0.1", {
+  fmt <- format_sigfig(3)
+  testthat::expect_identical(fmt(0.005), "0.005")
+  testthat::expect_identical(fmt(0.500), "0.500")
+  testthat::expect_identical(fmt(0.050), "0.05")
+  testthat::expect_identical(fmt(1.50), "1.50")
+  testthat::expect_identical(fmt(0.00123), "0.00123")
+})
+
 testthat::test_that("format_sigfig works with different format types", {
   test <- list(c(1.658, 0.5761), c(1e-1, 78.6), c(1234e-6, 200.00))
   z <- format_sigfig(3, "xx (xx)")
