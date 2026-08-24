@@ -4,6 +4,10 @@
 
 #### Enhancements
 
+- Updated
+  [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
+  to support point estimates and confidence intervals stored in a single
+  column. ([\#1499](https://github.com/pharmaverse/tern/issues/1499))
 - Added the `exclude_rows` argument to
   [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
   to allow excluding selected rows from the forest plot before plotting.

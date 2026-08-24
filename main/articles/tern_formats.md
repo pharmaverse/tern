@@ -23,13 +23,7 @@ To see the available format strings available in `formatters` see
 
 The packages used in this vignette are:
 
-``` r
-
-library(rtables)
-library(formatters)
-library(tern)
-library(dplyr)
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`rtables`](https://github.com/insightsengineering/rtables)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`formatters`](https://insightsengineering.github.io/formatters/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`tern`](https://pharmaverse.github.io/tern/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`dplyr`](https://dplyr.tidyverse.org)`)`
 
 The example below demonstrates the use of `tern` formatting in the
 [`count_abnormal()`](https://pharmaverse.github.io/tern/reference/abnormal.md)
@@ -38,66 +32,14 @@ both a fraction and a percentage value are displayed, while the “high”
 value has a numerator value of zero and so the fraction value is
 displayed without also displaying the redundant zero percentage value.
 
-``` r
-
-df2 <- data.frame(
-  ID = as.character(c(1, 1, 2, 2)),
-  RANGE = factor(c("NORMAL", "LOW", "HIGH", "LOW")),
-  BL_RANGE = factor(c("NORMAL", "NORMAL", "HIGH", "HIGH")),
-  ONTRTFL = c("", "Y", "", "Y"),
-  stringsAsFactors = FALSE
-)
-
-df2 <- df2 |>
-  filter(ONTRTFL == "Y")
-
-basic_table() |>
-  count_abnormal(
-    var = "RANGE",
-    abnormal = list(low = "LOW", high = "HIGH"),
-    variables = list(id = "ID", baseline = "BL_RANGE"),
-    exclude_base_abn = FALSE,
-    .formats = list(fraction = format_fraction)
-  ) |>
-  build_table(df2)
-#>         all obs  
-#> —————————————————
-#> low    2/2 (100%)
-#> high      0/2
-```
+`df2`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`` `` ID ``=`` `[`as.character`](https://rdrr.io/r/base/character.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``1``, ``1``, ``2``, ``2``)``)``,`` `` RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"LOW"``, ``"HIGH"``, ``"LOW"``)``)``,`` `` BL_RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"NORMAL"``, ``"HIGH"``, ``"HIGH"``)``)``,`` `` ONTRTFL ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``""``, ``"Y"``, ``""``, ``"Y"``)``,`` `` stringsAsFactors ``=`` ``FALSE`` ``)`` `` ``df2`` ``<-`` ``df2`` ``|>`` `` `[`filter`](https://dplyr.tidyverse.org/reference/filter.html)`(``ONTRTFL`` ``==`` ``"Y"``)`` `` `[`basic_table`](https://rdrr.io/pkg/rtables/man/basic_table.html)`(``)`` ``|>`` `` `[`count_abnormal`](https://pharmaverse.github.io/tern/reference/abnormal.md)`(`` `` var ``=`` ``"RANGE"``,`` `` abnormal ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``low ``=`` ``"LOW"``, high ``=`` ``"HIGH"``)``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``id ``=`` ``"ID"``, baseline ``=`` ``"BL_RANGE"``)``,`` `` exclude_base_abn ``=`` ``FALSE``,`` `` .formats ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``fraction ``=`` ``format_fraction``)`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``df2``)`` ``#> all obs `` ``#> —————————————————`` ``#> low 2/2 (100%)`` ``#> high 0/2`
 
 In the following example the
 [`count_abnormal()`](https://pharmaverse.github.io/tern/reference/abnormal.md)
 function is utilized again. This time both “low” values and “high”
 values have a non-zero numerator and so both show a percentage.
 
-``` r
-
-df2 <- data.frame(
-  ID = as.character(c(1, 1, 2, 2)),
-  RANGE = factor(c("NORMAL", "LOW", "HIGH", "HIGH")),
-  BL_RANGE = factor(c("NORMAL", "NORMAL", "HIGH", "HIGH")),
-  ONTRTFL = c("", "Y", "", "Y"),
-  stringsAsFactors = FALSE
-)
-
-df2 <- df2 |>
-  filter(ONTRTFL == "Y")
-
-basic_table() |>
-  count_abnormal(
-    var = "RANGE",
-    abnormal = list(low = "LOW", high = "HIGH"),
-    variables = list(id = "ID", baseline = "BL_RANGE"),
-    exclude_base_abn = FALSE,
-    .formats = list(fraction = format_fraction)
-  ) |>
-  build_table(df2)
-#>         all obs 
-#> ————————————————
-#> low    1/2 (50%)
-#> high   1/2 (50%)
-```
+`df2`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`` `` ID ``=`` `[`as.character`](https://rdrr.io/r/base/character.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``1``, ``1``, ``2``, ``2``)``)``,`` `` RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"LOW"``, ``"HIGH"``, ``"HIGH"``)``)``,`` `` BL_RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"NORMAL"``, ``"HIGH"``, ``"HIGH"``)``)``,`` `` ONTRTFL ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``""``, ``"Y"``, ``""``, ``"Y"``)``,`` `` stringsAsFactors ``=`` ``FALSE`` ``)`` `` ``df2`` ``<-`` ``df2`` ``|>`` `` `[`filter`](https://dplyr.tidyverse.org/reference/filter.html)`(``ONTRTFL`` ``==`` ``"Y"``)`` `` `[`basic_table`](https://rdrr.io/pkg/rtables/man/basic_table.html)`(``)`` ``|>`` `` `[`count_abnormal`](https://pharmaverse.github.io/tern/reference/abnormal.md)`(`` `` var ``=`` ``"RANGE"``,`` `` abnormal ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``low ``=`` ``"LOW"``, high ``=`` ``"HIGH"``)``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``id ``=`` ``"ID"``, baseline ``=`` ``"BL_RANGE"``)``,`` `` exclude_base_abn ``=`` ``FALSE``,`` `` .formats ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``fraction ``=`` ``format_fraction``)`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``df2``)`` ``#> all obs `` ``#> ————————————————`` ``#> low 1/2 (50%)`` ``#> high 1/2 (50%)`
 
 The following example demonstrates the difference when `formatters` is
 used instead to format the output. Here we choose to use `"xx / xx"` as
@@ -105,32 +47,7 @@ our value format. The “high” value has a zero numerator value and the
 “low” value has a non-zero numerator, yet both are displayed in the same
 format.
 
-``` r
-
-df2 <- data.frame(
-  ID = as.character(c(1, 1, 2, 2)),
-  RANGE = factor(c("NORMAL", "LOW", "HIGH", "LOW")),
-  BL_RANGE = factor(c("NORMAL", "NORMAL", "HIGH", "HIGH")),
-  ONTRTFL = c("", "Y", "", "Y"),
-  stringsAsFactors = FALSE
-)
-df2 <- df2 |>
-  filter(ONTRTFL == "Y")
-
-basic_table() |>
-  count_abnormal(
-    var = "RANGE",
-    abnormal = list(low = "LOW", high = "HIGH"),
-    variables = list(id = "ID", baseline = "BL_RANGE"),
-    exclude_base_abn = FALSE,
-    .formats = list(fraction = "xx / xx")
-  ) |>
-  build_table(df2)
-#>        all obs
-#> ——————————————
-#> low     2 / 2 
-#> high    0 / 2
-```
+`df2`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`` `` ID ``=`` `[`as.character`](https://rdrr.io/r/base/character.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``1``, ``1``, ``2``, ``2``)``)``,`` `` RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"LOW"``, ``"HIGH"``, ``"LOW"``)``)``,`` `` BL_RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"NORMAL"``, ``"HIGH"``, ``"HIGH"``)``)``,`` `` ONTRTFL ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``""``, ``"Y"``, ``""``, ``"Y"``)``,`` `` stringsAsFactors ``=`` ``FALSE`` ``)`` ``df2`` ``<-`` ``df2`` ``|>`` `` `[`filter`](https://dplyr.tidyverse.org/reference/filter.html)`(``ONTRTFL`` ``==`` ``"Y"``)`` `` `[`basic_table`](https://rdrr.io/pkg/rtables/man/basic_table.html)`(``)`` ``|>`` `` `[`count_abnormal`](https://pharmaverse.github.io/tern/reference/abnormal.md)`(`` `` var ``=`` ``"RANGE"``,`` `` abnormal ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``low ``=`` ``"LOW"``, high ``=`` ``"HIGH"``)``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``id ``=`` ``"ID"``, baseline ``=`` ``"BL_RANGE"``)``,`` `` exclude_base_abn ``=`` ``FALSE``,`` `` .formats ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``fraction ``=`` ``"xx / xx"``)`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``df2``)`` ``#> all obs`` ``#> ——————————————`` ``#> low 2 / 2 `` ``#> high 0 / 2`
 
 The same concept occurs when using any of the available formats from the
 `formatters` package. The following example displays the same result
@@ -138,32 +55,7 @@ using the `"xx.x / xx.x"` format instead. Use
 [`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
 to see the full list of available formats in `formatters`.
 
-``` r
-
-df2 <- data.frame(
-  ID = as.character(c(1, 1, 2, 2)),
-  RANGE = factor(c("NORMAL", "LOW", "HIGH", "LOW")),
-  BL_RANGE = factor(c("NORMAL", "NORMAL", "HIGH", "HIGH")),
-  ONTRTFL = c("", "Y", "", "Y"),
-  stringsAsFactors = FALSE
-)
-df2 <- df2 |>
-  filter(ONTRTFL == "Y")
-
-basic_table() |>
-  count_abnormal(
-    var = "RANGE",
-    abnormal = list(low = "LOW", high = "HIGH"),
-    variables = list(id = "ID", baseline = "BL_RANGE"),
-    exclude_base_abn = FALSE,
-    .formats = list(fraction = "xx.x / xx.x")
-  ) |>
-  build_table(df2)
-#>         all obs 
-#> ————————————————
-#> low    2.0 / 2.0
-#> high   0.0 / 2.0
-```
+`df2`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`` `` ID ``=`` `[`as.character`](https://rdrr.io/r/base/character.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``1``, ``1``, ``2``, ``2``)``)``,`` `` RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"LOW"``, ``"HIGH"``, ``"LOW"``)``)``,`` `` BL_RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"NORMAL"``, ``"HIGH"``, ``"HIGH"``)``)``,`` `` ONTRTFL ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``""``, ``"Y"``, ``""``, ``"Y"``)``,`` `` stringsAsFactors ``=`` ``FALSE`` ``)`` ``df2`` ``<-`` ``df2`` ``|>`` `` `[`filter`](https://dplyr.tidyverse.org/reference/filter.html)`(``ONTRTFL`` ``==`` ``"Y"``)`` `` `[`basic_table`](https://rdrr.io/pkg/rtables/man/basic_table.html)`(``)`` ``|>`` `` `[`count_abnormal`](https://pharmaverse.github.io/tern/reference/abnormal.md)`(`` `` var ``=`` ``"RANGE"``,`` `` abnormal ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``low ``=`` ``"LOW"``, high ``=`` ``"HIGH"``)``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``id ``=`` ``"ID"``, baseline ``=`` ``"BL_RANGE"``)``,`` `` exclude_base_abn ``=`` ``FALSE``,`` `` .formats ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``fraction ``=`` ``"xx.x / xx.x"``)`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``df2``)`` ``#> all obs `` ``#> ————————————————`` ``#> low 2.0 / 2.0`` ``#> high 0.0 / 2.0`
 
 ## Formatting Function Basics
 
@@ -190,18 +82,7 @@ By default, formatting functions will remove trailing zeros, but these
 two functions will always have one decimal place in their percentage,
 even if the digit is a zero. See the following example:
 
-``` r
-
-format_fraction_fixed_dp(x = c(num = 1L, denom = 3L))
-#> [1] "1/3 (33.3%)"
-format_fraction_fixed_dp(x = c(num = 1L, denom = 2L))
-#> [1] "1/2 (50.0%)"
-
-format_count_fraction_fixed_dp(x = c(2, 0.6667))
-#> [1] "2 (66.7%)"
-format_count_fraction_fixed_dp(x = c(2, 0.25))
-#> [1] "2 (25.0%)"
-```
+[`format_fraction_fixed_dp`](https://pharmaverse.github.io/tern/reference/format_fraction_fixed_dp.md)`(``x ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``num ``=`` ``1L``, denom ``=`` ``3L``)``)`` ``#> [1] "1/3 (33.3%)"`` `[`format_fraction_fixed_dp`](https://pharmaverse.github.io/tern/reference/format_fraction_fixed_dp.md)`(``x ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``num ``=`` ``1L``, denom ``=`` ``2L``)``)`` ``#> [1] "1/2 (50.0%)"`` `` `[`format_count_fraction_fixed_dp`](https://pharmaverse.github.io/tern/reference/format_count_fraction_fixed_dp.md)`(``x ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``2``, ``0.6667``)``)`` ``#> [1] "2 (66.7%)"`` `[`format_count_fraction_fixed_dp`](https://pharmaverse.github.io/tern/reference/format_count_fraction_fixed_dp.md)`(``x ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``2``, ``0.25``)``)`` ``#> [1] "2 (25.0%)"`
 
 #### Value Thresholds
 
@@ -215,30 +96,14 @@ The extreme value formats work similarly to allow the user to specify
 the maximum number of digits to include, and very large or very small
 values are given a special string value. For example:
 
-``` r
-
-extreme_format <- format_extreme_values(digits = 2)
-extreme_format(0.235)
-#> [1] "0.23"
-extreme_format(0.001)
-#> [1] "<0.01"
-extreme_format(Inf)
-#> [1] ">999.99"
-```
+`extreme_format`` ``<-`` `[`format_extreme_values`](https://pharmaverse.github.io/tern/reference/format_extreme_values.md)`(``digits ``=`` ``2``)`` `[`extreme_format`](https://pharmaverse.github.io/tern/reference/extreme_format.md)`(``0.235``)`` ``#> [1] "0.23"`` `[`extreme_format`](https://pharmaverse.github.io/tern/reference/extreme_format.md)`(``0.001``)`` ``#> [1] "<0.01"`` `[`extreme_format`](https://pharmaverse.github.io/tern/reference/extreme_format.md)`(``Inf``)`` ``#> [1] ">999.99"`
 
 The
 [`format_fraction_threshold()`](https://pharmaverse.github.io/tern/reference/format_fraction_threshold.md)
 function allows the user to specify a lower percentage threshold, below
 which values are instead assigned a special string value. For example:
 
-``` r
-
-fraction_format <- format_fraction_threshold(0.05)
-fraction_format(x = c(20, 0.1))
-#> [1] 10
-fraction_format(x = c(2, 0.01))
-#> [1] "<5"
-```
+`fraction_format`` ``<-`` `[`format_fraction_threshold`](https://pharmaverse.github.io/tern/reference/format_fraction_threshold.md)`(``0.05``)`` ``fraction_format``(``x ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``20``, ``0.1``)``)`` ``#> [1] 10`` ``fraction_format``(``x ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``2``, ``0.01``)``)`` ``#> [1] "<5"`
 
 See the documentation on each function for specific details on their
 behavior and how to customize them.
@@ -257,26 +122,7 @@ the
 function. First we will take a look at this function in detail and then
 we will customize it.
 
-``` r
-
-# First we will see how the format_fraction_fixed_dp code works and displays the outputs
-format_fraction_fixed_dp <- function(x, ...) {
-  attr(x, "label") <- NULL
-  checkmate::assert_vector(x)
-  checkmate::assert_count(x["num"])
-  checkmate::assert_count(x["denom"])
-
-  result <- if (x["num"] == 0) {
-    paste0(x["num"], "/", x["denom"])
-  } else {
-    paste0(
-      x["num"], "/", x["denom"],
-      " (", sprintf("%.1f", round(x["num"] / x["denom"] * 100, 1)), "%)"
-    )
-  }
-  result
-}
-```
+`# First we will see how the format_fraction_fixed_dp code works and displays the outputs`` ``format_fraction_fixed_dp`` ``<-`` ``function``(``x``, ``...``)`` ``{`` `` `[`attr`](https://rdrr.io/r/base/attr.html)`(``x``, ``"label"``)`` ``<-`` ``NULL`` `` ``checkmate``::`[`assert_vector`](https://mllg.github.io/checkmate/reference/checkVector.html)`(``x``)`` `` ``checkmate``::`[`assert_count`](https://mllg.github.io/checkmate/reference/checkCount.html)`(``x``[``"num"``]``)`` `` ``checkmate``::`[`assert_count`](https://mllg.github.io/checkmate/reference/checkCount.html)`(``x``[``"denom"``]``)`` `` `` ``result`` ``<-`` ``if`` ``(``x``[``"num"``]`` ``==`` ``0``)`` ``{`` `` `[`paste0`](https://rdrr.io/r/base/paste.html)`(``x``[``"num"``]``, ``"/"``, ``x``[``"denom"``]``)`` `` ``}`` ``else`` ``{`` `` `[`paste0`](https://rdrr.io/r/base/paste.html)`(`` `` ``x``[``"num"``]``, ``"/"``, ``x``[``"denom"``]``,`` `` ``" ("``, `[`sprintf`](https://rdrr.io/r/base/sprintf.html)`(``"%.1f"``, `[`round`](https://rdrr.io/r/base/Round.html)`(``x``[``"num"``]`` ``/`` ``x``[``"denom"``]`` ``*`` ``100``, ``1``)``)``, ``"%)"`` `` ``)`` `` ``}`` `` ``result`` ``}`
 
 Here we see that if the numerator value is greater than 0, the fraction
 and percentage is displayed. If the numerator is 0, only the fraction is
@@ -284,70 +130,14 @@ shown. Percent values always display 1 decimal place. Below we will
 create a dummy dataset and then observe the output value behavior when
 this formatting function is applied.
 
-``` r
-
-df2 <- data.frame(
-  ID = as.character(c(1, 1, 2, 2)),
-  RANGE = factor(c("NORMAL", "LOW", "HIGH", "LOW")),
-  BL_RANGE = factor(c("NORMAL", "NORMAL", "HIGH", "HIGH")),
-  ONTRTFL = c("", "Y", "", "Y"),
-  stringsAsFactors = FALSE
-) |>
-  filter(ONTRTFL == "Y")
-
-basic_table() |>
-  count_abnormal(
-    var = "RANGE",
-    abnormal = list(low = "LOW", high = "HIGH"),
-    variables = list(id = "ID", baseline = "BL_RANGE"),
-    exclude_base_abn = FALSE,
-    .formats = list(fraction = format_fraction_fixed_dp)
-  ) |>
-  build_table(df2)
-#>          all obs   
-#> ———————————————————
-#> low    2/2 (100.0%)
-#> high       0/2
-```
+`df2`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`` `` ID ``=`` `[`as.character`](https://rdrr.io/r/base/character.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``1``, ``1``, ``2``, ``2``)``)``,`` `` RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"LOW"``, ``"HIGH"``, ``"LOW"``)``)``,`` `` BL_RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"NORMAL"``, ``"HIGH"``, ``"HIGH"``)``)``,`` `` ONTRTFL ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``""``, ``"Y"``, ``""``, ``"Y"``)``,`` `` stringsAsFactors ``=`` ``FALSE`` ``)`` ``|>`` `` `[`filter`](https://dplyr.tidyverse.org/reference/filter.html)`(``ONTRTFL`` ``==`` ``"Y"``)`` `` `[`basic_table`](https://rdrr.io/pkg/rtables/man/basic_table.html)`(``)`` ``|>`` `` `[`count_abnormal`](https://pharmaverse.github.io/tern/reference/abnormal.md)`(`` `` var ``=`` ``"RANGE"``,`` `` abnormal ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``low ``=`` ``"LOW"``, high ``=`` ``"HIGH"``)``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``id ``=`` ``"ID"``, baseline ``=`` ``"BL_RANGE"``)``,`` `` exclude_base_abn ``=`` ``FALSE``,`` `` .formats ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``fraction ``=`` ``format_fraction_fixed_dp``)`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``df2``)`` ``#> all obs `` ``#> ———————————————————`` ``#> low 2/2 (100.0%)`` ``#> high 0/2`
 
 Now we will modify this function to make our custom formatting function,
 `custom_format`. We want to display 3 decimal places in the percent
 value, and if the numerator value is 0 we only want to display a 0 value
 (without the denominator).
 
-``` r
-
-custom_format <- function(x, ...) {
-  attr(x, "label") <- NULL
-  checkmate::assert_vector(x)
-  checkmate::assert_count(x["num"])
-  checkmate::assert_count(x["denom"])
-
-  result <- if (x["num"] == 0) {
-    paste0(x["num"]) # We remove the denominator on this line so that only a 0 is displayed
-  } else {
-    paste0(
-      x["num"], "/", x["denom"],
-      " (", sprintf("%.3f", round(x["num"] / x["denom"] * 100, 1)), "%)" # We include 3 decimal places with %.3f
-    )
-  }
-  result
-}
-
-basic_table() |>
-  count_abnormal(
-    var = "RANGE",
-    abnormal = list(low = "LOW", high = "HIGH"),
-    variables = list(id = "ID", baseline = "BL_RANGE"),
-    exclude_base_abn = FALSE,
-    .formats = list(fraction = custom_format) # Here we implement our new custom_format function
-  ) |>
-  build_table(df2)
-#>           all obs    
-#> —————————————————————
-#> low    2/2 (100.000%)
-#> high         0
-```
+`custom_format`` ``<-`` ``function``(``x``, ``...``)`` ``{`` `` `[`attr`](https://rdrr.io/r/base/attr.html)`(``x``, ``"label"``)`` ``<-`` ``NULL`` `` ``checkmate``::`[`assert_vector`](https://mllg.github.io/checkmate/reference/checkVector.html)`(``x``)`` `` ``checkmate``::`[`assert_count`](https://mllg.github.io/checkmate/reference/checkCount.html)`(``x``[``"num"``]``)`` `` ``checkmate``::`[`assert_count`](https://mllg.github.io/checkmate/reference/checkCount.html)`(``x``[``"denom"``]``)`` `` `` ``result`` ``<-`` ``if`` ``(``x``[``"num"``]`` ``==`` ``0``)`` ``{`` `` `[`paste0`](https://rdrr.io/r/base/paste.html)`(``x``[``"num"``]``)`` ``# We remove the denominator on this line so that only a 0 is displayed`` `` ``}`` ``else`` ``{`` `` `[`paste0`](https://rdrr.io/r/base/paste.html)`(`` `` ``x``[``"num"``]``, ``"/"``, ``x``[``"denom"``]``,`` `` ``" ("``, `[`sprintf`](https://rdrr.io/r/base/sprintf.html)`(``"%.3f"``, `[`round`](https://rdrr.io/r/base/Round.html)`(``x``[``"num"``]`` ``/`` ``x``[``"denom"``]`` ``*`` ``100``, ``1``)``)``, ``"%)"`` ``# We include 3 decimal places with %.3f`` `` ``)`` `` ``}`` `` ``result`` ``}`` `` `[`basic_table`](https://rdrr.io/pkg/rtables/man/basic_table.html)`(``)`` ``|>`` `` `[`count_abnormal`](https://pharmaverse.github.io/tern/reference/abnormal.md)`(`` `` var ``=`` ``"RANGE"``,`` `` abnormal ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``low ``=`` ``"LOW"``, high ``=`` ``"HIGH"``)``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``id ``=`` ``"ID"``, baseline ``=`` ``"BL_RANGE"``)``,`` `` exclude_base_abn ``=`` ``FALSE``,`` `` .formats ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``fraction ``=`` ``custom_format``)`` ``# Here we implement our new custom_format function`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``df2``)`` ``#> all obs `` ``#> —————————————————————`` ``#> low 2/2 (100.000%)`` ``#> high 0`
 
 ## Summary
 

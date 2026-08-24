@@ -53,6 +53,12 @@ g_forest(
   from `tbl` attribute `col_ci`, otherwise needs to be manually
   specified. If `NULL`, lines will be excluded from forest plot.
 
+  The estimator and confidence interval can be stored in the same
+  column. In this case, `col_x` and `col_ci` must be the same, and the
+  values in each row of the column indicated by `col_x`/`col_ci` must be
+  ordered as the point estimate, lower confidence interval bound, and
+  upper confidence interval bound, respectively.
+
 - vline:
 
   (`numeric(1)` or `NULL`)\
@@ -215,28 +221,61 @@ df <- extract_rsp_subgroups(
   variables = list(rsp = "rsp", arm = "ARM", subgroups = c("SEX", "STRATA2")),
   data = adrs
 )
-# Full commonly used response table.
 
+# Full commonly used response table.
 tbl <- basic_table() |>
   tabulate_rsp_subgroups(df)
-
+tbl
+#>                                        B: Placebo          A: Drug X                                   
+#> Baseline Risk Factors     Total n   n   Response (%)   n    Response (%)   Odds Ratio       95% CI     
+#> ———————————————————————————————————————————————————————————————————————————————————————————————————————
+#> All Patients                20      9      77.8%       11      72.7%          0.76       (0.10, 5.96)  
+#> Sex                                                                                                    
+#>   F                         11      5      80.0%       6       100.0%       >999.99     (0.00, >999.99)
+#>   M                          9      4      75.0%       5       40.0%          0.22       (0.01, 3.98)  
+#> Stratification Factor 2                                                                                
+#>   S1                        10      5      80.0%       5       80.0%          1.00       (0.05, 22.18) 
+#>   S2                        10      4      75.0%       6       66.7%          0.67       (0.04, 11.29) 
 g_forest(tbl)
 
 # \donttest{
 g_forest(tbl, exclude_rows = 1)
 
 # }
-
 # Odds ratio only table.
-
 tbl_or <- basic_table() |>
   tabulate_rsp_subgroups(df, vars = c("n_tot", "or", "ci"))
+tbl_or
+#>                                                                 
+#> Baseline Risk Factors     Total n   Odds Ratio       95% CI     
+#> ————————————————————————————————————————————————————————————————
+#> All Patients                20         0.76       (0.10, 5.96)  
+#> Sex                                                             
+#>   F                         11       >999.99     (0.00, >999.99)
+#>   M                          9         0.22       (0.01, 3.98)  
+#> Stratification Factor 2                                         
+#>   S1                        10         1.00       (0.05, 22.18) 
+#>   S2                        10         0.67       (0.04, 11.29) 
 g_forest(
   tbl_or,
   forest_header = c("Comparison\nBetter", "Treatment\nBetter")
 )
 
+# \donttest{
+# Estimates and confidence intervals in the same column.
+tbl <- rtable(
+  header = rheader(rrow("", "point est (CI)")),
+  rrow("row 1", rcell(c(10, 8, 12), format = "xx. (xx. - xx.)")),
+  rrow("row 2", rcell(c(11, 7, 13), format = "xx. (xx. - xx.)"))
+)
+tbl
+#>         point est (CI)
+#> ——————————————————————
+#> row 1    10 (8 - 12)  
+#> row 2    11 (7 - 13)  
+g_forest(tbl, col_x = 1, col_ci = 1, vline = 10, xlim = c(5, 15), logx = FALSE)
 
+# }
 # Survival forest plot example.
 adtte <- tern_ex_adtte
 # Save variable labels before data processing steps.

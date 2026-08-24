@@ -42,214 +42,25 @@ The main questions that may arise are:
 
 Data set and library loading.
 
-``` r
-
-library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-library(tern)
-#> Loading required package: rtables
-#> Loading required package: formatters
-#> 
-#> Attaching package: 'formatters'
-#> The following object is masked from 'package:base':
-#> 
-#>     %||%
-#> Loading required package: magrittr
-#> 
-#> Attaching package: 'rtables'
-#> The following object is masked from 'package:utils':
-#> 
-#>     str
-#> Registered S3 method overwritten by 'tern':
-#>   method   from 
-#>   tidy.glm broom
-
-## Fabricate dataset
-dta_test <- data.frame(
-  USUBJID = rep(1:6, each = 3),
-  AVISIT = rep(paste0("V", 1:3), 6),
-  ARM = rep(LETTERS[1:3], rep(6, 3)),
-  AVAL = c(9:1, rep(NA, 9))
-) |>
-  mutate(ABLFLL = AVISIT == "V1") |>
-  group_by(USUBJID) |>
-  mutate(
-    BLVAL = AVAL[ABLFLL],
-    CHG = AVAL - BLVAL
-  ) |>
-  ungroup()
-```
+[`library`](https://rdrr.io/r/base/library.html)`(`[`dplyr`](https://dplyr.tidyverse.org)`)`` ``#> `` ``#> Attaching package: 'dplyr'`` ``#> The following objects are masked from 'package:stats':`` ``#> `` ``#> filter, lag`` ``#> The following objects are masked from 'package:base':`` ``#> `` ``#> intersect, setdiff, setequal, union`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`tern`](https://pharmaverse.github.io/tern/)`)`` ``#> Loading required package: rtables`` ``#> Loading required package: formatters`` ``#> `` ``#> Attaching package: 'formatters'`` ``#> The following object is masked from 'package:base':`` ``#> `` ``#> %||%`` ``#> Loading required package: magrittr`` ``#> `` ``#> Attaching package: 'rtables'`` ``#> The following object is masked from 'package:utils':`` ``#> `` ``#> str`` ``#> Registered S3 method overwritten by 'tern':`` ``#> method from `` ``#> tidy.glm broom`` `` ``## Fabricate dataset`` ``dta_test`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`` `` USUBJID ``=`` `[`rep`](https://rdrr.io/r/base/rep.html)`(``1``:``6``, each ``=`` ``3``)``,`` `` AVISIT ``=`` `[`rep`](https://rdrr.io/r/base/rep.html)`(`[`paste0`](https://rdrr.io/r/base/paste.html)`(``"V"``, ``1``:``3``)``, ``6``)``,`` `` ARM ``=`` `[`rep`](https://rdrr.io/r/base/rep.html)`(``LETTERS``[``1``:``3``]``, `[`rep`](https://rdrr.io/r/base/rep.html)`(``6``, ``3``)``)``,`` `` AVAL ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``9``:``1``, `[`rep`](https://rdrr.io/r/base/rep.html)`(``NA``, ``9``)``)`` ``)`` ``|>`` `` `[`mutate`](https://dplyr.tidyverse.org/reference/mutate.html)`(``ABLFLL ``=`` ``AVISIT`` ``==`` ``"V1"``)`` ``|>`` `` `[`group_by`](https://dplyr.tidyverse.org/reference/group_by.html)`(``USUBJID``)`` ``|>`` `` `[`mutate`](https://dplyr.tidyverse.org/reference/mutate.html)`(`` `` BLVAL ``=`` ``AVAL``[``ABLFLL``]``,`` `` CHG ``=`` ``AVAL`` ``-`` ``BLVAL`` `` ``)`` ``|>`` `` `[`ungroup`](https://dplyr.tidyverse.org/reference/group_by.html)`(``)`
 
 Classic use of
 [`summarize_change()`](https://pharmaverse.github.io/tern/reference/summarize_change.md).
 
-``` r
-
-fix_layout <- basic_table() |>
-  split_cols_by("ARM") |>
-  split_rows_by("AVISIT")
-
-# Dealing with NAs: na_rm = TRUE
-fix_layout |>
-  summarize_change("CHG", variables = list(value = "AVAL", baseline_flag = "ABLFLL")) |>
-  build_table(dta_test) |>
-  print()
-#>                     A               B         C 
-#> ————————————————————————————————————————————————
-#> V1                                              
-#>   n                 2               1         0 
-#>   Mean (SD)    7.50 (2.12)      3.00 (NA)     NA
-#>   Median          7.50            3.00        NA
-#>   Min - Max    6.00 - 9.00     3.00 - 3.00    NA
-#> V2                                              
-#>   n                 2               1         0 
-#>   Mean (SD)   -1.00 (0.00)     -1.00 (NA)     NA
-#>   Median          -1.00           -1.00       NA
-#>   Min - Max   -1.00 - -1.00   -1.00 - -1.00   NA
-#> V3                                              
-#>   n                 2               1         0 
-#>   Mean (SD)   -2.00 (0.00)     -2.00 (NA)     NA
-#>   Median          -2.00           -2.00       NA
-#>   Min - Max   -2.00 - -2.00   -2.00 - -2.00   NA
-
-# Dealing with NAs: na_rm = FALSE
-fix_layout |>
-  summarize_change("CHG", variables = list(value = "AVAL", baseline_flag = "ABLFLL"), na_rm = FALSE) |>
-  build_table(dta_test) |>
-  print()
-#>                     A         B    C 
-#> —————————————————————————————————————
-#> V1                                   
-#>   n                 2         2    2 
-#>   Mean (SD)    7.50 (2.12)    NA   NA
-#>   Median          7.50        NA   NA
-#>   Min - Max    6.00 - 9.00    NA   NA
-#> V2                                   
-#>   n                 2         2    2 
-#>   Mean (SD)   -1.00 (0.00)    NA   NA
-#>   Median          -1.00       NA   NA
-#>   Min - Max   -1.00 - -1.00   NA   NA
-#> V3                                   
-#>   n                 2         2    2 
-#>   Mean (SD)   -2.00 (0.00)    NA   NA
-#>   Median          -2.00       NA   NA
-#>   Min - Max   -2.00 - -2.00   NA   NA
-
-# changing the NA string (it is done on all levels)
-fix_layout |>
-  summarize_change("CHG", variables = list(value = "AVAL", baseline_flag = "ABLFLL"), na_str = "my_na") |>
-  build_table(dta_test) |>
-  print()
-#>                     A               B           C  
-#> ———————————————————————————————————————————————————
-#> V1                                                 
-#>   n                 2               1           0  
-#>   Mean (SD)    7.50 (2.12)    3.00 (my_na)    my_na
-#>   Median          7.50            3.00        my_na
-#>   Min - Max    6.00 - 9.00     3.00 - 3.00    my_na
-#> V2                                                 
-#>   n                 2               1           0  
-#>   Mean (SD)   -1.00 (0.00)    -1.00 (my_na)   my_na
-#>   Median          -1.00           -1.00       my_na
-#>   Min - Max   -1.00 - -1.00   -1.00 - -1.00   my_na
-#> V3                                                 
-#>   n                 2               1           0  
-#>   Mean (SD)   -2.00 (0.00)    -2.00 (my_na)   my_na
-#>   Median          -2.00           -2.00       my_na
-#>   Min - Max   -2.00 - -2.00   -2.00 - -2.00   my_na
-```
+`fix_layout`` ``<-`` `[`basic_table`](https://rdrr.io/pkg/rtables/man/basic_table.html)`(``)`` ``|>`` `` `[`split_cols_by`](https://rdrr.io/pkg/rtables/man/split_cols_by.html)`(``"ARM"``)`` ``|>`` `` `[`split_rows_by`](https://rdrr.io/pkg/rtables/man/split_rows_by.html)`(``"AVISIT"``)`` `` ``# Dealing with NAs: na_rm = TRUE`` ``fix_layout`` ``|>`` `` `[`summarize_change`](https://pharmaverse.github.io/tern/reference/summarize_change.md)`(``"CHG"``, variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``value ``=`` ``"AVAL"``, baseline_flag ``=`` ``"ABLFLL"``)``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``dta_test``)`` ``|>`` `` `[`print`](https://rdrr.io/r/base/print.html)`(``)`` ``#> A B C `` ``#> ————————————————————————————————————————————————`` ``#> V1 `` ``#> n 2 1 0 `` ``#> Mean (SD) 7.50 (2.12) 3.00 (NA) NA`` ``#> Median 7.50 3.00 NA`` ``#> Min - Max 6.00 - 9.00 3.00 - 3.00 NA`` ``#> V2 `` ``#> n 2 1 0 `` ``#> Mean (SD) -1.00 (0.00) -1.00 (NA) NA`` ``#> Median -1.00 -1.00 NA`` ``#> Min - Max -1.00 - -1.00 -1.00 - -1.00 NA`` ``#> V3 `` ``#> n 2 1 0 `` ``#> Mean (SD) -2.00 (0.00) -2.00 (NA) NA`` ``#> Median -2.00 -2.00 NA`` ``#> Min - Max -2.00 - -2.00 -2.00 - -2.00 NA`` `` ``# Dealing with NAs: na_rm = FALSE`` ``fix_layout`` ``|>`` `` `[`summarize_change`](https://pharmaverse.github.io/tern/reference/summarize_change.md)`(``"CHG"``, variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``value ``=`` ``"AVAL"``, baseline_flag ``=`` ``"ABLFLL"``)``, na_rm ``=`` ``FALSE``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``dta_test``)`` ``|>`` `` `[`print`](https://rdrr.io/r/base/print.html)`(``)`` ``#> A B C `` ``#> —————————————————————————————————————`` ``#> V1 `` ``#> n 2 2 2 `` ``#> Mean (SD) 7.50 (2.12) NA NA`` ``#> Median 7.50 NA NA`` ``#> Min - Max 6.00 - 9.00 NA NA`` ``#> V2 `` ``#> n 2 2 2 `` ``#> Mean (SD) -1.00 (0.00) NA NA`` ``#> Median -1.00 NA NA`` ``#> Min - Max -1.00 - -1.00 NA NA`` ``#> V3 `` ``#> n 2 2 2 `` ``#> Mean (SD) -2.00 (0.00) NA NA`` ``#> Median -2.00 NA NA`` ``#> Min - Max -2.00 - -2.00 NA NA`` `` ``# changing the NA string (it is done on all levels)`` ``fix_layout`` ``|>`` `` `[`summarize_change`](https://pharmaverse.github.io/tern/reference/summarize_change.md)`(``"CHG"``, variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``value ``=`` ``"AVAL"``, baseline_flag ``=`` ``"ABLFLL"``)``, na_str ``=`` ``"my_na"``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``dta_test``)`` ``|>`` `` `[`print`](https://rdrr.io/r/base/print.html)`(``)`` ``#> A B C `` ``#> ———————————————————————————————————————————————————`` ``#> V1 `` ``#> n 2 1 0 `` ``#> Mean (SD) 7.50 (2.12) 3.00 (my_na) my_na`` ``#> Median 7.50 3.00 my_na`` ``#> Min - Max 6.00 - 9.00 3.00 - 3.00 my_na`` ``#> V2 `` ``#> n 2 1 0 `` ``#> Mean (SD) -1.00 (0.00) -1.00 (my_na) my_na`` ``#> Median -1.00 -1.00 my_na`` ``#> Min - Max -1.00 - -1.00 -1.00 - -1.00 my_na`` ``#> V3 `` ``#> n 2 1 0 `` ``#> Mean (SD) -2.00 (0.00) -2.00 (my_na) my_na`` ``#> Median -2.00 -2.00 my_na`` ``#> Min - Max -2.00 - -2.00 -2.00 - -2.00 my_na`
 
 `.formats`, `.labels`, and `.indent_mods` depend on the names of
 `.stats`. Here is how you can change the default formatting.
 
-``` r
-
-# changing n count format and label and indentation
-fix_layout |>
-  summarize_change("CHG",
-    variables = list(value = "AVAL", baseline_flag = "ABLFLL"),
-    .stats = c("n", "mean"), # reducing the number of stats for visual appreciation
-    .formats = c(n = "xx.xx"),
-    .labels = c(n = "NnNn"),
-    .indent_mods = c(n = 5), na_str = "nA"
-  ) |>
-  build_table(dta_test) |>
-  print()
-#>                     A      B      C  
-#> —————————————————————————————————————
-#> V1                                   
-#>             NnNn   2.00   1.00   0.00
-#>   Mean             7.5    3.0     nA 
-#> V2                                   
-#>             NnNn   2.00   1.00   0.00
-#>   Mean             -1.0   -1.0    nA 
-#> V3                                   
-#>             NnNn   2.00   1.00   0.00
-#>   Mean             -2.0   -2.0    nA
-```
+`# changing n count format and label and indentation`` ``fix_layout`` ``|>`` `` `[`summarize_change`](https://pharmaverse.github.io/tern/reference/summarize_change.md)`(``"CHG"``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``value ``=`` ``"AVAL"``, baseline_flag ``=`` ``"ABLFLL"``)``,`` `` .stats ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"n"``, ``"mean"``)``, ``# reducing the number of stats for visual appreciation`` `` .formats ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``n ``=`` ``"xx.xx"``)``,`` `` .labels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``n ``=`` ``"NnNn"``)``,`` `` .indent_mods ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``n ``=`` ``5``)``, na_str ``=`` ``"nA"`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``dta_test``)`` ``|>`` `` `[`print`](https://rdrr.io/r/base/print.html)`(``)`` ``#> A B C `` ``#> —————————————————————————————————————`` ``#> V1 `` ``#> NnNn 2.00 1.00 0.00`` ``#> Mean 7.5 3.0 nA `` ``#> V2 `` ``#> NnNn 2.00 1.00 0.00`` ``#> Mean -1.0 -1.0 nA `` ``#> V3 `` ``#> NnNn 2.00 1.00 0.00`` ``#> Mean -2.0 -2.0 nA`
 
 What if I want something special for the format?
 
-``` r
-
-# changing n count format and label and indentation
-fix_layout |>
-  summarize_change("CHG",
-    variables = list(value = "AVAL", baseline_flag = "ABLFLL"),
-    .stats = c("n", "mean"), # reducing the number of stats for visual appreciation
-    .formats = c(n = function(x, ...) as.character(x * 100))
-  ) |> # Note you need ...!!!
-  build_table(dta_test) |>
-  print()
-#>           A      B     C 
-#> —————————————————————————
-#> V1                       
-#>   n      200    100    0 
-#>   Mean   7.5    3.0    NA
-#> V2                       
-#>   n      200    100    0 
-#>   Mean   -1.0   -1.0   NA
-#> V3                       
-#>   n      200    100    0 
-#>   Mean   -2.0   -2.0   NA
-```
+`# changing n count format and label and indentation`` ``fix_layout`` ``|>`` `` `[`summarize_change`](https://pharmaverse.github.io/tern/reference/summarize_change.md)`(``"CHG"``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``value ``=`` ``"AVAL"``, baseline_flag ``=`` ``"ABLFLL"``)``,`` `` .stats ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"n"``, ``"mean"``)``, ``# reducing the number of stats for visual appreciation`` `` .formats ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``n ``=`` ``function``(``x``, ``...``)`` `[`as.character`](https://rdrr.io/r/base/character.html)`(``x`` ``*`` ``100``)``)`` `` ``)`` ``|>`` ``# Note you need ...!!!`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``dta_test``)`` ``|>`` `` `[`print`](https://rdrr.io/r/base/print.html)`(``)`` ``#> A B C `` ``#> —————————————————————————`` ``#> V1 `` ``#> n 200 100 0 `` ``#> Mean 7.5 3.0 NA`` ``#> V2 `` ``#> n 200 100 0 `` ``#> Mean -1.0 -1.0 NA`` ``#> V3 `` ``#> n 200 100 0 `` ``#> Mean -2.0 -2.0 NA`
 
 Adding a custom statistic (and custom format):
 
-``` r
-
-# changing n count format and label and indentation
-fix_layout |>
-  summarize_change(
-    "CHG",
-    variables = list(value = "AVAL", baseline_flag = "ABLFLL"),
-    .stats = c("n", "my_stat" = function(df, ...) {
-      a <- mean(df$AVAL, na.rm = TRUE)
-      b <- list(...)$.N_row # It has access at all `?rtables::additional_fun_params`
-      a / b
-    }),
-    .formats = c("my_stat" = function(x, ...) sprintf("%.2f", x))
-  ) |>
-  build_table(dta_test)
-#>              A      B     C 
-#> ————————————————————————————
-#> V1                          
-#>   n          2      1     0 
-#>   my_stat   1.25   0.50   NA
-#> V2                          
-#>   n          2      1     0 
-#>   my_stat   1.08   0.33   NA
-#> V3                          
-#>   n          2      1     0 
-#>   my_stat   0.92   0.17   NA
-```
+`# changing n count format and label and indentation`` ``fix_layout`` ``|>`` `` `[`summarize_change`](https://pharmaverse.github.io/tern/reference/summarize_change.md)`(`` `` ``"CHG"``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``value ``=`` ``"AVAL"``, baseline_flag ``=`` ``"ABLFLL"``)``,`` `` .stats ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"n"``, ``"my_stat"`` ``=`` ``function``(``df``, ``...``)`` ``{`` `` ``a`` ``<-`` `[`mean`](https://rdrr.io/r/base/mean.html)`(``df``$``AVAL``, na.rm ``=`` ``TRUE``)`` `` ``b`` ``<-`` `[`list`](https://rdrr.io/r/base/list.html)`(``...``)``$``.N_row`` ``` # It has access at all `?rtables::additional_fun_params` ``` `` ``a`` ``/`` ``b`` `` ``}``)``,`` `` .formats ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"my_stat"`` ``=`` ``function``(``x``, ``...``)`` `[`sprintf`](https://rdrr.io/r/base/sprintf.html)`(``"%.2f"``, ``x``)``)`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``dta_test``)`` ``#> A B C `` ``#> ————————————————————————————`` ``#> V1 `` ``#> n 2 1 0 `` ``#> my_stat 1.25 0.50 NA`` ``#> V2 `` ``#> n 2 1 0 `` ``#> my_stat 1.08 0.33 NA`` ``#> V3 `` ``#> n 2 1 0 `` ``#> my_stat 0.92 0.17 NA`
 
 ## For Developers
 
