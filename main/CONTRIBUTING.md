@@ -26,9 +26,9 @@ feedback, regardless of size, content or scope.
 ## Getting started
 
 Please refer the project
-[documentation](https://insightsengineering.github.io/tern/index.html)
-for a brief introduction. Please also see other
-[articles](https://insightsengineering.github.io/tern/main/articles/index.html)
+[documentation](https://pharmaverse.github.io/tern/index.html) for a
+brief introduction. Please also see other
+[articles](https://pharmaverse.github.io/tern/main/articles/index.html)
 within the project documentation for additional information.
 
 ## Code of Conduct
@@ -41,7 +41,7 @@ rules outlined therein.
 ## License
 
 All your contributions will be covered by this project’s
-[license](https://insightsengineering.github.io/tern/main/LICENSE-text.html).
+[license](https://pharmaverse.github.io/tern/main/LICENSE-text.html).
 
 ## Issues
 
@@ -181,8 +181,7 @@ Pre-commit hooks are already available in this repository’s
 
 As mentioned previously, all contributions are deeply valued and
 appreciated. While all contribution data is available as part of the
-[repository
-insights](https://github.com/insightsengineering/tern/pulse), to
+[repository insights](https://github.com/pharmaverse/tern/pulse), to
 recognize a *significant* contribution and hence add the contributor to
 the package authors list, the following rules are enforced:
 
