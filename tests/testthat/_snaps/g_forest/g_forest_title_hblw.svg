@@ -113,8 +113,8 @@
 <rect x='324.00' y='0.00' width='97.20' height='167.41' style='stroke-width: 1.07; stroke: none;' />
 <rect x='324.95' y='41.85' width='95.29' height='125.56' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #EBEBEB;' />
 <line x1='372.60' y1='167.41' x2='372.60' y2='41.85' style='stroke-width: 1.07; stroke-linecap: butt;' />
-<text x='348.78' y='191.08' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='27.36px' lengthAdjust='spacingAndGlyphs'>Hello</text>
-<text x='396.42' y='191.08' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='31.12px' lengthAdjust='spacingAndGlyphs'>World</text>
+<text x='348.78' y='192.75' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='27.36px' lengthAdjust='spacingAndGlyphs'>Hello</text>
+<text x='396.42' y='192.75' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='31.12px' lengthAdjust='spacingAndGlyphs'>World</text>
 <text x='372.60' y='37.78' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='109.34px' lengthAdjust='spacingAndGlyphs'>Some forest plot title</text>
 <circle cx='378.23' cy='50.22' r='6.76' style='stroke-width: 0.71; stroke: #343CFF; fill: #343CFF;' />
 <circle cx='403.72' cy='100.45' r='1.42' style='stroke-width: 0.71; stroke: #343CFF; fill: #343CFF;' />

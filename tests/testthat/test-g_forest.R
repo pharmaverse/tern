@@ -20,7 +20,7 @@ testthat::test_that("g_forest default plot works", {
 
   testthat::expect_silent(g_forest <- g_forest(tbl))
 
-  expect_snapshot_ggplot("g_forest", g_forest, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest", g_forest, width = 15, height = 3, no_plot_snapshots = FALSE)
 
   # Odds ratio only
   tbl_or <- basic_table() |>
@@ -32,7 +32,7 @@ testthat::test_that("g_forest default plot works", {
     rel_width_forest = 0.4
   ))
 
-  expect_snapshot_ggplot("g_forest_or", g_forest_or, width = 8, height = 3)
+  expect_snapshot_ggplot("g_forest_or", g_forest_or, width = 8, height = 3, no_plot_snapshots = FALSE)
 })
 
 testthat::test_that("g_forest works with custom arguments", {
@@ -55,7 +55,7 @@ testthat::test_that("g_forest works with custom arguments", {
     forest_header = c("Hello", "World")
   ))
 
-  expect_snapshot_ggplot("g_forest_custom_1", g_forest_custom_1, width = 4, height = 2)
+  expect_snapshot_ggplot("g_forest_custom_1", g_forest_custom_1, width = 4, height = 2, no_plot_snapshots = FALSE)
 
   testthat::expect_silent(g_forest_custom_2 <- g_forest(
     tbl = tbl,
@@ -69,7 +69,7 @@ testthat::test_that("g_forest works with custom arguments", {
     col = "purple"
   ))
 
-  expect_snapshot_ggplot("g_forest_custom_2", g_forest_custom_2, width = 10, height = 5)
+  expect_snapshot_ggplot("g_forest_custom_2", g_forest_custom_2, width = 10, height = 5, no_plot_snapshots = FALSE)
 
   testthat::expect_silent(g_forest_custom_3 <- g_forest(
     tbl = tbl,
@@ -84,7 +84,7 @@ testthat::test_that("g_forest works with custom arguments", {
     col = c("red", "green")
   ))
 
-  expect_snapshot_ggplot("g_forest_custom_3", g_forest_custom_3, width = 10, height = 5)
+  expect_snapshot_ggplot("g_forest_custom_3", g_forest_custom_3, width = 10, height = 5, no_plot_snapshots = FALSE)
 })
 
 testthat::test_that("g_forest as_list argument works", {
@@ -95,8 +95,8 @@ testthat::test_that("g_forest as_list argument works", {
   g_forest_table_only <- f$table
   g_forest_plot_only <- f$plot
 
-  expect_snapshot_ggplot("g_forest_table_only", g_forest_table_only, width = 9, height = 3)
-  expect_snapshot_ggplot("g_forest_plot_only", g_forest_plot_only, width = 2, height = 3)
+  expect_snapshot_ggplot("g_forest_table_only", g_forest_table_only, width = 9, height = 3, no_plot_snapshots = FALSE)
+  expect_snapshot_ggplot("g_forest_plot_only", g_forest_plot_only, width = 2, height = 3, no_plot_snapshots = FALSE)
 })
 
 testthat::test_that("g_forest handles NULL col_x/col_ci", {
@@ -130,14 +130,14 @@ testthat::test_that("g_forest handles NULL col_x/col_ci", {
     p_nn_logf <- g_forest(tbl, col_x = NULL, col_ci = NULL, vline = 10, xlim = c(5, 15), logx = FALSE)
   )
 
-  expect_snapshot_ggplot("g_forest_x_NULL", p_n2, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_x_NULL_logf", p_n2_logf, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_x_NULL", p_n2, width = 15, height = 3, no_plot_snapshots = FALSE)
+  expect_snapshot_ggplot("g_forest_x_NULL_logf", p_n2_logf, width = 15, height = 3, no_plot_snapshots = FALSE)
 
-  expect_snapshot_ggplot("g_forest_ci_NULL", p_1n, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_ci_NULL_logf", p_1n_logf, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_ci_NULL", p_1n, width = 15, height = 3, no_plot_snapshots = FALSE)
+  expect_snapshot_ggplot("g_forest_ci_NULL_logf", p_1n_logf, width = 15, height = 3, no_plot_snapshots = FALSE)
 
-  expect_snapshot_ggplot("g_forest_NULL", p_nn, width = 15, height = 3)
-  expect_snapshot_ggplot("g_forest_NULL_logf", p_nn_logf, width = 15, height = 3)
+  expect_snapshot_ggplot("g_forest_NULL", p_nn, width = 15, height = 3, no_plot_snapshots = FALSE)
+  expect_snapshot_ggplot("g_forest_NULL_logf", p_nn_logf, width = 15, height = 3, no_plot_snapshots = FALSE)
 })
 
 testthat::test_that("g_forest validates exclude_rows", {

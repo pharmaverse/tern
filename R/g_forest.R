@@ -428,7 +428,7 @@ g_forest <- function(tbl,
       forest_header_y <- nrows_body + 1
     } else {
       forest_header_just <- "top"
-      forest_header_y <- -0.9
+      forest_header_y <- -1
     }
 
     gg_plt <- gg_plt +
