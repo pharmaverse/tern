@@ -130,7 +130,7 @@ The package maintainer also reserves the right to adjust the criteria to recogni
 If you have further questions regarding the contribution guidelines, please contact the package/repository maintainer.
 
 <!-- urls -->
-[docs]: https://insightsengineering.github.io/tern/index.html
-[articles]: https://insightsengineering.github.io/tern/main/articles/index.html
-[license]: https://insightsengineering.github.io/tern/main/LICENSE-text.html
-[insights]: https://github.com/insightsengineering/tern/pulse
+[docs]: https://pharmaverse.github.io/tern/index.html
+[articles]: https://pharmaverse.github.io/tern/main/articles/index.html
+[license]: https://pharmaverse.github.io/tern/main/LICENSE-text.html
+[insights]: https://github.com/pharmaverse/tern/pulse
