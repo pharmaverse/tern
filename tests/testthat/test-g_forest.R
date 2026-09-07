@@ -288,6 +288,185 @@ testthat::test_that("g_forest handles NULL col_x/col_ci in same column (all rows
   expect_snapshot_ggplot("g_forest_same_x_ci_excl_NULL_logf", p_nn_logf, width = 15, height = 3)
 })
 
+testthat::test_that("g_forest forest_header_above works", {
+  tbl <- basic_table() |>
+    tabulate_rsp_subgroups(df)
+
+  testthat::expect_silent(
+    p_habove <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello", "World"),
+      forest_header_above = TRUE
+    )
+  )
+
+  testthat::expect_silent(
+    p_hblw <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello", "World"),
+      forest_header_above = FALSE
+    )
+  )
+
+  testthat::expect_silent(
+    p_vline_null_habove <- g_forest(
+      tbl,
+      vline = NULL,
+      forest_header = c("Hello", "World"),
+      forest_header_above = TRUE
+    )
+  )
+
+  testthat::expect_silent(
+    p_vline_null_hblw <- g_forest(
+      tbl,
+      vline = NULL,
+      forest_header = c("Hello", "World"),
+      forest_header_above = FALSE
+    )
+  )
+
+  expect_snapshot_ggplot("g_forest_header_above", p_habove, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_header_below", p_hblw, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_vline_NULL_header_above", p_vline_null_habove, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_vline_NULL_header_below", p_vline_null_hblw, width = 6, height = 3)
+})
+
+testthat::test_that("g_forest forest_header_above works for two-line header", {
+  tbl <- basic_table() |>
+    tabulate_rsp_subgroups(df)
+
+  testthat::expect_silent(
+    p_2lh_above <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello\nBelow", "World\nBelow"),
+      forest_header_above = TRUE
+    )
+  )
+
+  testthat::expect_silent(
+    p_2lh_blw <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello\nBelow", "World\nBelow"),
+      forest_header_above = FALSE
+    )
+  )
+
+  testthat::expect_silent(
+    p_2lh_blw_title <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello\nBelow", "World\nBelow"),
+      forest_header_above = FALSE,
+      forest_title = "Some forest plot title"
+    )
+  )
+
+  expect_snapshot_ggplot("g_forest_2lh_above", p_2lh_above, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_2lh_blw", p_2lh_blw, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_2lh_blw_title", p_2lh_blw_title, width = 6, height = 3)
+})
+
+testthat::test_that("g_forest forest_header_above works when logx = FALSE", {
+  tbl <- basic_table() |>
+    tabulate_rsp_subgroups(df)
+
+  testthat::expect_silent(
+    p_logx_habove <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello\nBelow", "World\nBelow"),
+      forest_header_above = TRUE,
+      logx = FALSE
+    )
+  )
+
+  testthat::expect_silent(
+    p_logx_hblw <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello\nBelow", "World\nBelow"),
+      forest_header_above = FALSE,
+      logx = FALSE
+    )
+  )
+
+  expect_snapshot_ggplot("g_forest_logx_habove", p_logx_habove, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_logx_hblw", p_logx_hblw, width = 6, height = 3)
+})
+
+testthat::test_that("g_forest forest_title works", {
+  tbl <- basic_table() |>
+    tabulate_rsp_subgroups(df)
+
+  testthat::expect_silent(
+    p_title_habove <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello", "World"),
+      forest_header_above = TRUE,
+      forest_title = "Some forest plot title"
+    )
+  )
+
+  testthat::expect_silent(
+    p_title_hblw <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello", "World"),
+      forest_header_above = FALSE,
+      forest_title = "Some forest plot title"
+    )
+  )
+
+  testthat::expect_silent(
+    p_title_vline_null_habove <- g_forest(
+      tbl,
+      vline = NULL,
+      forest_header = c("Hello", "World"),
+      forest_header_above = TRUE,
+      forest_title = "Some forest plot title"
+    )
+  )
+
+  testthat::expect_silent(
+    p_title_vline_null_hblw <- g_forest(
+      tbl,
+      vline = NULL,
+      forest_header = c("Hello", "World"),
+      forest_header_above = FALSE,
+      forest_title = "Some forest plot title"
+    )
+  )
+
+  expect_snapshot_ggplot("g_forest_title_habove", p_title_habove, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_title_hblw", p_title_hblw, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_title_vline_null_habove", p_title_vline_null_habove, width = 6, height = 3)
+  expect_snapshot_ggplot("g_forest_title_vline_null_hblw", p_title_vline_null_hblw, width = 6, height = 3)
+})
+
+testthat::test_that("g_forest forest_title works when logx = FALSE", {
+  tbl <- basic_table() |>
+    tabulate_rsp_subgroups(df)
+
+  testthat::expect_silent(
+    p_title_logx <- g_forest(
+      tbl,
+      vline = 1,
+      forest_header = c("Hello", "World"),
+      forest_header_above = FALSE,
+      forest_title = "Some forest plot title",
+      logx = FALSE
+    )
+  )
+
+  expect_snapshot_ggplot("g_forest_title_logx", p_title_logx, width = 6, height = 3)
+})
+
 testthat::test_that("g_forest argument deprecation warnings work", {
   tbl <- basic_table() |>
     tabulate_rsp_subgroups(df)
