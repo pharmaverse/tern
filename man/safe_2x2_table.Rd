@@ -45,21 +45,32 @@ When strata is supplied, a separate 2 x 2 contingency table is created
 for each stratum.
 }
 \examples{
-rsp <- c(TRUE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, TRUE)
-grp <- factor(c(rep("Placebo", 4), rep("X", 4)))
 
-tbl <- safe_2x2_table(rsp, grp)
+set.seed(123)
+n <- 50
+df <- data.frame(
+  "rsp" = sample(c(TRUE, FALSE), n, TRUE),
+  "grp" = sample(c("A", "B"), n, TRUE),
+  "f1" = sample(c("a1", "a2"), n, TRUE),
+  "f2" = sample(c("x", "y", "z"), n, TRUE),
+  stringsAsFactors = TRUE
+)
+
+tbl <- safe_2x2_table(df$rsp, df$grp)
 tbl
 
 # Example use case: Fisher's exact test.
 prop_fisher(tbl)
 
 # The FALSE/TRUE levels are retained even when only one outcome is observed.
-safe_2x2_table(rep(TRUE, 8), grp)
+safe_2x2_table(rep(TRUE, n), df$grp)
 
 # Stratified 2 x 2 tables.
-strata <- factor(c(rep("S1", 4), rep("S2", 4)))
+strata <- interaction(df$f1, df$f2)
+tbl_strat <- safe_2x2_table(df$rsp, df$grp, strata)
+tbl_strat
 
-safe_2x2_table(rsp, grp, strata)
+# Example use case: the stratified Cochran-Mantel-Haenszel test.
+prop_cmh(tbl_strat)
 
 }

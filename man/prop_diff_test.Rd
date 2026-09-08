@@ -179,6 +179,6 @@ s_test_proportion_diff(
 
 }
 \seealso{
-\link{h_prop_diff_test}
+\link{h_prop_diff_test}, \link{safe_2x2_table}
 }
 \keyword{internal}

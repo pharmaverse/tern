@@ -15,7 +15,7 @@
 #'
 #'   Options are: ``r shQuote(get_stats("test_proportion_diff"), type = "sh")``
 #'
-#' @seealso [h_prop_diff_test]
+#' @seealso [h_prop_diff_test], [safe_2x2_table]
 #'
 #' @name prop_diff_test
 #' @order 1
@@ -62,10 +62,8 @@ s_test_proportion_diff <- function(df,
   if (!.in_ref_col) {
     assert_df_with_variables(df, list(rsp = .var))
     assert_df_with_variables(.ref_group, list(rsp = .var))
-    rsp <- factor(
-      c(.ref_group[[.var]], df[[.var]]),
-      levels = c("TRUE", "FALSE")
-    )
+
+    rsp <- c(.ref_group[[.var]], df[[.var]])
     grp <- factor(
       rep(c("ref", "Not-ref"), c(nrow(.ref_group), nrow(df))),
       levels = c("ref", "Not-ref")
@@ -81,10 +79,10 @@ s_test_proportion_diff <- function(df,
     }
 
     tbl <- switch(method,
-      cmh = table(grp, rsp, strata),
-      cmh_sato = table(grp, rsp, strata),
-      cmh_wh = table(grp, rsp, strata),
-      table(grp, rsp)
+      cmh = safe_2x2_table(grp, rsp, strata),
+      cmh_sato = safe_2x2_table(grp, rsp, strata),
+      cmh_wh = safe_2x2_table(grp, rsp, strata),
+      safe_2x2_table(grp, rsp)
     )
 
     y$pval <- switch(method,
