@@ -15,7 +15,7 @@
 #'
 #'   Options are: ``r shQuote(get_stats("test_proportion_diff"), type = "sh")``
 #'
-#' @seealso [h_prop_diff_test], [safe_2x2_table]
+#' @seealso [h_prop_diff_test()], [safe_2x2_table()]
 #'
 #' @name prop_diff_test
 #' @order 1
