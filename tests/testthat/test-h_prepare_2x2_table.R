@@ -327,7 +327,8 @@ test_that("h_prepare_2x2_table() retains unused strata levels", {
   data <- data.frame(
     rsp = c(TRUE, FALSE, TRUE, FALSE),
     grp = c("X", "X", "Placebo", "Placebo"),
-    strata = factor(c("A", "A", "B", "B"), levels = c("A", "B", "Z"))
+    strata_1 = factor(c("A", "A", "B", "B"), levels = c("A", "B", "Z")),
+    strata_2 = factor(c("S1", "S2", "S1", "S2"), levels = c("S1", "S2", "XXX"))
   )
 
   expect_silent(
@@ -335,29 +336,18 @@ test_that("h_prepare_2x2_table() retains unused strata levels", {
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
-      strata_vars = NULL
-    )
-  )
-
-  expect_silent(
-    result_strata <- h_prepare_2x2_table(
-      df = subset(data, grp == "X"),
-      df_ref = subset(data, grp == "Placebo"),
-      var = "rsp",
-      strata_vars = "strata"
+      strata_vars = c("strata_1", "strata_2")
     )
   )
 
   # Expected.
   rsp <- data$rsp
   grp <- factor(c("Not-ref", "Not-ref", "ref", "ref"), levels = c("ref", "Not-ref"))
-  strata <- data$strata
+  strata <- interaction(data$strata_1, data$strata_2)
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
-  expected <- list(rsp = rsp, grp = grp, strata = NULL, tbl = margin.table(tbl, 1:2))
-  expected_strata <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
+  expected <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
 
   expect_identical(result, expected)
-  expect_identical(result_strata, expected_strata)
 })
 
 test_that("h_prepare_2x2_table() handles sparse contingency tables", {
@@ -428,7 +418,8 @@ test_that("h_prepare_2x2_table() handles empty data with no stratum levels", {
   data <- data.frame(
     rsp = logical(),
     grp = character(),
-    strata = factor()
+    strata_1 = factor(),
+    strata_2 = factor()
   )
 
   expect_silent(
@@ -436,14 +427,14 @@ test_that("h_prepare_2x2_table() handles empty data with no stratum levels", {
       df = subset(data, grp == "Y"),
       df_ref = subset(data, grp == "Cntrl"),
       var = "rsp",
-      strata_vars = "strata"
+      strata_vars = c("strata_1", "strata_2")
     )
   )
 
   # Expected.
   rsp <- data$rsp
   grp <- factor(levels = c("ref", "Not-ref"))
-  strata <- data$strata
+  strata <- data$strata_1
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
   expected <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
 
@@ -522,6 +513,34 @@ testthat::test_that("h_prepare_2x2_table() removes incomplete cases without stra
   grp <- factor(c("Not-ref", "ref", "ref"), levels = c("ref", "Not-ref"))
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")))
   expected <- list(rsp = rsp, grp = grp, strata = NULL, tbl = tbl)
+
+  expect_identical(result, expected)
+})
+
+testthat::test_that("h_prepare_2x2_table() removes incomplete cases (all NAs)", {
+  data <- data.frame(
+    rsp = c(TRUE, NA, FALSE, NA, FALSE, NA),
+    grp = factor(c(NA, "X", "X", "Placebo", NA, "Placebo")),
+    strata_1 = factor(c("S1", "S1", NA, "S1", "S2", "S2")),
+    strata_2 = factor(c("G1", NA, "G2", "G1", "G2", NA))
+  )
+
+  expect_silent(
+    result <- h_prepare_2x2_table(
+      df = subset(data, grp == "X"),
+      df_ref = subset(data, grp == "Placebo"),
+      var = "rsp",
+      strata_vars = c("strata_1", "strata_2"),
+      complete_cases = TRUE,
+      quiet = TRUE
+    )
+  )
+
+  rsp <- logical()
+  grp <- factor(levels = c("ref", "Not-ref"))
+  strata <- factor(levels = c("S1.G1", "S2.G1", "S1.G2", "S2.G2"))
+  tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
+  expected <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
 
   expect_identical(result, expected)
 })

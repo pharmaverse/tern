@@ -152,7 +152,7 @@ testthat::test_that("prop_schouten returns right result", {
       grp <- c(rep("A", N[1]), rep("B", N[2]))
 
       tbl <- table(grp, rsp)
-      if (ncol(tbl) < 2 | nrow(tbl) < 2) {
+      if (ncol(tbl) < 2 || nrow(tbl) < 2) {
         return(NA_real_)
       }
       prop_schouten(tbl)
