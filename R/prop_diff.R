@@ -515,7 +515,6 @@ check_diff_prop_ci <- function(rsp,
 #'   df = subset(dta, grp == "X"),
 #'   df_ref = subset(dta, grp == "Placebo"),
 #'   var = "rsp",
-#'   val = TRUE,
 #'   strata_vars = c("f1", "f2")
 #' )
 #'
@@ -541,12 +540,11 @@ check_diff_prop_ci <- function(rsp,
 #'   df = subset(dta2, grp == "X"),
 #'   df_ref = subset(dta2, grp == "Placebo"),
 #'   var = "rsp",
-#'   val = TRUE,
 #' )$tbl
 h_prepare_2x2_table <- function(df,
                                 df_ref = NULL,
                                 var,
-                                val,
+                                val = TRUE,
                                 strata_vars = NULL,
                                 complete_cases = FALSE,
                                 quiet = FALSE) {
@@ -574,9 +572,17 @@ h_prepare_2x2_table <- function(df,
   # Optionally remove incomplete cases.
   if (complete_cases) {
     vars <- c(var, strata_vars)
-    df <- get_complete_cases(df[, vars, drop = FALSE], quiet = quiet)
+    df <- get_complete_cases(
+      df[, vars, drop = FALSE],
+      quiet = quiet,
+      additional_message = " from the non-reference group (df)."
+    )
     if (!is.null(df_ref)) {
-      df_ref <- get_complete_cases(df_ref[, vars, drop = FALSE], quiet = quiet)
+      df_ref <- get_complete_cases(
+        df_ref[, vars, drop = FALSE],
+        quiet = quiet,
+        additional_message = " from the reference group (df_ref)."
+      )
     }
   }
 

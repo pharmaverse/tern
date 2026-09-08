@@ -8,7 +8,7 @@ h_prepare_2x2_table(
   df,
   df_ref = NULL,
   var,
-  val,
+  val = TRUE,
   strata_vars = NULL,
   complete_cases = FALSE,
   quiet = FALSE
@@ -133,7 +133,6 @@ trgs <- h_prepare_2x2_table(
   df = subset(dta, grp == "X"),
   df_ref = subset(dta, grp == "Placebo"),
   var = "rsp",
-  val = TRUE,
   strata_vars = c("f1", "f2")
 )
 
@@ -159,7 +158,6 @@ h_prepare_2x2_table(
   df = subset(dta2, grp == "X"),
   df_ref = subset(dta2, grp == "Placebo"),
   var = "rsp",
-  val = TRUE,
 )$tbl
 }
 \seealso{
