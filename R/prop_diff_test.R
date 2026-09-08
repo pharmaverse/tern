@@ -57,11 +57,16 @@ s_test_proportion_diff <- function(df,
                                    alternative = c("two.sided", "less", "greater"),
                                    ...) {
   method <- match.arg(method)
-  y <- list(pval = numeric())
 
-  if (!.in_ref_col) {
+  pval <- if (.in_ref_col) {
+    numeric()
+  } else {
     assert_df_with_variables(df, list(rsp = .var))
     assert_df_with_variables(.ref_group, list(rsp = .var))
+    checkmate::assert_list(variables, null.ok = TRUE)
+    if (method %in% c("cmh", "cmh_sato", "cmh_wh")) {
+      checkmate::assert_false(is.null(variables$strata))
+    }
 
     rsp <- c(.ref_group[[.var]], df[[.var]])
     grp <- factor(
@@ -69,9 +74,8 @@ s_test_proportion_diff <- function(df,
       levels = c("ref", "Not-ref")
     )
 
-    if (!is.null(variables$strata) || method %in% c("cmh", "cmh_wh")) {
-      strata <- variables$strata
-      checkmate::assert_false(is.null(strata))
+    strata <- variables$strata
+    if (!is.null(strata)) {
       strata_vars <- stats::setNames(as.list(strata), strata)
       assert_df_with_variables(df, strata_vars)
       assert_df_with_variables(.ref_group, strata_vars)
@@ -85,18 +89,22 @@ s_test_proportion_diff <- function(df,
       safe_2x2_table(rsp, grp)
     )
 
-    y$pval <- switch(method,
-      chisq = prop_chisq(tbl, alternative = alternative),
+    switch(method,
       cmh = prop_cmh(tbl, alternative = alternative),
-      fisher = prop_fisher(tbl, alternative = alternative),
-      schouten = prop_schouten(tbl, alternative = alternative),
       cmh_sato = prop_cmh(tbl, alternative = alternative, diff_se = "sato"),
-      cmh_wh = prop_cmh(tbl, alternative = alternative, transform = "wilson_hilferty")
+      cmh_wh = prop_cmh(tbl, alternative = alternative, transform = "wilson_hilferty"),
+      fisher = prop_fisher(tbl, alternative = alternative),
+      chisq = prop_chisq(tbl, alternative = alternative),
+      schouten = prop_schouten(tbl, alternative = alternative)
     )
   }
 
-  y$pval <- formatters::with_label(y$pval, d_test_proportion_diff(method, alternative = alternative))
-  y
+  list(
+    pval = formatters::with_label(
+      pval,
+      d_test_proportion_diff(method, alternative = alternative)
+    )
+  )
 }
 
 #' Description of the difference test between two proportions
