@@ -79,10 +79,10 @@ s_test_proportion_diff <- function(df,
     }
 
     tbl <- switch(method,
-      cmh = safe_2x2_table(grp, rsp, strata),
-      cmh_sato = safe_2x2_table(grp, rsp, strata),
-      cmh_wh = safe_2x2_table(grp, rsp, strata),
-      safe_2x2_table(grp, rsp)
+      cmh = safe_2x2_table(rsp, grp, strata),
+      cmh_sato = safe_2x2_table(rsp, grp, strata),
+      cmh_wh = safe_2x2_table(rsp, grp, strata),
+      safe_2x2_table(rsp, grp)
     )
 
     y$pval <- switch(method,
