@@ -420,7 +420,7 @@ check_diff_prop_ci <- function(rsp,
 #'   response variable. The response is converted to a logical vector by
 #'   comparing its values with `val`.
 #' @param val (`character(1)` or `logical(1)`)\cr
-#'   The value of `df[[var]]` (and, if supplied, `df_ref[[var]]`) that defines
+#'   The value in `df[[var]]` (and, if supplied, in `df_ref[[var]]`) that defines
 #'   a positive response. Observations matching this value are returned as
 #'   `TRUE` in the `rsp` vector; all other observations are returned as `FALSE`.
 #' @param strata_vars (`character` or `NULL`)\cr

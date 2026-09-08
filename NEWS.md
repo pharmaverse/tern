@@ -10,6 +10,10 @@
   stored in a single column. (#1499)
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected
   rows from the forest plot before plotting. (#1498)
+  
+### Miscellaneous
+* Added the `val` argument and refactored `s_test_proportion_diff()` so that it
+  uses the new function `h_prepare_2x2_table()`.
 
 # tern 0.9.11
 

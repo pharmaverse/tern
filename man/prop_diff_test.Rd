@@ -36,6 +36,7 @@ s_test_proportion_diff(
   variables = list(strata = NULL),
   method = c("chisq", "schouten", "fisher", "cmh", "cmh_sato", "cmh_wh"),
   alternative = c("two.sided", "less", "greater"),
+  val = TRUE,
   ...
 )
 
@@ -105,6 +106,11 @@ by a statistics function.}
 \item{.ref_group}{(\code{data.frame} or \code{vector})\cr the data corresponding to the reference group.}
 
 \item{.in_ref_col}{(\code{flag})\cr \code{TRUE} when working with the reference level, \code{FALSE} otherwise.}
+
+\item{val}{(\code{character(1)} or \code{logical(1)})\cr
+the value in \code{df[[.var]]} (and, if supplied, in \code{.ref_group[[.var]]}) that
+defines a positive response. All other observations are treated as
+non-responses.}
 }
 \value{
 \itemize{

@@ -23,6 +23,11 @@ NULL
 
 #' @describeIn prop_diff_test Statistics function which tests the difference between two proportions.
 #'
+#' @param val (`character(1)` or `logical(1)`)\cr
+#'   the value in `df[[.var]]` (and, if supplied, in `.ref_group[[.var]]`) that
+#'   defines a positive response. All other observations are treated as
+#'   non-responses.
+#'
 #' @return
 #' * `s_test_proportion_diff()` returns a named `list` with a single item `pval` with an attribute `label`
 #'   describing the method used. The p-value tests the null hypothesis that proportions in two groups are the same.
@@ -55,6 +60,7 @@ s_test_proportion_diff <- function(df,
                                    variables = list(strata = NULL),
                                    method = c("chisq", "schouten", "fisher", "cmh", "cmh_sato", "cmh_wh"),
                                    alternative = c("two.sided", "less", "greater"),
+                                   val = TRUE,
                                    ...) {
   method <- match.arg(method)
 
@@ -70,7 +76,7 @@ s_test_proportion_diff <- function(df,
     }
 
     prepared <- h_prepare_2x2_table(
-      df = df, df_ref = .ref_group, var = .var, val = TRUE,
+      df = df, df_ref = .ref_group, var = .var, val = val,
       strata_vars = strata_vars,
       complete_cases = TRUE
     )

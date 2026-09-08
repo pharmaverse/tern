@@ -27,7 +27,7 @@ response variable. The response is converted to a logical vector by
 comparing its values with \code{val}.}
 
 \item{val}{(\code{character(1)} or \code{logical(1)})\cr
-The value of \code{df[[var]]} (and, if supplied, \code{df_ref[[var]]}) that defines
+The value in \code{df[[var]]} (and, if supplied, in \code{df_ref[[var]]}) that defines
 a positive response. Observations matching this value are returned as
 \code{TRUE} in the \code{rsp} vector; all other observations are returned as \code{FALSE}.}
 
