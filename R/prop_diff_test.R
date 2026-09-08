@@ -15,7 +15,7 @@
 #'
 #'   Options are: ``r shQuote(get_stats("test_proportion_diff"), type = "sh")``
 #'
-#' @seealso [h_prop_diff_test()], [safe_2x2_table()]
+#' @seealso [h_prop_diff_test], [h_prepare_2x2_table()]
 #'
 #' @name prop_diff_test
 #' @order 1
@@ -50,44 +50,31 @@ NULL
 #' @export
 s_test_proportion_diff <- function(df,
                                    .var,
-                                   .ref_group,
-                                   .in_ref_col,
+                                   .ref_group = NULL,
+                                   .in_ref_col = NULL,
                                    variables = list(strata = NULL),
                                    method = c("chisq", "schouten", "fisher", "cmh", "cmh_sato", "cmh_wh"),
                                    alternative = c("two.sided", "less", "greater"),
                                    ...) {
   method <- match.arg(method)
 
-  pval <- if (.in_ref_col) {
+  pval <- if (!is.null(.in_ref_col) && .in_ref_col) {
     numeric()
   } else {
-    assert_df_with_variables(df, list(rsp = .var))
-    assert_df_with_variables(.ref_group, list(rsp = .var))
     checkmate::assert_list(variables, null.ok = TRUE)
-    if (method %in% c("cmh", "cmh_sato", "cmh_wh")) {
+    strata_vars <- if (method %in% c("cmh", "cmh_sato", "cmh_wh")) {
       checkmate::assert_false(is.null(variables$strata))
+      variables$strata
+    } else {
+      NULL
     }
 
-    rsp <- c(.ref_group[[.var]], df[[.var]])
-    grp <- factor(
-      rep(c("ref", "Not-ref"), c(nrow(.ref_group), nrow(df))),
-      levels = c("ref", "Not-ref")
+    prepared <- h_prepare_2x2_table(
+      df = df, df_ref = .ref_group, var = .var, val = TRUE,
+      strata_vars = strata_vars,
+      complete_cases = TRUE
     )
-
-    strata <- variables$strata
-    if (!is.null(strata)) {
-      strata_vars <- stats::setNames(as.list(strata), strata)
-      assert_df_with_variables(df, strata_vars)
-      assert_df_with_variables(.ref_group, strata_vars)
-      strata <- c(interaction(.ref_group[strata]), interaction(df[strata]))
-    }
-
-    tbl <- switch(method,
-      cmh = safe_2x2_table(rsp, grp, strata),
-      cmh_sato = safe_2x2_table(rsp, grp, strata),
-      cmh_wh = safe_2x2_table(rsp, grp, strata),
-      safe_2x2_table(rsp, grp)
-    )
+    tbl <- prepared$tbl
 
     switch(method,
       cmh = prop_cmh(tbl, alternative = alternative),

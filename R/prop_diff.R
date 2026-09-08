@@ -400,75 +400,223 @@ check_diff_prop_ci <- function(rsp,
   invisible()
 }
 
-#' Construct 2 x 2 Contingency Tables Safely
+#' Helper Function to Prepare Data for Proportion Analyses
 #'
-#' @description `r lifecycle::badge("stable")`
+#' @description `r lifecycle::badge("experimental")`
 #'
-#' Creates a 2 x 2 contingency table of responder status by group, optionally
-#' stratified by a third factor. The function validates the input vectors and
-#' ensures that the responder variable contains both possible outcomes
-#' (`TRUE` and `FALSE`) in the resulting table, even when one outcome is not
-#' observed in the data.
+#' Prepares response, group, and optional strata vectors, and constructs a
+#' 2 x 2 contingency table for proportion-based analyses. The function extracts
+#' the variables from an analysis dataset and, optionally, a reference dataset,
+#' combines them into vectors suitable for downstream statistical functions,
+#' and returns the resulting contingency table together with the prepared
+#' vectors.
 #'
-#' When strata is not supplied, a single 2 x 2 contingency table is returned.
-#' When strata is supplied, a separate 2 x 2 contingency table is created
-#' for each stratum.
+#' @param df (`data.frame`)\cr
+#'   A data frame containing the observations for the non-reference group.
+#' @param df_ref (`data.frame` or `NULL`)\cr
+#'   An optional data frame containing the observations for the reference group.
+#' @param var (`character(1)`)\cr
+#'   The column name in `df` (and, if supplied, `df_ref`) specifying the
+#'   response variable. The response is converted to a logical vector by
+#'   comparing its values with `val`.
+#' @param val (`character(1)` or `logical(1)`)\cr
+#'   The value of `df[[var]]` (and, if supplied, `df_ref[[var]]`) that defines
+#'   a positive response. Observations matching this value are returned as
+#'   `TRUE` in the `rsp` vector; all other observations are returned as `FALSE`.
+#' @param strata_vars (`character` or `NULL`)\cr
+#'   Optional column names in `df` (and, if supplied, `df_ref`) specifying
+#'   the strata variables. The specified columns must all be factors.
+#' @param complete_cases (`logical(1)`)\cr
+#'   Whether incomplete rows should be removed from `df[c(var, strata_vars)]`
+#'   (and, if supplied, `df_ref[c(var, strata_vars)]`).
+#'   This is done using [get_complete_cases()].
+#' @param quiet (`logical(1)`)\cr
+#'   Passed to [get_complete_cases()], controlling whether messages about
+#'   removed incomplete rows are displayed.
 #'
-#' @inheritParams assert_proportion_data
+#' @return A named `list` containing:
+#' \describe{
+#'   \item{`rsp`}{A logical vector indicating whether each observation has the
+#'   value specified by `val` in `df[[var]]` (and, if supplied, `df_ref`).}
+#'   \item{`grp`}{A factor identifying the group of each observation. The levels
+#'   are always `"ref"` and `"Not-ref"` (in this order), corresponding to
+#'   observations from `df_ref` and `df`, respectively. If `df_ref` is `NULL`,
+#'   all observations belong to `"Not-ref"`.}
+#'   \item{`strata`}{A factor defining the analysis strata when `strata_vars` is
+#'   supplied, or `NULL` otherwise. When multiple stratification variables are
+#'   supplied, their combinations, using [interaction()], are used to define
+#'   the strata.}
+#'   \item{`tbl`}{A contingency table produced by [base::table()] from `grp`,
+#'   `rsp` (after converting it to a factor with two levels, `"TRUE"` and
+#'   `"FALSE"`), and, if `strata_vars` is supplied, `strata`.
+#'   When `strata_vars` is `NULL`, a 2 x 2 table is returned, with `grp`
+#'   defining the rows and `rsp` defining the columns.
+#'   The `rsp` dimension always contains the levels `"TRUE"` and `"FALSE"`, in
+#'   that order, even when one or both response outcomes are not observed.
+#'   When `strata_vars` is supplied, a 3-dimensional contingency table with
+#'   dimensions 2 x 2 x k is returned, where k is the number of strata.
+#'   The dimensions correspond to `grp`, `rsp`, and `strata`, respectively.}
+#' }
 #'
-#' @return
-#' A contingency table produced by [base::table()].
+#' @details
+#' The function prepares the response, group, and optional strata variables
+#' required for proportion-based analyses and constructs a safe contingency
+#' table for downstream statistical functions.
+#' See the proportion difference documentation [h_prop_diff] and
+#' [h_prop_diff_test] for related functions.
 #'
-#' When strata is `NULL`, a 2 x 2 table is returned, with `grp` defining the rows
-#' and `rsp` defining the columns. The `rsp` dimension always contains the levels
-#' `TRUE` and `FALSE`, in that order, including when one outcome is not observed.
+#' If `complete_cases = TRUE`, incomplete observations are removed separately
+#' from `df` and `df_ref` (if supplied) before the vectors and contingency table
+#' are constructed. Completeness is assessed jointly across the `var` and
+#' `strata_vars` columns when `strata_vars` is supplied, and only across `var`
+#' otherwise. This is performed using [get_complete_cases()].
 #'
-#' When `strata` is supplied, a 3-dimensional contingency table with dimensions
-#' 2 x 2 x k is returned, where k is the number of levels of strata.
-#' The dimensions correspond to `grp`, `rsp`, and `strata`, respectively.
+#' The response variable specified by `var`, and optionally the strata variables
+#' specified by `strata_vars`, are extracted independently from `df` and
+#' `df_ref` (if supplied). The response vectors are then combined into a single
+#' vector and converted to a logical vector by comparing each value with `val`,
+#' such that observations matching `val` are `TRUE` and all other observations
+#' are `FALSE`.
+#'
+#' When multiple stratification variables are provided, their combinations are
+#' collapsed into a single factor using [interaction()]. This is done
+#' independently for `df` and `df_ref` (if supplied), after which the resulting
+#' strata vectors are combined into a single factor.
+#'
+#' A group factor is constructed to identify the source of each observation.
+#' Observations from `df` are assigned to the `"Not-ref"` group, while
+#' observations from `df_ref` are assigned to the `"ref"` group. The factor
+#' always has `"ref"` and `"Not-ref"` as its levels, in this order.
+#' The level order is important because proportion-difference calculations in
+#' `tern` use the first level as the reference group and calculate the
+#' difference as `"Not-ref"` - `"ref"`.
+#'
+#' The contingency table is constructed from group, response (after converting
+#' it to a factor with two levels, `"TRUE"` and `"FALSE"`), and, if
+#' `strata_vars` is supplied, `strata`.
+#'
+#' @seealso [h_prop_diff], [h_prop_diff_test], [get_complete_cases()]
 #'
 #' @export
-#'
 #' @examples
 #'
 #' set.seed(123)
-#' n <- 50
-#' df <- data.frame(
+#' n <- 28
+#' dta <- data.frame(
 #'   "rsp" = sample(c(TRUE, FALSE), n, TRUE),
-#'   "grp" = sample(c("A", "B"), n, TRUE),
+#'   "grp" = sample(c("X", "Placebo"), n, TRUE),
 #'   "f1" = sample(c("a1", "a2"), n, TRUE),
-#'   "f2" = sample(c("x", "y", "z"), n, TRUE),
+#'   "f2" = sample(c("x", "y"), n, TRUE),
 #'   stringsAsFactors = TRUE
 #' )
+#' head(dta)
 #'
-#' tbl <- safe_2x2_table(df$rsp, df$grp)
-#' tbl
+#' trgs <- h_prepare_2x2_table(
+#'   df = subset(dta, grp == "X"),
+#'   df_ref = subset(dta, grp == "Placebo"),
+#'   var = "rsp",
+#'   val = TRUE,
+#'   strata_vars = c("f1", "f2")
+#' )
 #'
-#' # Example use case: Fisher's exact test.
-#' prop_fisher(tbl)
+#' rbind(
+#'   subset(dta, grp == "X"),
+#'   subset(dta, grp == "Placebo"),
+#'   make.row.names = FALSE
+#' )
+#'
+#' trgs$rsp
+#' trgs$grp
+#' trgs$strata
+#' trgs$tbl
+#'
+#' # Example use case.
+#' prop_diff_cmh(trgs$rsp, trgs$grp, trgs$strata)
+#' prop_cmh(trgs$tbl)
 #'
 #' # The FALSE/TRUE levels are retained even when only one outcome is observed.
-#' safe_2x2_table(rep(TRUE, n), df$grp)
-#'
-#' # Stratified 2 x 2 tables.
-#' strata <- interaction(df$f1, df$f2)
-#' tbl_strat <- safe_2x2_table(df$rsp, df$grp, strata)
-#' tbl_strat
-#'
-#' # Example use case: the stratified Cochran-Mantel-Haenszel test.
-#' prop_cmh(tbl_strat)
-#'
-safe_2x2_table <- function(rsp, grp, strata = NULL) {
-  assert_proportion_data(rsp = rsp, grp = grp, strata = strata)
+#' dta2 <- dta
+#' dta2$rsp <- TRUE
+#' h_prepare_2x2_table(
+#'   df = subset(dta2, grp == "X"),
+#'   df_ref = subset(dta2, grp == "Placebo"),
+#'   var = "rsp",
+#'   val = TRUE,
+#' )$tbl
+h_prepare_2x2_table <- function(df,
+                                df_ref = NULL,
+                                var,
+                                val,
+                                strata_vars = NULL,
+                                complete_cases = FALSE,
+                                quiet = FALSE) {
+  checkmate::assert_data_frame(df)
+  checkmate::assert_data_frame(df_ref, null.ok = TRUE)
+  checkmate::assert_string(var)
+  checkmate::assert_true(
+    checkmate::test_string(val) || checkmate::test_flag(val)
+  )
+  checkmate::assert_subset(var, colnames(df), empty.ok = FALSE)
+  if (!is.null(df_ref)) {
+    checkmate::assert_subset(var, colnames(df_ref), empty.ok = FALSE)
+  }
+  if (!is.null(strata_vars)) {
+    checkmate::assert_subset(strata_vars, colnames(df), empty.ok = FALSE)
+    checkmate::assert_data_frame(df[strata_vars], types = "factor")
+    if (!is.null(df_ref)) {
+      checkmate::assert_subset(strata_vars, colnames(df_ref), empty.ok = FALSE)
+      checkmate::assert_data_frame(df_ref[strata_vars], types = "factor")
+    }
+  }
+  checkmate::assert_flag(complete_cases)
+  checkmate::assert_flag(quiet)
 
-  # Make rsp a factor to handle cases with only TRUE or only FALSE.
-  rsp <- factor(rsp, levels = c("TRUE", "FALSE"))
+  # Optionally remove incomplete cases.
+  if (complete_cases) {
+    vars <- c(var, strata_vars)
+    df <- get_complete_cases(df[, vars, drop = FALSE], quiet = quiet)
+    if (!is.null(df_ref)) {
+      df_ref <- get_complete_cases(df_ref[, vars, drop = FALSE], quiet = quiet)
+    }
+  }
 
-  if (is.null(strata)) {
+  # NOTE: The order of group levels is important and must not be changed.
+  # `tern` proportion-difference functions use the first level as the
+  # reference group and calculate the difference as "Not-ref" - "ref".
+  grp_levels <- c("ref", "Not-ref")
+
+  # Extract response, group and strata data for non-reference group.
+  rsp <- df[[var]]
+  grp <- factor(rep(grp_levels[2], nrow(df)), levels = grp_levels)
+  strata <- if (!is.null(strata_vars)) {
+    interaction(df[strata_vars])
+  } else {
+    NULL
+  }
+
+  # Add reference group data, if supplied.
+  if (!is.null(df_ref)) {
+    rsp <- c(rsp, df_ref[[var]])
+    grp <- c(grp, factor(rep(grp_levels[1], nrow(df_ref)), levels = grp_levels))
+    strata <- if (!is.null(strata_vars)) {
+      c(strata, interaction(df_ref[strata_vars]))
+    } else {
+      NULL
+    }
+  }
+
+  rsp_logical <- rsp == val
+  assert_proportion_data(rsp = rsp_logical, grp = grp, strata = strata)
+
+  # Build contingency table.
+  rsp <- factor(rsp_logical, levels = c("TRUE", "FALSE"))
+  tbl <- if (is.null(strata)) {
     table(grp, rsp)
   } else {
     table(grp, rsp, strata)
   }
+
+  list(rsp = rsp_logical, grp = grp, strata = strata, tbl = tbl)
 }
 
 #' Description of method used for proportion comparison

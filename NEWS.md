@@ -1,9 +1,11 @@
 # tern 0.9.11.9000
 
 ### Enhancements
-* Added `safe_2x2_table()` to construct 2 x 2 x k contingency tables safely.
+* Added `h_prepare_2x2_table()` to prepare contingency table(s) for proportion
+  analyses. (#1514)
+* Added `get_complete_cases()` to remove observations containing missing values. (#1514)
 * Added `assert_proportion_data()` to validate responder, group, and optional
-  stratification data used in proportion analyses.
+  stratification data used in proportion analyses. (#1514).
 * Updated `g_forest()` to support point estimates and confidence intervals
   stored in a single column. (#1499)
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected

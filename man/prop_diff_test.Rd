@@ -31,8 +31,8 @@ test_proportion_diff(
 s_test_proportion_diff(
   df,
   .var,
-  .ref_group,
-  .in_ref_col,
+  .ref_group = NULL,
+  .in_ref_col = NULL,
   variables = list(strata = NULL),
   method = c("chisq", "schouten", "fisher", "cmh", "cmh_sato", "cmh_wh"),
   alternative = c("two.sided", "less", "greater"),
@@ -179,6 +179,6 @@ s_test_proportion_diff(
 
 }
 \seealso{
-\code{\link[=h_prop_diff_test]{h_prop_diff_test()}}, \code{\link[=safe_2x2_table]{safe_2x2_table()}}
+\link{h_prop_diff_test}, \code{\link[=h_prepare_2x2_table]{h_prepare_2x2_table()}}
 }
 \keyword{internal}
