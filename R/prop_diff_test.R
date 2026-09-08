@@ -67,8 +67,8 @@ s_test_proportion_diff <- function(df,
   pval <- if (!is.null(.in_ref_col) && .in_ref_col) {
     numeric()
   } else {
-    checkmate::assert_list(variables, null.ok = TRUE)
     strata_vars <- if (method %in% c("cmh", "cmh_sato", "cmh_wh")) {
+      checkmate::assert_list(variables)
       checkmate::assert_false(is.null(variables$strata))
       variables$strata
     } else {
