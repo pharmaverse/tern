@@ -1,0 +1,189 @@
+---
+title: "The Mantel-Fleiss Criterion"
+date: "2026-09-09"
+output:
+    rmarkdown::html_document:
+        theme: "spacelab"
+        highlight: "kate"
+        toc: true
+        toc_float: true
+vignette: >
+    %\VignetteIndexEntry{The Mantel-Fleiss Criterion}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+bibliography: ../inst/REFERENCES.bib
+editor_options:
+    markdown:
+        wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tern)
+```
+
+## Introduction
+
+When comparing a binary response between two groups while adjusting for a
+stratification variable, the Cochran-Mantel-Haenszel (CMH) test is a common
+choice. Like other large-sample procedures, the CMH test relies on an
+asymptotic (chi-square) approximation, which can be unreliable when the
+stratified $2 \times 2$ tables are sparse. In those situations an exact method
+is preferable.
+
+The **Mantel-Fleiss criterion** [@MantelFleiss1980] is a simple, quick check
+that tells you whether the sample is large enough for the asymptotic CMH
+approximation to be trustworthy. The `mantel_fleiss_crit()` function in `tern`
+evaluates this criterion for a stratified $2 \times 2$ contingency table and
+returns whether it is satisfied. You can use the result to decide, in a data
+driven way, whether to run the CMH test or fall back to an exact procedure.
+
+`mantel_fleiss_crit()` is a standalone utility: it does not perform any test
+itself. It is meant to be used alongside the proportion functions in `tern`
+(such as `prop_diff_cmh()`, `prop_cmh()`, `prop_diff_uncond_exact()`, and
+`prop_fisher()`) when writing custom analysis functions.
+
+## The criterion
+
+Consider a stratified $2 \times 2$ table where $h$ indexes the strata. Within
+stratum $h$, write the cell and margin counts as
+
+$$
+\begin{array}{c|cc|c}
+& \text{Response} & \text{No response} & \text{Row total} \\
+\hline
+\text{Group 1} & n_{11h} & n_{12h} & n_{1 \cdot h} \\
+\text{Group 2} & n_{21h} & n_{22h} & n_{2 \cdot h} \\
+\hline
+\text{Column total} & n_{\cdot 1 h} & n_{\cdot 2 h} & n_{h}
+\end{array}
+$$
+
+Under the hypothesis of no association between group and response, the expected
+count in cell $(1, 1)$ of stratum $h$ is
+
+$$
+m_{11h} = \frac{n_{1 \cdot h}\, n_{\cdot 1 h}}{n_{h}} .
+$$
+
+Given the fixed margins, the observed count $n_{11h}$ can range between the
+bounds
+
+$$
+(n_{11h})_L = \max(0,\ n_{1 \cdot h} - n_{\cdot 2 h}), \qquad
+(n_{11h})_U = \min(n_{\cdot 1 h},\ n_{1 \cdot h}) .
+$$
+
+The Mantel-Fleiss statistic aggregates these quantities across the non-empty
+strata:
+
+$$
+MF = \min \left(
+\left[ \sum_h m_{11h} - \sum_h (n_{11h})_L \right],\
+\left[ \sum_h (n_{11h})_U - \sum_h m_{11h} \right]
+\right) .
+$$
+
+The criterion is considered **satisfied** when $MF \ge$ `threshold`. The
+default `threshold = 5` corresponds to the rule proposed by @MantelFleiss1980:
+when $MF \ge 5$, the asymptotic CMH approximation is generally adequate.
+
+## Basic usage
+
+`mantel_fleiss_crit()` expects a three-dimensional contingency table (an
+`array`) whose first two dimensions are the group and response (each with two
+levels, in either order) and whose third dimension is the stratum. The
+`table()` function produces exactly this layout:
+
+```{r}
+set.seed(123)
+n <- 80
+
+grp <- factor(sample(c("Active", "Control"), n, replace = TRUE))
+rsp <- sample(c(TRUE, FALSE), n, replace = TRUE)
+strata1 <- factor(sample(c("A", "B"), n, replace = TRUE))
+strata2 <- factor(sample(c("x", "y"), n, replace = TRUE))
+strata <- interaction(strata1, strata2)
+
+tbl <- table(grp, rsp, strata)
+tbl
+```
+
+Passing the table to `mantel_fleiss_crit()` returns a single logical value:
+
+```{r}
+mantel_fleiss_crit(tbl)
+```
+
+To see the underlying statistic, set `include_value = TRUE`. The Mantel-Fleiss
+value is then attached to the result as a `"value"` attribute:
+
+```{r}
+mantel_fleiss_crit(tbl, include_value = TRUE)
+```
+
+The `threshold` argument controls how large the statistic must be for the
+criterion to hold. Raising it makes the criterion more conservative:
+
+```{r}
+mantel_fleiss_crit(tbl, threshold = 100, include_value = TRUE)
+```
+
+## Choosing a test based on the criterion
+
+The typical use case is to branch between an asymptotic and an exact method
+depending on whether the criterion is satisfied. The example below estimates
+the stratified difference in proportions with the CMH method when the criterion
+holds, and with the unconditional exact method otherwise:
+
+```{r}
+is_mf_satisfied <- mantel_fleiss_crit(tbl)
+
+if (is_mf_satisfied) {
+  # Large enough sample: use the asymptotic CMH estimate.
+  prop_diff_cmh(rsp, grp, strata)$diff
+} else {
+  # Sparse data: fall back to the exact (unstratified) method.
+  prop_diff_uncond_exact(rsp, grp)$diff
+}
+```
+
+The same idea can be used to select a test statistic. Here the CMH test is used
+when the criterion holds, and Fisher's exact test on the collapsed table
+otherwise:
+
+```{r}
+if (is_mf_satisfied) {
+  prop_cmh(tbl)
+} else {
+  prop_fisher(table(grp, rsp))
+}
+```
+
+## Empty strata
+
+Strata that contain no observations carry no information and are dropped before
+the statistic is computed. If *every* stratum is empty there is nothing to
+compute, so the criterion is undefined and `mantel_fleiss_crit()` returns `NA`
+(with an `NA` value attribute when `include_value = TRUE`):
+
+```{r}
+empty_tbl <- table(
+  factor(character(0), levels = c("Active", "Control")),
+  factor(logical(0), levels = c("TRUE", "FALSE")),
+  factor(character(0), levels = "A")
+)
+
+mantel_fleiss_crit(empty_tbl, include_value = TRUE)
+```
+
+When branching on the result, remember to handle this `NA` case explicitly if
+your data can produce fully empty tables.
+
+## References

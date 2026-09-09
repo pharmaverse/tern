@@ -1,12 +1,19 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+* Added `mantel_fleiss_crit()` to check the Mantel-Fleiss criterion
+  for stratified 2 x 2 contingency tables, together with a vignette
+  demonstrating its use. (#1512)
 * Added `forest_header_above` and `forest_title` arguments to `g_forest()` to
   control the position of the forest plot header and add a forest plot title. (#1500)
 * Updated `g_forest()` to support point estimates and confidence intervals
   stored in a single column. (#1499)
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected
   rows from the forest plot before plotting. (#1498)
+
+# tern 0.9.11
+
+### Enhancements
 * Added `factor_level_method` argument to `df_explicit_na()` to control factor level ordering
   when converting character or logical columns. Supported methods: `"sort_auto"` (default,
   locale-aware, preserves original behavior), `"sort_radix"` (byte-order / ASCII sort), and

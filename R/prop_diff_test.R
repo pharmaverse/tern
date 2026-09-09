@@ -481,3 +481,160 @@ prop_fisher <- function(tbl, alternative = c("two.sided", "less", "greater")) {
   tbl <- tbl[, c("TRUE", "FALSE")]
   stats::fisher.test(tbl, alternative = alternative)$p.value
 }
+
+#' Check the Mantel-Fleiss Criterion
+#'
+#' @description `r lifecycle::badge("experimental")`
+#'
+#' Checks the Mantel-Fleiss criterion for stratified 2 x 2 contingency tables.
+#'
+#' @details
+#' The Mantel-Fleiss statistic is calculated as
+#'
+#' \deqn{
+#' MF = \min\left(
+#' [\sum_h m_{11h} - \sum_h {(n_{11h})}_L],\
+#' [\sum_h {(n_{11h})}_U - \sum_h m_{11h}]
+#' \right),
+#' }
+#'
+#' where \eqn{h} indexes the non-empty strata. For each stratum \eqn{h}, the
+#' expected frequency of cell \eqn{(1, 1)} in table \eqn{h}, under the
+#' hypothesis of no association between group and response, is
+#'
+#' \deqn{
+#' m_{11h} = \frac{n_{1.h} n_{.1h}}{n_h}.
+#' }
+#'
+#' The lower and upper bounds for \eqn{n_{11h}}, given the marginal totals,
+#' are:
+#'
+#' \deqn{
+#' {(n_{11h})}_L = \max(0, n_{1.h} - n_{.2h}),
+#' }
+#' \deqn{
+#' {(n_{11h})}_U = \min(n_{.1h}, n_{1.h}).
+#' }
+#'
+#' The Mantel-Fleiss criterion is satisfied when \eqn{MF \ge} `threshold`.
+#' By default, `threshold = 5`, corresponding to the criterion described
+#' by Mantel and Fleiss (1980).
+#'
+#' Strata with all cell counts equal to zero are excluded from the
+#' calculation. If all strata contain zero observations, there are no
+#' non-empty strata over which to calculate the Mantel-Fleiss statistic, and
+#' the statistic is therefore undefined. In this case, the function returns
+#' `NA`.
+#'
+#' @param tbl (`array`)\cr
+#'   A three-dimensional contingency table containing the counts for each
+#'   combination of group, response, and stratum. The first two dimensions
+#'   must correspond to the two variables defining the 2 x 2 contingency
+#'   table (group and response), in either order. The third dimension must
+#'   correspond to the strata. The first two dimensions must each have exactly
+#'   two levels. All cell values must be finite, non-missing integer counts.
+#' @param include_value (`logical(1)`)\cr
+#'   Whether to include the calculated Mantel-Fleiss statistic as an attribute
+#'   of the result.
+#' @param threshold (`numeric(1)`)\cr
+#'   The minimum Mantel-Fleiss statistic required for the criterion to be
+#'   considered satisfied.
+#'
+#' @return A logical value indicating whether the Mantel-Fleiss criterion
+#' is satisfied. If `include_value = TRUE`, the result also contains a
+#' value attribute with the calculated Mantel-Fleiss statistic. If there
+#' are no non-empty strata, the result is `NA` and the value attribute is
+#' `NA_real_`.
+#'
+#' @examples
+#' set.seed(123)
+#' n <- 40
+#'
+#' grp <- factor(sample(c("Active", "Control"), n, replace = TRUE))
+#' rsp <- sample(c(TRUE, FALSE), n, replace = TRUE)
+#' strata1 <- factor(sample(c("A", "B"), n, replace = TRUE))
+#' strata2 <- factor(sample(c("x", "y"), n, replace = TRUE))
+#' strata <- interaction(strata1, strata2)
+#'
+#' tbl <- table(grp, rsp, strata)
+#' tbl
+#'
+#' is_mf_satisfied <- mantel_fleiss_crit(tbl)
+#' is_mf_satisfied
+#' mantel_fleiss_crit(tbl, include_value = TRUE)
+#'
+#' # Examples of use.
+#'
+#' if (is_mf_satisfied) {
+#'   print("CMH")
+#'   prop_diff_cmh(rsp, grp, strata)$prop
+#' } else {
+#'   print("Exact")
+#'   prop_diff_uncond_exact(rsp, grp)$prop
+#' }
+#'
+#' if (is_mf_satisfied) {
+#'   print("CMH")
+#'   prop_cmh(tbl)
+#' } else {
+#'   print("Exact")
+#'   prop_fisher(table(grp, rsp))
+#' }
+#'
+#' @references
+#' Mantel, N., and Fleiss, J. L. (1980).
+#' Minimum Expected Cell Size Requirements for the Mantel-Haenszel
+#' One-Degree-of-Freedom Chi-Square Test and a Related Rapid Procedure.
+#' \emph{American Journal of Epidemiology}, 112(1), 129--134.
+#'
+#' @export
+mantel_fleiss_crit <- function(tbl, include_value = FALSE, threshold = 5L) {
+  checkmate::assert_array(tbl, mode = "integerish", any.missing = FALSE, d = 3L)
+  checkmate::assert_true(all(tbl >= 0L))
+  checkmate::assert_true(all(is.finite(tbl)))
+  checkmate::assert_true(nrow(tbl) == 2L)
+  checkmate::assert_true(ncol(tbl) == 2L)
+  checkmate::assert_flag(include_value)
+  checkmate::assert_number(threshold)
+
+  # Drop strata with no observations.
+  tbl <- tbl[, , apply(tbl, 3L, sum) > 0, drop = FALSE]
+
+  # Add marginal totals over the group and response dimensions,
+  # retaining the stratum dimension.
+  tbl_mrgn <- stats::addmargins(tbl, margin = 1:2)
+
+  # If there are no non-empty strata, the Mantel-Fleiss criterion is undefined
+  # because there are no strata over which to calculate it.
+  if (dim(tbl)[3L] == 0L) {
+    is_satisfied <- NA
+    if (include_value) {
+      attr(is_satisfied, "value") <- NA_real_
+    }
+    return(is_satisfied)
+  }
+
+  n_1dot <- tbl_mrgn[1L, "Sum", ]
+  n_dot1 <- tbl_mrgn["Sum", 1L, ]
+  n_dot2 <- tbl_mrgn["Sum", 2L, ]
+  n <- tbl_mrgn["Sum", "Sum", ]
+
+  # Expected value of n_11 under the hypothesis of no association
+  # between group and response (within a given stratum).
+  m_11 <- (n_1dot * n_dot1) / n
+  # Lower and upper bounds for n_11 given the marginal totals (within a given stratum).
+  n_11_lwr <- pmax(0L, n_1dot - n_dot2)
+  n_11_upr <- pmin(n_dot1, n_1dot)
+
+  mf_value <- min(
+    sum(m_11) - sum(n_11_lwr),
+    sum(n_11_upr) - sum(m_11)
+  )
+
+  is_satisfied <- mf_value >= threshold
+  if (include_value) {
+    attr(is_satisfied, "value") <- mf_value
+  }
+
+  is_satisfied
+}
