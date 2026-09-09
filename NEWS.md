@@ -2,7 +2,8 @@
 
 ### Enhancements
 * Added `mantel_fleiss_crit()` to check the Mantel-Fleiss criterion
-  for stratified 2 x 2 contingency tables.(#1512)
+  for stratified 2 x 2 contingency tables, together with a vignette
+  demonstrating its use. (#1512)
 * Added `forest_header_above` and `forest_title` arguments to `g_forest()` to
   control the position of the forest plot header and add a forest plot title. (#1500)
 * Updated `g_forest()` to support point estimates and confidence intervals
