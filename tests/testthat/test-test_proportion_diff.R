@@ -358,6 +358,48 @@ test_that("s_test_proportion_diff supports a custom response value", {
   expect_equal(result, list(pval = expected), tolerance = 1e-3)
 })
 
+test_that("s_test_proportion_diff errors when stratified method is chosen without strata", {
+  dta <- data.frame(
+    rsp = sample(c("Y", "N"), 10, TRUE),
+    grp = factor(rep(c("A", "B"), each = 5)),
+    strata = factor(c("V", "W", "X", "Y", "Z"))
+  )
+
+  expect_error(
+    result <- s_test_proportion_diff(
+      df = subset(dta, grp == "A"),
+      .var = "rsp",
+      .ref_group = subset(dta, grp == "B"),
+      .in_ref_col = FALSE,
+      variables = NULL,
+      method = "cmh",
+      val = "Y"
+    ),
+    "strata"
+  )
+})
+
+test_that("s_test_proportion_diff errors when strata are provided with a non-stratified method", {
+  dta <- data.frame(
+    rsp = sample(c("Y", "N"), 10, TRUE),
+    grp = factor(rep(c("A", "B"), each = 5)),
+    strata = factor(c("V", "W", "X", "Y", "Z"))
+  )
+
+  expect_error(
+    result <- s_test_proportion_diff(
+      df = subset(dta, grp == "A"),
+      .var = "rsp",
+      .ref_group = subset(dta, grp == "B"),
+      .in_ref_col = FALSE,
+      variables = list(strata = "strata"),
+      method = "fisher",
+      val = "Y"
+    ),
+    "strata"
+  )
+})
+
 testthat::test_that("test_proportion_diff returns right result", {
   set.seed(1984, kind = "Mersenne-Twister")
   dta <- data.frame(

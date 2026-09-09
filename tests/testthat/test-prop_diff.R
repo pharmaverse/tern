@@ -738,6 +738,48 @@ test_that("s_proportion_diff supports a custom response value", {
   expect_identical(attr(result$se_diff, "label"), "Standard Error of Difference in Response rate (%)")
 })
 
+test_that("s_proportion_diff errors when stratified method is chosen without strata", {
+  dta <- data.frame(
+    rsp = sample(c("Y", "N"), 10, TRUE),
+    grp = factor(rep(c("A", "B"), each = 5)),
+    strata = factor(c("V", "W", "X", "Y", "Z"))
+  )
+
+  expect_error(
+    result <- s_proportion_diff(
+      df = subset(dta, grp == "A"),
+      .var = "rsp",
+      .ref_group = subset(dta, grp == "B"),
+      .in_ref_col = FALSE,
+      variables = NULL,
+      method = "cmh",
+      val = "Y"
+    ),
+    "strata"
+  )
+})
+
+test_that("s_proportion_diff errors when strata are provided with a non-stratified method", {
+  dta <- data.frame(
+    rsp = sample(c("Y", "N"), 10, TRUE),
+    grp = factor(rep(c("A", "B"), each = 5)),
+    strata = factor(c("V", "W", "X", "Y", "Z"))
+  )
+
+  expect_error(
+    result <- s_proportion_diff(
+      df = subset(dta, grp == "A"),
+      .var = "rsp",
+      .ref_group = subset(dta, grp == "B"),
+      .in_ref_col = FALSE,
+      variables = list(strata = "strata"),
+      method = "uncond_exact_diff",
+      val = "Y"
+    ),
+    "strata"
+  )
+})
+
 testthat::test_that("check_diff_prop_ci is silent with healthy input", {
   # "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
   rsp <- c(TRUE, FALSE, FALSE, TRUE, TRUE, TRUE)
