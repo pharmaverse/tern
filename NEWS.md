@@ -12,6 +12,8 @@
   rows from the forest plot before plotting. (#1498)
   
 ### Miscellaneous
+* Added the `val` argument and refactored `s_proportion_diff()` so that it uses
+  the new function `h_prepare_2x2_table()`.
 * Added the `val` argument and refactored `s_test_proportion_diff()` so that it
   uses the new function `h_prepare_2x2_table()`.
 

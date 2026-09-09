@@ -33,13 +33,14 @@ estimate_proportion_diff(
 s_proportion_diff(
   df,
   .var,
-  .ref_group,
-  .in_ref_col,
+  .ref_group = NULL,
+  .in_ref_col = NULL,
   variables = list(strata = NULL),
   conf_level = 0.95,
   method = c("waldcc", "wald", "cmh", "cmh_sato", "cmh_mn", "ha", "newcombe",
     "newcombecc", "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"),
   weights_method = "cmh",
+  val = TRUE,
   ...
 )
 
@@ -110,6 +111,11 @@ by a statistics function.}
 \item{.ref_group}{(\code{data.frame} or \code{vector})\cr the data corresponding to the reference group.}
 
 \item{.in_ref_col}{(\code{flag})\cr \code{TRUE} when working with the reference level, \code{FALSE} otherwise.}
+
+\item{val}{(\code{character(1)} or \code{logical(1)})\cr
+the value in \code{df[[.var]]} (and, if supplied, in \code{.ref_group[[.var]]}) that
+defines a positive response. All other observations are treated as
+non-responses.}
 }
 \value{
 \itemize{

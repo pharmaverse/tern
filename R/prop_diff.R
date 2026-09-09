@@ -45,6 +45,11 @@ NULL
 #' @describeIn prop_diff Statistics function estimating the difference
 #'   in terms of responder proportion.
 #'
+#' @param val (`character(1)` or `logical(1)`)\cr
+#'   the value in `df[[.var]]` (and, if supplied, in `.ref_group[[.var]]`) that
+#'   defines a positive response. All other observations are treated as
+#'   non-responses.
+#'
 #' @return
 #' * `s_proportion_diff()` returns a named list of elements `diff` and `diff_ci`.
 #'   Depending on the method used, also the standard error of the difference `se_diff` is
@@ -78,8 +83,8 @@ NULL
 #' @export
 s_proportion_diff <- function(df,
                               .var,
-                              .ref_group,
-                              .in_ref_col,
+                              .ref_group = NULL,
+                              .in_ref_col = NULL,
                               variables = list(strata = NULL),
                               conf_level = 0.95,
                               method = c(
@@ -88,82 +93,67 @@ s_proportion_diff <- function(df,
                                 "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"
                               ),
                               weights_method = "cmh",
+                              val = TRUE,
                               ...) {
+  checkmate::assert_list(variables)
+
   method <- match.arg(method)
-  if (
-    is.null(variables$strata) &&
-      checkmate::test_subset(method, c("cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"))
-  ) {
+
+  strat_anl_methods <- c(
+    "cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"
+  )
+
+  if (is.null(variables$strata) && checkmate::test_subset(method, strat_anl_methods)) {
     stop(paste(
       "When performing an unstratified analysis, methods",
       "'cmh', 'cmh_sato', 'cmh_mn', 'strat_newcombe', and 'strat_newcombecc' are not",
       "permitted. Please choose a different method."
     ))
   }
-  if (!is.null(variables$strata) && identical(method, "uncond_exact_diff")) {
+
+  if (!is.null(variables$strata) && method == "uncond_exact_diff") {
     stop(
       "Method 'uncond_exact_diff' is only available for unstratified analyses. Please choose a different method."
     )
   }
-  y <- list(diff = numeric(), diff_ci = numeric())
 
-  if (!.in_ref_col) {
-    rsp <- c(.ref_group[[.var]], df[[.var]])
-    grp <- factor(
-      rep(
-        c("ref", "Not-ref"),
-        c(nrow(.ref_group), nrow(df))
-      ),
-      levels = c("ref", "Not-ref")
+  if (is.null(.in_ref_col) || .in_ref_col) {
+    y <- list(diff = numeric(), diff_ci = numeric())
+  } else {
+    prepared <- h_prepare_2x2_table(
+      df = df, df_ref = .ref_group, var = .var, val = val,
+      strata_vars = variables$strata,
+      complete_cases = TRUE
     )
+    rsp <- prepared$rsp
+    grp <- prepared$grp
+    strata <- prepared$strata
 
-    if (!is.null(variables$strata)) {
-      strata_colnames <- variables$strata
-      checkmate::assert_character(strata_colnames, null.ok = FALSE)
-      strata_vars <- stats::setNames(as.list(strata_colnames), strata_colnames)
-
-      assert_df_with_variables(df, strata_vars)
-      assert_df_with_variables(.ref_group, strata_vars)
-
-      # Merging interaction strata for reference group rows data and remaining
-      strata <- c(
-        interaction(.ref_group[strata_colnames]),
-        interaction(df[strata_colnames])
-      )
-      strata <- as.factor(strata)
-    }
-
-    # Defining the std way to calculate weights for strat_newcombe
-    if (!is.null(variables$weights_method)) {
-      weights_method <- variables$weights_method
+    # Defining the std way to calculate weights for strat_newcombe.
+    weights_method <- if (!is.null(variables$weights_method)) {
+      variables$weights_method
     } else {
-      weights_method <- "cmh"
+      "cmh"
     }
 
-    y_stats_from_cmh <- c("diff", "diff_ci", "se_diff")
+    cmh_stats <- c("diff", "diff_ci", "se_diff")
     y <- switch(method,
       "wald" = prop_diff_wald(rsp, grp, conf_level, correct = FALSE),
       "waldcc" = prop_diff_wald(rsp, grp, conf_level, correct = TRUE),
       "ha" = prop_diff_ha(rsp, grp, conf_level),
       "newcombe" = prop_diff_nc(rsp, grp, conf_level, correct = FALSE),
       "newcombecc" = prop_diff_nc(rsp, grp, conf_level, correct = TRUE),
-      "strat_newcombe" = prop_diff_strat_nc(rsp,
-        grp,
-        strata,
-        weights_method,
-        conf_level,
+      "strat_newcombe" = prop_diff_strat_nc(
+        rsp, grp, strata, weights_method, conf_level,
         correct = FALSE
       ),
-      "strat_newcombecc" = prop_diff_strat_nc(rsp,
-        grp,
-        strata,
-        weights_method,
-        conf_level,
+      "strat_newcombecc" = prop_diff_strat_nc(
+        rsp, grp, strata, weights_method, conf_level,
         correct = TRUE
       ),
-      "cmh" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "standard")[y_stats_from_cmh],
-      "cmh_sato" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "sato")[y_stats_from_cmh],
-      "cmh_mn" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "miettinen_nurminen")[y_stats_from_cmh],
+      "cmh" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "standard")[cmh_stats],
+      "cmh_sato" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "sato")[cmh_stats],
+      "cmh_mn" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "miettinen_nurminen")[cmh_stats],
       "uncond_exact_diff" = prop_diff_uncond_exact(rsp, grp, conf_level)
     )
 
@@ -175,10 +165,7 @@ s_proportion_diff <- function(df,
   }
 
   attr(y$diff, "label") <- "Difference in Response rate (%)"
-  attr(y$diff_ci, "label") <- d_proportion_diff(
-    conf_level, method,
-    long = FALSE
-  )
+  attr(y$diff_ci, "label") <- d_proportion_diff(conf_level, method, long = FALSE)
   if (!is.null(y$se_diff)) {
     attr(y$se_diff, "label") <- paste0("Standard Error of Difference in Response rate (%)")
   }

@@ -331,7 +331,7 @@ testthat::test_that("s_test_proportion_diff and d_test_proportion_diff work with
   }
 })
 
-testthat::test_that("s_test_proportion_diff supports a custom response value", {
+test_that("s_test_proportion_diff supports a custom response value", {
   set.seed(1984, kind = "Mersenne-Twister")
   dta <- data.frame(
     rsp = sample(c("Y", "N"), 100, TRUE),
@@ -339,7 +339,7 @@ testthat::test_that("s_test_proportion_diff supports a custom response value", {
     strata = factor(rep(c("V", "W", "X", "Y", "Z"), each = 20))
   )
 
-  testthat::expect_silent(
+  expect_silent(
     result <- s_test_proportion_diff(
       df = subset(dta, grp == "A"),
       .var = "rsp",
@@ -355,7 +355,7 @@ testthat::test_that("s_test_proportion_diff supports a custom response value", {
   attr(expected, "z_stat") <- 0.4569368
   attr(expected, "label") <- "p-value (Cochran-Mantel-Haenszel Test)"
 
-  testthat::expect_equal(result, list(pval = expected), tolerance = 1e-3)
+  expect_equal(result, list(pval = expected), tolerance = 1e-3)
 })
 
 testthat::test_that("test_proportion_diff returns right result", {

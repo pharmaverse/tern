@@ -64,7 +64,7 @@ s_test_proportion_diff <- function(df,
                                    ...) {
   method <- match.arg(method)
 
-  pval <- if (!is.null(.in_ref_col) && .in_ref_col) {
+  pval <- if (is.null(.in_ref_col) || .in_ref_col) {
     numeric()
   } else {
     strata_vars <- if (method %in% c("cmh", "cmh_sato", "cmh_wh")) {

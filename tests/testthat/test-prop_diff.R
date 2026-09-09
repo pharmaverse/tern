@@ -710,6 +710,34 @@ testthat::test_that("s_proportion_diff rejects uncond_exact_diff with strata", {
   )
 })
 
+test_that("s_proportion_diff supports a custom response value", {
+  set.seed(1984, kind = "Mersenne-Twister")
+  dta <- data.frame(
+    rsp = sample(c("Y", "N"), 100, TRUE),
+    grp = factor(rep(c("A", "B"), each = 50)),
+    strata = factor(rep(c("V", "W", "X", "Y", "Z"), each = 20))
+  )
+
+  expect_silent(
+    result <- s_proportion_diff(
+      df = subset(dta, grp == "A"),
+      .var = "rsp",
+      .ref_group = subset(dta, grp == "B"),
+      .in_ref_col = FALSE,
+      variables = list(strata = "strata"),
+      method = "cmh",
+      val = "Y"
+    )
+  )
+
+  expect_equal(as.numeric(result$diff), 10, tolerance = 1e-2)
+  expect_identical(attr(result$diff, "label"), "Difference in Response rate (%)")
+  expect_equal(as.numeric(result$diff_ci), c(-31.57711, 51.57711), tolerance = 1e-2)
+  expect_identical(attr(result$diff_ci, "label"), "95% CI (CMH, without correction)")
+  expect_equal(as.numeric(result$se_diff), 21.2132, tolerance = 1e-2)
+  expect_identical(attr(result$se_diff, "label"), "Standard Error of Difference in Response rate (%)")
+})
+
 testthat::test_that("check_diff_prop_ci is silent with healthy input", {
   # "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
   rsp <- c(TRUE, FALSE, FALSE, TRUE, TRUE, TRUE)
