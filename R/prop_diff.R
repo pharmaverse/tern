@@ -92,7 +92,8 @@ s_proportion_diff <- function(df,
                               method = c(
                                 "waldcc", "wald", "cmh", "cmh_sato", "cmh_mn",
                                 "ha", "newcombe", "newcombecc",
-                                "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"
+                                "strat_newcombe", "strat_newcombecc",
+                                "uncond_exact_diff"
                               ),
                               weights_method = "cmh",
                               val = TRUE,
