@@ -599,6 +599,7 @@ h_prepare_2x2_table <- function(df,
   }
 
   rsp_logical <- rsp == val
+
   assert_proportion_data(rsp = rsp_logical, grp = grp, strata = strata)
 
   # Build contingency table.
