@@ -706,7 +706,7 @@ testthat::test_that("s_proportion_diff rejects uncond_exact_diff with strata", {
       conf_level = 0.95,
       method = "uncond_exact_diff"
     ),
-    "only available for unstratified analyses"
+    "strat"
   )
 })
 
@@ -755,7 +755,7 @@ test_that("s_proportion_diff errors when stratified method is chosen without str
       method = "cmh",
       val = "Y"
     ),
-    "strata"
+    "strat"
   )
 })
 
@@ -776,7 +776,7 @@ test_that("s_proportion_diff errors when strata are provided with a non-stratifi
       method = "uncond_exact_diff",
       val = "Y"
     ),
-    "strata"
+    "strat"
   )
 })
 

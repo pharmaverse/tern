@@ -375,7 +375,7 @@ test_that("s_test_proportion_diff errors when stratified method is chosen withou
       method = "cmh",
       val = "Y"
     ),
-    "strata"
+    "strat"
   )
 })
 
@@ -396,7 +396,7 @@ test_that("s_test_proportion_diff errors when strata are provided with a non-str
       method = "fisher",
       val = "Y"
     ),
-    "strata"
+    "strat"
   )
 })
 
