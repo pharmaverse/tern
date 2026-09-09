@@ -578,7 +578,7 @@ h_prepare_2x2_table <- function(df,
   # reference group and calculate the difference as "Not-ref" - "ref".
   grp_levels <- c("ref", "Not-ref")
 
-  # Extract response, group and strata data for non-reference group.
+  # Extract response, group, and strata data for the non-reference group.
   rsp <- df[[var]]
   grp <- factor(rep(grp_levels[2], nrow(df)), levels = grp_levels)
   strata <- if (!is.null(strata_vars)) {
@@ -587,7 +587,7 @@ h_prepare_2x2_table <- function(df,
     NULL
   }
 
-  # Add reference group data, if supplied.
+  # Prepend reference group data, if supplied. We want the reference group first.
   if (!is.null(df_ref)) {
     rsp <- c(df_ref[[var]], rsp)
     grp <- c(factor(rep(grp_levels[1], nrow(df_ref)), levels = grp_levels), grp)
