@@ -59,6 +59,8 @@ NULL
 #'   and `"strat_newcombecc"` are not permitted. For stratified analysis, method
 #'   `"uncond_exact_diff"` is not permitted.
 #'
+#' @seealso [h_prepare_2x2_table()]
+#'
 #' @examples
 #' s_proportion_diff(
 #'   df = subset(dta, grp == "A"),
