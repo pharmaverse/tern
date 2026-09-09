@@ -11,14 +11,14 @@
       1 row(s) with missing values were omitted from the reference group (df_ref).
     Output
       $rsp
-      [1]  TRUE  TRUE FALSE
+      [1]  TRUE FALSE  TRUE
       
       $grp
-      [1] Not-ref ref     ref    
+      [1] ref     ref     Not-ref
       Levels: ref Not-ref
       
       $strata
-      [1] S1 S1 S2
+      [1] S1 S2 S1
       Levels: S1 S2
       
       $tbl

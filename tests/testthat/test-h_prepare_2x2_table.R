@@ -18,9 +18,9 @@ test_that("h_prepare_2x2_table() works without strata", {
   grp_nonref <- which(data$grp == "X")
 
   expected <- list(
-    rsp = data[c(grp_nonref, grp_ref), 1],
+    rsp = data[c(grp_ref, grp_nonref), 1],
     grp = factor(
-      c(rep("Not-ref", length(grp_nonref)), rep("ref", length(grp_ref))),
+      c(rep("ref", length(grp_ref)), rep("Not-ref", length(grp_nonref))),
       levels = c("ref", "Not-ref")
     ),
     strata = NULL,
@@ -56,12 +56,12 @@ test_that("h_prepare_2x2_table() works with strata", {
   grp_nonref <- which(data$grp == "X")
 
   expected <- list(
-    rsp = data[c(grp_nonref, grp_ref), "rsp"],
+    rsp = data[c(grp_ref, grp_nonref), "rsp"],
     grp = factor(
-      c(rep("Not-ref", length(grp_nonref)), rep("ref", length(grp_ref))),
+      c(rep("ref", length(grp_ref)), rep("Not-ref", length(grp_nonref))),
       levels = c("ref", "Not-ref")
     ),
-    strata = factor(data[c(grp_nonref, grp_ref), "strata"]),
+    strata = factor(data[c(grp_ref, grp_nonref), "strata"]),
     tbl = as.table(array(
       c(6L, 9L, 9L, 8L, 8L, 6L, 5L, 5L, 5L, 5L, 4L, 5L, 7L, 11L, 2L, 5L),
       dim = c(2, 2, 4),
@@ -95,12 +95,12 @@ test_that("h_prepare_2x2_table() works with multiple strata variables", {
   grp_nonref <- which(data$grp == "X")
 
   expected <- list(
-    rsp = data[c(grp_nonref, grp_ref), "rsp"],
+    rsp = data[c(grp_ref, grp_nonref), "rsp"],
     grp = factor(
-      c(rep("Not-ref", length(grp_nonref)), rep("ref", length(grp_ref))),
+      c(rep("ref", length(grp_ref)), rep("Not-ref", length(grp_nonref))),
       levels = c("ref", "Not-ref")
     ),
-    strata = interaction(data[c(grp_nonref, grp_ref), c("strata_1", "strata_2")]),
+    strata = interaction(data[c(grp_ref, grp_nonref), c("strata_1", "strata_2")]),
     tbl = as.table(array(
       c(
         5L, 5L, 3L, 4L, 4L, 4L, 2L, 2L,
@@ -148,9 +148,9 @@ test_that("h_prepare_2x2_table() handles a custom val", {
   )
 
   # Expected.
-  rsp <- c(FALSE, TRUE, FALSE, FALSE, TRUE, TRUE)
-  grp <- factor(c(rep("Not-ref", 4L), "ref", "ref"), levels = c("ref", "Not-ref"))
-  strata <- factor(c("S2", "S2", "S2", "S1", "S1", "S1"), levels = c("S1", "S2"))
+  rsp <- c(TRUE, TRUE, FALSE, TRUE, FALSE, FALSE)
+  grp <- factor(c("ref", "ref", rep("Not-ref", 4L)), levels = c("ref", "Not-ref"))
+  strata <- factor(c("S1", "S1", "S2", "S2", "S2", "S1"), levels = c("S1", "S2"))
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
   expected <- list(rsp = rsp, grp = grp, strata = NULL, tbl = margin.table(tbl, 1:2))
   expected_strata <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
@@ -217,8 +217,8 @@ test_that("h_prepare_2x2_table() retains unobserved response outcomes (TRUE only
 
   # Expected.
   rsp <- c(TRUE, TRUE, TRUE, TRUE)
-  grp <- factor(c("Not-ref", "Not-ref", "ref", "ref"), levels = c("ref", "Not-ref"))
-  strata <- factor(c("S2", "S2", "S1", "S1"), levels = c("S1", "S2"))
+  grp <- factor(c("ref", "ref", "Not-ref", "Not-ref"), levels = c("ref", "Not-ref"))
+  strata <- factor(c("S1", "S1", "S2", "S2"), levels = c("S1", "S2"))
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
   expected <- list(rsp = rsp, grp = grp, strata = NULL, tbl = margin.table(tbl, 1:2))
   expected_strata <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
@@ -254,8 +254,8 @@ test_that("h_prepare_2x2_table() retains unobserved response outcomes (FALSE onl
 
   # Expected.
   rsp <- c(FALSE, FALSE, FALSE, FALSE)
-  grp <- factor(c("Not-ref", "Not-ref", "ref", "ref"), levels = c("ref", "Not-ref"))
-  strata <- factor(c("S2", "S2", "S1", "S1"), levels = c("S1", "S2"))
+  grp <- factor(c("ref", "ref", "Not-ref", "Not-ref"), levels = c("ref", "Not-ref"))
+  strata <- factor(c("S1", "S1", "S2", "S2"), levels = c("S1", "S2"))
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
   expected <- list(rsp = rsp, grp = grp, strata = NULL, tbl = margin.table(tbl, 1:2))
   expected_strata <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
@@ -342,8 +342,11 @@ test_that("h_prepare_2x2_table() retains unused strata levels", {
 
   # Expected.
   rsp <- data$rsp
-  grp <- factor(c("Not-ref", "Not-ref", "ref", "ref"), levels = c("ref", "Not-ref"))
-  strata <- interaction(data$strata_1, data$strata_2)
+  grp <- factor(c("ref", "ref", "Not-ref", "Not-ref"), levels = c("ref", "Not-ref"))
+  strata <- factor(
+    c("B.S1", "B.S2", "A.S1", "A.S2"),
+    levels = c("A.S1", "B.S1", "Z.S1", "A.S2", "B.S2", "Z.S2", "A.XXX", "B.XXX", "Z.XXX")
+  )
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
   expected <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
 
@@ -368,8 +371,8 @@ test_that("h_prepare_2x2_table() handles sparse contingency tables", {
 
   # Expected.
   rsp <- data$rsp
-  grp <- factor(c("Not-ref", "Not-ref", "ref", "ref"), levels = c("ref", "Not-ref"))
-  strata <- data$strata
+  grp <- factor(c("ref", "ref", "Not-ref", "Not-ref"), levels = c("ref", "Not-ref"))
+  strata <- factor(c("B", "B", "A", "A"))
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
   expected <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
 
@@ -412,7 +415,6 @@ test_that("h_prepare_2x2_table() handles empty data with an unused stratum level
   expect_identical(result, expected)
   expect_identical(result_strata, expected_strata)
 })
-
 
 test_that("h_prepare_2x2_table() handles empty data with no stratum levels", {
   data <- data.frame(
@@ -465,7 +467,7 @@ test_that("h_prepare_2x2_table() handles empty data without strata", {
   expect_identical(result, expected)
 })
 
-testthat::test_that("h_prepare_2x2_table() removes incomplete cases", {
+test_that("h_prepare_2x2_table() removes incomplete cases", {
   data <- data.frame(
     rsp = c(TRUE, NA, FALSE, TRUE, NA, FALSE),
     grp = factor(c("X", "X", "X", "Placebo", "Placebo", "Placebo")),
@@ -483,16 +485,16 @@ testthat::test_that("h_prepare_2x2_table() removes incomplete cases", {
     )
   )
 
-  rsp <- c(TRUE, TRUE, FALSE)
-  grp <- factor(c("Not-ref", "ref", "ref"), levels = c("ref", "Not-ref"))
-  strata <- factor(c("S1", "S1", "S2"), levels = c("S1", "S2"))
+  rsp <- c(TRUE, FALSE, TRUE)
+  grp <- factor(c("ref", "ref", "Not-ref"), levels = c("ref", "Not-ref"))
+  strata <- factor(c("S1", "S2", "S1"), levels = c("S1", "S2"))
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")), strata = strata)
   expected <- list(rsp = rsp, grp = grp, strata = strata, tbl = tbl)
 
   expect_identical(result_quiet, expected)
 })
 
-testthat::test_that("h_prepare_2x2_table() removes incomplete cases without strata", {
+test_that("h_prepare_2x2_table() removes incomplete cases without strata", {
   data <- data.frame(
     rsp = c(TRUE, NA, FALSE, TRUE, NA, FALSE),
     grp = factor(c(NA, "X", "X", "Placebo", "Placebo", "Placebo")),
@@ -509,15 +511,15 @@ testthat::test_that("h_prepare_2x2_table() removes incomplete cases without stra
     )
   )
 
-  rsp <- c(FALSE, TRUE, FALSE)
-  grp <- factor(c("Not-ref", "ref", "ref"), levels = c("ref", "Not-ref"))
+  rsp <- c(TRUE, FALSE, FALSE)
+  grp <- factor(c("ref", "ref", "Not-ref"), levels = c("ref", "Not-ref"))
   tbl <- table(grp, rsp = factor(rsp, levels = c("TRUE", "FALSE")))
   expected <- list(rsp = rsp, grp = grp, strata = NULL, tbl = tbl)
 
   expect_identical(result, expected)
 })
 
-testthat::test_that("h_prepare_2x2_table() removes incomplete cases (all NAs)", {
+test_that("h_prepare_2x2_table() removes incomplete cases (all NAs)", {
   data <- data.frame(
     rsp = c(TRUE, NA, FALSE, NA, FALSE, NA),
     grp = factor(c(NA, "X", "X", "Placebo", NA, "Placebo")),
@@ -545,7 +547,7 @@ testthat::test_that("h_prepare_2x2_table() removes incomplete cases (all NAs)", 
   expect_identical(result, expected)
 })
 
-testthat::test_that("h_prepare_2x2_table() warns when NAs are removed and quiet = FALSE", {
+test_that("h_prepare_2x2_table() warns when NAs are removed and quiet = FALSE", {
   data <- data.frame(
     rsp = c(TRUE, NA, FALSE, TRUE, NA, FALSE),
     grp = factor(c("X", "X", "X", "Placebo", "Placebo", "Placebo")),
@@ -648,7 +650,7 @@ test_that("h_prepare_2x2_table() validates val", {
   )
 })
 
-testthat::test_that("h_prepare_2x2_table() validates complete_cases and quiet", {
+test_that("h_prepare_2x2_table() validates complete_cases and quiet", {
   data <- data.frame(
     rsp = c(TRUE, FALSE),
     grp = factor(c("G1", "G2"))

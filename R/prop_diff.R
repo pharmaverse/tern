@@ -589,10 +589,10 @@ h_prepare_2x2_table <- function(df,
 
   # Add reference group data, if supplied.
   if (!is.null(df_ref)) {
-    rsp <- c(rsp, df_ref[[var]])
-    grp <- c(grp, factor(rep(grp_levels[1], nrow(df_ref)), levels = grp_levels))
+    rsp <- c(df_ref[[var]], rsp)
+    grp <- c(factor(rep(grp_levels[1], nrow(df_ref)), levels = grp_levels), grp)
     strata <- if (!is.null(strata_vars)) {
-      c(strata, interaction(df_ref[strata_vars]))
+      c(interaction(df_ref[strata_vars]), strata)
     } else {
       NULL
     }
