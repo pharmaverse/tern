@@ -78,21 +78,11 @@ s_test_proportion_diff <- function(df,
     numeric()
   } else {
     checkmate::assert_false(is.null(.ref_group))
-
-    is_stratified_test <- method %in% c("cmh", "cmh_sato", "cmh_wh")
-
-    if (is_stratified_test && is.null(variables$strata)) {
-      stop(paste0(
-        "Test '", method, "' requires stratified data; ", "`variables$strata` must not be NULL."
-      ))
-    }
-
-    if (!is_stratified_test && !is.null(variables$strata)) {
-      stop(paste0(
-        "Test '", method, "' is an unstratified test, but `variables$strata` was provided. ",
-        "You cannot specify a stratification variable with this method."
-      ))
-    }
+    assert_stratification_compatibility(
+      method = method,
+      stratified_methods = c("cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"),
+      strata = variables$strata
+    )
 
     prepared <- h_prepare_2x2_table(
       df = df, df_ref = .ref_group, var = .var, val = val,

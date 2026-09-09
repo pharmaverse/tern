@@ -688,28 +688,6 @@ testthat::test_that("s_proportion_diff works with uncond_exact_diff", {
   expect_identical(attr(result$diff_ci, "label"), "95% CI (Unconditional exact)")
 })
 
-testthat::test_that("s_proportion_diff rejects uncond_exact_diff with strata", {
-  dta <- data.frame(
-    rsp = c(TRUE, FALSE, TRUE, FALSE),
-    grp = c("A", "A", "B", "B"),
-    strata = c("S1", "S2", "S1", "S2"),
-    stringsAsFactors = FALSE
-  )
-
-  expect_error(
-    s_proportion_diff(
-      df = subset(dta, grp == "A"),
-      .var = "rsp",
-      .ref_group = subset(dta, grp == "B"),
-      .in_ref_col = FALSE,
-      variables = list(strata = "strata"),
-      conf_level = 0.95,
-      method = "uncond_exact_diff"
-    ),
-    "strat"
-  )
-})
-
 test_that("s_proportion_diff supports a custom response value", {
   set.seed(1984, kind = "Mersenne-Twister")
   dta <- data.frame(

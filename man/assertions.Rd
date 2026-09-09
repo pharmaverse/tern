@@ -8,6 +8,7 @@
 \alias{assert_df_with_factors}
 \alias{assert_proportion_value}
 \alias{assert_proportion_data}
+\alias{assert_stratification_compatibility}
 \title{Additional assertions to use with \code{checkmate}}
 \usage{
 assert_list_of_variables(x, .var.name = checkmate::vname(x), add = NULL)
@@ -46,6 +47,8 @@ assert_df_with_factors(
 assert_proportion_value(x, include_boundaries = FALSE)
 
 assert_proportion_data(rsp, grp, strata = NULL)
+
+assert_stratification_compatibility(method, stratified_methods, strata)
 }
 \arguments{
 \item{x}{(\code{any})\cr object to test.}
@@ -99,9 +102,13 @@ Assigns each observation to one of two groups, such as a reference and a
 treatment group. Must have exactly two levels and the same length as
 \code{rsp}. Missing values are not allowed.}
 
-\item{strata}{(\code{factor} or \code{NULL})\cr
-Defines the stratification variable. If not \code{NULL}, it must have the same
-length as \code{rsp} and must not contain any missing values.}
+\item{strata}{(\code{character} or \code{NULL})\cr Names of the variables defining the
+strata, or \code{NULL} if no stratification is used.}
+
+\item{method}{(\code{character(1)})\cr Specifies the statistical method.}
+
+\item{stratified_methods}{(\code{character})\cr Names of the methods that require
+stratified data.}
 }
 \value{
 Nothing if assertion passes, otherwise prints the error message.
@@ -131,6 +138,12 @@ trim \code{NA} levels out of the vector list itself.
 
 \item \code{assert_proportion_data()}: Validates the data required for a proportion analysis, including responder
 status, group assignment, and optional stratification.
+
+\item \code{assert_stratification_compatibility()}: Assert compatibility between a method and stratification.
+Checks that the selected method is compatible with the presence or absence
+of stratification variables. Methods included in \code{stratified_methods} require
+at least one variable defining the strata, while unstratified methods must
+not use stratification variables.
 
 }}
 \examples{
