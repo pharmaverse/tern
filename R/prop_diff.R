@@ -97,31 +97,40 @@ s_proportion_diff <- function(df,
                               weights_method = "cmh",
                               val = TRUE,
                               ...) {
-  checkmate::assert_list(variables)
+  checkmate::assert_data_frame(df)
+  checkmate::assert_string(.var)
+  checkmate::assert_subset(.var, colnames(df), empty.ok = FALSE)
+  checkmate::assert_data_frame(.ref_group, null.ok = TRUE)
+  checkmate::assert_flag(.in_ref_col, null.ok = TRUE)
+  checkmate::assert_list(variables, null.ok = TRUE)
+  assert_proportion_value(conf_level)
+  checkmate::assert_character(method)
+  checkmate::assert_atomic(val)
 
   method <- match.arg(method)
-
-  strat_anl_methods <- c(
-    "cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"
-  )
-
-  if (is.null(variables$strata) && checkmate::test_subset(method, strat_anl_methods)) {
-    stop(paste(
-      "When performing an unstratified analysis, methods",
-      "'cmh', 'cmh_sato', 'cmh_mn', 'strat_newcombe', and 'strat_newcombecc' are not",
-      "permitted. Please choose a different method."
-    ))
-  }
-
-  if (!is.null(variables$strata) && method == "uncond_exact_diff") {
-    stop(
-      "Method 'uncond_exact_diff' is only available for unstratified analyses. Please choose a different method."
-    )
-  }
 
   if (is.null(.in_ref_col) || .in_ref_col) {
     y <- list(diff = numeric(), diff_ci = numeric())
   } else {
+    checkmate::assert_false(is.null(.ref_group))
+
+    is_stratified_method <- method %in% c(
+      "cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"
+    )
+
+    if (is_stratified_method && is.null(variables$strata)) {
+      stop(paste0(
+        "Method '", method, "' requires stratified data; ", "`variables$strata` must not be NULL."
+      ))
+    }
+
+    if (!is_stratified_method && !is.null(variables$strata)) {
+      stop(paste0(
+        "Method '", method, "' is an unstratified method, but `variables$strata` was provided. ",
+        "You cannot specify a stratification variable with this method."
+      ))
+    }
+
     prepared <- h_prepare_2x2_table(
       df = df, df_ref = .ref_group, var = .var, val = val,
       strata_vars = variables$strata,

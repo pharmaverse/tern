@@ -62,22 +62,41 @@ s_test_proportion_diff <- function(df,
                                    alternative = c("two.sided", "less", "greater"),
                                    val = TRUE,
                                    ...) {
+  checkmate::assert_data_frame(df)
+  checkmate::assert_string(.var)
+  checkmate::assert_subset(.var, colnames(df), empty.ok = FALSE)
+  checkmate::assert_data_frame(.ref_group, null.ok = TRUE)
+  checkmate::assert_flag(.in_ref_col, null.ok = TRUE)
+  checkmate::assert_list(variables, null.ok = TRUE)
+  checkmate::assert_character(method)
+  checkmate::assert_subset(alternative, c("two.sided", "less", "greater"), empty.ok = FALSE)
+  checkmate::assert_atomic(val)
+
   method <- match.arg(method)
 
   pval <- if (is.null(.in_ref_col) || .in_ref_col) {
     numeric()
   } else {
-    strata_vars <- if (method %in% c("cmh", "cmh_sato", "cmh_wh")) {
-      checkmate::assert_list(variables)
-      checkmate::assert_false(is.null(variables$strata))
-      variables$strata
-    } else {
-      NULL
+    checkmate::assert_false(is.null(.ref_group))
+
+    is_stratified_test <- method %in% c("cmh", "cmh_sato", "cmh_wh")
+
+    if (is_stratified_test && is.null(variables$strata)) {
+      stop(paste0(
+        "Test '", method, "' requires stratified data; ", "`variables$strata` must not be NULL."
+      ))
+    }
+
+    if (!is_stratified_test && !is.null(variables$strata)) {
+      stop(paste0(
+        "Test '", method, "' is an unstratified test, but `variables$strata` was provided. ",
+        "You cannot specify a stratification variable with this method."
+      ))
     }
 
     prepared <- h_prepare_2x2_table(
       df = df, df_ref = .ref_group, var = .var, val = val,
-      strata_vars = strata_vars,
+      strata_vars = variables$strata,
       complete_cases = TRUE
     )
     tbl <- prepared$tbl
