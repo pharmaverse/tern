@@ -26,7 +26,9 @@ g_forest(
   gp = lifecycle::deprecated(),
   draw = lifecycle::deprecated(),
   newpage = lifecycle::deprecated(),
-  exclude_rows = NULL
+  exclude_rows = NULL,
+  forest_header_above = TRUE,
+  forest_title = NULL
 )
 }
 \arguments{
@@ -108,6 +110,15 @@ The specified rows are removed before plotting. This can be used to omit
 rows that should not be displayed in the forest plot, such as rows
 containing non-plottable values. Defaults to \code{NULL}, meaning that all rows
 are considered for plotting.}
+
+\item{forest_header_above}{(\code{flag})\cr whether to display the forest plot
+header above (\code{TRUE}) or below (\code{FALSE}) the plot. Ignored if the forest
+header is not shown (i.e., when \code{vline = NULL}).}
+
+\item{forest_title}{(\code{character(1)} or \code{NULL})\cr title displayed above the
+forest plot. If \code{NULL}, no title is displayed. The title is displayed only
+if no forest header is present (i.e., when \code{vline = NULL}) or when
+\code{forest_header_above = FALSE}.}
 }
 \value{
 \code{ggplot} forest plot and table.

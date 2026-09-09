@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='svglite' width='144.00pt' height='216.00pt' viewBox='0 0 144.00 216.00'>
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='144.00pt' height='216.00pt' viewBox='0 0 144.00 216.00'>
+<g class='svglite'>
 <defs>
   <style type='text/css'><![CDATA[
     .svglite line, .svglite polyline, .svglite polygon, .svglite path, .svglite rect, .svglite circle {
@@ -11,6 +12,10 @@
     }
     .svglite text {
       white-space: pre;
+    }
+    .svglite g.glyphgroup path {
+      fill: inherit;
+      stroke: none;
     }
   ]]></style>
 </defs>
@@ -25,10 +30,10 @@
 <rect x='0.00' y='0.00' width='129.60' height='189.15' style='stroke-width: 1.07; stroke: none;' />
 <rect x='1.27' y='47.29' width='127.06' height='141.86' style='stroke-width: 1.07; stroke: none; stroke-linecap: butt; stroke-linejoin: miter; fill: #EBEBEB;' />
 <line x1='64.80' y1='189.15' x2='64.80' y2='47.29' style='stroke-width: 1.07; stroke-linecap: butt;' />
-<text x='33.04' y='30.92' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='52.03px' lengthAdjust='spacingAndGlyphs'>A: Drug X</text>
-<text x='33.04' y='43.88' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='32.02px' lengthAdjust='spacingAndGlyphs'>Better</text>
-<text x='96.56' y='30.92' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='58.05px' lengthAdjust='spacingAndGlyphs'>B: Placebo</text>
-<text x='96.56' y='43.88' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='32.02px' lengthAdjust='spacingAndGlyphs'>Better</text>
+<text x='33.04' y='24.87' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='52.00px' lengthAdjust='spacingAndGlyphs'>A: Drug X</text>
+<text x='33.04' y='37.83' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='32.00px' lengthAdjust='spacingAndGlyphs'>Better</text>
+<text x='96.56' y='24.87' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='58.02px' lengthAdjust='spacingAndGlyphs'>B: Placebo</text>
+<text x='96.56' y='37.83' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='32.00px' lengthAdjust='spacingAndGlyphs'>Better</text>
 <circle cx='72.30' cy='56.75' r='6.76' style='stroke-width: 0.71; stroke: #343CFF; fill: #343CFF;' />
 <circle cx='106.30' cy='113.49' r='1.42' style='stroke-width: 0.71; stroke: #343CFF; fill: #343CFF;' />
 <circle cx='64.80' cy='151.32' r='3.03' style='stroke-width: 0.71; stroke: #343CFF; fill: #343CFF;' />
@@ -50,8 +55,9 @@
 <polyline points='1.27,191.89 1.27,189.15 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='64.80,191.89 64.80,189.15 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
 <polyline points='128.33,191.89 128.33,189.15 ' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' />
-<text x='1.27' y='202.68' text-anchor='middle' style='font-size: 12.00px;fill: #4D4D4D; font-family: "Arial";' textLength='16.68px' lengthAdjust='spacingAndGlyphs'>0.1</text>
+<text x='1.27' y='202.68' text-anchor='middle' style='font-size: 12.00px;fill: #4D4D4D; font-family: "Arial";' textLength='16.67px' lengthAdjust='spacingAndGlyphs'>0.1</text>
 <text x='64.80' y='202.68' text-anchor='middle' style='font-size: 12.00px;fill: #4D4D4D; font-family: "Arial";' textLength='6.67px' lengthAdjust='spacingAndGlyphs'>1</text>
-<text x='128.33' y='202.68' text-anchor='middle' style='font-size: 12.00px;fill: #4D4D4D; font-family: "Arial";' textLength='13.35px' lengthAdjust='spacingAndGlyphs'>10</text>
+<text x='128.33' y='202.68' text-anchor='middle' style='font-size: 12.00px;fill: #4D4D4D; font-family: "Arial";' textLength='13.34px' lengthAdjust='spacingAndGlyphs'>10</text>
+</g>
 </g>
 </svg>
