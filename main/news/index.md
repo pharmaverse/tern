@@ -4,6 +4,11 @@
 
 #### Enhancements
 
+- Added `forest_header_above` and `forest_title` arguments to
+  [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
+  to control the position of the forest plot header and add a forest
+  plot title.
+  ([\#1500](https://github.com/pharmaverse/tern/issues/1500))
 - Updated
   [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
   to support point estimates and confidence intervals stored in a single

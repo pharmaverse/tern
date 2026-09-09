@@ -27,7 +27,9 @@ g_forest(
   gp = lifecycle::deprecated(),
   draw = lifecycle::deprecated(),
   newpage = lifecycle::deprecated(),
-  exclude_rows = NULL
+  exclude_rows = NULL,
+  forest_header_above = TRUE,
+  forest_title = NULL
 )
 ```
 
@@ -182,6 +184,20 @@ g_forest(
   should not be displayed in the forest plot, such as rows containing
   non-plottable values. Defaults to `NULL`, meaning that all rows are
   considered for plotting.
+
+- forest_header_above:
+
+  (`flag`)\
+  whether to display the forest plot header above (`TRUE`) or below
+  (`FALSE`) the plot. Ignored if the forest header is not shown (i.e.,
+  when `vline = NULL`).
+
+- forest_title:
+
+  (`character(1)` or `NULL`)\
+  title displayed above the forest plot. If `NULL`, no title is
+  displayed. The title is displayed only if no forest header is present
+  (i.e., when `vline = NULL`) or when `forest_header_above = FALSE`.
 
 ## Value
 

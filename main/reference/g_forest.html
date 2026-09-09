@@ -75,7 +75,9 @@
 <span>  gp <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  draw <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  newpage <span class="op">=</span> <span class="fu">lifecycle</span><span class="fu">::</span><span class="fu"><a href="https://lifecycle.r-lib.org/reference/deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  exclude_rows <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  exclude_rows <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  forest_header_above <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  forest_title <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -203,6 +205,19 @@ The specified rows are removed before plotting. This can be used to omit
 rows that should not be displayed in the forest plot, such as rows
 containing non-plottable values. Defaults to <code>NULL</code>, meaning that all rows
 are considered for plotting.</p></dd>
+
+
+<dt id="arg-forest-header-above">forest_header_above<a class="anchor" aria-label="anchor" href="#arg-forest-header-above"></a></dt>
+<dd><p>(<code>flag</code>)<br> whether to display the forest plot
+header above (<code>TRUE</code>) or below (<code>FALSE</code>) the plot. Ignored if the forest
+header is not shown (i.e., when <code>vline = NULL</code>).</p></dd>
+
+
+<dt id="arg-forest-title">forest_title<a class="anchor" aria-label="anchor" href="#arg-forest-title"></a></dt>
+<dd><p>(<code>character(1)</code> or <code>NULL</code>)<br> title displayed above the
+forest plot. If <code>NULL</code>, no title is displayed. The title is displayed only
+if no forest header is present (i.e., when <code>vline = NULL</code>) or when
+<code>forest_header_above = FALSE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
