@@ -183,7 +183,7 @@ s_proportion_diff <- function(df,
     long = FALSE
   )
   attr(y$diff_ci_3d, "label") <- paste0(
-    "Difference in Response rate (", f_conf_level(conf_level), ")"
+    "% Difference and ", d_proportion_diff(conf_level, method, long = FALSE)
   )
   if (!is.null(y$se_diff)) {
     attr(y$se_diff, "label") <- paste0("Standard Error of Difference in Response rate (%)")
