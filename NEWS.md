@@ -1,7 +1,7 @@
 # tern 0.9.11.9000
 
 ### Enhancements
-* Added `diff_ci_3d` statistic to `s_proportion_diff()` and `estimate_proportion_diff()`,
+* Added `diff_ci_3d` statistic to `s_proportion_diff()`,
   combining proportion difference and confidence interval in a single 3-element vector.
 * Added `mantel_fleiss_crit()` to check the Mantel-Fleiss criterion
   for stratified 2 x 2 contingency tables, together with a vignette
