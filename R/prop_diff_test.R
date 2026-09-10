@@ -58,7 +58,10 @@ s_test_proportion_diff <- function(df,
                                    .ref_group = NULL,
                                    .in_ref_col = NULL,
                                    variables = list(strata = NULL),
-                                   method = c("chisq", "schouten", "fisher", "cmh", "cmh_sato", "cmh_wh"),
+                                   method = c(
+                                     "chisq", "schouten", "fisher",
+                                     "cmh", "cmh_sato", "cmh_wh"
+                                   ),
                                    alternative = c("two.sided", "less", "greater"),
                                    val = TRUE,
                                    ...) {
