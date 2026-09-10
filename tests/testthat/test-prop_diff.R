@@ -737,7 +737,7 @@ test_that("s_proportion_diff errors when stratified method is chosen without str
   )
 })
 
-test_that("s_proportion_diff errors when strata are provided with a non-stratified method", {
+test_that("s_proportion_diff errors when strata are provided with the non-stratified method `uncond_exact_diff`", {
   dta <- data.frame(
     rsp = sample(c("Y", "N"), 10, TRUE),
     grp = factor(rep(c("A", "B"), each = 5)),

@@ -13,6 +13,10 @@
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected
   rows from the forest plot before plotting. (#1498)
   
+### Bug Fixes
+* Fixed an issue in `s_proportion_diff()` where the `weights_method` argument
+  was ignored. (#1521)
+  
 ### Miscellaneous
 * Added the `val` argument and refactored `s_proportion_diff()` so that it uses
   the new function `h_prepare_2x2_table()`.
