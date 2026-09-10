@@ -117,7 +117,9 @@ s_proportion_diff <- function(df,
     checkmate::assert_false(is.null(.ref_group))
     assert_stratification_compatibility(
       method = method,
-      stratified_methods = c("cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"),
+      stratified_methods = c(
+        "cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"
+      ),
       strata = variables$strata
     )
 
