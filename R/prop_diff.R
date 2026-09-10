@@ -95,7 +95,7 @@ s_proportion_diff <- function(df,
                                 "strat_newcombe", "strat_newcombecc",
                                 "uncond_exact_diff"
                               ),
-                              weights_method = "cmh",
+                              weights_method = c("cmh", "wilson_h"),
                               val = TRUE,
                               ...) {
   checkmate::assert_data_frame(df)
@@ -106,6 +106,7 @@ s_proportion_diff <- function(df,
   checkmate::assert_list(variables, null.ok = TRUE)
   assert_proportion_value(conf_level)
   checkmate::assert_character(method)
+  checkmate::assert_character(weights_method)
   checkmate::assert_atomic(val)
 
   method <- match.arg(method)
@@ -128,13 +129,6 @@ s_proportion_diff <- function(df,
     rsp <- prepared$rsp
     grp <- prepared$grp
     strata <- prepared$strata
-
-    # Defining the std way to calculate weights for strat_newcombe.
-    weights_method <- if (!is.null(variables$weights_method)) {
-      variables$weights_method
-    } else {
-      "cmh"
-    }
 
     cmh_stats <- c("diff", "diff_ci", "se_diff")
     y <- switch(method,
@@ -299,7 +293,7 @@ estimate_proportion_diff <- function(lyt,
                                        "ha", "newcombe", "newcombecc",
                                        "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"
                                      ),
-                                     weights_method = "cmh",
+                                     weights_method = c("cmh", "wilson_h"),
                                      var_labels = vars,
                                      na_str = default_na_str(),
                                      nested = TRUE,
@@ -1071,8 +1065,11 @@ h_miettinen_nurminen_var_est <- function(n1, n2, x1, x2, diff_par) {
 #'   (see [prop_diff_cmh()]).
 #'
 #' @param strata (`factor`)\cr variable with one level per stratum and same length as `rsp`.
-#' @param weights_method (`string`)\cr weights method. Can be either `"cmh"` or `"heuristic"`
-#'   and directs the way weights are estimated.
+#' @param weights_method (`string`)\cr method used to estimate the weights for
+#'   stratified Newcombe method.
+#'   Must be either `"cmh"` or `"wilson_h"`. `"cmh"` uses weights derived from
+#'   the Cochran-Mantel-Haenszel method, while `"wilson_h"` uses the heuristic
+#'   weights proposed by [prop_strat_wilson()].
 #'
 #' @examples
 #' # Stratified Newcombe confidence interval
@@ -1117,18 +1114,17 @@ prop_diff_strat_nc <- function(rsp,
     warning("Less than 5 observations in some strata.")
   }
 
-  rsp_by_grp <- split(rsp, f = grp)
-  strata_by_grp <- split(strata, f = grp)
-
   # Finding the weights
-  weights <- if (identical(weights_method, "cmh")) {
+  weights <- if (weights_method == "cmh") {
     prop_diff_cmh(rsp = rsp, grp = grp, strata = strata)$weights
-  } else if (identical(weights_method, "wilson_h")) {
+  } else if (weights_method == "wilson_h") {
     prop_strat_wilson(rsp, strata, conf_level = conf_level, correct = correct)$weights
   }
   weights[levels(strata)[!levels(strata) %in% names(weights)]] <- 0
 
   # Calculating lower (`l`) and upper (`u`) confidence bounds per group.
+  rsp_by_grp <- split(rsp, f = grp)
+  strata_by_grp <- split(strata, f = grp)
   strat_wilson_by_grp <- Map(
     prop_strat_wilson,
     rsp = rsp_by_grp,
