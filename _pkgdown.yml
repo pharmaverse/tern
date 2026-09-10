@@ -113,6 +113,8 @@ reference:
       - -h_xticks
       - -prop_diff
       - check_diff_prop_ci
+      - assert_proportion_data
+      - h_prepare_2x2_table
 
   - title: rtables Helper Functions
     desc: These functions help to work with the `rtables` package and may be
@@ -188,6 +190,7 @@ reference:
       - strata_normal_quantile
       - to_n
       - update_weights_strat_wilson
+      - get_complete_cases
 
   - title: Assertion Functions
     desc: These functions supplement those in the `checkmate` package.

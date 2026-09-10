@@ -14,7 +14,7 @@ estimate_proportion_diff(
   conf_level = 0.95,
   method = c("waldcc", "wald", "cmh", "cmh_sato", "cmh_mn", "ha", "newcombe",
     "newcombecc", "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"),
-  weights_method = "cmh",
+  weights_method = c("cmh", "wilson_h"),
   var_labels = vars,
   na_str = default_na_str(),
   nested = TRUE,
@@ -33,13 +33,14 @@ estimate_proportion_diff(
 s_proportion_diff(
   df,
   .var,
-  .ref_group,
-  .in_ref_col,
+  .ref_group = NULL,
+  .in_ref_col = NULL,
   variables = list(strata = NULL),
   conf_level = 0.95,
   method = c("waldcc", "wald", "cmh", "cmh_sato", "cmh_mn", "ha", "newcombe",
     "newcombecc", "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"),
-  weights_method = "cmh",
+  weights_method = c("cmh", "wilson_h"),
+  val = TRUE,
   ...
 )
 
@@ -64,8 +65,11 @@ a_proportion_diff(
 
 \item{method}{(\code{string})\cr the method used for the confidence interval estimation.}
 
-\item{weights_method}{(\code{string})\cr weights method. Can be either \code{"cmh"} or \code{"heuristic"}
-and directs the way weights are estimated.}
+\item{weights_method}{(\code{string})\cr method used to estimate the weights for
+stratified Newcombe method.
+Must be either \code{"cmh"} or \code{"wilson_h"}. \code{"cmh"} uses weights derived from
+the Cochran-Mantel-Haenszel method, while \code{"wilson_h"} uses the heuristic
+weights proposed by \code{\link[=prop_strat_wilson]{prop_strat_wilson()}}.}
 
 \item{var_labels}{(\code{character})\cr variable labels.}
 
@@ -110,6 +114,11 @@ by a statistics function.}
 \item{.ref_group}{(\code{data.frame} or \code{vector})\cr the data corresponding to the reference group.}
 
 \item{.in_ref_col}{(\code{flag})\cr \code{TRUE} when working with the reference level, \code{FALSE} otherwise.}
+
+\item{val}{(\code{character(1)} or \code{logical(1)})\cr
+the value in \code{df[[.var]]} (and, if supplied, in \code{.ref_group[[.var]]}) that
+defines a positive response. All other observations are treated as
+non-responses.}
 }
 \value{
 \itemize{
@@ -230,4 +239,6 @@ a_proportion_diff(
 }
 \seealso{
 \code{\link[=d_proportion_diff]{d_proportion_diff()}}
+
+\code{\link[=h_prepare_2x2_table]{h_prepare_2x2_table()}}
 }

@@ -688,25 +688,73 @@ testthat::test_that("s_proportion_diff works with uncond_exact_diff", {
   expect_identical(attr(result$diff_ci, "label"), "95% CI (Unconditional exact)")
 })
 
-testthat::test_that("s_proportion_diff rejects uncond_exact_diff with strata", {
+test_that("s_proportion_diff supports a custom response value", {
+  set.seed(1984, kind = "Mersenne-Twister")
   dta <- data.frame(
-    rsp = c(TRUE, FALSE, TRUE, FALSE),
-    grp = c("A", "A", "B", "B"),
-    strata = c("S1", "S2", "S1", "S2"),
-    stringsAsFactors = FALSE
+    rsp = sample(c("Y", "N"), 100, TRUE),
+    grp = factor(rep(c("A", "B"), each = 50)),
+    strata = factor(rep(c("V", "W", "X", "Y", "Z"), each = 20))
   )
 
-  expect_error(
-    s_proportion_diff(
+  expect_silent(
+    result <- s_proportion_diff(
       df = subset(dta, grp == "A"),
       .var = "rsp",
       .ref_group = subset(dta, grp == "B"),
       .in_ref_col = FALSE,
       variables = list(strata = "strata"),
-      conf_level = 0.95,
-      method = "uncond_exact_diff"
+      method = "cmh",
+      val = "Y"
+    )
+  )
+
+  expect_equal(as.numeric(result$diff), 10, tolerance = 1e-2)
+  expect_identical(attr(result$diff, "label"), "Difference in Response rate (%)")
+  expect_equal(as.numeric(result$diff_ci), c(-31.57711, 51.57711), tolerance = 1e-2)
+  expect_identical(attr(result$diff_ci, "label"), "95% CI (CMH, without correction)")
+  expect_equal(as.numeric(result$se_diff), 21.2132, tolerance = 1e-2)
+  expect_identical(attr(result$se_diff, "label"), "Standard Error of Difference in Response rate (%)")
+})
+
+test_that("s_proportion_diff errors when stratified method is chosen without strata", {
+  dta <- data.frame(
+    rsp = sample(c("Y", "N"), 10, TRUE),
+    grp = factor(rep(c("A", "B"), each = 5)),
+    strata = factor(c("V", "W", "X", "Y", "Z"))
+  )
+
+  expect_error(
+    result <- s_proportion_diff(
+      df = subset(dta, grp == "A"),
+      .var = "rsp",
+      .ref_group = subset(dta, grp == "B"),
+      .in_ref_col = FALSE,
+      variables = NULL,
+      method = "cmh",
+      val = "Y"
     ),
-    "only available for unstratified analyses"
+    "strat"
+  )
+})
+
+test_that("s_proportion_diff errors when strata are provided with the non-stratified method `uncond_exact_diff`", {
+  dta <- data.frame(
+    rsp = sample(c("Y", "N"), 10, TRUE),
+    grp = factor(rep(c("A", "B"), each = 5)),
+    strata = factor(c("V", "W", "X", "Y", "Z"))
+  )
+
+  expect_error(
+    result <- s_proportion_diff(
+      df = subset(dta, grp == "A"),
+      .var = "rsp",
+      .ref_group = subset(dta, grp == "B"),
+      .in_ref_col = FALSE,
+      variables = list(strata = "strata"),
+      method = "uncond_exact_diff",
+      val = "Y"
+    ),
+    "strat"
   )
 })
 

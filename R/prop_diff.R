@@ -45,6 +45,11 @@ NULL
 #' @describeIn prop_diff Statistics function estimating the difference
 #'   in terms of responder proportion.
 #'
+#' @param val (`character(1)` or `logical(1)`)\cr
+#'   the value in `df[[.var]]` (and, if supplied, in `.ref_group[[.var]]`) that
+#'   defines a positive response. All other observations are treated as
+#'   non-responses.
+#'
 #' @return
 #' * `s_proportion_diff()` returns a named list of elements `diff` and `diff_ci`.
 #'   Depending on the method used, also the standard error of the difference `se_diff` is
@@ -53,6 +58,8 @@ NULL
 #' @note When performing an unstratified analysis, methods `"cmh"`, `"cmh_sato"`, `"strat_newcombe"`,
 #'   and `"strat_newcombecc"` are not permitted. For stratified analysis, method
 #'   `"uncond_exact_diff"` is not permitted.
+#'
+#' @seealso [h_prepare_2x2_table()]
 #'
 #' @examples
 #' s_proportion_diff(
@@ -78,92 +85,68 @@ NULL
 #' @export
 s_proportion_diff <- function(df,
                               .var,
-                              .ref_group,
-                              .in_ref_col,
+                              .ref_group = NULL,
+                              .in_ref_col = NULL,
                               variables = list(strata = NULL),
                               conf_level = 0.95,
                               method = c(
                                 "waldcc", "wald", "cmh", "cmh_sato", "cmh_mn",
                                 "ha", "newcombe", "newcombecc",
-                                "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"
+                                "strat_newcombe", "strat_newcombecc",
+                                "uncond_exact_diff"
                               ),
-                              weights_method = "cmh",
+                              weights_method = c("cmh", "wilson_h"),
+                              val = TRUE,
                               ...) {
+  checkmate::assert_data_frame(df)
+  checkmate::assert_string(.var)
+  checkmate::assert_subset(.var, colnames(df), empty.ok = FALSE)
+  checkmate::assert_data_frame(.ref_group, null.ok = TRUE)
+  checkmate::assert_flag(.in_ref_col, null.ok = TRUE)
+  checkmate::assert_list(variables, null.ok = TRUE)
+  checkmate::assert_atomic(val)
+
   method <- match.arg(method)
-  if (
-    is.null(variables$strata) &&
-      checkmate::test_subset(method, c("cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"))
-  ) {
-    stop(paste(
-      "When performing an unstratified analysis, methods",
-      "'cmh', 'cmh_sato', 'cmh_mn', 'strat_newcombe', and 'strat_newcombecc' are not",
-      "permitted. Please choose a different method."
-    ))
-  }
-  if (!is.null(variables$strata) && identical(method, "uncond_exact_diff")) {
-    stop(
-      "Method 'uncond_exact_diff' is only available for unstratified analyses. Please choose a different method."
-    )
-  }
-  y <- list(diff = numeric(), diff_ci = numeric())
 
-  if (!.in_ref_col) {
-    rsp <- c(.ref_group[[.var]], df[[.var]])
-    grp <- factor(
-      rep(
-        c("ref", "Not-ref"),
-        c(nrow(.ref_group), nrow(df))
+  if (is.null(.in_ref_col) || .in_ref_col) {
+    y <- list(diff = numeric(), diff_ci = numeric())
+  } else {
+    checkmate::assert_false(is.null(.ref_group))
+    assert_stratification_compatibility(
+      method = method,
+      stratified_methods = c(
+        "cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"
       ),
-      levels = c("ref", "Not-ref")
+      strata = variables$strata
     )
 
-    if (!is.null(variables$strata)) {
-      strata_colnames <- variables$strata
-      checkmate::assert_character(strata_colnames, null.ok = FALSE)
-      strata_vars <- stats::setNames(as.list(strata_colnames), strata_colnames)
+    prepared <- h_prepare_2x2_table(
+      df = df, df_ref = .ref_group, var = .var, val = val,
+      strata_vars = variables$strata,
+      complete_cases = TRUE
+    )
+    rsp <- prepared$rsp
+    grp <- prepared$grp
+    strata <- prepared$strata
 
-      assert_df_with_variables(df, strata_vars)
-      assert_df_with_variables(.ref_group, strata_vars)
-
-      # Merging interaction strata for reference group rows data and remaining
-      strata <- c(
-        interaction(.ref_group[strata_colnames]),
-        interaction(df[strata_colnames])
-      )
-      strata <- as.factor(strata)
-    }
-
-    # Defining the std way to calculate weights for strat_newcombe
-    if (!is.null(variables$weights_method)) {
-      weights_method <- variables$weights_method
-    } else {
-      weights_method <- "cmh"
-    }
-
-    y_stats_from_cmh <- c("diff", "diff_ci", "se_diff")
+    cmh_stats <- c("diff", "diff_ci", "se_diff")
     y <- switch(method,
       "wald" = prop_diff_wald(rsp, grp, conf_level, correct = FALSE),
       "waldcc" = prop_diff_wald(rsp, grp, conf_level, correct = TRUE),
       "ha" = prop_diff_ha(rsp, grp, conf_level),
       "newcombe" = prop_diff_nc(rsp, grp, conf_level, correct = FALSE),
       "newcombecc" = prop_diff_nc(rsp, grp, conf_level, correct = TRUE),
-      "strat_newcombe" = prop_diff_strat_nc(rsp,
-        grp,
-        strata,
-        weights_method,
-        conf_level,
+      "strat_newcombe" = prop_diff_strat_nc(
+        rsp, grp, strata, weights_method, conf_level,
         correct = FALSE
       ),
-      "strat_newcombecc" = prop_diff_strat_nc(rsp,
-        grp,
-        strata,
-        weights_method,
-        conf_level,
+      "strat_newcombecc" = prop_diff_strat_nc(
+        rsp, grp, strata, weights_method, conf_level,
         correct = TRUE
       ),
-      "cmh" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "standard")[y_stats_from_cmh],
-      "cmh_sato" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "sato")[y_stats_from_cmh],
-      "cmh_mn" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "miettinen_nurminen")[y_stats_from_cmh],
+      "cmh" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "standard")[cmh_stats],
+      "cmh_sato" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "sato")[cmh_stats],
+      "cmh_mn" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "miettinen_nurminen")[cmh_stats],
       "uncond_exact_diff" = prop_diff_uncond_exact(rsp, grp, conf_level)
     )
 
@@ -175,10 +158,7 @@ s_proportion_diff <- function(df,
   }
 
   attr(y$diff, "label") <- "Difference in Response rate (%)"
-  attr(y$diff_ci, "label") <- d_proportion_diff(
-    conf_level, method,
-    long = FALSE
-  )
+  attr(y$diff_ci, "label") <- d_proportion_diff(conf_level, method, long = FALSE)
   if (!is.null(y$se_diff)) {
     attr(y$se_diff, "label") <- paste0("Standard Error of Difference in Response rate (%)")
   }
@@ -312,7 +292,7 @@ estimate_proportion_diff <- function(lyt,
                                        "ha", "newcombe", "newcombecc",
                                        "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"
                                      ),
-                                     weights_method = "cmh",
+                                     weights_method = c("cmh", "wilson_h"),
                                      var_labels = vars,
                                      na_str = default_na_str(),
                                      nested = TRUE,
@@ -394,16 +374,236 @@ check_diff_prop_ci <- function(rsp,
                                strata = NULL,
                                conf_level,
                                correct = NULL) {
-  checkmate::assert_logical(rsp, any.missing = FALSE)
-  checkmate::assert_factor(grp, len = length(rsp), any.missing = FALSE, n.levels = 2)
+  assert_proportion_data(rsp = rsp, grp = grp, strata = strata)
   checkmate::assert_number(conf_level, lower = 0, upper = 1)
   checkmate::assert_flag(correct, null.ok = TRUE)
+  invisible()
+}
 
-  if (!is.null(strata)) {
-    checkmate::assert_factor(strata, len = length(rsp))
+#' Helper Function to Prepare Data for Proportion Analyses
+#'
+#' @description `r lifecycle::badge("experimental")`
+#'
+#' Prepares response, group, and optional strata vectors, and constructs a
+#' 2 x 2 contingency table for proportion-based analyses. The function extracts
+#' the variables from an analysis dataset and, optionally, a reference dataset,
+#' combines them into vectors suitable for downstream statistical functions,
+#' and returns the resulting contingency table together with the prepared
+#' vectors.
+#'
+#' @param df (`data.frame`)\cr
+#'   A data frame containing the observations for the non-reference group.
+#' @param df_ref (`data.frame` or `NULL`)\cr
+#'   An optional data frame containing the observations for the reference group.
+#' @param var (`character(1)`)\cr
+#'   The column name in `df` (and, if supplied, `df_ref`) specifying the
+#'   response variable. The response is converted to a logical vector by
+#'   comparing its values with `val`.
+#' @param val (`character(1)` or `logical(1)`)\cr
+#'   The value in `df[[var]]` (and, if supplied, in `df_ref[[var]]`) that defines
+#'   a positive response. Observations matching this value are returned as
+#'   `TRUE` in the `rsp` vector; all other observations are returned as `FALSE`.
+#' @param strata_vars (`character` or `NULL`)\cr
+#'   Optional column names in `df` (and, if supplied, `df_ref`) specifying
+#'   the strata variables. The specified columns must all be factors.
+#' @param complete_cases (`logical(1)`)\cr
+#'   Whether incomplete rows should be removed from `df[c(var, strata_vars)]`
+#'   (and, if supplied, `df_ref[c(var, strata_vars)]`).
+#'   This is done using [get_complete_cases()].
+#' @param quiet (`logical(1)`)\cr
+#'   Passed to [get_complete_cases()], controlling whether messages about
+#'   removed incomplete rows are displayed.
+#'
+#' @return A named `list` containing:
+#' \describe{
+#'   \item{`rsp`}{A logical vector indicating whether each observation has the
+#'   value specified by `val` in `df[[var]]` (and, if supplied, `df_ref`).}
+#'   \item{`grp`}{A factor identifying the group of each observation. The levels
+#'   are always `"ref"` and `"Not-ref"` (in this order), corresponding to
+#'   observations from `df_ref` and `df`, respectively. If `df_ref` is `NULL`,
+#'   all observations belong to `"Not-ref"`.}
+#'   \item{`strata`}{A factor defining the analysis strata when `strata_vars` is
+#'   supplied, or `NULL` otherwise. When multiple stratification variables are
+#'   supplied, their combinations, using [interaction()], are used to define
+#'   the strata.}
+#'   \item{`tbl`}{A contingency table produced by [base::table()] from `grp`,
+#'   `rsp` (after converting it to a factor with two levels, `"TRUE"` and
+#'   `"FALSE"`), and, if `strata_vars` is supplied, `strata`.
+#'   When `strata_vars` is `NULL`, a 2 x 2 table is returned, with `grp`
+#'   defining the rows and `rsp` defining the columns.
+#'   The `rsp` dimension always contains the levels `"TRUE"` and `"FALSE"`, in
+#'   that order, even when one or both response outcomes are not observed.
+#'   When `strata_vars` is supplied, a 3-dimensional contingency table with
+#'   dimensions 2 x 2 x k is returned, where k is the number of strata.
+#'   The dimensions correspond to `grp`, `rsp`, and `strata`, respectively.}
+#' }
+#'
+#' @details
+#' The function prepares the response, group, and optional strata variables
+#' required for proportion-based analyses and constructs a safe contingency
+#' table for downstream statistical functions.
+#' See the proportion difference documentation [h_prop_diff] and
+#' [h_prop_diff_test] for related functions.
+#'
+#' If `complete_cases = TRUE`, incomplete observations are removed separately
+#' from `df` and `df_ref` (if supplied) before the vectors and contingency table
+#' are constructed. Completeness is assessed jointly across the `var` and
+#' `strata_vars` columns when `strata_vars` is supplied, and only across `var`
+#' otherwise. This is performed using [get_complete_cases()].
+#'
+#' The response variable specified by `var`, and optionally the strata variables
+#' specified by `strata_vars`, are extracted independently from `df` and
+#' `df_ref` (if supplied). The response vectors are then combined into a single
+#' vector and converted to a logical vector by comparing each value with `val`,
+#' such that observations matching `val` are `TRUE` and all other observations
+#' are `FALSE`.
+#'
+#' When multiple stratification variables are provided, their combinations are
+#' collapsed into a single factor using [interaction()]. This is done
+#' independently for `df` and `df_ref` (if supplied), after which the resulting
+#' strata vectors are combined into a single factor.
+#'
+#' A group factor is constructed to identify the source of each observation.
+#' Observations from `df` are assigned to the `"Not-ref"` group, while
+#' observations from `df_ref` are assigned to the `"ref"` group. The factor
+#' always has `"ref"` and `"Not-ref"` as its levels, in this order.
+#' The level order is important because proportion-difference calculations in
+#' `tern` use the first level as the reference group and calculate the
+#' difference as `"Not-ref"` - `"ref"`.
+#'
+#' The contingency table is constructed from group, response (after converting
+#' it to a factor with two levels, `"TRUE"` and `"FALSE"`), and, if
+#' `strata_vars` is supplied, `strata`.
+#'
+#' @seealso [h_prop_diff], [h_prop_diff_test], [get_complete_cases()]
+#'
+#' @export
+#' @examples
+#'
+#' set.seed(123)
+#' n <- 28
+#' dta <- data.frame(
+#'   "rsp" = sample(c(TRUE, FALSE), n, TRUE),
+#'   "grp" = sample(c("X", "Placebo"), n, TRUE),
+#'   "f1" = sample(c("a1", "a2"), n, TRUE),
+#'   "f2" = sample(c("x", "y"), n, TRUE),
+#'   stringsAsFactors = TRUE
+#' )
+#' head(dta)
+#'
+#' trgs <- h_prepare_2x2_table(
+#'   df = subset(dta, grp == "X"),
+#'   df_ref = subset(dta, grp == "Placebo"),
+#'   var = "rsp",
+#'   strata_vars = c("f1", "f2")
+#' )
+#'
+#' rbind(
+#'   subset(dta, grp == "X"),
+#'   subset(dta, grp == "Placebo"),
+#'   make.row.names = FALSE
+#' )
+#'
+#' trgs$rsp
+#' trgs$grp
+#' trgs$strata
+#' trgs$tbl
+#'
+#' # Example use case.
+#' prop_diff_cmh(trgs$rsp, trgs$grp, trgs$strata)
+#' prop_cmh(trgs$tbl)
+#'
+#' # The FALSE/TRUE levels are retained even when only one outcome is observed.
+#' dta2 <- dta
+#' dta2$rsp <- TRUE
+#' h_prepare_2x2_table(
+#'   df = subset(dta2, grp == "X"),
+#'   df_ref = subset(dta2, grp == "Placebo"),
+#'   var = "rsp",
+#' )$tbl
+h_prepare_2x2_table <- function(df,
+                                df_ref = NULL,
+                                var,
+                                val = TRUE,
+                                strata_vars = NULL,
+                                complete_cases = FALSE,
+                                quiet = FALSE) {
+  checkmate::assert_data_frame(df)
+  checkmate::assert_data_frame(df_ref, null.ok = TRUE)
+  checkmate::assert_string(var)
+  checkmate::assert_true(
+    checkmate::test_string(val) || checkmate::test_flag(val)
+  )
+  checkmate::assert_subset(var, colnames(df), empty.ok = FALSE)
+  if (!is.null(df_ref)) {
+    checkmate::assert_subset(var, colnames(df_ref), empty.ok = FALSE)
+  }
+  if (!is.null(strata_vars)) {
+    checkmate::assert_subset(strata_vars, colnames(df), empty.ok = FALSE)
+    checkmate::assert_data_frame(df[strata_vars], types = "factor")
+    if (!is.null(df_ref)) {
+      checkmate::assert_subset(strata_vars, colnames(df_ref), empty.ok = FALSE)
+      checkmate::assert_data_frame(df_ref[strata_vars], types = "factor")
+    }
+  }
+  checkmate::assert_flag(complete_cases)
+  checkmate::assert_flag(quiet)
+
+  # Optionally remove incomplete cases.
+  if (complete_cases) {
+    vars <- c(var, strata_vars)
+    df <- get_complete_cases(
+      df[, vars, drop = FALSE],
+      quiet = quiet,
+      additional_message = " from the non-reference group (df)."
+    )
+    if (!is.null(df_ref)) {
+      df_ref <- get_complete_cases(
+        df_ref[, vars, drop = FALSE],
+        quiet = quiet,
+        additional_message = " from the reference group (df_ref)."
+      )
+    }
   }
 
-  invisible()
+  # NOTE: The order of group levels is important and must not be changed.
+  # `tern` proportion-difference functions use the first level as the
+  # reference group and calculate the difference as "Not-ref" - "ref".
+  grp_levels <- c("ref", "Not-ref")
+
+  # Extract response, group, and strata data for the non-reference group.
+  rsp <- df[[var]]
+  grp <- factor(rep(grp_levels[2], nrow(df)), levels = grp_levels)
+  strata <- if (!is.null(strata_vars)) {
+    interaction(df[strata_vars])
+  } else {
+    NULL
+  }
+
+  # Prepend reference group data, if supplied. We want the reference group first.
+  if (!is.null(df_ref)) {
+    rsp <- c(df_ref[[var]], rsp)
+    grp <- c(factor(rep(grp_levels[1], nrow(df_ref)), levels = grp_levels), grp)
+    strata <- if (!is.null(strata_vars)) {
+      c(interaction(df_ref[strata_vars]), strata)
+    } else {
+      NULL
+    }
+  }
+
+  rsp_logical <- rsp == val
+
+  assert_proportion_data(rsp = rsp_logical, grp = grp, strata = strata)
+
+  # Build contingency table.
+  rsp <- factor(rsp_logical, levels = c("TRUE", "FALSE"))
+  tbl <- if (is.null(strata)) {
+    table(grp, rsp)
+  } else {
+    table(grp, rsp, strata)
+  }
+
+  list(rsp = rsp_logical, grp = grp, strata = strata, tbl = tbl)
 }
 
 #' Description of method used for proportion comparison
@@ -864,8 +1064,11 @@ h_miettinen_nurminen_var_est <- function(n1, n2, x1, x2, diff_par) {
 #'   (see [prop_diff_cmh()]).
 #'
 #' @param strata (`factor`)\cr variable with one level per stratum and same length as `rsp`.
-#' @param weights_method (`string`)\cr weights method. Can be either `"cmh"` or `"heuristic"`
-#'   and directs the way weights are estimated.
+#' @param weights_method (`string`)\cr method used to estimate the weights for
+#'   stratified Newcombe method.
+#'   Must be either `"cmh"` or `"wilson_h"`. `"cmh"` uses weights derived from
+#'   the Cochran-Mantel-Haenszel method, while `"wilson_h"` uses the heuristic
+#'   weights proposed by [prop_strat_wilson()].
 #'
 #' @examples
 #' # Stratified Newcombe confidence interval
@@ -910,18 +1113,17 @@ prop_diff_strat_nc <- function(rsp,
     warning("Less than 5 observations in some strata.")
   }
 
-  rsp_by_grp <- split(rsp, f = grp)
-  strata_by_grp <- split(strata, f = grp)
-
   # Finding the weights
-  weights <- if (identical(weights_method, "cmh")) {
+  weights <- if (weights_method == "cmh") {
     prop_diff_cmh(rsp = rsp, grp = grp, strata = strata)$weights
-  } else if (identical(weights_method, "wilson_h")) {
+  } else if (weights_method == "wilson_h") {
     prop_strat_wilson(rsp, strata, conf_level = conf_level, correct = correct)$weights
   }
   weights[levels(strata)[!levels(strata) %in% names(weights)]] <- 0
 
   # Calculating lower (`l`) and upper (`u`) confidence bounds per group.
+  rsp_by_grp <- split(rsp, f = grp)
+  strata_by_grp <- split(strata, f = grp)
   strat_wilson_by_grp <- Map(
     prop_strat_wilson,
     rsp = rsp_by_grp,

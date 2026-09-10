@@ -15,13 +15,18 @@
 #'
 #'   Options are: ``r shQuote(get_stats("test_proportion_diff"), type = "sh")``
 #'
-#' @seealso [h_prop_diff_test]
+#' @seealso [h_prop_diff_test], [h_prepare_2x2_table()]
 #'
 #' @name prop_diff_test
 #' @order 1
 NULL
 
 #' @describeIn prop_diff_test Statistics function which tests the difference between two proportions.
+#'
+#' @param val (`character(1)` or `logical(1)`)\cr
+#'   the value in `df[[.var]]` (and, if supplied, in `.ref_group[[.var]]`) that
+#'   defines a positive response. All other observations are treated as
+#'   non-responses.
 #'
 #' @return
 #' * `s_test_proportion_diff()` returns a named `list` with a single item `pval` with an attribute `label`
@@ -50,55 +55,59 @@ NULL
 #' @export
 s_test_proportion_diff <- function(df,
                                    .var,
-                                   .ref_group,
-                                   .in_ref_col,
+                                   .ref_group = NULL,
+                                   .in_ref_col = NULL,
                                    variables = list(strata = NULL),
-                                   method = c("chisq", "schouten", "fisher", "cmh", "cmh_sato", "cmh_wh"),
+                                   method = c(
+                                     "chisq", "schouten", "fisher",
+                                     "cmh", "cmh_sato", "cmh_wh"
+                                   ),
                                    alternative = c("two.sided", "less", "greater"),
+                                   val = TRUE,
                                    ...) {
+  checkmate::assert_data_frame(df)
+  checkmate::assert_string(.var)
+  checkmate::assert_subset(.var, colnames(df), empty.ok = FALSE)
+  checkmate::assert_data_frame(.ref_group, null.ok = TRUE)
+  checkmate::assert_flag(.in_ref_col, null.ok = TRUE)
+  checkmate::assert_list(variables, null.ok = TRUE)
+  checkmate::assert_atomic(val)
+
   method <- match.arg(method)
-  y <- list(pval = numeric())
 
-  if (!.in_ref_col) {
-    assert_df_with_variables(df, list(rsp = .var))
-    assert_df_with_variables(.ref_group, list(rsp = .var))
-    rsp <- factor(
-      c(.ref_group[[.var]], df[[.var]]),
-      levels = c("TRUE", "FALSE")
-    )
-    grp <- factor(
-      rep(c("ref", "Not-ref"), c(nrow(.ref_group), nrow(df))),
-      levels = c("ref", "Not-ref")
+  pval <- if (is.null(.in_ref_col) || .in_ref_col) {
+    numeric()
+  } else {
+    checkmate::assert_false(is.null(.ref_group))
+    assert_stratification_compatibility(
+      method = method,
+      stratified_methods = c("cmh", "cmh_sato", "cmh_wh"),
+      strata = variables$strata
     )
 
-    if (!is.null(variables$strata) || method %in% c("cmh", "cmh_wh")) {
-      strata <- variables$strata
-      checkmate::assert_false(is.null(strata))
-      strata_vars <- stats::setNames(as.list(strata), strata)
-      assert_df_with_variables(df, strata_vars)
-      assert_df_with_variables(.ref_group, strata_vars)
-      strata <- c(interaction(.ref_group[strata]), interaction(df[strata]))
-    }
-
-    tbl <- switch(method,
-      cmh = table(grp, rsp, strata),
-      cmh_sato = table(grp, rsp, strata),
-      cmh_wh = table(grp, rsp, strata),
-      table(grp, rsp)
+    prepared <- h_prepare_2x2_table(
+      df = df, df_ref = .ref_group, var = .var, val = val,
+      strata_vars = variables$strata,
+      complete_cases = TRUE
     )
+    tbl <- prepared$tbl
 
-    y$pval <- switch(method,
-      chisq = prop_chisq(tbl, alternative = alternative),
+    switch(method,
       cmh = prop_cmh(tbl, alternative = alternative),
-      fisher = prop_fisher(tbl, alternative = alternative),
-      schouten = prop_schouten(tbl, alternative = alternative),
       cmh_sato = prop_cmh(tbl, alternative = alternative, diff_se = "sato"),
-      cmh_wh = prop_cmh(tbl, alternative = alternative, transform = "wilson_hilferty")
+      cmh_wh = prop_cmh(tbl, alternative = alternative, transform = "wilson_hilferty"),
+      fisher = prop_fisher(tbl, alternative = alternative),
+      chisq = prop_chisq(tbl, alternative = alternative),
+      schouten = prop_schouten(tbl, alternative = alternative)
     )
   }
 
-  y$pval <- formatters::with_label(y$pval, d_test_proportion_diff(method, alternative = alternative))
-  y
+  list(
+    pval = formatters::with_label(
+      pval,
+      d_test_proportion_diff(method, alternative = alternative)
+    )
+  )
 }
 
 #' Description of the difference test between two proportions

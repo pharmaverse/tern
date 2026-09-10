@@ -1,12 +1,31 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+* Added `h_prepare_2x2_table()` to prepare contingency table(s) for proportion
+  analyses. (#1514)
+* Added `get_complete_cases()` to remove observations containing missing values. (#1514)
+* Added `assert_proportion_data()` to validate responder, group, and optional
+  stratification data used in proportion analyses. (#1514).
 * Added `forest_header_above` and `forest_title` arguments to `g_forest()` to
   control the position of the forest plot header and add a forest plot title. (#1500)
 * Updated `g_forest()` to support point estimates and confidence intervals
   stored in a single column. (#1499)
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected
   rows from the forest plot before plotting. (#1498)
+  
+### Bug Fixes
+* Fixed an issue in `s_proportion_diff()` where the `weights_method` argument
+  was ignored. (#1521)
+  
+### Miscellaneous
+* Added the `val` argument and refactored `s_proportion_diff()` so that it uses
+  the new function `h_prepare_2x2_table()`.
+* Added the `val` argument and refactored `s_test_proportion_diff()` so that it
+  uses the new function `h_prepare_2x2_table()`.
+
+# tern 0.9.11
+
+### Enhancements
 * Added `factor_level_method` argument to `df_explicit_na()` to control factor level ordering
   when converting character or logical columns. Supported methods: `"sort_auto"` (default,
   locale-aware, preserves original behavior), `"sort_radix"` (byte-order / ASCII sort), and

@@ -7,6 +7,8 @@
 \alias{assert_valid_factor}
 \alias{assert_df_with_factors}
 \alias{assert_proportion_value}
+\alias{assert_proportion_data}
+\alias{assert_stratification_compatibility}
 \title{Additional assertions to use with \code{checkmate}}
 \usage{
 assert_list_of_variables(x, .var.name = checkmate::vname(x), add = NULL)
@@ -43,6 +45,10 @@ assert_df_with_factors(
 )
 
 assert_proportion_value(x, include_boundaries = FALSE)
+
+assert_proportion_data(rsp, grp, strata = NULL)
+
+assert_stratification_compatibility(method, stratified_methods, strata)
 }
 \arguments{
 \item{x}{(\code{any})\cr object to test.}
@@ -86,6 +92,23 @@ Exact expected length of \code{x}.}
 
 \item{include_boundaries}{(\code{flag})\cr whether to include boundaries when testing
 for proportions.}
+
+\item{rsp}{(\code{logical})\cr
+Indicates whether each observation is a responder (\code{TRUE}) or a
+non-responder (\code{FALSE}). Missing values are not allowed.}
+
+\item{grp}{(\code{factor})\cr
+Assigns each observation to one of two groups, such as a reference and a
+treatment group. Must have exactly two levels and the same length as
+\code{rsp}. Missing values are not allowed.}
+
+\item{strata}{(\code{character} or \code{NULL})\cr Names of the variables defining the
+strata, or \code{NULL} if no stratification is used.}
+
+\item{method}{(\code{character(1)})\cr Specifies the statistical method.}
+
+\item{stratified_methods}{(\code{character})\cr Names of the methods that require
+stratified data.}
 }
 \value{
 Nothing if assertion passes, otherwise prints the error message.
@@ -113,6 +136,15 @@ trim \code{NA} levels out of the vector list itself.
 
 \item \code{assert_proportion_value()}: Check whether \code{x} is a proportion: number between 0 and 1.
 
+\item \code{assert_proportion_data()}: Validates the data required for a proportion analysis, including responder
+status, group assignment, and optional stratification.
+
+\item \code{assert_stratification_compatibility()}: Assert compatibility between a method and stratification.
+Checks that the selected method is compatible with the presence or absence
+of stratification variables. Methods included in \code{stratified_methods} require
+at least one variable defining the strata, while unstratified methods must
+not use stratification variables.
+
 }}
 \examples{
 x <- data.frame(
@@ -130,5 +162,16 @@ assert_df_with_factors(x, list(a = "ARM"))
 assert_proportion_value(0.95)
 assert_proportion_value(1.0, include_boundaries = TRUE)
 
+rsp <- c(TRUE, TRUE, FALSE, TRUE, FALSE, FALSE)
+grp <- factor(c(rep("Placebo", 3), rep("X", 3)))
+strata <- factor(c("A", "A", "B", "A", "B", "B"))
+
+assert_proportion_data(rsp, grp, strata)
+
+\dontrun{
+# An error is raised when `grp` has only one level.
+grp <- factor(rep("X", 6))
+assert_proportion_data(rsp, grp, strata)
+}
 }
 \keyword{internal}
