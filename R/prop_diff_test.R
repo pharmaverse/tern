@@ -71,7 +71,6 @@ s_test_proportion_diff <- function(df,
   checkmate::assert_data_frame(.ref_group, null.ok = TRUE)
   checkmate::assert_flag(.in_ref_col, null.ok = TRUE)
   checkmate::assert_list(variables, null.ok = TRUE)
-  checkmate::assert_subset(alternative, c("two.sided", "less", "greater"), empty.ok = FALSE)
   checkmate::assert_atomic(val)
 
   method <- match.arg(method)

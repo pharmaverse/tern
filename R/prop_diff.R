@@ -104,8 +104,6 @@ s_proportion_diff <- function(df,
   checkmate::assert_data_frame(.ref_group, null.ok = TRUE)
   checkmate::assert_flag(.in_ref_col, null.ok = TRUE)
   checkmate::assert_list(variables, null.ok = TRUE)
-  assert_proportion_value(conf_level)
-  checkmate::assert_character(weights_method)
   checkmate::assert_atomic(val)
 
   method <- match.arg(method)
