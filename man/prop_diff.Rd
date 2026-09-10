@@ -89,7 +89,7 @@ defined by this split instruction, or \code{NA_character_} (the default) for no 
 
 \item{.stats}{(\code{character})\cr statistics to select for the table.
 
-Options are: \verb{'diff', 'diff_ci'}}
+Options are: \verb{'diff', 'diff_ci', 'diff_ci_3d'}}
 
 \item{.stat_names}{(\code{character})\cr names of the statistics that are passed directly to name single statistics
 (\code{.stats}). This option is visible when producing \code{\link[rtables:as_result_df]{rtables::as_result_df()}} with \code{make_ard = TRUE}.}
@@ -119,7 +119,8 @@ the statistics from \code{s_proportion_diff()} to the table layout.
 }
 
 \itemize{
-\item \code{s_proportion_diff()} returns a named list of elements \code{diff} and \code{diff_ci}.
+\item \code{s_proportion_diff()} returns a named list of elements \code{diff}, \code{diff_ci},
+and \code{diff_ci_3d} (proportion difference and CI combined as a 3-element vector).
 Depending on the method used, also the standard error of the difference \code{se_diff} is
 returned.
 }

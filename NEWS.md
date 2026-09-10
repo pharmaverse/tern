@@ -1,6 +1,8 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+* Added `diff_ci_3d` statistic to `s_proportion_diff()` and `estimate_proportion_diff()`,
+  combining proportion difference and confidence interval in a single 3-element vector.
 * Added `forest_header_above` and `forest_title` arguments to `g_forest()` to
   control the position of the forest plot header and add a forest plot title. (#1500)
 * Updated `g_forest()` to support point estimates and confidence intervals
