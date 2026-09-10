@@ -579,7 +579,7 @@ tern_default_stats <- list(
   estimate_multinomial_response = c("n_prop", "prop_ci"),
   estimate_odds_ratio = c("or_ci", "n_tot"),
   estimate_proportion = c("n_prop", "prop_ci"),
-  estimate_proportion_diff = c("diff", "diff_ci"),
+  estimate_proportion_diff = c("diff", "diff_ci", "diff_ci_3d"),
   summarize_ancova = c(
     "n", "lsmean", "lsmean_se", "lsmean_ci",
     "lsmean_diff", "lsmean_diff_ci", "lsmean_diff_with_ci", "pval"
@@ -616,6 +616,7 @@ tern_default_formats <- c(
   count_fraction = format_count_fraction,
   count_fraction_fixed_dp = format_count_fraction_fixed_dp,
   cv = "xx.x",
+  diff_ci_3d = format_xx("xx.x (xx.x, xx.x)"),
   event_free_rate = "xx.xx",
   fraction = format_fraction_fixed_dp,
   geom_cv = "xx.x",

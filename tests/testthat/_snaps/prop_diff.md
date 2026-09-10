@@ -330,6 +330,12 @@
       attr(,"label")
       [1] "90% CI (Anderson-Hauck)"
       
+      $diff_ci_3d
+           diff_ha diff_ci_ha_l diff_ci_ha_u 
+         14.696223    -3.118966    32.511412 
+      attr(,"label")
+      [1] "Difference in Response rate (90% CI)"
+      
 
 # s_proportion_diff works with strata
 
@@ -353,6 +359,12 @@
          8.978092 
       attr(,"label")
       [1] "Standard Error of Difference in Response rate (%)"
+      
+      $diff_ci_3d
+           diff_cmh diff_ci_cmh_l diff_ci_cmh_u 
+         13.7686602    -0.9989872    28.5363076 
+      attr(,"label")
+      [1] "Difference in Response rate (90% CI)"
       
 
 # s_proportion_diff works with CMH Sato method
@@ -378,11 +390,20 @@
       attr(,"label")
       [1] "Standard Error of Difference in Response rate (%)"
       
+      $diff_ci_3d
+           diff_cmh_sato diff_ci_cmh_sato_l diff_ci_cmh_sato_u 
+               13.768660          -4.004526          31.541846 
+      attr(,"label")
+      [1] "Difference in Response rate (90% CI)"
+      
 
 # s_proportion_diff works with CMH Miettinen and Nurminen method
 
     list(diff = structure(c(diff_cmh_mn = 13.7686601988347), label = "Difference in Response rate (%)"), 
         diff_ci = structure(c(diff_ci_cmh_mn_l = -3.45069418895496, 
         diff_ci_cmh_mn_u = 30.2144371774115), label = "90% CI (CMH, Miettinen and Nurminen)"), 
-        se_diff = structure(c(se_diff_cmh_mn = 10.4103330371023), label = "Standard Error of Difference in Response rate (%)"))
+        se_diff = structure(c(se_diff_cmh_mn = 10.4103330371023), label = "Standard Error of Difference in Response rate (%)"), 
+        diff_ci_3d = structure(c(diff_cmh_mn = 13.7686601988347, 
+        diff_ci_cmh_mn_l = -3.45069418895496, diff_ci_cmh_mn_u = 30.2144371774115
+        ), label = "Difference in Response rate (90% CI)"))
 
