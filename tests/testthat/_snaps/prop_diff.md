@@ -330,11 +330,11 @@
       attr(,"label")
       [1] "90% CI (Anderson-Hauck)"
       
-      $diff_ci_3d
+      $diff_est_ci
            diff_ha diff_ci_ha_l diff_ci_ha_u 
          14.696223    -3.118966    32.511412 
       attr(,"label")
-      [1] "% Difference and 90% CI (Anderson-Hauck)"
+      [1] "Difference in Response rate (%) and 90% CI (Anderson-Hauck)"
       
 
 # s_proportion_diff works with strata
@@ -360,11 +360,11 @@
       attr(,"label")
       [1] "Standard Error of Difference in Response rate (%)"
       
-      $diff_ci_3d
+      $diff_est_ci
            diff_cmh diff_ci_cmh_l diff_ci_cmh_u 
          13.7686602    -0.9989872    28.5363076 
       attr(,"label")
-      [1] "% Difference and 90% CI (CMH, without correction)"
+      [1] "Difference in Response rate (%) and 90% CI (CMH, without correction)"
       
 
 # s_proportion_diff works with CMH Sato method
@@ -390,11 +390,11 @@
       attr(,"label")
       [1] "Standard Error of Difference in Response rate (%)"
       
-      $diff_ci_3d
+      $diff_est_ci
            diff_cmh_sato diff_ci_cmh_sato_l diff_ci_cmh_sato_u 
                13.768660          -4.004526          31.541846 
       attr(,"label")
-      [1] "% Difference and 90% CI (CMH, Sato variance estimator)"
+      [1] "Difference in Response rate (%) and 90% CI (CMH, Sato variance estimator)"
       
 
 # s_proportion_diff works with CMH Miettinen and Nurminen method
@@ -403,11 +403,11 @@
         diff_ci = structure(c(diff_ci_cmh_mn_l = -3.45069418895496, 
         diff_ci_cmh_mn_u = 30.2144371774115), label = "90% CI (CMH, Miettinen and Nurminen)"), 
         se_diff = structure(c(se_diff_cmh_mn = 10.4103330371023), label = "Standard Error of Difference in Response rate (%)"), 
-        diff_ci_3d = structure(c(diff_cmh_mn = 13.7686601988347, 
+        diff_est_ci = structure(c(diff_cmh_mn = 13.7686601988347, 
         diff_ci_cmh_mn_l = -3.45069418895496, diff_ci_cmh_mn_u = 30.2144371774115
-        ), label = "% Difference and 90% CI (CMH, Miettinen and Nurminen)"))
+        ), label = "Difference in Response rate (%) and 90% CI (CMH, Miettinen and Nurminen)"))
 
-# s_proportion_diff returns diff_ci_3d with correct structure
+# s_proportion_diff returns diff_est_ci with correct structure
 
     Code
       res
@@ -424,14 +424,14 @@
       attr(,"label")
       [1] "95% CI (Wald, without correction)"
       
-      $diff_ci_3d
+      $diff_est_ci
            diff_wald diff_ci_wald_l diff_ci_wald_u 
            -7.272727     -26.739881      12.194426 
       attr(,"label")
-      [1] "% Difference and 95% CI (Wald, without correction)"
+      [1] "Difference in Response rate (%) and 95% CI (Wald, without correction)"
       
 
-# s_proportion_diff ref column returns empty diff_ci_3d
+# s_proportion_diff ref column returns empty diff_est_ci
 
     Code
       res
@@ -446,18 +446,18 @@
       attr(,"label")
       [1] "95% CI (Wald, without correction)"
       
-      $diff_ci_3d
+      $diff_est_ci
       numeric(0)
       attr(,"label")
-      [1] "% Difference and 95% CI (Wald, without correction)"
+      [1] "Difference in Response rate (%) and 95% CI (Wald, without correction)"
       
 
-# `estimate_proportion_diff` with diff_ci_3d builds single-row table
+# `estimate_proportion_diff` with diff_est_ci builds single-row table
 
     Code
       res
     Output
-                                                                   A            B
-      ———————————————————————————————————————————————————————————————————————————
-      % Difference and 95% CI (Wald, without correction)   -7.3 (-26.7, 12.2)    
+                                                                                      A            B
+      ——————————————————————————————————————————————————————————————————————————————————————————————
+      Difference in Response rate (%) and 95% CI (Wald, without correction)   -7.3 (-26.7, 12.2)    
 

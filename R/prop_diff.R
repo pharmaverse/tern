@@ -47,7 +47,7 @@ NULL
 #'
 #' @return
 #' * `s_proportion_diff()` returns a named list of elements `diff`, `diff_ci`,
-#'   and `diff_ci_3d` (proportion difference and CI combined as a 3-element vector).
+#'   and `diff_est_ci` (proportion difference and CI combined as a 3-element vector).
 #'   Depending on the method used, also the standard error of the difference `se_diff` is
 #'   returned.
 #'
@@ -106,7 +106,7 @@ s_proportion_diff <- function(df,
       "Method 'uncond_exact_diff' is only available for unstratified analyses. Please choose a different method."
     )
   }
-  y <- list(diff = numeric(), diff_ci = numeric(), diff_ci_3d = numeric())
+  y <- list(diff = numeric(), diff_ci = numeric(), diff_est_ci = numeric())
 
   if (!.in_ref_col) {
     rsp <- c(.ref_group[[.var]], df[[.var]])
@@ -175,15 +175,16 @@ s_proportion_diff <- function(df,
     }
   }
 
-  y$diff_ci_3d <- c(y$diff, y$diff_ci)
+  y$diff_est_ci <- c(y$diff, y$diff_ci)
 
   attr(y$diff, "label") <- "Difference in Response rate (%)"
   attr(y$diff_ci, "label") <- d_proportion_diff(
     conf_level, method,
     long = FALSE
   )
-  attr(y$diff_ci_3d, "label") <- paste0(
-    "% Difference and ", d_proportion_diff(conf_level, method, long = FALSE)
+  attr(y$diff_est_ci, "label") <- paste0(
+    "Difference in Response rate (%) and ",
+    d_proportion_diff(conf_level, method, long = FALSE)
   )
   if (!is.null(y$se_diff)) {
     attr(y$se_diff, "label") <- paste0("Standard Error of Difference in Response rate (%)")
