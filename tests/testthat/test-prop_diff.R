@@ -728,3 +728,79 @@ testthat::test_that("check_diff_prop_ci fails with wrong input", {
     rsp = rsp, grp = grp, conf_level = "0.90"
   ))
 })
+
+# --- diff_est_ci tests --------------------------------------------------------
+
+testthat::test_that("s_proportion_diff returns diff_est_ci with correct structure", {
+  set.seed(42, kind = "Mersenne-Twister")
+  dta <- data.frame(
+    rsp = sample(c(TRUE, FALSE), 100, TRUE),
+    grp = factor(sample(c("A", "B"), 100, TRUE))
+  )
+
+  result <- s_proportion_diff(
+    df = subset(dta, grp == "A"),
+    .var = "rsp",
+    .ref_group = subset(dta, grp == "B"),
+    .in_ref_col = FALSE,
+    conf_level = 0.95,
+    method = "wald"
+  )
+
+  # diff_est_ci must exist with 3 elements: (diff, lower, upper)
+  testthat::expect_true("diff_est_ci" %in% names(result))
+  testthat::expect_length(result$diff_est_ci, 3)
+  testthat::expect_equal(result$diff_est_ci[[1]], result$diff[[1]])
+  testthat::expect_equal(result$diff_est_ci[2:3], result$diff_ci, ignore_attr = TRUE)
+  testthat::expect_false(is.null(attr(result$diff_est_ci, "label")))
+
+  res <- testthat::expect_silent(result)
+  testthat::expect_snapshot(res)
+})
+
+testthat::test_that("s_proportion_diff ref column returns empty diff_est_ci", {
+  set.seed(42, kind = "Mersenne-Twister")
+  dta <- data.frame(
+    rsp = sample(c(TRUE, FALSE), 100, TRUE),
+    grp = factor(sample(c("A", "B"), 100, TRUE))
+  )
+
+  result <- s_proportion_diff(
+    df = subset(dta, grp == "B"),
+    .var = "rsp",
+    .ref_group = subset(dta, grp == "B"),
+    .in_ref_col = TRUE,
+    conf_level = 0.95,
+    method = "wald"
+  )
+
+  testthat::expect_length(result$diff_est_ci, 0)
+
+  res <- testthat::expect_silent(result)
+  testthat::expect_snapshot(res)
+})
+
+testthat::test_that("`estimate_proportion_diff` with diff_est_ci builds single-row table", {
+  set.seed(42, kind = "Mersenne-Twister")
+  dta <- data.frame(
+    rsp = sample(c(TRUE, FALSE), 100, TRUE),
+    grp = factor(sample(c("A", "B"), 100, TRUE))
+  )
+
+  lyt <- basic_table() |>
+    split_cols_by("grp", ref_group = "B") |>
+    estimate_proportion_diff(
+      vars = "rsp",
+      conf_level = 0.95,
+      method = "wald",
+      .stats = "diff_est_ci"
+    )
+
+  result <- build_table(lyt, df = dta)
+
+  # Single data row (diff_est_ci replaces diff + diff_ci)
+  testthat::expect_equal(nrow(result), 1)
+
+  res <- testthat::expect_silent(result)
+  testthat::expect_snapshot(res)
+})
