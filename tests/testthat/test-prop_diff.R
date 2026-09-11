@@ -729,9 +729,9 @@ testthat::test_that("check_diff_prop_ci fails with wrong input", {
   ))
 })
 
-# --- diff_ci_3d tests --------------------------------------------------------
+# --- diff_est_ci tests --------------------------------------------------------
 
-testthat::test_that("s_proportion_diff returns diff_ci_3d with correct structure", {
+testthat::test_that("s_proportion_diff returns diff_est_ci with correct structure", {
   set.seed(42, kind = "Mersenne-Twister")
   dta <- data.frame(
     rsp = sample(c(TRUE, FALSE), 100, TRUE),
@@ -747,18 +747,18 @@ testthat::test_that("s_proportion_diff returns diff_ci_3d with correct structure
     method = "wald"
   )
 
-  # diff_ci_3d must exist with 3 elements: (diff, lower, upper)
-  testthat::expect_true("diff_ci_3d" %in% names(result))
-  testthat::expect_length(result$diff_ci_3d, 3)
-  testthat::expect_equal(result$diff_ci_3d[[1]], result$diff[[1]])
-  testthat::expect_equal(result$diff_ci_3d[2:3], result$diff_ci, ignore_attr = TRUE)
-  testthat::expect_false(is.null(attr(result$diff_ci_3d, "label")))
+  # diff_est_ci must exist with 3 elements: (diff, lower, upper)
+  testthat::expect_true("diff_est_ci" %in% names(result))
+  testthat::expect_length(result$diff_est_ci, 3)
+  testthat::expect_equal(result$diff_est_ci[[1]], result$diff[[1]])
+  testthat::expect_equal(result$diff_est_ci[2:3], result$diff_ci, ignore_attr = TRUE)
+  testthat::expect_false(is.null(attr(result$diff_est_ci, "label")))
 
   res <- testthat::expect_silent(result)
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("s_proportion_diff ref column returns empty diff_ci_3d", {
+testthat::test_that("s_proportion_diff ref column returns empty diff_est_ci", {
   set.seed(42, kind = "Mersenne-Twister")
   dta <- data.frame(
     rsp = sample(c(TRUE, FALSE), 100, TRUE),
@@ -774,13 +774,13 @@ testthat::test_that("s_proportion_diff ref column returns empty diff_ci_3d", {
     method = "wald"
   )
 
-  testthat::expect_length(result$diff_ci_3d, 0)
+  testthat::expect_length(result$diff_est_ci, 0)
 
   res <- testthat::expect_silent(result)
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("`estimate_proportion_diff` with diff_ci_3d builds single-row table", {
+testthat::test_that("`estimate_proportion_diff` with diff_est_ci builds single-row table", {
   set.seed(42, kind = "Mersenne-Twister")
   dta <- data.frame(
     rsp = sample(c(TRUE, FALSE), 100, TRUE),
@@ -793,12 +793,12 @@ testthat::test_that("`estimate_proportion_diff` with diff_ci_3d builds single-ro
       vars = "rsp",
       conf_level = 0.95,
       method = "wald",
-      .stats = "diff_ci_3d"
+      .stats = "diff_est_ci"
     )
 
   result <- build_table(lyt, df = dta)
 
-  # Single data row (diff_ci_3d replaces diff + diff_ci)
+  # Single data row (diff_est_ci replaces diff + diff_ci)
   testthat::expect_equal(nrow(result), 1)
 
   res <- testthat::expect_silent(result)
