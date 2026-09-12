@@ -203,6 +203,28 @@ testthat::test_that("prop_strat_wilson output matches equivalent SAS function ou
   testthat::expect_snapshot(res)
 })
 
+test_that("d_proportion returns correct descriptions", {
+  expect_identical(
+    d_proportion(0.95, "wald"),
+    "95% CI (Wald, without correction)"
+  )
+
+  expect_identical(
+    d_proportion(0.95, "wald", long = TRUE),
+    "95% CI for Response Rates (Wald, without correction)"
+  )
+
+  expect_identical(
+    d_proportion(0.95, "wald", long = TRUE, method_only = TRUE),
+    "Wald, without correction"
+  )
+
+  expect_identical(
+    d_proportion(0.95, "wald", long = FALSE, method_only = TRUE),
+    "Wald, without correction"
+  )
+})
+
 testthat::test_that("s_proportion returns right result", {
   result <- s_proportion(c(1, 0, 1, 0))
 

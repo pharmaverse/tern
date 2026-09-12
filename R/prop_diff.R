@@ -414,29 +414,31 @@ check_diff_prop_ci <- function(rsp,
 #' [s_proportion_diff()].
 #'
 #' @inheritParams s_proportion_diff
-#' @param long (`flag`)\cr whether a long (`TRUE`) or a short (`FALSE`, default) description is required.
+#' @param long (`flag`)\cr whether a long (`TRUE`) or a short (`FALSE`, default)
+#'   description is required.
+#' @param method_only (`flag`)\cr whether to return only the method description,
+#'   without the confidence interval part of the description.
+#'   If `TRUE`, `conf_level` and `long` are ignored.
 #'
 #' @return A `string` describing the analysis.
 #'
 #' @seealso [prop_diff]
 #'
 #' @export
+#' @examples
+#' d_proportion_diff(0.95, "cmh_sato")
+#' d_proportion_diff(0.95, "cmh_sato", long = TRUE)
+#' d_proportion_diff(0.95, "cmh_sato", method_only = TRUE)
+#'
 d_proportion_diff <- function(conf_level,
                               method,
-                              long = FALSE) {
-  label <- paste0(conf_level * 100, "% CI")
-  if (long) {
-    label <- paste(
-      label,
-      ifelse(
-        method %in% c("cmh", "cmh_sato", "cmh_mn"),
-        "for adjusted difference",
-        "for difference"
-      )
-    )
-  }
+                              long = FALSE,
+                              method_only = FALSE) {
+  checkmate::assert_string(method)
+  checkmate::assert_flag(long)
+  checkmate::assert_flag(method_only)
 
-  method_part <- switch(method,
+  method_label <- switch(method,
     "cmh" = "CMH, without correction",
     "cmh_sato" = "CMH, Sato variance estimator",
     "cmh_mn" = "CMH, Miettinen and Nurminen",
@@ -450,7 +452,20 @@ d_proportion_diff <- function(conf_level,
     "uncond_exact_diff" = "Unconditional exact",
     stop(paste(method, "does not have a description"))
   )
-  paste0(label, " (", method_part, ")")
+
+  if (method_only) {
+    method_label
+  } else {
+    ci_label <- f_conf_level(conf_level)
+    if (long) {
+      is_cmh_method <- method %in% c("cmh", "cmh_sato", "cmh_mn")
+      ci_label <- paste(
+        ci_label,
+        ifelse(is_cmh_method, "for adjusted difference", "for difference")
+      )
+    }
+    paste0(ci_label, " (", method_label, ")")
+  }
 }
 
 #' Helper functions to calculate proportion difference

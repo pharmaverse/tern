@@ -4,7 +4,7 @@
 \alias{d_proportion}
 \title{Description of the proportion summary}
 \usage{
-d_proportion(conf_level, method, long = FALSE)
+d_proportion(conf_level, method, long = FALSE, method_only = FALSE)
 }
 \arguments{
 \item{conf_level}{(\code{proportion})\cr confidence level of the interval.}
@@ -13,7 +13,12 @@ d_proportion(conf_level, method, long = FALSE)
 for proportion of successful outcomes; one of \code{waldcc}, \code{wald}, \code{clopper-pearson},
 \code{wilson}, \code{wilsonc}, \code{strat_wilson}, \code{strat_wilsonc}, \code{agresti-coull} or \code{jeffreys}.}
 
-\item{long}{(\code{flag})\cr whether a long or a short (default) description is required.}
+\item{long}{(\code{flag})\cr whether a long or a short (default) description is
+required.}
+
+\item{method_only}{(\code{flag})\cr whether to return only the method description,
+without the confidence interval part of the description.
+If \code{TRUE}, \code{conf_level} and \code{long} are ignored.}
 }
 \value{
 String describing the analysis.
@@ -22,4 +27,10 @@ String describing the analysis.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
 This is a helper function that describes the analysis in \code{\link[=s_proportion]{s_proportion()}}.
+}
+\examples{
+d_proportion(0.95, "wald")
+d_proportion(0.95, "wald", long = TRUE)
+d_proportion(0.95, "wald", method_only = TRUE)
+
 }
