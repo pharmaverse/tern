@@ -62,6 +62,13 @@
 #'   rows that should not be displayed in the forest plot, such as rows
 #'   containing non-plottable values. Defaults to `NULL`, meaning that all rows
 #'   are considered for plotting.
+#' @param forest_header_above (`flag`)\cr whether to display the forest plot
+#'   header above (`TRUE`) or below (`FALSE`) the plot. Ignored if the forest
+#'   header is not shown (i.e., when `vline = NULL`).
+#' @param forest_title (`character(1)` or `NULL`)\cr title displayed above the
+#'   forest plot. If `NULL`, no title is displayed. The title is displayed only
+#'   if no forest header is present (i.e., when `vline = NULL`) or when
+#'   `forest_header_above = FALSE`.
 #'
 #' @return `ggplot` forest plot and table.
 #'
@@ -205,8 +212,10 @@ g_forest <- function(tbl,
                      gp = lifecycle::deprecated(),
                      draw = lifecycle::deprecated(),
                      newpage = lifecycle::deprecated(),
-                     exclude_rows = NULL) {
-  # Deprecated argument warnings
+                     exclude_rows = NULL,
+                     forest_header_above = TRUE,
+                     forest_title = NULL) {
+  # Deprecated argument warnings.
   if (lifecycle::is_present(width_row_names)) {
     lifecycle::deprecate_warn(
       "0.9.4", "g_forest(width_row_names)", "g_forest(lbl_col_padding)",
@@ -253,14 +262,16 @@ g_forest <- function(tbl,
     exclude_rows,
     lower = 1L, upper = nrow(tbl_df), any.missing = FALSE, min.len = 1L, null.ok = TRUE
   )
+  checkmate::assert_flag(forest_header_above)
+  checkmate::assert_string(forest_title, null.ok = TRUE)
 
-  # Extract info from table
+  # Extract info from table.
   mat <- matrix_form(tbl, indent_rownames = TRUE)
   mat_strings <- formatters::mf_strings(mat)
   nlines_hdr <- formatters::mf_nlheader(mat)
   nrows_body <- nrow(mat_strings) - nlines_hdr
 
-  # Generate and modify table as ggplot object
+  # Generate and modify table as ggplot object.
   gg_table <- rtable2gg(
     tbl,
     fontsize = font_size, colwidths = width_columns, lbl_col_padding = lbl_col_padding
@@ -359,7 +370,11 @@ g_forest <- function(tbl,
   if (is.null(x_at)) x_at <- union(xlim, vline)
   x_labels <- x_at
 
-  # Set up plot area
+  # Set up plot area.
+
+  # When `vline = NULL`, the forest header is not printed.
+  plot.margin_bottom <- ifelse(is.null(vline) || forest_header_above, 0.05, 0.15)
+
   gg_plt <- ggplot(data = tbl_df) +
     theme(
       panel.background = element_rect(fill = "transparent", color = NA_character_),
@@ -371,7 +386,7 @@ g_forest <- function(tbl,
       axis.line.x = element_line(),
       axis.text = element_text(size = font_size),
       legend.position = "none",
-      plot.margin = margin(0, 0.1, 0.05, 0, "npc")
+      plot.margin = margin(0, 0.1, plot.margin_bottom, 0, "npc")
     ) +
     scale_x_continuous(
       transform = ifelse(logx, "log", "identity"),
@@ -398,6 +413,7 @@ g_forest <- function(tbl,
     )
   }
 
+  # Add vline and forest header labels.
   if (!is.null(vline)) {
     # Set default forest header
     if (is.null(forest_header)) {
@@ -407,30 +423,59 @@ g_forest <- function(tbl,
       )
     }
 
-    # Add vline and forest header labels
-    mid_pts <- if (logx) {
-      c(exp(mean(log(c(xlim[1], vline)))), exp(mean(log(c(vline, xlim[2])))))
+    if (forest_header_above) {
+      forest_header_just <- "bottom"
+      forest_header_y <- nrows_body + 1
     } else {
-      c(mean(c(xlim[1], vline)), mean(c(vline, xlim[2])))
+      forest_header_just <- "top"
+      forest_header_y <- -1
     }
+
     gg_plt <- gg_plt +
       annotate(
         "segment",
         x = vline, xend = vline, y = 0, yend = nrows_body + 0.5
       ) +
-      annotate(
-        "text",
-        x = mid_pts[1], y = nrows_body + 1.25,
-        label = forest_header[1],
-        size = font_size / .pt,
-        lineheight = 0.9
+      annotation_custom(
+        grob = grid::textGrob(
+          label = forest_header[1],
+          just = forest_header_just,
+          gp = grid::gpar(fontsize = font_size, lineheight = 0.9)
+        ),
+        xmin = xlim[1],
+        xmax = vline,
+        ymin = forest_header_y,
+        ymax = forest_header_y
       ) +
-      annotate(
-        "text",
-        x = mid_pts[2], y = nrows_body + 1.25,
-        label = forest_header[2],
-        size = font_size / .pt,
-        lineheight = 0.9
+      annotation_custom(
+        grob = grid::textGrob(
+          label = forest_header[2],
+          just = forest_header_just,
+          gp = grid::gpar(fontsize = font_size, lineheight = 0.9)
+        ),
+        xmin = vline,
+        xmax = xlim[2],
+        ymin = forest_header_y,
+        ymax = forest_header_y
+      )
+  } else {
+    forest_header <- NULL
+  }
+
+  # Add a forest plot title only when the title is provided and either:
+  # 1. no forest header is present, or
+  # 2. the forest header is displayed at the bottom.
+  if (!is.null(forest_title) && (is.null(forest_header) || !forest_header_above)) {
+    gg_plt <- gg_plt +
+      annotation_custom(
+        grob = grid::textGrob(
+          label = forest_title,
+          gp = grid::gpar(fontsize = font_size)
+        ),
+        xmin = xlim[1],
+        xmax = xlim[2],
+        ymin = nrows_body + 1,
+        ymax = nrows_body + 1
       )
   }
 
