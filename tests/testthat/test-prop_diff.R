@@ -486,6 +486,28 @@ testthat::test_that("h_find_ci_bound_uniroot handles boundary case", {
   expect_equal(boundary, -1)
 })
 
+test_that("d_proportion_diff returns correct descriptions", {
+  expect_identical(
+    d_proportion_diff(0.95, "cmh_sato"),
+    "95% CI (CMH, Sato variance estimator)"
+  )
+
+  expect_identical(
+    d_proportion_diff(0.95, "cmh_sato", long = TRUE),
+    "95% CI for adjusted difference (CMH, Sato variance estimator)"
+  )
+
+  expect_identical(
+    d_proportion_diff(0.95, "cmh_sato", long = TRUE, method_only = TRUE),
+    "CMH, Sato variance estimator"
+  )
+
+  expect_identical(
+    d_proportion_diff(0.95, "cmh_sato", long = FALSE, method_only = TRUE),
+    "CMH, Sato variance estimator"
+  )
+})
+
 testthat::test_that("`estimate_proportion_diff` is compatible with `rtables`", {
   # "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
   dta <- data.frame(

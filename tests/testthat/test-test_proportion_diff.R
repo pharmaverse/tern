@@ -280,6 +280,28 @@ testthat::test_that("prop_cmh with Sato variance estimator and Wilson-Hilferty t
   testthat::expect_snapshot_value(result, style = "deparse", tolerance = 1e-3)
 })
 
+test_that("d_test_proportion_diff returns correct descriptions", {
+  expect_identical(
+    d_test_proportion_diff("cmh_sato"),
+    "p-value (Cochran-Mantel-Haenszel Test with Sato Variance Estimator)"
+  )
+
+  expect_identical(
+    d_test_proportion_diff("cmh_sato", alternative = "greater"),
+    "p-value (Cochran-Mantel-Haenszel Test with Sato Variance Estimator, 1-sided, direction greater)"
+  )
+
+  expect_identical(
+    d_test_proportion_diff("cmh_sato", alternative = "two.sided", method_only = TRUE),
+    "Cochran-Mantel-Haenszel Test with Sato Variance Estimator"
+  )
+
+  expect_identical(
+    d_test_proportion_diff("cmh_sato", alternative = "greater", method_only = TRUE),
+    "Cochran-Mantel-Haenszel Test with Sato Variance Estimator, 1-sided, direction greater"
+  )
+})
+
 testthat::test_that("s_test_proportion_diff and d_test_proportion_diff return right result", {
   set.seed(1984, kind = "Mersenne-Twister")
   dta <- data.frame(

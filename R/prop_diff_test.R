@@ -108,15 +108,25 @@ s_test_proportion_diff <- function(df,
 #' This is an auxiliary function that describes the analysis in `s_test_proportion_diff`.
 #'
 #' @inheritParams s_test_proportion_diff
+#' @param method_only (`flag`)\cr whether to return only the method description,
+#'   including the alternative specification, without the "p-value" part of the
+#'   description.
 #'
 #' @return A `string` describing the test from which the p-value is derived.
 #'
 #' @export
-d_test_proportion_diff <- function(method, alternative = c("two.sided", "less", "greater")) {
+#' @examples
+#' d_test_proportion_diff("cmh_sato")
+#' d_test_proportion_diff("cmh_sato", alternative = "greater")
+#' d_test_proportion_diff("cmh_sato", alternative = "greater", method_only = TRUE)
+d_test_proportion_diff <- function(method,
+                                   alternative = c("two.sided", "less", "greater"),
+                                   method_only = FALSE) {
   checkmate::assert_string(method)
+  checkmate::assert_flag(method_only)
   alternative <- match.arg(alternative)
 
-  meth_part <- switch(method,
+  method_label <- switch(method,
     "schouten" = "Chi-Squared Test with Schouten Correction",
     "chisq" = "Chi-Squared Test",
     "cmh" = "Cochran-Mantel-Haenszel Test",
@@ -125,12 +135,20 @@ d_test_proportion_diff <- function(method, alternative = c("two.sided", "less", 
     "fisher" = "Fisher's Exact Test",
     stop(paste(method, "does not have a description"))
   )
-  alt_part <- switch(alternative,
+
+  alt_label <- switch(alternative,
     two.sided = "",
     less = ", 1-sided, direction less",
     greater = ", 1-sided, direction greater"
   )
-  paste0("p-value (", meth_part, alt_part, ")")
+
+  method_alt_label <- paste0(method_label, alt_label)
+
+  if (method_only) {
+    method_alt_label
+  } else {
+    paste0("p-value (", method_label, alt_label, ")")
+  }
 }
 
 #' @describeIn prop_diff_test Formatted analysis function which is used as `afun` in `test_proportion_diff()`.

@@ -540,19 +540,28 @@ prop_jeffreys <- function(rsp, n = length(rsp), conf_level) {
 #' This is a helper function that describes the analysis in [s_proportion()].
 #'
 #' @inheritParams s_proportion
-#' @param long (`flag`)\cr whether a long or a short (default) description is required.
+#' @param long (`flag`)\cr whether a long or a short (default) description is
+#'   required. Ignored if `method_only = TRUE`.
+#' @param method_only (`flag`)\cr whether to return only the method description,
+#'   without the confidence interval part of the description.
 #'
 #' @return String describing the analysis.
 #'
 #' @export
+#' @examples
+#' d_proportion(0.95, "wald")
+#' d_proportion(0.95, "wald", long = TRUE)
+#' d_proportion(0.95, "wald", method_only = TRUE)
+#'
 d_proportion <- function(conf_level,
                          method,
-                         long = FALSE) {
-  label <- paste0(conf_level * 100, "% CI")
+                         long = FALSE,
+                         method_only = FALSE) {
+  checkmate::assert_string(method)
+  checkmate::assert_flag(long)
+  checkmate::assert_flag(method_only)
 
-  if (long) label <- paste(label, "for Response Rates")
-
-  method_part <- switch(method,
+  method_label <- switch(method,
     "clopper-pearson" = "Clopper-Pearson",
     "waldcc" = "Wald, with correction",
     "wald" = "Wald, without correction",
@@ -565,7 +574,15 @@ d_proportion <- function(conf_level,
     stop(paste(method, "does not have a description"))
   )
 
-  paste0(label, " (", method_part, ")")
+  if (method_only) {
+    method_label
+  } else {
+    ci_label <- f_conf_level(conf_level)
+    if (long) {
+      ci_label <- paste(ci_label, "for Response Rates")
+    }
+    paste0(ci_label, " (", method_label, ")")
+  }
 }
 
 #' Helper function for the estimation of stratified quantiles

@@ -1,6 +1,9 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+* Added a `method_only` argument to `d_proportion()`, `d_proportion_diff()`, and
+  `d_test_proportion_diff()` to allow returning method labels without additional
+  description. (#1525)
 * Updated `g_forest()` to support point estimates and confidence intervals
   stored in a single column. (#1499)
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected

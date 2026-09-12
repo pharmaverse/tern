@@ -4,7 +4,11 @@
 \alias{d_test_proportion_diff}
 \title{Description of the difference test between two proportions}
 \usage{
-d_test_proportion_diff(method, alternative = c("two.sided", "less", "greater"))
+d_test_proportion_diff(
+  method,
+  alternative = c("two.sided", "less", "greater"),
+  method_only = FALSE
+)
 }
 \arguments{
 \item{method}{(\code{string})\cr one of \code{chisq}, \code{cmh}, \code{cmh_sato}, \code{cmh_wh}, \code{fisher}, or \code{schouten};
@@ -12,6 +16,10 @@ specifies the test used to calculate the p-value.}
 
 \item{alternative}{(\code{string})\cr whether \code{two.sided}, or one-sided \code{less} or \code{greater} p-value
 should be displayed.}
+
+\item{method_only}{(\code{flag})\cr whether to return only the method description,
+including the alternative specification, without the "p-value" part of the
+description.}
 }
 \value{
 A \code{string} describing the test from which the p-value is derived.
@@ -20,4 +28,9 @@ A \code{string} describing the test from which the p-value is derived.
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 
 This is an auxiliary function that describes the analysis in \code{s_test_proportion_diff}.
+}
+\examples{
+d_test_proportion_diff("cmh_sato")
+d_test_proportion_diff("cmh_sato", alternative = "greater")
+d_test_proportion_diff("cmh_sato", alternative = "greater", method_only = TRUE)
 }

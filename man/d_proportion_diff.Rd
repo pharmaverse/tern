@@ -4,14 +4,18 @@
 \alias{d_proportion_diff}
 \title{Description of method used for proportion comparison}
 \usage{
-d_proportion_diff(conf_level, method, long = FALSE)
+d_proportion_diff(conf_level, method, long = FALSE, method_only = FALSE)
 }
 \arguments{
 \item{conf_level}{(\code{proportion})\cr confidence level of the interval.}
 
 \item{method}{(\code{string})\cr the method used for the confidence interval estimation.}
 
-\item{long}{(\code{flag})\cr whether a long (\code{TRUE}) or a short (\code{FALSE}, default) description is required.}
+\item{long}{(\code{flag})\cr whether a long (\code{TRUE}) or a short (\code{FALSE}, default)
+description is required. Ignored if \code{method_only = TRUE}.}
+
+\item{method_only}{(\code{flag})\cr whether to return only the method description,
+without the confidence interval part of the description.}
 }
 \value{
 A \code{string} describing the analysis.
@@ -21,6 +25,12 @@ A \code{string} describing the analysis.
 
 This is an auxiliary function that describes the analysis in
 \code{\link[=s_proportion_diff]{s_proportion_diff()}}.
+}
+\examples{
+d_proportion_diff(0.95, "cmh_sato")
+d_proportion_diff(0.95, "cmh_sato", long = TRUE)
+d_proportion_diff(0.95, "cmh_sato", method_only = TRUE)
+
 }
 \seealso{
 \link{prop_diff}
