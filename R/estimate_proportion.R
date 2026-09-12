@@ -578,9 +578,7 @@ d_proportion <- function(conf_level,
     method_label
   } else {
     ci_label <- f_conf_level(conf_level)
-    if (long) {
-      ci_label <- paste(ci_label, "for Response Rates")
-    }
+    ci_label <- if (long) paste(ci_label, "for Response Rates") else ci_label
     paste0(ci_label, " (", method_label, ")")
   }
 }

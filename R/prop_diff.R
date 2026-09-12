@@ -457,13 +457,10 @@ d_proportion_diff <- function(conf_level,
   } else {
     ci_label <- f_conf_level(conf_level)
     if (long) {
+      is_cmh_method <- method %in% c("cmh", "cmh_sato", "cmh_mn")
       ci_label <- paste(
         ci_label,
-        ifelse(
-          method %in% c("cmh", "cmh_sato", "cmh_mn"),
-          "for adjusted difference",
-          "for difference"
-        )
+        ifelse(is_cmh_method, "for adjusted difference", "for difference")
       )
     }
     paste0(ci_label, " (", method_label, ")")

@@ -18,8 +18,8 @@ specifies the test used to calculate the p-value.}
 should be displayed.}
 
 \item{method_only}{(\code{flag})\cr whether to return only the method description,
-including the alternative specification, without the "p-value" part of the
-description.}
+including the alternative hypothesis specification, without the "p-value"
+part of the description.}
 }
 \value{
 A \code{string} describing the test from which the p-value is derived.

@@ -109,8 +109,8 @@ s_test_proportion_diff <- function(df,
 #'
 #' @inheritParams s_test_proportion_diff
 #' @param method_only (`flag`)\cr whether to return only the method description,
-#'   including the alternative specification, without the "p-value" part of the
-#'   description.
+#'   including the alternative hypothesis specification, without the "p-value"
+#'   part of the description.
 #'
 #' @return A `string` describing the test from which the p-value is derived.
 #'
