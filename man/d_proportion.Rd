@@ -14,10 +14,11 @@ for proportion of successful outcomes; one of \code{waldcc}, \code{wald}, \code{
 \code{wilson}, \code{wilsonc}, \code{strat_wilson}, \code{strat_wilsonc}, \code{agresti-coull} or \code{jeffreys}.}
 
 \item{long}{(\code{flag})\cr whether a long or a short (default) description is
-required. Ignored if \code{method_only = TRUE}.}
+required.}
 
 \item{method_only}{(\code{flag})\cr whether to return only the method description,
-without the confidence interval part of the description.}
+without the confidence interval part of the description.
+If \code{TRUE}, \code{conf_level} and \code{long} are ignored.}
 }
 \value{
 String describing the analysis.

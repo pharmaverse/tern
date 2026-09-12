@@ -12,10 +12,11 @@ d_proportion_diff(conf_level, method, long = FALSE, method_only = FALSE)
 \item{method}{(\code{string})\cr the method used for the confidence interval estimation.}
 
 \item{long}{(\code{flag})\cr whether a long (\code{TRUE}) or a short (\code{FALSE}, default)
-description is required. Ignored if \code{method_only = TRUE}.}
+description is required.}
 
 \item{method_only}{(\code{flag})\cr whether to return only the method description,
-without the confidence interval part of the description.}
+without the confidence interval part of the description.
+If \code{TRUE}, \code{conf_level} and \code{long} are ignored.}
 }
 \value{
 A \code{string} describing the analysis.

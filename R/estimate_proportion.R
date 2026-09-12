@@ -541,9 +541,10 @@ prop_jeffreys <- function(rsp, n = length(rsp), conf_level) {
 #'
 #' @inheritParams s_proportion
 #' @param long (`flag`)\cr whether a long or a short (default) description is
-#'   required. Ignored if `method_only = TRUE`.
+#'   required.
 #' @param method_only (`flag`)\cr whether to return only the method description,
 #'   without the confidence interval part of the description.
+#'   If `TRUE`, `conf_level` and `long` are ignored.
 #'
 #' @return String describing the analysis.
 #'
