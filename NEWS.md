@@ -1,9 +1,13 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+1512_add_Mantel_Fleiss_criterion
 * Added `mantel_fleiss_crit()` to check the Mantel-Fleiss criterion
   for stratified 2 x 2 contingency tables, together with a vignette
   demonstrating its use. (#1512)
+* Added a `method_only` argument to `d_proportion()`, `d_proportion_diff()`, and
+  `d_test_proportion_diff()` to allow returning method labels without an additional
+  description. (#1525)
 * Added `forest_header_above` and `forest_title` arguments to `g_forest()` to
   control the position of the forest plot header and add a forest plot title. (#1500)
 * Updated `g_forest()` to support point estimates and confidence intervals
