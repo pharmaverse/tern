@@ -414,15 +414,11 @@ check_diff_prop_ci <- function(rsp,
 #' [s_proportion_diff()].
 #'
 #' @inheritParams s_proportion_diff
-#' @param long (`flag`)\cr whether a long (`TRUE`) or a short (`FALSE`, default)
-#'   description is required.
-#' @param method_only (`flag`)\cr whether to return only the method description,
-#'   without the confidence interval part of the description.
-#'   If `TRUE`, `conf_level` and `long` are ignored.
+#' @inheritParams d_proportion
 #'
 #' @return A `string` describing the analysis.
 #'
-#' @seealso [prop_diff]
+#' @seealso [prop_diff()], [d_proportion()], [d_test_proportion_diff()]
 #'
 #' @export
 #' @examples

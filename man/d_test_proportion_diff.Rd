@@ -34,3 +34,6 @@ d_test_proportion_diff("cmh_sato")
 d_test_proportion_diff("cmh_sato", alternative = "greater")
 d_test_proportion_diff("cmh_sato", alternative = "greater", method_only = TRUE)
 }
+\seealso{
+\code{\link[=d_proportion]{d_proportion()}}, \code{\link[=d_proportion_diff]{d_proportion_diff()}}
+}

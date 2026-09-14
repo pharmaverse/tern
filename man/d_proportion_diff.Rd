@@ -11,8 +11,8 @@ d_proportion_diff(conf_level, method, long = FALSE, method_only = FALSE)
 
 \item{method}{(\code{string})\cr the method used for the confidence interval estimation.}
 
-\item{long}{(\code{flag})\cr whether a long (\code{TRUE}) or a short (\code{FALSE}, default)
-description is required.}
+\item{long}{(\code{flag})\cr whether a long or a short (default) description is
+required.}
 
 \item{method_only}{(\code{flag})\cr whether to return only the method description,
 without the confidence interval part of the description.
@@ -34,5 +34,5 @@ d_proportion_diff(0.95, "cmh_sato", method_only = TRUE)
 
 }
 \seealso{
-\link{prop_diff}
+\code{\link[=prop_diff]{prop_diff()}}, \code{\link[=d_proportion]{d_proportion()}}, \code{\link[=d_test_proportion_diff]{d_test_proportion_diff()}}
 }

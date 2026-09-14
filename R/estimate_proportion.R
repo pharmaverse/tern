@@ -548,6 +548,8 @@ prop_jeffreys <- function(rsp, n = length(rsp), conf_level) {
 #'
 #' @return String describing the analysis.
 #'
+#' @seealso [d_proportion_diff()], [d_test_proportion_diff()]
+#'
 #' @export
 #' @examples
 #' d_proportion(0.95, "wald")

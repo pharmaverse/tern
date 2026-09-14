@@ -114,6 +114,7 @@ s_test_proportion_diff <- function(df,
 #'
 #' @return A `string` describing the test from which the p-value is derived.
 #'
+#' @seealso [d_proportion()], [d_proportion_diff()]
 #' @export
 #' @examples
 #' d_test_proportion_diff("cmh_sato")
@@ -147,7 +148,7 @@ d_test_proportion_diff <- function(method,
   if (method_only) {
     method_alt_label
   } else {
-    paste0("p-value (", method_label, alt_label, ")")
+    paste0("p-value (", method_alt_label, ")")
   }
 }
 

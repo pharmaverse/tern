@@ -34,3 +34,6 @@ d_proportion(0.95, "wald", long = TRUE)
 d_proportion(0.95, "wald", method_only = TRUE)
 
 }
+\seealso{
+\code{\link[=d_proportion_diff]{d_proportion_diff()}}, \code{\link[=d_test_proportion_diff]{d_test_proportion_diff()}}
+}
