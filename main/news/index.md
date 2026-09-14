@@ -4,6 +4,13 @@
 
 #### Enhancements
 
+- Added a `method_only` argument to
+  [`d_proportion()`](https://pharmaverse.github.io/tern/reference/d_proportion.md),
+  [`d_proportion_diff()`](https://pharmaverse.github.io/tern/reference/d_proportion_diff.md),
+  and
+  [`d_test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/d_test_proportion_diff.md)
+  to allow returning method labels without an additional description.
+  ([\#1525](https://github.com/pharmaverse/tern/issues/1525))
 - Added `forest_header_above` and `forest_title` arguments to
   [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
   to control the position of the forest plot header and add a forest
