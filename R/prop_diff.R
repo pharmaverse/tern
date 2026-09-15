@@ -120,14 +120,14 @@ s_proportion_diff <- function(df,
       strata = variables$strata
     )
 
-    prepared <- h_prepare_2x2_table(
+    rsp_list <- h_prepare_2x2_table(
       df = df, df_ref = .ref_group, var = .var, val = val,
       strata_vars = variables$strata,
       complete_cases = TRUE
     )
-    rsp <- prepared$rsp
-    grp <- prepared$grp
-    strata <- prepared$strata
+    rsp <- rsp_list$rsp
+    grp <- rsp_list$grp
+    strata <- rsp_list$strata
 
     cmh_stats <- c("diff", "diff_ci", "se_diff")
     y <- switch(method,

@@ -85,20 +85,20 @@ s_test_proportion_diff <- function(df,
       strata = variables$strata
     )
 
-    prepared <- h_prepare_2x2_table(
+    rsp_list <- h_prepare_2x2_table(
       df = df, df_ref = .ref_group, var = .var, val = val,
       strata_vars = variables$strata,
       complete_cases = TRUE
     )
-    tbl <- prepared$tbl
+    rsp_tbl <- rsp_list$tbl
 
     switch(method,
-      cmh = prop_cmh(tbl, alternative = alternative),
-      cmh_sato = prop_cmh(tbl, alternative = alternative, diff_se = "sato"),
-      cmh_wh = prop_cmh(tbl, alternative = alternative, transform = "wilson_hilferty"),
-      fisher = prop_fisher(tbl, alternative = alternative),
-      chisq = prop_chisq(tbl, alternative = alternative),
-      schouten = prop_schouten(tbl, alternative = alternative)
+      cmh = prop_cmh(rsp_tbl, alternative = alternative),
+      cmh_sato = prop_cmh(rsp_tbl, alternative = alternative, diff_se = "sato"),
+      cmh_wh = prop_cmh(rsp_tbl, alternative = alternative, transform = "wilson_hilferty"),
+      fisher = prop_fisher(rsp_tbl, alternative = alternative),
+      chisq = prop_chisq(rsp_tbl, alternative = alternative),
+      schouten = prop_schouten(rsp_tbl, alternative = alternative)
     )
   }
 
