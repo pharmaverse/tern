@@ -332,7 +332,7 @@ estimate_proportion_diff <- function(lyt,
                                      .stat_names = NULL,
                                      .formats = c(diff = "xx.x", diff_ci = "(xx.x, xx.x)", se_diff = "xx.x"),
                                      .labels = NULL,
-                                     .indent_mods = c(diff = 0L, diff_ci = 1L, se_diff = 1L)) {
+                                     .indent_mods = c(diff = 0L, diff_est_ci = 0L, diff_ci = 1L, se_diff = 1L)) {
   # Depending on main functions
   extra_args <- list(
     "na_rm" = na_rm,
