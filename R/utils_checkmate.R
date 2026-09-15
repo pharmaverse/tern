@@ -180,3 +180,84 @@ assert_proportion_value <- function(x, include_boundaries = FALSE) {
     checkmate::assert_true(x < 1)
   }
 }
+
+#' @describeIn assertions
+#' Validates the data required for a proportion analysis, including responder
+#' status, group assignment, and optional stratification.
+#'
+#' @param rsp (`logical`)\cr
+#'   Indicates whether each observation is a responder (`TRUE`) or a
+#'   non-responder (`FALSE`). Missing values are not allowed.
+#' @param grp (`factor`)\cr
+#'   Assigns each observation to one of two groups, such as a reference and a
+#'   treatment group. Must have exactly two levels and the same length as
+#'   `rsp`. Missing values are not allowed.
+#' @param strata (`factor` or `NULL`)\cr
+#'   Defines the stratification variable. If not `NULL`, it must have the same
+#'   length as `rsp` and must not contain any missing values.
+#'
+#' @export
+#'
+#' @examples
+#' rsp <- c(TRUE, TRUE, FALSE, TRUE, FALSE, FALSE)
+#' grp <- factor(c(rep("Placebo", 3), rep("X", 3)))
+#' strata <- factor(c("A", "A", "B", "A", "B", "B"))
+#'
+#' assert_proportion_data(rsp, grp, strata)
+#'
+#' \dontrun{
+#' # An error is raised when `grp` has only one level.
+#' grp <- factor(rep("X", 6))
+#' assert_proportion_data(rsp, grp, strata)
+#' }
+assert_proportion_data <- function(rsp, grp, strata = NULL) {
+  checkmate::assert_logical(rsp, any.missing = FALSE)
+  checkmate::assert_factor(grp, len = length(rsp), any.missing = FALSE, n.levels = 2)
+  checkmate::assert_factor(strata, len = length(rsp), any.missing = FALSE, null.ok = TRUE)
+  invisible()
+}
+
+#' @describeIn assertions
+#' Assert compatibility between a method and stratification.
+#' Checks that the selected method is compatible with the presence or absence
+#' of stratification variables. Methods included in `stratified_methods` require
+#' at least one variable defining the strata, while unstratified methods must
+#' not use stratification variables.
+#'
+#' @param method (`character(1)`)\cr Specifies the statistical method.
+#' @param stratified_methods (`character`)\cr Names of the methods that require
+#'   stratified data.
+#' @param strata (`character` or `NULL`)\cr Names of the variables defining the
+#'   strata, or `NULL` if no stratification is used.
+#'
+#' @keywords internal
+assert_stratification_compatibility <- function(method, stratified_methods, strata) {
+  checkmate::assert_string(method)
+  checkmate::assert_character(stratified_methods)
+  checkmate::assert_character(strata, null.ok = TRUE)
+
+  is_stratified <- method %in% stratified_methods
+  is_strata_provided <- !is.null(strata)
+
+  # Stratified method.
+  if (is_stratified && !is_strata_provided) {
+    stop(
+      paste0(
+        "Method '", method,
+        "' requires stratified data; the variable defining the strata must not be NULL."
+      )
+    )
+  }
+
+  # Unstratified method.
+  if (!is_stratified && is_strata_provided) {
+    stop(
+      paste0(
+        "Method '", method,
+        "' is an unstratified method, but a variable defining the strata was specified. ",
+        "You cannot specify a stratification variable with this method."
+      )
+    )
+  }
+  invisible()
+}

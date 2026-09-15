@@ -148,3 +148,166 @@ testthat::test_that("assert_proportion_value fails with wrong input", {
   testthat::expect_error(assert_proportion_value("abc"))
   testthat::expect_error(assert_proportion_value(c(0.4, 0.3)))
 })
+
+# assert_proportion_data ----
+
+test_that("assert_proportion_data is silent with healthy input", {
+  rsp <- c(TRUE, FALSE)
+  grp <- factor(c("g1", "g2"))
+
+  expect_silent(
+    assert_proportion_data(rsp, grp, factor(c("s1", "s2")))
+  )
+  expect_silent(
+    assert_proportion_data(rsp, grp, factor(c("g1", "g2")))
+  )
+  expect_silent(
+    assert_proportion_data(
+      FALSE, factor("g1", levels = c("g1", "g2")), factor("s1", levels = c("s1", "s2"))
+    )
+  )
+  expect_silent(
+    assert_proportion_data(TRUE, factor("g1", levels = c("g1", "g2")), NULL)
+  )
+  expect_silent(
+    assert_proportion_data(rsp, grp, factor(c("s1", "s1")))
+  )
+  expect_silent(
+    assert_proportion_data(rsp, grp, factor(c("s1", "s1"), levels = c("s1", "s2", "s3")))
+  )
+})
+
+test_that("assert_proportion_data fails with wrong input (rsp)", {
+  rsp <- c(TRUE, FALSE)
+  grp <- factor(c("g1", "g2"))
+  strata <- factor(c("s1", "s2"))
+
+  expect_error(
+    assert_proportion_data(NULL, factor(levels = c("g1", "g2")), factor(levels = c("s1", "s2")))
+  )
+  expect_error(
+    assert_proportion_data(c("Y", "N"), grp, strata)
+  )
+  expect_error(
+    assert_proportion_data(c(TRUE, NA), grp, strata)
+  )
+  expect_error(
+    assert_proportion_data(c("Y", "N"), grp)
+  )
+})
+
+test_that("assert_proportion_data fails with wrong input (grp)", {
+  rsp <- c(TRUE, FALSE)
+  grp <- factor(c("g1", "g2"))
+  strata <- factor(c("s1", "s2"))
+
+  expect_error(
+    assert_proportion_data(logical(), NULL, factor(levels = c("s1", "s2")))
+  )
+  expect_error(
+    assert_proportion_data(rsp, c("g1", "g2"), strata)
+  )
+  expect_error(
+    assert_proportion_data(rsp, factor("g1", levels = c("g1", "g2")), strata)
+  )
+  expect_error(
+    assert_proportion_data(rsp, factor(c("g1", "g2", "g2", "g2"), levels = c("g1", "g2")), strata)
+  )
+  expect_error(
+    assert_proportion_data(rsp, factor(c("g1", NA), levels = c("g1", "g2")), strata)
+  )
+  expect_error(
+    assert_proportion_data(rsp, factor(c("g1", "g1")), strata)
+  )
+  expect_error(
+    assert_proportion_data(TRUE, factor("g1"), factor("s1", levels = c("s1", "s2")))
+  )
+  expect_error(
+    assert_proportion_data(rsp, factor(c("g1", "g2"), levels = c("g1", "g2", "g3")), strata)
+  )
+})
+
+test_that("assert_proportion_data fails with wrong input (strata)", {
+  rsp <- c(TRUE, FALSE)
+  grp <- factor(c("g1", "g2"))
+  strata <- factor(c("s1", "s2"))
+
+  expect_error(
+    assert_proportion_data(rsp, grp, c("s1", "s2"))
+  )
+  expect_error(
+    assert_proportion_data(rsp, grp, factor("s1", levels = c("s1", "s2")))
+  )
+  expect_error(
+    assert_proportion_data(rsp, grp, factor(c("s1", "s2", "s2", "s2"), levels = c("s1", "s2")))
+  )
+  expect_error(
+    assert_proportion_data(rsp, grp, factor(c("s1", NA), levels = c("s1", "s2")))
+  )
+})
+
+# assert_stratification_compatibility ----
+
+test_that("assert_stratification_compatibility is silent with healthy input", {
+  expect_silent(
+    assert_stratification_compatibility("cmh", c("cmh", "cmh_sato"), "Region1")
+  )
+  expect_silent(
+    assert_stratification_compatibility("fisher", c("cmh", "cmh_sato"), NULL)
+  )
+})
+
+test_that("assert_stratification_compatibility fails with wrong input", {
+  # method
+  expect_error(
+    assert_stratification_compatibility(NULL, c("cmh", "cmh_sato"), "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility(character(), c("cmh", "cmh_sato"), "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility("", c("cmh", "cmh_sato"), "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility(TRUE, c("cmh", "cmh_sato"), "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility(1L, c("cmh", "cmh_sato"), "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility(c("cmh", "fisher"), c("cmh", "cmh_sato"), "Region1")
+  )
+  # stratified_methods
+  expect_error(
+    assert_stratification_compatibility("fisher", NULL, "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility("fisher", character(), "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility("fisher", "", "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility("fisher", TRUE, "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility("fisher", 1L, "Region1")
+  )
+  # strata
+  expect_error(
+    assert_stratification_compatibility("fisher", c("cmh", "cmh_sato"), "")
+  )
+  expect_error(
+    assert_stratification_compatibility("fisher", c("cmh", "cmh_sato"), FALSE)
+  )
+  expect_error(
+    assert_stratification_compatibility("fisher", c("cmh", "cmh_sato"), 2)
+  )
+  # combination
+  expect_error(
+    assert_stratification_compatibility("fisher", c("cmh", "cmh_sato"), "Region1")
+  )
+  expect_error(
+    assert_stratification_compatibility("cmh", c("cmh", "cmh_sato"), NULL)
+  )
+})
