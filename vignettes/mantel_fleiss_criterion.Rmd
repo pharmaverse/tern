@@ -32,10 +32,10 @@ library(tern)
 
 When comparing a binary response between two groups while adjusting for a
 stratification variable, the Cochran-Mantel-Haenszel (CMH) test is a common
-choice. Like other large-sample procedures, the CMH test relies on an
-asymptotic (chi-square) approximation, which can be unreliable when the
-stratified $2 \times 2$ tables are sparse. In those situations an exact method
-is preferable.
+choice. Like other large-sample procedures, the CMH test relies on an asymptotic
+(chi-square) approximation, which can be unreliable when the stratified
+$2 \times 2$ tables are sparse. In those situations an exact method is
+preferable.
 
 The **Mantel-Fleiss criterion** [@MantelFleiss1980] is a simple, quick check
 that tells you whether the sample is large enough for the asymptotic CMH
@@ -69,15 +69,15 @@ Under the hypothesis of no association between group and response, the expected
 count in cell $(1, 1)$ of stratum $h$ is
 
 $$
-m_{11h} = \frac{n_{1 \cdot h}\, n_{\cdot 1 h}}{n_{h}} .
+m_{11h} = \frac{n_{1 \cdot h}\, n_{\,\cdot 1 h}}{n_{h}} .
 $$
 
 Given the fixed margins, the observed count $n_{11h}$ can range between the
 bounds
 
 $$
-(n_{11h})_L = \max(0,\ n_{1 \cdot h} - n_{\cdot 2 h}), \qquad
-(n_{11h})_U = \min(n_{\cdot 1 h},\ n_{1 \cdot h}) .
+(n_{11h})_L = \max(0,\ n_{1 \cdot h} - n_{\, \cdot 2 h}), \qquad
+(n_{11h})_U = \min(n_{\, \cdot 1 h},\ n_{1 \cdot h}) .
 $$
 
 The Mantel-Fleiss statistic aggregates these quantities across the non-empty
@@ -98,8 +98,7 @@ when $MF \ge 5$, the asymptotic CMH approximation is generally adequate.
 
 `mantel_fleiss_crit()` expects a three-dimensional contingency table (an
 `array`) whose first two dimensions are the group and response (each with two
-levels, in either order) and whose third dimension is the stratum. The
-`table()` function produces exactly this layout:
+levels, in either order) and whose third dimension is the stratum.
 
 ```{r}
 set.seed(123)
@@ -121,8 +120,8 @@ Passing the table to `mantel_fleiss_crit()` returns a single logical value:
 mantel_fleiss_crit(tbl)
 ```
 
-To see the underlying statistic, set `include_value = TRUE`. The Mantel-Fleiss
-value is then attached to the result as a `"value"` attribute:
+To see the underlying value of the `MF` statistic, set `include_value = TRUE`.
+The Mantel-Fleiss value is then attached to the result as a `"value"` attribute:
 
 ```{r}
 mantel_fleiss_crit(tbl, include_value = TRUE)
@@ -132,7 +131,7 @@ The `threshold` argument controls how large the statistic must be for the
 criterion to hold. Raising it makes the criterion more conservative:
 
 ```{r}
-mantel_fleiss_crit(tbl, threshold = 100, include_value = TRUE)
+mantel_fleiss_crit(tbl, threshold = 15, include_value = TRUE)
 ```
 
 ## Choosing a test based on the criterion
