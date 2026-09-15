@@ -1,4 +1,4 @@
-# tern 0.9.11.9000
+# tern 0.9.11.9009
 
 ### Enhancements
 * Added `h_prepare_2x2_table()` to prepare contingency table(s) for proportion
