@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE coverage SYSTEM "https://raw.githubusercontent.com/cobertura/cobertura/master/cobertura/src/site/htdocs/xml/coverage-04.dtd">
-<coverage line-rate="0.953952664627274" branch-rate="0" lines-covered="11850" lines-valid="12422" branches-covered="0" branches-valid="0" complexity="0" version="3.6.5" timestamp="2026-09-14 16:26:48.744513">
+<coverage line-rate="0.954059914866276" branch-rate="0" lines-covered="11879" lines-valid="12451" branches-covered="0" branches-valid="0" complexity="0" version="3.6.5" timestamp="2026-09-16 11:14:03.379369">
   <sources>
     <source>/__w/tern/tern/tern</source>
   </sources>
   <packages>
-    <package name="tern" line-rate="0.953952664627274" branch-rate="0" complexity="0">
+    <package name="tern" line-rate="0.954059914866276" branch-rate="0" complexity="0">
       <classes>
         <class name="abnormal_by_baseline.R" filename="R/abnormal_by_baseline.R" line-rate="0.97029702970297" branch-rate="0" complexity="0">
           <methods>
@@ -17961,7 +17961,7 @@
             <line number="403" hits="19" branch="false"/>
           </lines>
         </class>
-        <class name="prop_diff_test.R" filename="R/prop_diff_test.R" line-rate="0.990049751243781" branch-rate="0" complexity="0">
+        <class name="prop_diff_test.R" filename="R/prop_diff_test.R" line-rate="0.991304347826087" branch-rate="0" complexity="0">
           <methods>
             <method name="s_test_proportion_diff" signature="" line-rate="1" branch-rate="0" complexity="0">
               <lines>
@@ -18196,6 +18196,39 @@
                 <line number="501" hits="4" branch="false"/>
               </lines>
             </method>
+            <method name="mantel_fleiss_crit" signature="" line-rate="1" branch-rate="0" complexity="0">
+              <lines>
+                <line number="611" hits="42" branch="false"/>
+                <line number="612" hits="35" branch="false"/>
+                <line number="613" hits="33" branch="false"/>
+                <line number="614" hits="33" branch="false"/>
+                <line number="615" hits="32" branch="false"/>
+                <line number="616" hits="31" branch="false"/>
+                <line number="617" hits="28" branch="false"/>
+                <line number="620" hits="24" branch="false"/>
+                <line number="624" hits="24" branch="false"/>
+                <line number="628" hits="24" branch="false"/>
+                <line number="629" hits="2" branch="false"/>
+                <line number="630" hits="2" branch="false"/>
+                <line number="631" hits="1" branch="false"/>
+                <line number="633" hits="2" branch="false"/>
+                <line number="636" hits="22" branch="false"/>
+                <line number="637" hits="22" branch="false"/>
+                <line number="638" hits="22" branch="false"/>
+                <line number="639" hits="22" branch="false"/>
+                <line number="643" hits="22" branch="false"/>
+                <line number="645" hits="22" branch="false"/>
+                <line number="646" hits="22" branch="false"/>
+                <line number="648" hits="22" branch="false"/>
+                <line number="649" hits="22" branch="false"/>
+                <line number="650" hits="22" branch="false"/>
+                <line number="651" hits="22" branch="false"/>
+                <line number="653" hits="22" branch="false"/>
+                <line number="654" hits="22" branch="false"/>
+                <line number="655" hits="11" branch="false"/>
+                <line number="658" hits="22" branch="false"/>
+              </lines>
+            </method>
           </methods>
           <lines>
             <line number="59" hits="66" branch="false"/>
@@ -18399,6 +18432,35 @@
             <line number="499" hits="4" branch="false"/>
             <line number="500" hits="4" branch="false"/>
             <line number="501" hits="4" branch="false"/>
+            <line number="611" hits="42" branch="false"/>
+            <line number="612" hits="35" branch="false"/>
+            <line number="613" hits="33" branch="false"/>
+            <line number="614" hits="33" branch="false"/>
+            <line number="615" hits="32" branch="false"/>
+            <line number="616" hits="31" branch="false"/>
+            <line number="617" hits="28" branch="false"/>
+            <line number="620" hits="24" branch="false"/>
+            <line number="624" hits="24" branch="false"/>
+            <line number="628" hits="24" branch="false"/>
+            <line number="629" hits="2" branch="false"/>
+            <line number="630" hits="2" branch="false"/>
+            <line number="631" hits="1" branch="false"/>
+            <line number="633" hits="2" branch="false"/>
+            <line number="636" hits="22" branch="false"/>
+            <line number="637" hits="22" branch="false"/>
+            <line number="638" hits="22" branch="false"/>
+            <line number="639" hits="22" branch="false"/>
+            <line number="643" hits="22" branch="false"/>
+            <line number="645" hits="22" branch="false"/>
+            <line number="646" hits="22" branch="false"/>
+            <line number="648" hits="22" branch="false"/>
+            <line number="649" hits="22" branch="false"/>
+            <line number="650" hits="22" branch="false"/>
+            <line number="651" hits="22" branch="false"/>
+            <line number="653" hits="22" branch="false"/>
+            <line number="654" hits="22" branch="false"/>
+            <line number="655" hits="11" branch="false"/>
+            <line number="658" hits="22" branch="false"/>
           </lines>
         </class>
         <class name="prop_diff.R" filename="R/prop_diff.R" line-rate="0.975378787878788" branch-rate="0" complexity="0">
