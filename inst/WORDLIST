@@ -14,7 +14,9 @@ CDISC
 CMH
 CQ
 Clopper
+Cochran
 Coull
+Fleiss
 Haenszel
 Hauck
 Hilferty
@@ -22,6 +24,7 @@ Hoffmann
 Jeffreys
 Kaplan
 Kenward
+MF
 MMRM
 MedDRA
 Miettinen

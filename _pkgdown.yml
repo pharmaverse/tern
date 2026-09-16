@@ -113,6 +113,7 @@ reference:
       - -h_xticks
       - -prop_diff
       - check_diff_prop_ci
+      - mantel_fleiss_crit
 
   - title: rtables Helper Functions
     desc: These functions help to work with the `rtables` package and may be

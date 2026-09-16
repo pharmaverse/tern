@@ -1,6 +1,9 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+* Added `mantel_fleiss_crit()` to check the Mantel-Fleiss criterion
+  for stratified 2 x 2 contingency tables, together with a vignette
+  demonstrating its use. (#1512)
 * Added a `method_only` argument to `d_proportion()`, `d_proportion_diff()`, and
   `d_test_proportion_diff()` to allow returning method labels without an additional
   description. (#1525)
@@ -10,6 +13,10 @@
   stored in a single column. (#1499)
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected
   rows from the forest plot before plotting. (#1498)
+
+# tern 0.9.11
+
+### Enhancements
 * Added `factor_level_method` argument to `df_explicit_na()` to control factor level ordering
   when converting character or logical columns. Supported methods: `"sort_auto"` (default,
   locale-aware, preserves original behavior), `"sort_radix"` (byte-order / ASCII sort), and
