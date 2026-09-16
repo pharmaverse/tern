@@ -1,7 +1,6 @@
 # tern 0.9.11.9000
 
 ### Enhancements
-1512_add_Mantel_Fleiss_criterion
 * Added `mantel_fleiss_crit()` to check the Mantel-Fleiss criterion
   for stratified 2 x 2 contingency tables, together with a vignette
   demonstrating its use. (#1512)
