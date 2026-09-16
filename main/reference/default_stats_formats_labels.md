@@ -119,7 +119,7 @@ summary_labels(type = "numeric", include_pval = FALSE)
   (named `vector`)\
   custom formats to use instead of defaults. Can be a character vector
   with values from
-  [`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
+  [`formatters::list_valid_format_labels()`](https://pharmaverse.github.io/formatters/latest-tag/reference/list_formats.html)
   or custom format functions. Defaults to `NULL` for any rows with no
   value is provided. See Details.
 

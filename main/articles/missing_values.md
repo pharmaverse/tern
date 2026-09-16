@@ -2,7 +2,7 @@
 
 The packages used in this vignette are:
 
-[`library`](https://rdrr.io/r/base/library.html)`(`[`rtables`](https://github.com/insightsengineering/rtables)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`formatters`](https://insightsengineering.github.io/formatters/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`tern`](https://pharmaverse.github.io/tern/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`dplyr`](https://dplyr.tidyverse.org)`)`
+[`library`](https://rdrr.io/r/base/library.html)`(`[`rtables`](https://github.com/insightsengineering/rtables)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`formatters`](https://pharmaverse.github.io/formatters/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`tern`](https://pharmaverse.github.io/tern/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`dplyr`](https://dplyr.tidyverse.org)`)`
 
 ## Variable Class Conversion
 

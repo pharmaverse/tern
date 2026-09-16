@@ -14,7 +14,7 @@ that are used repeatedly to express an analysis.
   (`character` or `NULL`)\
   alignment for table contents (not including labels). When `NULL`,
   `"center"` is applied. See
-  [`formatters::list_valid_aligns()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
+  [`formatters::list_valid_aligns()`](https://pharmaverse.github.io/formatters/latest-tag/reference/list_formats.html)
   for a list of all currently supported alignments.
 
 - .all_col_counts:

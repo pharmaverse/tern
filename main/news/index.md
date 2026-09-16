@@ -4,6 +4,11 @@
 
 #### Enhancements
 
+- Added
+  [`mantel_fleiss_crit()`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)
+  to check the Mantel-Fleiss criterion for stratified 2 x 2 contingency
+  tables, together with a vignette demonstrating its use.
+  ([\#1512](https://github.com/pharmaverse/tern/issues/1512))
 - Added a `method_only` argument to
   [`d_proportion()`](https://pharmaverse.github.io/tern/reference/d_proportion.md),
   [`d_proportion_diff()`](https://pharmaverse.github.io/tern/reference/d_proportion_diff.md),
@@ -24,6 +29,13 @@
   [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
   to allow excluding selected rows from the forest plot before plotting.
   ([\#1498](https://github.com/pharmaverse/tern/issues/1498))
+
+## tern 0.9.11
+
+CRAN release: 2026-07-17
+
+#### Enhancements
+
 - Added `factor_level_method` argument to
   [`df_explicit_na()`](https://pharmaverse.github.io/tern/reference/df_explicit_na.md)
   to control factor level ordering when converting character or logical
@@ -1120,7 +1132,7 @@ CRAN release: 2023-06-19
 - Fixed tests to respect the new standard print for `NA` coming from
   `rtables`.
 - Fixed error in tests coming from changes in
-  [`formatters::var_labels`](https://rdrr.io/pkg/formatters/man/var_labels.html).
+  [`formatters::var_labels`](https://pharmaverse.github.io/formatters/latest-tag/reference/var_labels.html).
 - Fixed `prop_diff` functions to respect success responses (`TRUE`
   values).
 - Fixed error coming from comparing factors vector to characters vector.

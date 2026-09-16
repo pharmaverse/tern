@@ -17,13 +17,13 @@ value.
 To see the available formatting functions available in `tern` see
 [`?formatting_functions`](https://pharmaverse.github.io/tern/reference/formatting_functions.md).
 To see the available format strings available in `formatters` see
-[`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html).
+[`formatters::list_valid_format_labels()`](https://pharmaverse.github.io/formatters/latest-tag/reference/list_formats.html).
 
 ## Comparing `tern` & `formatters` Formats
 
 The packages used in this vignette are:
 
-[`library`](https://rdrr.io/r/base/library.html)`(`[`rtables`](https://github.com/insightsengineering/rtables)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`formatters`](https://insightsengineering.github.io/formatters/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`tern`](https://pharmaverse.github.io/tern/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`dplyr`](https://dplyr.tidyverse.org)`)`
+[`library`](https://rdrr.io/r/base/library.html)`(`[`rtables`](https://github.com/insightsengineering/rtables)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`formatters`](https://pharmaverse.github.io/formatters/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`tern`](https://pharmaverse.github.io/tern/)`)`` `[`library`](https://rdrr.io/r/base/library.html)`(`[`dplyr`](https://dplyr.tidyverse.org)`)`
 
 The example below demonstrates the use of `tern` formatting in the
 [`count_abnormal()`](https://pharmaverse.github.io/tern/reference/abnormal.md)
@@ -52,7 +52,7 @@ format.
 The same concept occurs when using any of the available formats from the
 `formatters` package. The following example displays the same result
 using the `"xx.x / xx.x"` format instead. Use
-[`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
+[`formatters::list_valid_format_labels()`](https://pharmaverse.github.io/formatters/latest-tag/reference/list_formats.html)
 to see the full list of available formats in `formatters`.
 
 `df2`` ``<-`` `[`data.frame`](https://rdrr.io/r/base/data.frame.html)`(`` `` ID ``=`` `[`as.character`](https://rdrr.io/r/base/character.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``1``, ``1``, ``2``, ``2``)``)``,`` `` RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"LOW"``, ``"HIGH"``, ``"LOW"``)``)``,`` `` BL_RANGE ``=`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"NORMAL"``, ``"NORMAL"``, ``"HIGH"``, ``"HIGH"``)``)``,`` `` ONTRTFL ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``""``, ``"Y"``, ``""``, ``"Y"``)``,`` `` stringsAsFactors ``=`` ``FALSE`` ``)`` ``df2`` ``<-`` ``df2`` ``|>`` `` `[`filter`](https://dplyr.tidyverse.org/reference/filter.html)`(``ONTRTFL`` ``==`` ``"Y"``)`` `` `[`basic_table`](https://rdrr.io/pkg/rtables/man/basic_table.html)`(``)`` ``|>`` `` `[`count_abnormal`](https://pharmaverse.github.io/tern/reference/abnormal.md)`(`` `` var ``=`` ``"RANGE"``,`` `` abnormal ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``low ``=`` ``"LOW"``, high ``=`` ``"HIGH"``)``,`` `` variables ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``id ``=`` ``"ID"``, baseline ``=`` ``"BL_RANGE"``)``,`` `` exclude_base_abn ``=`` ``FALSE``,`` `` .formats ``=`` `[`list`](https://rdrr.io/r/base/list.html)`(``fraction ``=`` ``"xx.x / xx.x"``)`` `` ``)`` ``|>`` `` `[`build_table`](https://rdrr.io/pkg/rtables/man/build_table.html)`(``df2``)`` ``#> all obs `` ``#> ————————————————`` ``#> low 2.0 / 2.0`` ``#> high 0.0 / 2.0`

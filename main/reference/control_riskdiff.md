@@ -39,7 +39,7 @@ control_riskdiff(
   (`string` or `function`)\
   the format label (string) or formatting function to apply to the risk
   difference statistic. See the `3d` string options in
-  [`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html)
+  [`formatters::list_valid_format_labels()`](https://pharmaverse.github.io/formatters/latest-tag/reference/list_formats.html)
   for possible format strings. Defaults to `"xx.x (xx.x - xx.x)"`.
 
 - col_label:

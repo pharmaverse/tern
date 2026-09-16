@@ -502,6 +502,9 @@ These functions are useful in defining an analysis.
 - [`check_diff_prop_ci()`](https://pharmaverse.github.io/tern/reference/check_diff_prop_ci.md)
   **\[stable\]** : Check proportion difference arguments
 
+- [`mantel_fleiss_crit()`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)
+  **\[experimental\]** : Check the Mantel-Fleiss Criterion
+
 ## rtables Helper Functions
 
 These functions help to work with the `rtables` package and may be moved

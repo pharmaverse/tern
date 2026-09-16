@@ -2,6 +2,8 @@
 
 ### All vignettes
 
+- [The Mantel-Fleiss
+  Criterion](https://pharmaverse.github.io/tern/articles/mantel_fleiss_criterion.md):
 - [Missing Values in
   Tern](https://pharmaverse.github.io/tern/articles/missing_values.md):
 - [Tabulation](https://pharmaverse.github.io/tern/articles/tables.md):

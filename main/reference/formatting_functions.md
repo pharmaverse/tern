@@ -6,9 +6,9 @@ with `rtables`.
 ## Details
 
 Other available formats can be listed via
-[`formatters::list_valid_format_labels()`](https://rdrr.io/pkg/formatters/man/list_formats.html).
+[`formatters::list_valid_format_labels()`](https://pharmaverse.github.io/formatters/latest-tag/reference/list_formats.html).
 Additional custom formats can be created via the
-[`formatters::sprintf_format()`](https://rdrr.io/pkg/formatters/man/sprintf_format.html)
+[`formatters::sprintf_format()`](https://pharmaverse.github.io/formatters/latest-tag/reference/sprintf_format.html)
 function.
 
 ## See also
