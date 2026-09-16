@@ -113,6 +113,7 @@ reference:
       - -h_xticks
       - -prop_diff
       - check_diff_prop_ci
+      - mantel_fleiss_crit
       - h_prepare_2x2_table
 
   - title: rtables Helper Functions

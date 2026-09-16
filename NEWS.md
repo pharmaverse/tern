@@ -6,6 +6,9 @@
 * Added `get_complete_cases()` to remove observations containing missing values. (#1514)
 * Added `assert_proportion_data()` to validate responder, group, and optional
   stratification data used in proportion analyses. (#1514).
+* Added `mantel_fleiss_crit()` to check the Mantel-Fleiss criterion
+  for stratified 2 x 2 contingency tables, together with a vignette
+  demonstrating its use. (#1512)
 * Added a `method_only` argument to `d_proportion()`, `d_proportion_diff()`, and
   `d_test_proportion_diff()` to allow returning method labels without an additional
   description. (#1525)
