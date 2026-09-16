@@ -71,6 +71,9 @@ s_test_proportion_diff <- function(df,
   checkmate::assert_data_frame(.ref_group, null.ok = TRUE)
   checkmate::assert_flag(.in_ref_col, null.ok = TRUE)
   checkmate::assert_list(variables, null.ok = TRUE)
+  if (!is.null(variables)) {
+    checkmate::assert_set_equal(names(variables), "strata")
+  }
   checkmate::assert_atomic(val)
 
   method <- match.arg(method)
