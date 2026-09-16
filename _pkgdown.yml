@@ -113,7 +113,6 @@ reference:
       - -h_xticks
       - -prop_diff
       - check_diff_prop_ci
-      - assert_proportion_data
       - h_prepare_2x2_table
 
   - title: rtables Helper Functions

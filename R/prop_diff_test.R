@@ -82,7 +82,7 @@ s_test_proportion_diff <- function(df,
     assert_stratification_compatibility(
       method = method,
       stratified_methods = c("cmh", "cmh_sato", "cmh_wh"),
-      strata = variables$strata
+      strata_vars = variables$strata
     )
 
     rsp_list <- h_prepare_2x2_table(

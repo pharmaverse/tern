@@ -48,7 +48,7 @@ assert_proportion_value(x, include_boundaries = FALSE)
 
 assert_proportion_data(rsp, grp, strata = NULL)
 
-assert_stratification_compatibility(method, stratified_methods, strata)
+assert_stratification_compatibility(method, stratified_methods, strata_vars)
 }
 \arguments{
 \item{x}{(\code{any})\cr object to test.}
@@ -102,13 +102,17 @@ Assigns each observation to one of two groups, such as a reference and a
 treatment group. Must have exactly two levels and the same length as
 \code{rsp}. Missing values are not allowed.}
 
-\item{strata}{(\code{character} or \code{NULL})\cr Names of the variables defining the
-strata, or \code{NULL} if no stratification is used.}
+\item{strata}{(\code{factor} or \code{NULL})\cr
+Defines the stratification variable. If not \code{NULL}, it must have the same
+length as \code{rsp} and must not contain any missing values.}
 
 \item{method}{(\code{character(1)})\cr Specifies the statistical method.}
 
 \item{stratified_methods}{(\code{character})\cr Names of the methods that require
 stratified data.}
+
+\item{strata_vars}{(\code{character} or \code{NULL})\cr Names of the variables defining the
+strata, or \code{NULL} if no stratification is used.}
 }
 \value{
 Nothing if assertion passes, otherwise prints the error message.

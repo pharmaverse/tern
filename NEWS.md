@@ -18,9 +18,17 @@
   
 ### Bug Fixes
 * Fixed an issue in `s_proportion_diff()` where the `weights_method` argument
-  was ignored. (#1521)
+  was ignored. The `variables` argument, if supplied, can now only contain the
+  `strata` element. Other elements, including `weights_method`, are no longer
+  supported. Previously, `variables$weights_method` could unintentionally
+  override the `weights_method` argument due to a bug. (#1521)
   
 ### Miscellaneous
+* Updated `s_proportion_diff()` and `s_test_proportion_diff()` so that strata
+  variables, if supplied, must be factors. Character-type strata variables are
+  no longer supported. (#1514)
+* Updated `s_proportion_diff()` and `s_test_proportion_diff()` to throw an error
+  when strata variable(s) are provided but an unstratified method is chosen. (#1514)
 * Added the `val` argument and refactored `s_proportion_diff()` so that it uses
   the new function `h_prepare_2x2_table()`.
 * Added the `val` argument and refactored `s_test_proportion_diff()` so that it

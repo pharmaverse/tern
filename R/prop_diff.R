@@ -104,6 +104,9 @@ s_proportion_diff <- function(df,
   checkmate::assert_data_frame(.ref_group, null.ok = TRUE)
   checkmate::assert_flag(.in_ref_col, null.ok = TRUE)
   checkmate::assert_list(variables, null.ok = TRUE)
+  if (!is.null(variables)) {
+    checkmate::assert_set_equal(names(variables), "strata")
+  }
   checkmate::assert_atomic(val)
 
   method <- match.arg(method)
@@ -117,7 +120,7 @@ s_proportion_diff <- function(df,
       stratified_methods = c(
         "cmh", "cmh_sato", "cmh_mn", "strat_newcombe", "strat_newcombecc"
       ),
-      strata = variables$strata
+      strata_vars = variables$strata
     )
 
     rsp_list <- h_prepare_2x2_table(

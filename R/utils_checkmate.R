@@ -227,17 +227,17 @@ assert_proportion_data <- function(rsp, grp, strata = NULL) {
 #' @param method (`character(1)`)\cr Specifies the statistical method.
 #' @param stratified_methods (`character`)\cr Names of the methods that require
 #'   stratified data.
-#' @param strata (`character` or `NULL`)\cr Names of the variables defining the
+#' @param strata_vars (`character` or `NULL`)\cr Names of the variables defining the
 #'   strata, or `NULL` if no stratification is used.
 #'
 #' @keywords internal
-assert_stratification_compatibility <- function(method, stratified_methods, strata) {
+assert_stratification_compatibility <- function(method, stratified_methods, strata_vars) {
   checkmate::assert_string(method)
   checkmate::assert_character(stratified_methods)
-  checkmate::assert_character(strata, null.ok = TRUE)
+  checkmate::assert_character(strata_vars, null.ok = TRUE)
 
   is_stratified <- method %in% stratified_methods
-  is_strata_provided <- !is.null(strata)
+  is_strata_provided <- !is.null(strata_vars)
 
   # Stratified method.
   if (is_stratified && !is_strata_provided) {
