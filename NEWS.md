@@ -1,6 +1,11 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+* Added `h_prepare_2x2_table()` to prepare contingency table(s) for proportion
+  analyses. (#1514)
+* Added `get_complete_cases()` to remove observations containing missing values. (#1514)
+* Added `assert_proportion_data()` to validate responder, group, and optional
+  stratification data used in proportion analyses. (#1514).
 * Added `mantel_fleiss_crit()` to check the Mantel-Fleiss criterion
   for stratified 2 x 2 contingency tables, together with a vignette
   demonstrating its use. (#1512)
@@ -13,6 +18,24 @@
   stored in a single column. (#1499)
 * Added the `exclude_rows` argument to `g_forest()` to allow excluding selected
   rows from the forest plot before plotting. (#1498)
+  
+### Bug Fixes
+* Fixed an issue in `s_proportion_diff()` where the `weights_method` argument
+  was ignored. The `variables` argument, if supplied, can now only contain the
+  `strata` element. Other elements, including `weights_method`, are no longer
+  supported. Previously, `variables$weights_method` could unintentionally
+  override the `weights_method` argument due to a bug. (#1521)
+  
+### Miscellaneous
+* Updated `s_proportion_diff()` and `s_test_proportion_diff()` so that strata
+  variables, if supplied, must be factors. Character-type strata variables are
+  no longer supported. (#1514)
+* Updated `s_proportion_diff()` and `s_test_proportion_diff()` to throw an error
+  when strata variable(s) are provided but an unstratified method is chosen. (#1514)
+* Added the `val` argument and refactored `s_proportion_diff()` so that it uses
+  the new function `h_prepare_2x2_table()`.
+* Added the `val` argument and refactored `s_test_proportion_diff()` so that it
+  uses the new function `h_prepare_2x2_table()`.
 
 # tern 0.9.11
 

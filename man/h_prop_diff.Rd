@@ -64,8 +64,11 @@ group, response, and strata. The second dimension (response) should have names
 
 \item{strata}{(\code{factor})\cr variable with one level per stratum and same length as \code{rsp}.}
 
-\item{weights_method}{(\code{string})\cr weights method. Can be either \code{"cmh"} or \code{"heuristic"}
-and directs the way weights are estimated.}
+\item{weights_method}{(\code{string})\cr method used to estimate the weights for
+stratified Newcombe method.
+Must be either \code{"cmh"} or \code{"wilson_h"}. \code{"cmh"} uses weights derived from
+the Cochran-Mantel-Haenszel method, while \code{"wilson_h"} uses the heuristic
+weights proposed by \code{\link[=prop_strat_wilson]{prop_strat_wilson()}}.}
 }
 \value{
 A named \code{list} of elements \code{diff} (proportion difference) and \code{diff_ci}
