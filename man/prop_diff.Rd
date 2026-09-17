@@ -128,8 +128,9 @@ the statistics from \code{s_proportion_diff()} to the table layout.
 }
 
 \itemize{
-\item \code{s_proportion_diff()} returns a named list of elements \code{diff}, \code{diff_ci},
-and \code{diff_est_ci} (proportion difference and CI combined as a 3-element vector).
+\item \code{s_proportion_diff()} returns a named list containing the elements \code{diff},
+\code{diff_ci}, and \code{diff_est_ci} (\code{diff_est_ci} combines the \code{diff} and \code{diff_ci}
+values into a 3-element vector).
 Depending on the method used, also the standard error of the difference \code{se_diff} is
 returned.
 }
