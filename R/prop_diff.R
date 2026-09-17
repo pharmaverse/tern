@@ -51,8 +51,9 @@ NULL
 #'   non-responses.
 #'
 #' @return
-#' * `s_proportion_diff()` returns a named list of elements `diff`, `diff_ci`,
-#'   and `diff_est_ci` (proportion difference and CI combined as a 3-element vector).
+#' * `s_proportion_diff()` returns a named list containing the elements `diff`,
+#'   `diff_ci`, and `diff_est_ci` (`diff_est_ci` combines the `diff` and `diff_ci`
+#'   values into a 3-element vector).
 #'   Depending on the method used, also the standard error of the difference `se_diff` is
 #'   returned.
 #'
