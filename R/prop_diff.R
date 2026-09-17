@@ -113,7 +113,7 @@ s_proportion_diff <- function(df,
   method <- match.arg(method)
 
   if (is.null(.in_ref_col) || .in_ref_col) {
-    y <- list(diff = numeric(), diff_ci = numeric())
+    y <- list(diff = numeric(), diff_ci = numeric(), diff_est_ci = numeric())
   } else {
     checkmate::assert_false(is.null(.ref_group))
     assert_stratification_compatibility(
@@ -156,22 +156,17 @@ s_proportion_diff <- function(df,
 
     y$diff <- setNames(y$diff * 100, paste0("diff_", method))
     y$diff_ci <- setNames(y$diff_ci * 100, paste0("diff_ci_", method, c("_l", "_u")))
+    y$diff_est_ci <- c(y$diff, y$diff_ci)
     if (!is.null(y$se_diff)) {
       y$se_diff <- setNames(y$se_diff * 100, paste0("se_diff_", method))
     }
   }
 
-  y$diff_est_ci <- c(y$diff, y$diff_ci)
-
   attr(y$diff, "label") <- "Difference in Response rate (%)"
-  attr(y$diff_ci, "label") <- d_proportion_diff(conf_level, method, long = FALSE)
-  attr(y$diff_est_ci, "label") <- paste0(
-    "Difference in Response rate (%) and ",
-    d_proportion_diff(conf_level, method, long = FALSE)
-  )
-  
+  attr(y$diff_ci, "label") <- tern::d_proportion_diff(conf_level, method, long = FALSE)
+  attr(y$diff_est_ci, "label") <- paste(attr(y$diff, "label"), "and", attr(y$diff_ci, "label"))
   if (!is.null(y$se_diff)) {
-    attr(y$se_diff, "label") <- paste0("Standard Error of Difference in Response rate (%)")
+    attr(y$se_diff, "label") <- paste("Standard Error of", attr(y$diff, "label"))
   }
 
   y
