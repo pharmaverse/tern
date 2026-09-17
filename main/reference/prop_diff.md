@@ -21,7 +21,7 @@ estimate_proportion_diff(
   conf_level = 0.95,
   method = c("waldcc", "wald", "cmh", "cmh_sato", "cmh_mn", "ha", "newcombe",
     "newcombecc", "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"),
-  weights_method = "cmh",
+  weights_method = c("cmh", "wilson_h"),
   var_labels = vars,
   na_str = default_na_str(),
   nested = TRUE,
@@ -40,13 +40,14 @@ estimate_proportion_diff(
 s_proportion_diff(
   df,
   .var,
-  .ref_group,
-  .in_ref_col,
+  .ref_group = NULL,
+  .in_ref_col = NULL,
   variables = list(strata = NULL),
   conf_level = 0.95,
   method = c("waldcc", "wald", "cmh", "cmh_sato", "cmh_mn", "ha", "newcombe",
     "newcombecc", "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"),
-  weights_method = "cmh",
+  weights_method = c("cmh", "wilson_h"),
+  val = TRUE,
   ...
 )
 
@@ -91,8 +92,11 @@ a_proportion_diff(
 - weights_method:
 
   (`string`)\
-  weights method. Can be either `"cmh"` or `"heuristic"` and directs the
-  way weights are estimated.
+  method used to estimate the weights for stratified Newcombe method.
+  Must be either `"cmh"` or `"wilson_h"`. `"cmh"` uses weights derived
+  from the Cochran-Mantel-Haenszel method, while `"wilson_h"` uses the
+  heuristic weights proposed by
+  [`prop_strat_wilson()`](https://pharmaverse.github.io/tern/reference/h_proportions.md).
 
 - var_labels:
 
@@ -191,6 +195,13 @@ a_proportion_diff(
 
   (`flag`)\
   `TRUE` when working with the reference level, `FALSE` otherwise.
+
+- val:
+
+  (`character(1)` or `logical(1)`)\
+  the value in `df[[.var]]` (and, if supplied, in `.ref_group[[.var]]`)
+  that defines a positive response. All other observations are treated
+  as non-responses.
 
 ## Value
 
@@ -311,6 +322,8 @@ Intervals for Multiple Binomial Proportions.” *Stat. Biopharm. Res.*,
 ## See also
 
 [`d_proportion_diff()`](https://pharmaverse.github.io/tern/reference/d_proportion_diff.md)
+
+[`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
 
 ## Examples
 

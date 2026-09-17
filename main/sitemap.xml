@@ -130,6 +130,7 @@
 <url><loc>https://pharmaverse.github.io/tern/reference/g_lineplot.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/g_step.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/g_waterfall.html</loc></url>
+<url><loc>https://pharmaverse.github.io/tern/reference/get_complete_cases.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/get_covariates.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/get_smooths.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/groups_list_to_df.html</loc></url>
@@ -161,6 +162,7 @@
 <url><loc>https://pharmaverse.github.io/tern/reference/h_odds_ratio.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/h_pkparam_sort.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/h_ppmeans.html</loc></url>
+<url><loc>https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/h_prop_diff.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/h_prop_diff_test.html</loc></url>
 <url><loc>https://pharmaverse.github.io/tern/reference/h_proportions.html</loc></url>

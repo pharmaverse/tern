@@ -545,6 +545,10 @@ These functions are useful in defining an analysis.
 - [`h_ppmeans()`](https://pharmaverse.github.io/tern/reference/h_ppmeans.md)
   : Function to return the estimated means using predicted probabilities
 
+- [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
+  **\[experimental\]** : Helper Function to Prepare Data for Proportion
+  Analyses
+
 - [`prop_chisq()`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)
   [`prop_cmh()`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)
   [`prop_schouten()`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)
@@ -923,6 +927,9 @@ These functions are used by other functions to derive data.
   Helper function for the estimation of weights for
   [`prop_strat_wilson()`](https://pharmaverse.github.io/tern/reference/h_proportions.md)
 
+- [`get_complete_cases()`](https://pharmaverse.github.io/tern/reference/get_complete_cases.md)
+  **\[experimental\]** : Remove rows with missing values
+
 ## Assertion Functions
 
 These functions supplement those in the `checkmate` package.
@@ -932,6 +939,8 @@ These functions supplement those in the `checkmate` package.
   [`assert_valid_factor()`](https://pharmaverse.github.io/tern/reference/assertions.md)
   [`assert_df_with_factors()`](https://pharmaverse.github.io/tern/reference/assertions.md)
   [`assert_proportion_value()`](https://pharmaverse.github.io/tern/reference/assertions.md)
+  [`assert_proportion_data()`](https://pharmaverse.github.io/tern/reference/assertions.md)
+  [`assert_stratification_compatibility()`](https://pharmaverse.github.io/tern/reference/assertions.md)
   **\[stable\]** :
 
   Additional assertions to use with `checkmate`

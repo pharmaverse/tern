@@ -5,6 +5,19 @@
 #### Enhancements
 
 - Added
+  [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
+  to prepare contingency table(s) for proportion analyses.
+  ([\#1514](https://github.com/pharmaverse/tern/issues/1514))
+- Added
+  [`get_complete_cases()`](https://pharmaverse.github.io/tern/reference/get_complete_cases.md)
+  to remove observations containing missing values.
+  ([\#1514](https://github.com/pharmaverse/tern/issues/1514))
+- Added
+  [`assert_proportion_data()`](https://pharmaverse.github.io/tern/reference/assertions.md)
+  to validate responder, group, and optional stratification data used in
+  proportion analyses.
+  ([\#1514](https://github.com/pharmaverse/tern/issues/1514)).
+- Added
   [`mantel_fleiss_crit()`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)
   to check the Mantel-Fleiss criterion for stratified 2 x 2 contingency
   tables, together with a vignette demonstrating its use.
@@ -29,6 +42,42 @@
   [`g_forest()`](https://pharmaverse.github.io/tern/reference/g_forest.md)
   to allow excluding selected rows from the forest plot before plotting.
   ([\#1498](https://github.com/pharmaverse/tern/issues/1498))
+
+#### Bug Fixes
+
+- Fixed an issue in
+  [`s_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
+  where the `weights_method` argument was ignored. The `variables`
+  argument, if supplied, can now only contain the `strata` element.
+  Other elements, including `weights_method`, are no longer supported.
+  Previously, `variables$weights_method` could unintentionally override
+  the `weights_method` argument due to a bug.
+  ([\#1521](https://github.com/pharmaverse/tern/issues/1521))
+
+#### Miscellaneous
+
+- Updated
+  [`s_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
+  and
+  [`s_test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
+  so that strata variables, if supplied, must be factors. Character-type
+  strata variables are no longer supported.
+  ([\#1514](https://github.com/pharmaverse/tern/issues/1514))
+- Updated
+  [`s_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
+  and
+  [`s_test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
+  to throw an error when strata variable(s) are provided but an
+  unstratified method is chosen.
+  ([\#1514](https://github.com/pharmaverse/tern/issues/1514))
+- Added the `val` argument and refactored
+  [`s_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
+  so that it uses the new function
+  [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md).
+- Added the `val` argument and refactored
+  [`s_test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
+  so that it uses the new function
+  [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md).
 
 ## tern 0.9.11
 

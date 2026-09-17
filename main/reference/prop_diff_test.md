@@ -38,11 +38,12 @@ test_proportion_diff(
 s_test_proportion_diff(
   df,
   .var,
-  .ref_group,
-  .in_ref_col,
+  .ref_group = NULL,
+  .in_ref_col = NULL,
   variables = list(strata = NULL),
   method = c("chisq", "schouten", "fisher", "cmh", "cmh_sato", "cmh_wh"),
   alternative = c("two.sided", "less", "greater"),
+  val = TRUE,
   ...
 )
 
@@ -184,6 +185,13 @@ a_test_proportion_diff(
   (`flag`)\
   `TRUE` when working with the reference level, `FALSE` otherwise.
 
+- val:
+
+  (`character(1)` or `logical(1)`)\
+  the value in `df[[.var]]` (and, if supplied, in `.ref_group[[.var]]`)
+  that defines a positive response. All other observations are treated
+  as non-responses.
+
 ## Value
 
 - `test_proportion_diff()` returns a layout object suitable for passing
@@ -221,7 +229,8 @@ a_test_proportion_diff(
 
 ## See also
 
-[h_prop_diff_test](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)
+[h_prop_diff_test](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md),
+[`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
 
 ## Examples
 
