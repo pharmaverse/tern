@@ -27,7 +27,7 @@ estimate_proportion_diff(
   .stat_names = NULL,
   .formats = c(diff = "xx.x", diff_ci = "(xx.x, xx.x)", se_diff = "xx.x"),
   .labels = NULL,
-  .indent_mods = c(diff = 0L, diff_ci = 1L, se_diff = 1L)
+  .indent_mods = c(diff = 0L, diff_est_ci = 0L, diff_ci = 1L, se_diff = 1L)
 )
 
 s_proportion_diff(
@@ -93,7 +93,7 @@ defined by this split instruction, or \code{NA_character_} (the default) for no 
 
 \item{.stats}{(\code{character})\cr statistics to select for the table.
 
-Options are: \verb{'diff', 'diff_ci'}}
+Options are: \verb{'diff', 'diff_ci', 'diff_est_ci'}}
 
 \item{.stat_names}{(\code{character})\cr names of the statistics that are passed directly to name single statistics
 (\code{.stats}). This option is visible when producing \code{\link[rtables:as_result_df]{rtables::as_result_df()}} with \code{make_ard = TRUE}.}
@@ -128,7 +128,9 @@ the statistics from \code{s_proportion_diff()} to the table layout.
 }
 
 \itemize{
-\item \code{s_proportion_diff()} returns a named list of elements \code{diff} and \code{diff_ci}.
+\item \code{s_proportion_diff()} returns a named list containing the elements \code{diff},
+\code{diff_ci}, and \code{diff_est_ci} (\code{diff_est_ci} combines the \code{diff} and \code{diff_ci}
+values into a 3-element vector).
 Depending on the method used, also the standard error of the difference \code{se_diff} is
 returned.
 }

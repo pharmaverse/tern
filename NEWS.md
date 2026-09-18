@@ -1,6 +1,8 @@
 # tern 0.9.11.9000
 
 ### Enhancements
+* Added `diff_est_ci` statistic to `s_proportion_diff()`, combining the proportion
+  difference and its confidence interval in a single 3-element vector. (#1523)
 * Added `h_prepare_2x2_table()` to prepare contingency table(s) for proportion
   analyses. (#1514)
 * Added `get_complete_cases()` to remove observations containing missing values. (#1514)
