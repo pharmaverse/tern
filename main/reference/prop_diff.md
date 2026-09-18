@@ -34,7 +34,7 @@ estimate_proportion_diff(
   .stat_names = NULL,
   .formats = c(diff = "xx.x", diff_ci = "(xx.x, xx.x)", se_diff = "xx.x"),
   .labels = NULL,
-  .indent_mods = c(diff = 0L, diff_ci = 1L, se_diff = 1L)
+  .indent_mods = c(diff = 0L, diff_est_ci = 0L, diff_ci = 1L, se_diff = 1L)
 )
 
 s_proportion_diff(
@@ -148,7 +148,7 @@ a_proportion_diff(
   (`character`)\
   statistics to select for the table.
 
-  Options are: `'diff', 'diff_ci'`
+  Options are: `'diff', 'diff_ci', 'diff_est_ci'`
 
 - .stat_names:
 
@@ -214,9 +214,11 @@ a_proportion_diff(
 
 &nbsp;
 
-- `s_proportion_diff()` returns a named list of elements `diff` and
-  `diff_ci`. Depending on the method used, also the standard error of
-  the difference `se_diff` is returned.
+- `s_proportion_diff()` returns a named list containing the elements
+  `diff`, `diff_ci`, and `diff_est_ci` (`diff_est_ci` combines the
+  `diff` and `diff_ci` values into a 3-element vector). Depending on the
+  method used, also the standard error of the difference `se_diff` is
+  returned.
 
 &nbsp;
 
@@ -372,6 +374,12 @@ s_proportion_diff(
 #> attr(,"label")
 #> [1] "90% CI (Anderson-Hauck)"
 #> 
+#> $diff_est_ci
+#>      diff_ha diff_ci_ha_l diff_ci_ha_u 
+#>    12.000000    -5.374519    29.374519 
+#> attr(,"label")
+#> [1] "Difference in Response rate (%) and 90% CI (Anderson-Hauck)"
+#> 
 
 # CMH example with strata
 s_proportion_diff(
@@ -400,6 +408,12 @@ s_proportion_diff(
 #>    8.954617 
 #> attr(,"label")
 #> [1] "Standard Error of Difference in Response rate (%)"
+#> 
+#> $diff_est_ci
+#>      diff_cmh diff_ci_cmh_l diff_ci_cmh_u 
+#>      12.05847      -2.67057      26.78750 
+#> attr(,"label")
+#> [1] "Difference in Response rate (%) and 90% CI (CMH, without correction)"
 #> 
 
 a_proportion_diff(

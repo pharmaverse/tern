@@ -4,6 +4,11 @@
 
 #### Enhancements
 
+- Added `diff_est_ci` statistic to
+  [`s_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md),
+  combining the proportion difference and its confidence interval in a
+  single 3-element vector.
+  ([\#1523](https://github.com/pharmaverse/tern/issues/1523))
 - Added
   [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
   to prepare contingency table(s) for proportion analyses.
