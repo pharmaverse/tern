@@ -706,7 +706,7 @@ tern_default_formats <- c(
 #' @export
 tern_default_labels <- c(
   cv = "CV (%)",
-  diff_est_ci = "Difference in Response rate (%) and 95% CI",
+  diff_est_ci = "Difference in Response rate (%) and CI",
   iqr = "IQR",
   geom_cv = "CV % Geometric Mean",
   geom_mean = "Geometric Mean",
