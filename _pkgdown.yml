@@ -114,7 +114,7 @@ reference:
       - -prop_diff
       - check_diff_prop_ci
       - mantel_fleiss_crit
-      - h_prepare_2x2_table
+      - h_prepare_rsp_table
 
   - title: rtables Helper Functions
     desc: These functions help to work with the `rtables` package and may be

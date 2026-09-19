@@ -185,6 +185,6 @@ s_test_proportion_diff(
 
 }
 \seealso{
-\link{h_prop_diff_test}, \code{\link[=h_prepare_2x2_table]{h_prepare_2x2_table()}}
+\link{h_prop_diff_test}, \code{\link[=h_prepare_rsp_table]{h_prepare_rsp_table()}}
 }
 \keyword{internal}
