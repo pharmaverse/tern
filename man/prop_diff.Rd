@@ -242,5 +242,5 @@ a_proportion_diff(
 \seealso{
 \code{\link[=d_proportion_diff]{d_proportion_diff()}}
 
-\code{\link[=h_prepare_2x2_table]{h_prepare_2x2_table()}}
+\code{\link[=h_prepare_rsp_table]{h_prepare_rsp_table()}}
 }
