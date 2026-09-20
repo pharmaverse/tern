@@ -12,7 +12,7 @@ together with the prepared vectors.
 ## Usage
 
 ``` r
-h_prepare_2x2_table(
+h_prepare_rsp_table(
   df,
   df_ref = NULL,
   var,
@@ -34,22 +34,31 @@ h_prepare_2x2_table(
 
   (`data.frame` or `NULL`)\
   An optional data frame containing the observations for the reference
-  group.
+  group. Columns specified by `var` and `strata_vars` (if not `NULL`)
+  must have the same classes as the corresponding columns in `df`. If
+  they are factors, their levels must also be identical between `df` and
+  `df_ref`.
 
 - var:
 
   (`character(1)`)\
   The column name in `df` (and, if supplied, `df_ref`) specifying the
   response variable. The response is converted to a logical vector by
-  comparing its values with `val`.
+  comparing its values with `val`. `df[[var]]` (and `df_ref[[var]]`, if
+  supplied) must be an atomic vector as defined by
+  [`checkmate::check_atomic_vector()`](https://mllg.github.io/checkmate/reference/checkAtomicVector.html),
+  of one of the following types: `logical`, `integer`, `numeric`, or
+  `character`.
 
 - val:
 
-  (`character(1)` or `logical(1)`)\
+  (`logical(1)` or `integer(1)` or `numeric(1)` or `character(1)`)\
   The value in `df[[var]]` (and, if supplied, in `df_ref[[var]]`) that
   defines a positive response. Observations matching this value are
   returned as `TRUE` in the `rsp` vector; all other observations are
-  returned as `FALSE`.
+  returned as `FALSE`. If `df[[var]]` is a factor, `val` must be a
+  character value matching one of its levels. Otherwise, `val` must have
+  the same class as `df[[var]]`.
 
 - strata_vars:
 
@@ -60,18 +69,24 @@ h_prepare_2x2_table(
 - complete_cases:
 
   (`logical(1)`)\
-  Whether incomplete rows should be removed from
-  `df[c(var, strata_vars)]` (and, if supplied,
-  `df_ref[c(var, strata_vars)]`). This is done using
+  Whether to remove incomplete rows from `df` (and, if supplied,
+  `df_ref`) before constructing the response, group, strata, and
+  contingency table. Completeness is assessed only for the columns
+  specified by `var` and `strata_vars` (if supplied) using
   [`get_complete_cases()`](https://pharmaverse.github.io/tern/reference/get_complete_cases.md).
+  If `complete_cases = TRUE`, rows containing missing values in any of
+  these columns are removed. If `complete_cases = FALSE`, the function
+  fails if any of these columns contain missing values, rather than
+  returning results containing `NA` values.
 
 - quiet:
 
   (`logical(1)`)\
   Passed to
-  [`get_complete_cases()`](https://pharmaverse.github.io/tern/reference/get_complete_cases.md),
-  controlling whether messages about removed incomplete rows are
-  displayed.
+  [`get_complete_cases()`](https://pharmaverse.github.io/tern/reference/get_complete_cases.md).
+  If `complete_cases = TRUE`, controls whether a message is displayed
+  for rows removed due to missing values. Has no effect when
+  `complete_cases = FALSE`.
 
 ## Value
 
@@ -128,6 +143,9 @@ contingency table are constructed. Completeness is assessed jointly
 across the `var` and `strata_vars` columns when `strata_vars` is
 supplied, and only across `var` otherwise. This is performed using
 [`get_complete_cases()`](https://pharmaverse.github.io/tern/reference/get_complete_cases.md).
+If `complete_cases = FALSE`, the function fails if any of these columns
+contain missing values, rather than returning results containing `NA`
+values.
 
 The response variable specified by `var`, and optionally the strata
 variables specified by `strata_vars`, are extracted independently from
@@ -182,7 +200,7 @@ head(dta)
 #> 5  TRUE       X a1  y
 #> 6 FALSE Placebo a2  x
 
-trgs <- h_prepare_2x2_table(
+trgs <- h_prepare_rsp_table(
   df = subset(dta, grp == "X"),
   df_ref = subset(dta, grp == "Placebo"),
   var = "rsp",
@@ -311,7 +329,7 @@ prop_cmh(trgs$tbl)
 # The FALSE/TRUE levels are retained even when only one outcome is observed.
 dta2 <- dta
 dta2$rsp <- TRUE
-h_prepare_2x2_table(
+h_prepare_rsp_table(
   df = subset(dta2, grp == "X"),
   df_ref = subset(dta2, grp == "Placebo"),
   var = "rsp",
@@ -320,4 +338,27 @@ h_prepare_2x2_table(
 #> grp       TRUE FALSE
 #>   ref       10     0
 #>   Not-ref   18     0
+
+# Handling missing values.
+if (FALSE) { # \dontrun{
+dta_missing <- dta
+dta_missing[1, "rsp"] <- NA
+
+# By default, the function fails when missing values are present.
+h_prepare_rsp_table(
+  df = subset(dta_missing, grp == "X"),
+  df_ref = subset(dta_missing, grp == "Placebo"),
+  var = "rsp",
+  strata_vars = c("f1", "f2")
+)
+
+# Set complete_cases = TRUE to remove incomplete observations.
+h_prepare_rsp_table(
+  df = subset(dta_missing, grp == "X"),
+  df_ref = subset(dta_missing, grp == "Placebo"),
+  var = "rsp",
+  strata_vars = c("f1", "f2"),
+  complete_cases = TRUE
+)
+} # }
 ```

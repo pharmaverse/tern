@@ -545,7 +545,7 @@ These functions are useful in defining an analysis.
 - [`h_ppmeans()`](https://pharmaverse.github.io/tern/reference/h_ppmeans.md)
   : Function to return the estimated means using predicted probabilities
 
-- [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
+- [`h_prepare_rsp_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_rsp_table.md)
   **\[experimental\]** : Helper Function to Prepare Data for Proportion
   Analyses
 

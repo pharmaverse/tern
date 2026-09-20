@@ -10,7 +10,7 @@
   single 3-element vector.
   ([\#1523](https://github.com/pharmaverse/tern/issues/1523))
 - Added
-  [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
+  [`h_prepare_rsp_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_rsp_table.md)
   to prepare contingency table(s) for proportion analyses.
   ([\#1514](https://github.com/pharmaverse/tern/issues/1514))
 - Added
@@ -78,11 +78,11 @@
 - Added the `val` argument and refactored
   [`s_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff.md)
   so that it uses the new function
-  [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md).
+  [`h_prepare_rsp_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_rsp_table.md).
 - Added the `val` argument and refactored
   [`s_test_proportion_diff()`](https://pharmaverse.github.io/tern/reference/prop_diff_test.md)
   so that it uses the new function
-  [`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md).
+  [`h_prepare_rsp_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_rsp_table.md).
 
 ## tern 0.9.11
 

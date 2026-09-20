@@ -325,7 +325,7 @@ Intervals for Multiple Binomial Proportions.” *Stat. Biopharm. Res.*,
 
 [`d_proportion_diff()`](https://pharmaverse.github.io/tern/reference/d_proportion_diff.md)
 
-[`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
+[`h_prepare_rsp_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_rsp_table.md)
 
 ## Examples
 

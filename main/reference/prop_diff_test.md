@@ -230,7 +230,7 @@ a_test_proportion_diff(
 ## See also
 
 [h_prop_diff_test](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md),
-[`h_prepare_2x2_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_2x2_table.md)
+[`h_prepare_rsp_table()`](https://pharmaverse.github.io/tern/reference/h_prepare_rsp_table.md)
 
 ## Examples
 
