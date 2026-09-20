@@ -1,7 +1,7 @@
-# h_prepare_2x2_table() warns when NAs are removed and quiet = FALSE
+# h_prepare_rsp_table() warns when NAs are removed and quiet = FALSE
 
     Code
-      h_prepare_2x2_table(df = subset(data, grp == "X"), df_ref = subset(data, grp ==
+      h_prepare_rsp_table(df = subset(data, grp == "X"), df_ref = subset(data, grp ==
         "Placebo"), var = "rsp", strata_vars = "strata", complete_cases = TRUE,
       quiet = FALSE)
     Condition

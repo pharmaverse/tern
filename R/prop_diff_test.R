@@ -15,7 +15,7 @@
 #'
 #'   Options are: ``r shQuote(get_stats("test_proportion_diff"), type = "sh")``
 #'
-#' @seealso [h_prop_diff_test], [h_prepare_2x2_table()]
+#' @seealso [h_prop_diff_test], [h_prepare_rsp_table()]
 #'
 #' @name prop_diff_test
 #' @order 1
@@ -88,7 +88,7 @@ s_test_proportion_diff <- function(df,
       strata_vars = variables$strata
     )
 
-    rsp_list <- h_prepare_2x2_table(
+    rsp_list <- h_prepare_rsp_table(
       df = df, df_ref = .ref_group, var = .var, val = val,
       strata_vars = variables$strata,
       complete_cases = TRUE

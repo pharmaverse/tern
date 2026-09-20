@@ -3,7 +3,7 @@
 ### Enhancements
 * Added `diff_est_ci` statistic to `s_proportion_diff()`, combining the proportion
   difference and its confidence interval in a single 3-element vector. (#1523)
-* Added `h_prepare_2x2_table()` to prepare contingency table(s) for proportion
+* Added `h_prepare_rsp_table()` to prepare contingency table(s) for proportion
   analyses. (#1514)
 * Added `get_complete_cases()` to remove observations containing missing values. (#1514)
 * Added `assert_proportion_data()` to validate responder, group, and optional
@@ -35,9 +35,9 @@
 * Updated `s_proportion_diff()` and `s_test_proportion_diff()` to throw an error
   when strata variable(s) are provided but an unstratified method is chosen. (#1514)
 * Added the `val` argument and refactored `s_proportion_diff()` so that it uses
-  the new function `h_prepare_2x2_table()`.
+  the new function `h_prepare_rsp_table()`.
 * Added the `val` argument and refactored `s_test_proportion_diff()` so that it
-  uses the new function `h_prepare_2x2_table()`.
+  uses the new function `h_prepare_rsp_table()`.
 
 # tern 0.9.11
 
