@@ -1,4 +1,4 @@
-test_that("h_prepare_2x2_table() works without strata", {
+test_that("h_prepare_rsp_table() works without strata", {
   set.seed(123)
   n <- 100
   data <- data.frame(
@@ -7,7 +7,7 @@ test_that("h_prepare_2x2_table() works without strata", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp"
@@ -34,7 +34,7 @@ test_that("h_prepare_2x2_table() works without strata", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() works with strata", {
+test_that("h_prepare_rsp_table() works with strata", {
   set.seed(123)
   n <- 100
   data <- data.frame(
@@ -44,7 +44,7 @@ test_that("h_prepare_2x2_table() works with strata", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -72,7 +72,7 @@ test_that("h_prepare_2x2_table() works with strata", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() works with multiple strata variables", {
+test_that("h_prepare_rsp_table() works with multiple strata variables", {
   set.seed(123)
   n <- 100
   data <- data.frame(
@@ -83,7 +83,7 @@ test_that("h_prepare_2x2_table() works with multiple strata variables", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -120,7 +120,7 @@ test_that("h_prepare_2x2_table() works with multiple strata variables", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() handles a custom val", {
+test_that("h_prepare_rsp_table() handles a custom val", {
   data <- data.frame(
     rsp = c("RES", "NORES", "RES", "RES", "NORES", "NORES"),
     grp = c("Placebo", "X", "Placebo", "X", "X", "X"),
@@ -128,7 +128,7 @@ test_that("h_prepare_2x2_table() handles a custom val", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -138,7 +138,7 @@ test_that("h_prepare_2x2_table() handles a custom val", {
   )
 
   expect_silent(
-    result_strata <- h_prepare_2x2_table(
+    result_strata <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -159,7 +159,7 @@ test_that("h_prepare_2x2_table() handles a custom val", {
   expect_identical(result_strata, expected_strata)
 })
 
-test_that("h_prepare_2x2_table() gives the same result with one stratum", {
+test_that("h_prepare_rsp_table() gives the same result with one stratum", {
   set.seed(123)
   n <- 20
   data <- data.frame(
@@ -169,7 +169,7 @@ test_that("h_prepare_2x2_table() gives the same result with one stratum", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "Active"),
       df_ref = subset(data, grp == "Control"),
       var = "rsp",
@@ -178,7 +178,7 @@ test_that("h_prepare_2x2_table() gives the same result with one stratum", {
   )
 
   expect_silent(
-    result_1stratum <- h_prepare_2x2_table(
+    result_1stratum <- h_prepare_rsp_table(
       df = subset(data, grp == "Active"),
       df_ref = subset(data, grp == "Control"),
       var = "rsp",
@@ -190,7 +190,7 @@ test_that("h_prepare_2x2_table() gives the same result with one stratum", {
   expect_identical(result$tbl, result_1stratum$tbl[, , 1])
 })
 
-test_that("h_prepare_2x2_table() retains unobserved response outcomes (TRUE only)", {
+test_that("h_prepare_rsp_table() retains unobserved response outcomes (TRUE only)", {
   data <- data.frame(
     rsp = rep(TRUE, 4),
     grp = c("Placebo", "X", "Placebo", "X"),
@@ -198,7 +198,7 @@ test_that("h_prepare_2x2_table() retains unobserved response outcomes (TRUE only
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -207,7 +207,7 @@ test_that("h_prepare_2x2_table() retains unobserved response outcomes (TRUE only
   )
 
   expect_silent(
-    result_strata <- h_prepare_2x2_table(
+    result_strata <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -227,7 +227,7 @@ test_that("h_prepare_2x2_table() retains unobserved response outcomes (TRUE only
   expect_identical(result_strata, expected_strata)
 })
 
-test_that("h_prepare_2x2_table() retains unobserved response outcomes (FALSE only)", {
+test_that("h_prepare_rsp_table() retains unobserved response outcomes (FALSE only)", {
   data <- data.frame(
     rsp = rep(FALSE, 4),
     grp = c("Placebo", "X", "Placebo", "X"),
@@ -235,7 +235,7 @@ test_that("h_prepare_2x2_table() retains unobserved response outcomes (FALSE onl
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -244,7 +244,7 @@ test_that("h_prepare_2x2_table() retains unobserved response outcomes (FALSE onl
   )
 
   expect_silent(
-    result_strata <- h_prepare_2x2_table(
+    result_strata <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -264,7 +264,7 @@ test_that("h_prepare_2x2_table() retains unobserved response outcomes (FALSE onl
   expect_identical(result_strata, expected_strata)
 })
 
-test_that("h_prepare_2x2_table() handles empty and NULL df_ref", {
+test_that("h_prepare_rsp_table() handles empty and NULL df_ref", {
   data <- data.frame(
     rsp = c(TRUE, FALSE, TRUE, FALSE),
     grp = rep("X", 4),
@@ -273,7 +273,7 @@ test_that("h_prepare_2x2_table() handles empty and NULL df_ref", {
 
   # Empty df_ref.
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -281,7 +281,7 @@ test_that("h_prepare_2x2_table() handles empty and NULL df_ref", {
     )
   )
   expect_silent(
-    result_strata <- h_prepare_2x2_table(
+    result_strata <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -291,7 +291,7 @@ test_that("h_prepare_2x2_table() handles empty and NULL df_ref", {
 
   # df_ref is NULL.
   expect_silent(
-    result_dfref_null <- h_prepare_2x2_table(
+    result_dfref_null <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = NULL,
       var = "rsp",
@@ -299,7 +299,7 @@ test_that("h_prepare_2x2_table() handles empty and NULL df_ref", {
     )
   )
   expect_silent(
-    result_dfref_null_strata <- h_prepare_2x2_table(
+    result_dfref_null_strata <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = NULL,
       var = "rsp",
@@ -323,7 +323,7 @@ test_that("h_prepare_2x2_table() handles empty and NULL df_ref", {
 })
 
 
-test_that("h_prepare_2x2_table() retains unused strata levels", {
+test_that("h_prepare_rsp_table() retains unused strata levels", {
   data <- data.frame(
     rsp = c(TRUE, FALSE, TRUE, FALSE),
     grp = c("X", "X", "Placebo", "Placebo"),
@@ -332,7 +332,7 @@ test_that("h_prepare_2x2_table() retains unused strata levels", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -353,7 +353,7 @@ test_that("h_prepare_2x2_table() retains unused strata levels", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() handles sparse contingency tables", {
+test_that("h_prepare_rsp_table() handles sparse contingency tables", {
   data <- data.frame(
     rsp = c(TRUE, TRUE, TRUE, TRUE),
     grp = c("Y", "Y", "Cntrl", "Cntrl"),
@@ -361,7 +361,7 @@ test_that("h_prepare_2x2_table() handles sparse contingency tables", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "Y"),
       df_ref = subset(data, grp == "Cntrl"),
       var = "rsp",
@@ -379,7 +379,7 @@ test_that("h_prepare_2x2_table() handles sparse contingency tables", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() handles empty data with an unused stratum level", {
+test_that("h_prepare_rsp_table() handles empty data with an unused stratum level", {
   data <- data.frame(
     rsp = logical(),
     grp = character(),
@@ -387,7 +387,7 @@ test_that("h_prepare_2x2_table() handles empty data with an unused stratum level
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -396,7 +396,7 @@ test_that("h_prepare_2x2_table() handles empty data with an unused stratum level
   )
 
   expect_silent(
-    result_strata <- h_prepare_2x2_table(
+    result_strata <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -416,7 +416,7 @@ test_that("h_prepare_2x2_table() handles empty data with an unused stratum level
   expect_identical(result_strata, expected_strata)
 })
 
-test_that("h_prepare_2x2_table() handles empty data with no stratum levels", {
+test_that("h_prepare_rsp_table() handles empty data with no stratum levels", {
   data <- data.frame(
     rsp = logical(),
     grp = character(),
@@ -425,7 +425,7 @@ test_that("h_prepare_2x2_table() handles empty data with no stratum levels", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "Y"),
       df_ref = subset(data, grp == "Cntrl"),
       var = "rsp",
@@ -443,14 +443,14 @@ test_that("h_prepare_2x2_table() handles empty data with no stratum levels", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() handles empty data without strata", {
+test_that("h_prepare_rsp_table() handles empty data without strata", {
   data <- data.frame(
     rsp = logical(),
     grp = character()
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "Y"),
       df_ref = subset(data, grp == "Cntrl"),
       var = "rsp",
@@ -467,7 +467,7 @@ test_that("h_prepare_2x2_table() handles empty data without strata", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() removes incomplete cases", {
+test_that("h_prepare_rsp_table() removes incomplete cases", {
   data <- data.frame(
     rsp = c(TRUE, NA, FALSE, TRUE, NA, FALSE),
     grp = factor(c("X", "X", "X", "Placebo", "Placebo", "Placebo")),
@@ -475,7 +475,7 @@ test_that("h_prepare_2x2_table() removes incomplete cases", {
   )
 
   expect_silent(
-    result_quiet <- h_prepare_2x2_table(
+    result_quiet <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -494,7 +494,7 @@ test_that("h_prepare_2x2_table() removes incomplete cases", {
   expect_identical(result_quiet, expected)
 })
 
-test_that("h_prepare_2x2_table() removes incomplete cases without strata", {
+test_that("h_prepare_rsp_table() removes incomplete cases without strata", {
   data <- data.frame(
     rsp = c(TRUE, NA, FALSE, TRUE, NA, FALSE),
     grp = factor(c(NA, "X", "X", "Placebo", "Placebo", "Placebo")),
@@ -502,7 +502,7 @@ test_that("h_prepare_2x2_table() removes incomplete cases without strata", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -519,7 +519,7 @@ test_that("h_prepare_2x2_table() removes incomplete cases without strata", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() removes incomplete cases (all NAs)", {
+test_that("h_prepare_rsp_table() removes incomplete cases (all NAs)", {
   data <- data.frame(
     rsp = c(TRUE, NA, FALSE, NA, FALSE, NA),
     grp = factor(c(NA, "X", "X", "Placebo", NA, "Placebo")),
@@ -528,7 +528,7 @@ test_that("h_prepare_2x2_table() removes incomplete cases (all NAs)", {
   )
 
   expect_silent(
-    result <- h_prepare_2x2_table(
+    result <- h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -547,7 +547,7 @@ test_that("h_prepare_2x2_table() removes incomplete cases (all NAs)", {
   expect_identical(result, expected)
 })
 
-test_that("h_prepare_2x2_table() warns when NAs are removed and quiet = FALSE", {
+test_that("h_prepare_rsp_table() warns when NAs are removed and quiet = FALSE", {
   data <- data.frame(
     rsp = c(TRUE, NA, FALSE, TRUE, NA, FALSE),
     grp = factor(c("X", "X", "X", "Placebo", "Placebo", "Placebo")),
@@ -556,7 +556,7 @@ test_that("h_prepare_2x2_table() warns when NAs are removed and quiet = FALSE", 
 
   # expect_snapshot() captures warnings.
   expect_snapshot(
-    h_prepare_2x2_table(
+    h_prepare_rsp_table(
       df = subset(data, grp == "X"),
       df_ref = subset(data, grp == "Placebo"),
       var = "rsp",
@@ -573,7 +573,7 @@ test_that("h_prepare_2x2_table() warns when NAs are removed and quiet = FALSE", 
   )
 
   expect_silent(
-    h_prepare_2x2_table(
+    h_prepare_rsp_table(
       df = subset(data_no_missing, grp == "X"),
       df_ref = subset(data_no_missing, grp == "Placebo"),
       var = "rsp",
@@ -584,7 +584,7 @@ test_that("h_prepare_2x2_table() warns when NAs are removed and quiet = FALSE", 
   )
 })
 
-test_that("h_prepare_2x2_table() validates that var exists in df and df_ref", {
+test_that("h_prepare_rsp_table() validates that var exists in df and df_ref", {
   data <- data.frame(
     rsp = c(TRUE, FALSE, TRUE, FALSE),
     grp = factor(c("G1", "G1", "G2", "G2")),
@@ -592,7 +592,7 @@ test_that("h_prepare_2x2_table() validates that var exists in df and df_ref", {
   )
 
   expect_error(
-    h_prepare_2x2_table(
+    h_prepare_rsp_table(
       df = subset(data, grp == "G1"),
       df_ref = subset(data, grp == "G2"),
       var = "wrong_var"
@@ -601,7 +601,7 @@ test_that("h_prepare_2x2_table() validates that var exists in df and df_ref", {
   )
 })
 
-test_that("h_prepare_2x2_table() validates strata_vars in df and df_ref", {
+test_that("h_prepare_rsp_table() validates strata_vars in df and df_ref", {
   data <- data.frame(
     rsp = c(TRUE, FALSE, TRUE, FALSE),
     grp = factor(c("G1", "G1", "G2", "G2")),
@@ -609,7 +609,7 @@ test_that("h_prepare_2x2_table() validates strata_vars in df and df_ref", {
   )
 
   expect_error(
-    h_prepare_2x2_table(
+    h_prepare_rsp_table(
       df = subset(data, grp == "G1"),
       df_ref = subset(data, grp == "G2"),
       var = "rsp",
@@ -621,7 +621,7 @@ test_that("h_prepare_2x2_table() validates strata_vars in df and df_ref", {
   data$strata <- as.character(data$strata)
 
   expect_error(
-    h_prepare_2x2_table(
+    h_prepare_rsp_table(
       df = subset(data, grp == "G1"),
       df_ref = subset(data, grp == "G2"),
       var = "rsp",
@@ -631,33 +631,153 @@ test_that("h_prepare_2x2_table() validates strata_vars in df and df_ref", {
   )
 })
 
-test_that("h_prepare_2x2_table() validates val", {
+test_that("h_prepare_rsp_table() rejects class mismatches between df[[var]] and df_ref[[var]]", {
+  df <- data.frame(rsp = factor(c("Y", "N")), strata = factor(c("A", "B")))
+  df_ref <- data.frame(rsp = c("Y", "N"), strata = factor(c("B", "A")))
+
+  expect_error(
+    h_prepare_rsp_table(
+      df = df, df_ref = df_ref, var = "rsp", val = "Y", strata_vars = "strata"
+    ),
+    "class"
+  )
+
+  df_ref$rsp <- 1:2
+  expect_error(
+    h_prepare_rsp_table(
+      df = df, df_ref = df_ref, var = "rsp", val = "Y", strata_vars = "strata"
+    ),
+    "class"
+  )
+})
+
+test_that("h_prepare_rsp_table() rejects non-atomic df[[var]]", {
+  df <- data.frame(rsp = I(list("Y", "N")), strata = factor(c("A", "B")))
+  df_ref <- data.frame(rsp = I(list("N", "Y")), strata = factor(c("A", "B")))
+
+  expect_error(
+    h_prepare_rsp_table(
+      df = df, df_ref = df_ref, var = "rsp", val = "Y", strata_vars = "strata"
+    ),
+    "atomic.*vector"
+  )
+})
+
+test_that("h_prepare_rsp_table() validates factor levels in df and df_ref", {
+  # var
+  df <- data.frame(rsp = factor(c("Y", "N")), strata = factor(c("A", "B")))
+  df_ref <- data.frame(
+    rsp = factor(c("Y", "N"), levels = c("Y", "N", "X")),
+    strata = factor(c("B", "A"))
+  )
+
+  expect_error(
+    h_prepare_rsp_table(
+      df = df, df_ref = df_ref, var = "rsp", val = "Y", strata_vars = "strata"
+    ),
+    "levels"
+  )
+
+  # strata
+  df <- data.frame(rsp = factor(c("Y", "N")), strata = factor(c("A", "B")))
+  df_ref <- data.frame(
+    rsp = factor(c("N", "Y")),
+    strata = factor(c("B", "A"), levels = c("A", "B", "C"))
+  )
+
+  expect_error(
+    h_prepare_rsp_table(
+      df = df, df_ref = df_ref, var = "rsp", val = "Y", strata_vars = "strata"
+    ),
+    "levels"
+  )
+})
+
+test_that("h_prepare_rsp_table() validates val", {
   data <- data.frame(
-    rsp = c(1L, 0L, 1L, 1L),
+    rsp = factor(c("Y", "N", "Y", "Y")),
     grp = c("G1", "G1", "G2", "G2"),
     strata = factor(c("A", "A", "B", "B"))
   )
 
   expect_error(
-    h_prepare_2x2_table(
+    h_prepare_rsp_table(
       df = subset(data, grp == "G1"),
       df_ref = subset(data, grp == "G2"),
       var = "rsp",
-      val = 1L,
+      val = c("Y", "N"),
+      strata_vars = "strata"
+    ),
+    "val.*length.*1"
+  )
+
+  expect_error(
+    h_prepare_rsp_table(
+      df = subset(data, grp == "G1"),
+      df_ref = subset(data, grp == "G2"),
+      var = "rsp",
+      val = factor("Y"),
+      strata_vars = "strata"
+    ),
+    "val"
+  )
+
+  expect_error(
+    h_prepare_rsp_table(
+      df = subset(data, grp == "G1"),
+      df_ref = subset(data, grp == "G2"),
+      var = "rsp",
+      val = TRUE,
+      strata_vars = "strata"
+    ),
+    "val"
+  )
+
+  data$rsp <- c("Y", "N", "Y", "Y")
+  expect_error(
+    h_prepare_rsp_table(
+      df = subset(data, grp == "G1"),
+      df_ref = subset(data, grp == "G2"),
+      var = "rsp",
+      val = factor("Y"),
+      strata_vars = "strata"
+    ),
+    "val"
+  )
+
+  data$rsp <- c("Y", "N", "Y", "Y")
+  expect_error(
+    h_prepare_rsp_table(
+      df = subset(data, grp == "G1"),
+      df_ref = subset(data, grp == "G2"),
+      var = "rsp",
+      val = TRUE,
+      strata_vars = "strata"
+    ),
+    "val"
+  )
+
+  data$rsp <- c(TRUE, FALSE, TRUE, FALSE)
+  expect_error(
+    h_prepare_rsp_table(
+      df = subset(data, grp == "G1"),
+      df_ref = subset(data, grp == "G2"),
+      var = "rsp",
+      val = 1,
       strata_vars = "strata"
     ),
     "val"
   )
 })
 
-test_that("h_prepare_2x2_table() validates complete_cases and quiet", {
+test_that("h_prepare_rsp_table() validates complete_cases and quiet", {
   data <- data.frame(
     rsp = c(TRUE, FALSE),
     grp = factor(c("G1", "G2"))
   )
 
   expect_error(
-    h_prepare_2x2_table(
+    h_prepare_rsp_table(
       df = subset(data, grp == "G1"),
       df_ref = subset(data, grp == "G2"),
       var = "rsp",
@@ -667,7 +787,7 @@ test_that("h_prepare_2x2_table() validates complete_cases and quiet", {
   )
 
   expect_error(
-    h_prepare_2x2_table(
+    h_prepare_rsp_table(
       df = subset(data, grp == "G1"),
       df_ref = subset(data, grp == "G2"),
       var = "rsp",

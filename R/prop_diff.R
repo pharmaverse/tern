@@ -61,7 +61,7 @@ NULL
 #'   and `"strat_newcombecc"` are not permitted. For stratified analysis, method
 #'   `"uncond_exact_diff"` is not permitted.
 #'
-#' @seealso [h_prepare_2x2_table()]
+#' @seealso [h_prepare_rsp_table()]
 #'
 #' @examples
 #' s_proportion_diff(
@@ -125,7 +125,7 @@ s_proportion_diff <- function(df,
       strata_vars = variables$strata
     )
 
-    rsp_list <- h_prepare_2x2_table(
+    rsp_list <- h_prepare_rsp_table(
       df = df, df_ref = .ref_group, var = .var, val = val,
       strata_vars = variables$strata,
       complete_cases = TRUE
@@ -171,6 +171,64 @@ s_proportion_diff <- function(df,
   }
 
   y
+}
+
+#' Description of method used for proportion comparison
+#'
+#' @description `r lifecycle::badge("stable")`
+#'
+#' This is an auxiliary function that describes the analysis in
+#' [s_proportion_diff()].
+#'
+#' @inheritParams s_proportion_diff
+#' @inheritParams d_proportion
+#'
+#' @return A `string` describing the analysis.
+#'
+#' @seealso [prop_diff()], [d_proportion()], [d_test_proportion_diff()]
+#'
+#' @export
+#' @examples
+#' d_proportion_diff(0.95, "cmh_sato")
+#' d_proportion_diff(0.95, "cmh_sato", long = TRUE)
+#' d_proportion_diff(0.95, "cmh_sato", method_only = TRUE)
+#'
+d_proportion_diff <- function(conf_level,
+                              method,
+                              long = FALSE,
+                              method_only = FALSE) {
+  checkmate::assert_string(method)
+  checkmate::assert_flag(long)
+  checkmate::assert_flag(method_only)
+
+  method_label <- switch(method,
+    "cmh" = "CMH, without correction",
+    "cmh_sato" = "CMH, Sato variance estimator",
+    "cmh_mn" = "CMH, Miettinen and Nurminen",
+    "waldcc" = "Wald, with correction",
+    "wald" = "Wald, without correction",
+    "ha" = "Anderson-Hauck",
+    "newcombe" = "Newcombe, without correction",
+    "newcombecc" = "Newcombe, with correction",
+    "strat_newcombe" = "Stratified Newcombe, without correction",
+    "strat_newcombecc" = "Stratified Newcombe, with correction",
+    "uncond_exact_diff" = "Unconditional exact",
+    stop(paste(method, "does not have a description"))
+  )
+
+  if (method_only) {
+    method_label
+  } else {
+    ci_label <- f_conf_level(conf_level)
+    if (long) {
+      is_cmh_method <- method %in% c("cmh", "cmh_sato", "cmh_mn")
+      ci_label <- paste(
+        ci_label,
+        ifelse(is_cmh_method, "for adjusted difference", "for difference")
+      )
+    }
+    paste0(ci_label, " (", method_label, ")")
+  }
 }
 
 #' @describeIn prop_diff Formatted analysis function which is used as `afun` in `estimate_proportion_diff()`.
@@ -402,24 +460,39 @@ check_diff_prop_ci <- function(rsp,
 #'   A data frame containing the observations for the non-reference group.
 #' @param df_ref (`data.frame` or `NULL`)\cr
 #'   An optional data frame containing the observations for the reference group.
+#'   Columns specified by `var` and `strata_vars` (if not `NULL`) must have the
+#'   same classes as the corresponding columns in `df`. If they are factors,
+#'   their levels must also be identical between `df` and `df_ref`.
 #' @param var (`character(1)`)\cr
 #'   The column name in `df` (and, if supplied, `df_ref`) specifying the
 #'   response variable. The response is converted to a logical vector by
 #'   comparing its values with `val`.
-#' @param val (`character(1)` or `logical(1)`)\cr
+#'   `df[[var]]` (and `df_ref[[var]]`, if supplied) must be an atomic vector
+#'   as defined by [checkmate::check_atomic_vector()], of one of the following
+#'   types: `logical`, `integer`, `numeric`, or `character`.
+#' @param val (`logical(1)` or `integer(1)` or `numeric(1)` or `character(1)`) \cr
 #'   The value in `df[[var]]` (and, if supplied, in `df_ref[[var]]`) that defines
 #'   a positive response. Observations matching this value are returned as
 #'   `TRUE` in the `rsp` vector; all other observations are returned as `FALSE`.
+#'   If `df[[var]]` is a factor, `val` must be a character value matching one
+#'   of its levels. Otherwise, `val` must have the same class as `df[[var]]`.
 #' @param strata_vars (`character` or `NULL`)\cr
 #'   Optional column names in `df` (and, if supplied, `df_ref`) specifying
 #'   the strata variables. The specified columns must all be factors.
 #' @param complete_cases (`logical(1)`)\cr
-#'   Whether incomplete rows should be removed from `df[c(var, strata_vars)]`
-#'   (and, if supplied, `df_ref[c(var, strata_vars)]`).
-#'   This is done using [get_complete_cases()].
+#'   Whether to remove incomplete rows from `df` (and, if supplied, `df_ref`)
+#'   before constructing the response, group, strata, and contingency table.
+#'   Completeness is assessed only for the columns specified by `var` and
+#'   `strata_vars` (if supplied) using [get_complete_cases()].
+#'   If `complete_cases = TRUE`, rows containing missing values in any of these
+#'   columns are removed.
+#'   If `complete_cases = FALSE`, the function fails if any of these columns
+#'   contain missing values, rather than returning results containing `NA`
+#'   values.
 #' @param quiet (`logical(1)`)\cr
-#'   Passed to [get_complete_cases()], controlling whether messages about
-#'   removed incomplete rows are displayed.
+#'   Passed to [get_complete_cases()]. If `complete_cases = TRUE`, controls
+#'   whether a message is displayed for rows removed due to missing values.
+#'   Has no effect when `complete_cases = FALSE`.
 #'
 #' @return A named `list` containing:
 #' \describe{
@@ -457,6 +530,8 @@ check_diff_prop_ci <- function(rsp,
 #' are constructed. Completeness is assessed jointly across the `var` and
 #' `strata_vars` columns when `strata_vars` is supplied, and only across `var`
 #' otherwise. This is performed using [get_complete_cases()].
+#' If `complete_cases = FALSE`, the function fails if any of these columns
+#' contain missing values, rather than returning results containing `NA` values.
 #'
 #' The response variable specified by `var`, and optionally the strata variables
 #' specified by `strata_vars`, are extracted independently from `df` and
@@ -498,7 +573,7 @@ check_diff_prop_ci <- function(rsp,
 #' )
 #' head(dta)
 #'
-#' trgs <- h_prepare_2x2_table(
+#' trgs <- h_prepare_rsp_table(
 #'   df = subset(dta, grp == "X"),
 #'   df_ref = subset(dta, grp == "Placebo"),
 #'   var = "rsp",
@@ -523,12 +598,35 @@ check_diff_prop_ci <- function(rsp,
 #' # The FALSE/TRUE levels are retained even when only one outcome is observed.
 #' dta2 <- dta
 #' dta2$rsp <- TRUE
-#' h_prepare_2x2_table(
+#' h_prepare_rsp_table(
 #'   df = subset(dta2, grp == "X"),
 #'   df_ref = subset(dta2, grp == "Placebo"),
 #'   var = "rsp",
 #' )$tbl
-h_prepare_2x2_table <- function(df,
+#'
+#' # Handling missing values.
+#' \dontrun{
+#' dta_missing <- dta
+#' dta_missing[1, "rsp"] <- NA
+#'
+#' # By default, the function fails when missing values are present.
+#' h_prepare_rsp_table(
+#'   df = subset(dta_missing, grp == "X"),
+#'   df_ref = subset(dta_missing, grp == "Placebo"),
+#'   var = "rsp",
+#'   strata_vars = c("f1", "f2")
+#' )
+#'
+#' # Set complete_cases = TRUE to remove incomplete observations.
+#' h_prepare_rsp_table(
+#'   df = subset(dta_missing, grp == "X"),
+#'   df_ref = subset(dta_missing, grp == "Placebo"),
+#'   var = "rsp",
+#'   strata_vars = c("f1", "f2"),
+#'   complete_cases = TRUE
+#' )
+#' }
+h_prepare_rsp_table <- function(df,
                                 df_ref = NULL,
                                 var,
                                 val = TRUE,
@@ -536,23 +634,44 @@ h_prepare_2x2_table <- function(df,
                                 complete_cases = FALSE,
                                 quiet = FALSE) {
   checkmate::assert_data_frame(df)
-  checkmate::assert_data_frame(df_ref, null.ok = TRUE)
   checkmate::assert_string(var)
-  checkmate::assert_true(
-    checkmate::test_string(val) || checkmate::test_flag(val)
-  )
   checkmate::assert_subset(var, colnames(df), empty.ok = FALSE)
-  if (!is.null(df_ref)) {
-    checkmate::assert_subset(var, colnames(df_ref), empty.ok = FALSE)
-  }
+  checkmate::assert_true(
+    checkmate::test_atomic_vector(df[[var]]) && !is.raw(df[[var]]) && !is.complex(df[[var]])
+  )
   if (!is.null(strata_vars)) {
+    checkmate::assert_character(strata_vars, any.missing = FALSE, unique = TRUE)
     checkmate::assert_subset(strata_vars, colnames(df), empty.ok = FALSE)
     checkmate::assert_data_frame(df[strata_vars], types = "factor")
-    if (!is.null(df_ref)) {
-      checkmate::assert_subset(strata_vars, colnames(df_ref), empty.ok = FALSE)
-      checkmate::assert_data_frame(df_ref[strata_vars], types = "factor")
+  }
+
+  # Assert `df_ref`.
+  if (!is.null(df_ref)) {
+    checkmate::assert_data_frame(df_ref)
+    checkmate::assert_subset(c(var, strata_vars), colnames(df_ref), empty.ok = FALSE)
+    checkmate::assert_true(identical(
+      lapply(df[c(var, strata_vars)], class),
+      lapply(df_ref[c(var, strata_vars)], class)
+    ))
+    # Factor levels must be identical between `df` and `df_ref`.
+    vars <- c(var, strata_vars)
+    factor_vars <- vars[sapply(df[c(var, strata_vars)], is.factor)]
+    if (length(factor_vars) > 0L) {
+      checkmate::assert_true(identical(
+        lapply(df[factor_vars], levels),
+        lapply(df_ref[factor_vars], levels)
+      ))
     }
   }
+
+  # Assert `val`.
+  checkmate::assert_atomic_vector(val, len = 1L)
+  if (is.factor(df[[var]])) {
+    checkmate::assert_choice(val, choices = levels(df[[var]]))
+  } else {
+    checkmate::assert_true(identical(class(df[[var]]), class(val)))
+  }
+
   checkmate::assert_flag(complete_cases)
   checkmate::assert_flag(quiet)
 
@@ -611,64 +730,6 @@ h_prepare_2x2_table <- function(df,
   }
 
   list(rsp = rsp_logical, grp = grp, strata = strata, tbl = tbl)
-}
-
-#' Description of method used for proportion comparison
-#'
-#' @description `r lifecycle::badge("stable")`
-#'
-#' This is an auxiliary function that describes the analysis in
-#' [s_proportion_diff()].
-#'
-#' @inheritParams s_proportion_diff
-#' @inheritParams d_proportion
-#'
-#' @return A `string` describing the analysis.
-#'
-#' @seealso [prop_diff()], [d_proportion()], [d_test_proportion_diff()]
-#'
-#' @export
-#' @examples
-#' d_proportion_diff(0.95, "cmh_sato")
-#' d_proportion_diff(0.95, "cmh_sato", long = TRUE)
-#' d_proportion_diff(0.95, "cmh_sato", method_only = TRUE)
-#'
-d_proportion_diff <- function(conf_level,
-                              method,
-                              long = FALSE,
-                              method_only = FALSE) {
-  checkmate::assert_string(method)
-  checkmate::assert_flag(long)
-  checkmate::assert_flag(method_only)
-
-  method_label <- switch(method,
-    "cmh" = "CMH, without correction",
-    "cmh_sato" = "CMH, Sato variance estimator",
-    "cmh_mn" = "CMH, Miettinen and Nurminen",
-    "waldcc" = "Wald, with correction",
-    "wald" = "Wald, without correction",
-    "ha" = "Anderson-Hauck",
-    "newcombe" = "Newcombe, without correction",
-    "newcombecc" = "Newcombe, with correction",
-    "strat_newcombe" = "Stratified Newcombe, without correction",
-    "strat_newcombecc" = "Stratified Newcombe, with correction",
-    "uncond_exact_diff" = "Unconditional exact",
-    stop(paste(method, "does not have a description"))
-  )
-
-  if (method_only) {
-    method_label
-  } else {
-    ci_label <- f_conf_level(conf_level)
-    if (long) {
-      is_cmh_method <- method %in% c("cmh", "cmh_sato", "cmh_mn")
-      ci_label <- paste(
-        ci_label,
-        ifelse(is_cmh_method, "for adjusted difference", "for difference")
-      )
-    }
-    paste0(ci_label, " (", method_label, ")")
-  }
 }
 
 #' Helper functions to calculate proportion difference
