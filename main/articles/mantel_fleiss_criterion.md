@@ -1,6 +1,23 @@
 # The Mantel-Fleiss Criterion
 
-[`library`](https://rdrr.io/r/base/library.html)`(`[`tern`](https://pharmaverse.github.io/tern/)`)`` ``#> Loading required package: rtables`` ``#> Loading required package: formatters`` ``#> `` ``#> Attaching package: 'formatters'`` ``#> The following object is masked from 'package:base':`` ``#> `` ``#> %||%`` ``#> Loading required package: magrittr`` ``#> `` ``#> Attaching package: 'rtables'`` ``#> The following object is masked from 'package:utils':`` ``#> `` ``#> str`` ``#> Registered S3 method overwritten by 'tern':`` ``#> method from `` ``#> tidy.glm broom`
+\
+[`library`](https://rdrr.io/r/base/library.html)`(`[`tern`](https://pharmaverse.github.io/tern/)`)`\
+`#> Loading required package: rtables`\
+`#> Loading required package: formatters`\
+`#> `\
+`#> Attaching package: 'formatters'`\
+`#> The following object is masked from 'package:base':`\
+`#> `\
+`#>     %||%`\
+`#> Loading required package: magrittr`\
+`#> `\
+`#> Attaching package: 'rtables'`\
+`#> The following object is masked from 'package:utils':`\
+`#> `\
+`#>     str`\
+`#> Registered S3 method overwritten by 'tern':`\
+`#>   method   from `\
+`#>   tidy.glm broom`
 
 ## Introduction
 
@@ -83,24 +100,72 @@ expects a three-dimensional contingency table (an `array`) whose first
 two dimensions are the group and response (each with two levels, in
 either order) and whose third dimension is the stratum.
 
-[`set.seed`](https://rdrr.io/r/base/Random.html)`(``123``)`` ``n`` ``<-`` ``80`` `` ``grp`` ``<-`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`sample`](https://rdrr.io/r/base/sample.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"Active"``, ``"Control"``)``, ``n``, replace ``=`` ``TRUE``)``)`` ``rsp`` ``<-`` `[`sample`](https://rdrr.io/r/base/sample.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``TRUE``, ``FALSE``)``, ``n``, replace ``=`` ``TRUE``)`` ``strata1`` ``<-`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`sample`](https://rdrr.io/r/base/sample.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"A"``, ``"B"``)``, ``n``, replace ``=`` ``TRUE``)``)`` ``strata2`` ``<-`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`sample`](https://rdrr.io/r/base/sample.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"x"``, ``"y"``)``, ``n``, replace ``=`` ``TRUE``)``)`` ``strata`` ``<-`` `[`interaction`](https://rdrr.io/r/base/interaction.html)`(``strata1``, ``strata2``)`` `` ``tbl`` ``<-`` `[`table`](https://rdrr.io/r/base/table.html)`(``grp``, ``rsp``, ``strata``)`` ``tbl`` ``#> , , strata = A.x`` ``#> `` ``#> rsp`` ``#> grp FALSE TRUE`` ``#> Active 7 8`` ``#> Control 3 4`` ``#> `` ``#> , , strata = B.x`` ``#> `` ``#> rsp`` ``#> grp FALSE TRUE`` ``#> Active 10 4`` ``#> Control 7 3`` ``#> `` ``#> , , strata = A.y`` ``#> `` ``#> rsp`` ``#> grp FALSE TRUE`` ``#> Active 5 2`` ``#> Control 2 3`` ``#> `` ``#> , , strata = B.y`` ``#> `` ``#> rsp`` ``#> grp FALSE TRUE`` ``#> Active 5 7`` ``#> Control 5 5`
+\
+[`set.seed`](https://rdrr.io/r/base/Random.html)`(``123``)`\
+`n`` ``<-`` ``80`\
+\
+`grp`` ``<-`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`sample`](https://rdrr.io/r/base/sample.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"Active"``, ``"Control"``)``, ``n``, replace ``=`` ``TRUE``)``)`\
+`rsp`` ``<-`` `[`sample`](https://rdrr.io/r/base/sample.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``TRUE``, ``FALSE``)``, ``n``, replace ``=`` ``TRUE``)`\
+`strata1`` ``<-`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`sample`](https://rdrr.io/r/base/sample.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"A"``, ``"B"``)``, ``n``, replace ``=`` ``TRUE``)``)`\
+`strata2`` ``<-`` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`sample`](https://rdrr.io/r/base/sample.html)`(`[`c`](https://rdrr.io/r/base/c.html)`(``"x"``, ``"y"``)``, ``n``, replace ``=`` ``TRUE``)``)`\
+`strata`` ``<-`` `[`interaction`](https://rdrr.io/r/base/interaction.html)`(``strata1``, ``strata2``)`\
+\
+`tbl`` ``<-`` `[`table`](https://rdrr.io/r/base/table.html)`(``grp``, ``rsp``, ``strata``)`\
+`tbl`\
+`#> , , strata = A.x`\
+`#> `\
+`#>          rsp`\
+`#> grp       FALSE TRUE`\
+`#>   Active      7    8`\
+`#>   Control     3    4`\
+`#> `\
+`#> , , strata = B.x`\
+`#> `\
+`#>          rsp`\
+`#> grp       FALSE TRUE`\
+`#>   Active     10    4`\
+`#>   Control     7    3`\
+`#> `\
+`#> , , strata = A.y`\
+`#> `\
+`#>          rsp`\
+`#> grp       FALSE TRUE`\
+`#>   Active      5    2`\
+`#>   Control     2    3`\
+`#> `\
+`#> , , strata = B.y`\
+`#> `\
+`#>          rsp`\
+`#> grp       FALSE TRUE`\
+`#>   Active      5    7`\
+`#>   Control     5    5`
 
 Passing the table to
 [`mantel_fleiss_crit()`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)
 returns a single logical value:
 
-[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``tbl``)`` ``#> [1] TRUE`
+\
+[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``tbl``)`\
+`#> [1] TRUE`
 
 To see the underlying value of the `MF` statistic, set
 `include_value = TRUE`. The Mantel-Fleiss value is then attached to the
 result as a `"value"` attribute:
 
-[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``tbl``, include_value ``=`` ``TRUE``)`` ``#> [1] TRUE`` ``#> attr(,"value")`` ``#> [1] 14.27273`
+\
+[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``tbl``, include_value ``=`` ``TRUE``)`\
+`#> [1] TRUE`\
+`#> attr(,"value")`\
+`#> [1] 14.27273`
 
 The `threshold` argument controls how large the statistic must be for
 the criterion to hold. Raising it makes the criterion more conservative:
 
-[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``tbl``, threshold ``=`` ``15``, include_value ``=`` ``TRUE``)`` ``#> [1] FALSE`` ``#> attr(,"value")`` ``#> [1] 14.27273`
+\
+[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``tbl``, threshold ``=`` ``15``, include_value ``=`` ``TRUE``)`\
+`#> [1] FALSE`\
+`#> attr(,"value")`\
+`#> [1] 14.27273`
 
 ## Choosing a test based on the criterion
 
@@ -110,13 +175,31 @@ below estimates the stratified difference in proportions with the CMH
 method when the criterion holds, and with the unconditional exact method
 otherwise:
 
-`is_mf_satisfied`` ``<-`` `[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``tbl``)`` `` ``if`` ``(``is_mf_satisfied``)`` ``{`` `` ``# Large enough sample: use the asymptotic CMH estimate.`` `` `[`prop_diff_cmh`](https://pharmaverse.github.io/tern/reference/h_prop_diff.md)`(``rsp``, ``grp``, ``strata``)``$``diff`` ``}`` ``else`` ``{`` `` ``# Sparse data: fall back to the exact (unstratified) method.`` `` `[`prop_diff_uncond_exact`](https://pharmaverse.github.io/tern/reference/h_prop_diff.md)`(``rsp``, ``grp``)``$``diff`` ``}`` ``#> [1] 0.03832335`
+\
+`is_mf_satisfied`` ``<-`` `[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``tbl``)`\
+\
+`if`` ``(``is_mf_satisfied``)`` ``{`\
+`  ``# Large enough sample: use the asymptotic CMH estimate.`\
+`  `[`prop_diff_cmh`](https://pharmaverse.github.io/tern/reference/h_prop_diff.md)`(``rsp``, ``grp``, ``strata``)``$``diff`\
+`}`` ``else`` ``{`\
+`  ``# Sparse data: fall back to the exact (unstratified) method.`\
+`  `[`prop_diff_uncond_exact`](https://pharmaverse.github.io/tern/reference/h_prop_diff.md)`(``rsp``, ``grp``)``$``diff`\
+`}`\
+`#> [1] 0.03832335`
 
 The same idea can be used to select a test statistic. Here the CMH test
 is used when the criterion holds, and Fisher’s exact test on the
 collapsed table otherwise:
 
-`if`` ``(``is_mf_satisfied``)`` ``{`` `` `[`prop_cmh`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)`(``tbl``)`` ``}`` ``else`` ``{`` `` `[`prop_fisher`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)`(`[`table`](https://rdrr.io/r/base/table.html)`(``grp``, ``rsp``)``)`` ``}`` ``#> [1] 0.7369323`` ``#> attr(,"z_stat")`` ``#> [1] -0.3359186`
+\
+`if`` ``(``is_mf_satisfied``)`` ``{`\
+`  `[`prop_cmh`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)`(``tbl``)`\
+`}`` ``else`` ``{`\
+`  `[`prop_fisher`](https://pharmaverse.github.io/tern/reference/h_prop_diff_test.md)`(`[`table`](https://rdrr.io/r/base/table.html)`(``grp``, ``rsp``)``)`\
+`}`\
+`#> [1] 0.7369323`\
+`#> attr(,"z_stat")`\
+`#> [1] -0.3359186`
 
 ## Empty strata
 
@@ -126,7 +209,17 @@ nothing to compute, so the criterion is undefined and
 [`mantel_fleiss_crit()`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)
 returns `NA` (with an `NA` value attribute when `include_value = TRUE`):
 
-`empty_tbl`` ``<-`` `[`table`](https://rdrr.io/r/base/table.html)`(`` `` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`character`](https://rdrr.io/r/base/character.html)`(``0``)``, levels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"Active"``, ``"Control"``)``)``,`` `` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`logical`](https://rdrr.io/r/base/logical.html)`(``0``)``, levels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"TRUE"``, ``"FALSE"``)``)``,`` `` `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`character`](https://rdrr.io/r/base/character.html)`(``0``)``, levels ``=`` ``"A"``)`` ``)`` `` `[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``empty_tbl``, include_value ``=`` ``TRUE``)`` ``#> [1] NA`` ``#> attr(,"value")`` ``#> [1] NA`
+\
+`empty_tbl`` ``<-`` `[`table`](https://rdrr.io/r/base/table.html)`(`\
+`  `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`character`](https://rdrr.io/r/base/character.html)`(``0``)``, levels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"Active"``, ``"Control"``)``)``,`\
+`  `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`logical`](https://rdrr.io/r/base/logical.html)`(``0``)``, levels ``=`` `[`c`](https://rdrr.io/r/base/c.html)`(``"TRUE"``, ``"FALSE"``)``)``,`\
+`  `[`factor`](https://rdrr.io/r/base/factor.html)`(`[`character`](https://rdrr.io/r/base/character.html)`(``0``)``, levels ``=`` ``"A"``)`\
+`)`\
+\
+[`mantel_fleiss_crit`](https://pharmaverse.github.io/tern/reference/mantel_fleiss_crit.md)`(``empty_tbl``, include_value ``=`` ``TRUE``)`\
+`#> [1] NA`\
+`#> attr(,"value")`\
+`#> [1] NA`
 
 When branching on the result, remember to handle this `NA` case
 explicitly if your data can produce fully empty tables.

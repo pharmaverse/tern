@@ -85,12 +85,15 @@ created using `tern` functionality.
 `tern` is available on CRAN and you can install the latest released
 version with:
 
+\
 [`install.packages`](https://rdrr.io/r/utils/install.packages.html)`(``"tern"``)`
 
 or you can install the latest development version directly from GitHub
 by running the following:
 
-`# install.packages("pak")`` ``pak``::`[`pak`](https://pak.r-lib.org/reference/pak.html)`(``"pharmaverse/tern"``)`
+\
+`# install.packages("pak")`\
+`pak``::`[`pak`](https://pak.r-lib.org/reference/pak.html)`(``"pharmaverse/tern"``)`
 
 ## Usage
 
