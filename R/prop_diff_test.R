@@ -414,7 +414,11 @@ prop_cmh <- function(ary,
     # Use the Sato variance estimator.
     prop <- h_prop_cmh(ary)
     prop_diff_var <- h_cmh_sato_var(prop)
-    unname(prop$est2 - prop$est1) / sqrt(prop_diff_var)
+    if (prop_diff_var > 0) {
+      unname(prop$est2 - prop$est1) / sqrt(prop_diff_var)
+    } else {
+      NA_real_
+    }
   }
 
   if (transform == "wilson_hilferty") {

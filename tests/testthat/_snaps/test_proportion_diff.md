@@ -292,8 +292,8 @@
     Code
       res
     Output
-                                                                                B     A   
-      ————————————————————————————————————————————————————————————————————————————————————
-      Variable Label                                                                      
-          p-value (Cochran-Mantel-Haenszel Test with Sato Variance Estimator)       1.0000
+                                                                                B   A 
+      ————————————————————————————————————————————————————————————————————————————————
+      Variable Label                                                                  
+          p-value (Cochran-Mantel-Haenszel Test with Sato Variance Estimator)       NA
 
