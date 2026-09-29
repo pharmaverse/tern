@@ -79,7 +79,12 @@ rtable2gg <- function(tbl, fontsize = 12, colwidths = NULL, lbl_col_padding = 0)
   if (length(shared_hdr_rows) > 0) {
     mat_strings[shared_hdr_rows, ] <- trimws(mat_strings[shared_hdr_rows, ])
     for (hr in shared_hdr_rows) {
-      hdr_lbls <- mat_strings[1:hr, mat_display[hr, -1]]
+      # Select displayed (non-spanned) header cells, excluding the row label column.
+      # Using a full-length logical index (rather than dropping the first element) avoids a
+      # length-mismatch recycling warning when subsetting the string matrix by column.
+      hdr_display <- mat_display[hr, ]
+      hdr_display[1] <- FALSE
+      hdr_lbls <- mat_strings[1:hr, hdr_display]
       hdr_lbls <- matrix(hdr_lbls[nzchar(hdr_lbls)], nrow = hr)
       for (idx_hl in seq_len(ncol(hdr_lbls))) {
         cur_lbl <- tail(hdr_lbls[, idx_hl], 1)
