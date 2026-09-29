@@ -27,6 +27,9 @@
   `strata` element. Other elements, including `weights_method`, are no longer
   supported. Previously, `variables$weights_method` could unintentionally
   override the `weights_method` argument due to a bug. (#1521)
+* Fixed `rtable2gg()` (and therefore `g_forest()`) to avoid a "length of
+  dimension 2 is not a multiple of logical subscript length" warning under
+  R-devel that caused CRAN check errors.
   
 ### Miscellaneous
 * Updated `s_proportion_diff()` and `s_test_proportion_diff()` so that strata
