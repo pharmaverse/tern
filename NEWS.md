@@ -22,6 +22,10 @@
   rows from the forest plot before plotting. (#1498)
   
 ### Bug Fixes
+* Fixed a bug in `prop_diff_cmh()` that could produce incorrect results for the
+  Sato and Miettinen–Nurminen methods when there were insufficient observations
+  within strata. Refactored `prop_diff_cmh()` and its helper functions to
+  address the issue. (#1535)
 * Fixed an issue in `s_proportion_diff()` where the `weights_method` argument
   was ignored. The `variables` argument, if supplied, can now only contain the
   `strata` element. Other elements, including `weights_method`, are no longer
