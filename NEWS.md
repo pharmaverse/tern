@@ -1,4 +1,8 @@
-# tern 0.9.11.9000
+# tern 0.9.12
+
+* Fixing CRAN release issue.
+
+# tern 0.9.11
 
 ### Enhancements
 * Added `diff_est_ci` statistic to `s_proportion_diff()`, combining the proportion
