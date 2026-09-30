@@ -1,4 +1,4 @@
-# prop_diff_ha() (proportion difference by Anderson-Hauck)
+# prop_diff_ha (proportion difference by Anderson-Hauck)
 
     Code
       res
@@ -22,7 +22,7 @@
       [1] -0.8451161  0.8451161
       
 
-# prop_diff_nc() (proportion difference by Newcombe)
+# prop_diff_nc (proportion difference by Newcombe)
 
     Code
       res
@@ -46,7 +46,7 @@
       [1] -0.361619  0.361619
       
 
-# prop_diff_wald() (proportion difference by Wald's test: with correction)
+# prop_diff_wald (proportion difference by Wald's test: with correction)
 
     Code
       res
@@ -82,7 +82,7 @@
       [1] -0.375  0.375
       
 
-# prop_diff_wald() (proportion difference by Wald's test: without correction)
+# prop_diff_wald (proportion difference by Wald's test: without correction)
 
     Code
       res
@@ -118,7 +118,7 @@
       [1] 0 0
       
 
-# prop_diff_cmh() (proportion difference by CMH)
+# prop_diff_cmh (proportion difference by CMH)
 
     Code
       res
@@ -129,12 +129,10 @@
       
       $prop_ci
       $prop_ci$Placebo
-            lwr       upr 
-      0.4306536 0.6355698 
+      [1] 0.4306536 0.6355698
       
       $prop_ci$Treatment
-            lwr       upr 
-      0.2890735 0.5017768 
+      [1] 0.2890735 0.5017768
       
       
       $diff
@@ -159,7 +157,7 @@
         8   9   4   9   6   6 
       
 
-# prop_diff_cmh() with Sato variance estimator for difference
+# prop_diff_cmh with Sato variance estimator for difference
 
     Code
       res
@@ -170,12 +168,10 @@
       
       $prop_ci
       $prop_ci$Placebo
-            lwr       upr 
-      0.4306536 0.6355698 
+      [1] 0.4306536 0.6355698
       
       $prop_ci$Treatment
-            lwr       upr 
-      0.2890735 0.5017768 
+      [1] 0.2890735 0.5017768
       
       
       $diff
@@ -200,7 +196,7 @@
         8   9   4   9   6   6 
       
 
-# prop_diff_cmh() works correctly when some strata don't have both groups
+# prop_diff_cmh works correctly when some strata don't have both groups
 
     Code
       res
@@ -211,12 +207,10 @@
       
       $prop_ci
       $prop_ci$Placebo
-            lwr       upr 
-      0.4637119 0.6759721 
+      [1] 0.4637119 0.6759721
       
       $prop_ci$Treatment
-            lwr       upr 
-      0.2836122 0.5125378 
+      [1] 0.2836122 0.5125378
       
       
       $diff
@@ -241,7 +235,7 @@
         0   9   4   9   6   6 
       
 
-# prop_diff_cmh() works correctly when strata combinations are empty
+# prop_diff_cmh works correctly when strata combinations are empty
 
     Code
       res
@@ -252,12 +246,10 @@
       
       $prop_ci
       $prop_ci$Placebo
-            lwr       upr 
-      0.4637119 0.6759721 
+      [1] 0.4637119 0.6759721
       
       $prop_ci$Treatment
-            lwr       upr 
-      0.2836122 0.5125378 
+      [1] 0.2836122 0.5125378
       
       
       $diff
@@ -282,7 +274,7 @@
         0   9   4   9   6   6 
       
 
-# prop_diff_strat_nc() output matches equivalent SAS function output
+# prop_diff_strat_nc output matches equivalent SAS function output
 
     Code
       res
@@ -290,7 +282,7 @@
            value      lower      upper 
       0.25390590 0.03467969 0.44544132 
 
-# h_prop_cmh() works as expected with non-sparse tables
+# h_prop_cmh works as expected with non-sparse tables
 
     Code
       res
@@ -349,12 +341,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-            lwr       upr 
-      0.3060254 0.5114279 
+      [1] 0.3060254 0.5114279
       
       $ci_both_groups$`Not-ref`
-            lwr       upr 
-      0.1719559 0.3516416 
+      [1] 0.1719559 0.3516416
       
       
 
@@ -417,12 +407,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-            lwr       upr 
-      0.4817416 0.6210779 
+      [1] 0.4817416 0.6210779
       
       $ci_both_groups$`Not-ref`
-             lwr        upr 
-      0.00820789 0.12390977 
+      [1] 0.00820789 0.12390977
       
       
 
@@ -485,16 +473,14 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-             lwr        upr 
-      -0.1041723  0.3541723 
+      [1] -0.1041723  0.3541723
       
       $ci_both_groups$`Not-ref`
-      lwr upr 
-        0   0 
+      [1] 0 0
       
       
 
-# h_prop_cmh() handles empty and sparse contingency tables
+# h_prop_cmh handles empty and sparse contingency tables
 
     Code
       res
@@ -553,12 +539,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       $ci_both_groups$`Not-ref`
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       
 
@@ -621,12 +605,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       $ci_both_groups$`Not-ref`
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       
 
@@ -689,12 +671,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       $ci_both_groups$`Not-ref`
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       
 
@@ -757,12 +737,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       $ci_both_groups$`Not-ref`
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       
 
@@ -825,12 +803,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       $ci_both_groups$`Not-ref`
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       
 
@@ -893,12 +869,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       $ci_both_groups$`Not-ref`
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       
 
@@ -961,12 +935,10 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       $ci_both_groups$`Not-ref`
-      lwr upr 
-       NA  NA 
+      [1] NA NA
       
       
 
@@ -1029,16 +1001,14 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-            lwr       upr 
-      0.2464777 0.6626132 
+      [1] 0.2464777 0.6626132
       
       $ci_both_groups$`Not-ref`
-            lwr       upr 
-      0.3744310 0.5894244 
+      [1] 0.3744310 0.5894244
       
       
 
-# h_prop_cmh() respects a custom confidence level
+# h_prop_cmh respects a custom confidence level
 
     Code
       res
@@ -1097,16 +1067,256 @@
       
       $ci_both_groups
       $ci_both_groups$ref
-            lwr       upr 
-      0.3415739 0.4758794 
+      [1] 0.3415739 0.4758794
       
       $ci_both_groups$`Not-ref`
-            lwr       upr 
-      0.2030537 0.3205438 
+      [1] 0.2030537 0.3205438
       
       
 
-# h_miettinen_nurminen_var() works as expected
+# h_cmh_sato_var works as expected with non-sparse tables
+
+    0.00484709089617089
+
+---
+
+    0.00301389352651087
+
+---
+
+    0.013671875
+
+# h_cmh_sato_var empty and sparse contingency tables
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    0.0142778351745434
+
+# h_miettinen_nurminen_var works as expected with non-sparse tables
+
+    Code
+      res1
+    Output
+      $p1_est
+             S1        S2        S3 
+      0.4075605 0.4307970 0.3778246 
+      
+      $p2_est
+             S1        S2        S3 
+      0.2606327 0.2838692 0.2308967 
+      
+      $var_est
+              S1         S2         S3 
+      0.01471723 0.01299995 0.01714055 
+      
+
+---
+
+    Code
+      res2
+    Output
+      $p1_est
+             S1        S2        S3 
+      0.4853509 0.6010255 0.4953824 
+      
+      $p2_est
+              S1         S2         S3 
+      0.00000000 0.11567462 0.01003146 
+      
+      $var_est
+               S1          S2          S3 
+      0.032784334 0.006309801 0.003426996 
+      
+
+---
+
+    Code
+      res3
+    Output
+      $p1_est
+         S1 
+      0.125 
+      
+      $p2_est
+                S1 
+      1.110223e-16 
+      
+      $var_est
+              S1 
+      0.01435547 
+      
+
+# h_miettinen_nurminen_var empty and sparse contingency tables
+
+    Code
+      res1
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res2
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res3
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res4
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res5
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res6
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res7
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res8
+    Output
+      $p1_est
+             S1        S2        S3 
+      0.9726177       NaN 0.4545455 
+      
+      $p2_est
+             S1        S2        S3 
+      1.0000000       NaN 0.4819277 
+      
+      $var_est
+              S1         S2         S3 
+              NA         NA 0.01441512 
+      
+
+# h_miettinen_nurminen_var works as expected
 
     list(p1_est = 0.342213591803752, p2_est = 0.442213591803752, 
         var_est = 0.0405774934104561)
@@ -1117,7 +1327,151 @@
     0.365846883932378), var_est = c(0.0405774934104561, 0.0301587022300622
     ))
 
-# estimate_proportion_diff() is compatible with rtables
+# h_miettinen_nurminen_stratified_ci works as expected with non-sparse tables
+
+    Code
+      res1
+    Output
+      $ci
+      [1] -0.281568259 -0.008104148
+      
+      $se
+      [1] 0.07017465
+      
+
+---
+
+    Code
+      res2
+    Output
+      $ci
+      [1] -0.5899410 -0.3703714
+      
+      $se
+      [1] 0.05648034
+      
+
+---
+
+    Code
+      res3
+    Output
+      $ci
+      [1] -0.4797396  0.1311335
+      
+      $se
+      [1] 0.1198143
+      
+
+# h_miettinen_nurminen_stratified_ci empty and sparse contingency tables
+
+    Code
+      res1
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res2
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res3
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res4
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res5
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res6
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res7
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res8
+    Output
+      $ci
+      [1] -0.2015304  0.2461176
+      
+      $se
+      [1] 0.120063
+      
+
+# h_miettinen_nurminen_stratified_ci respects a custom confidence level
+
+    Code
+      res
+    Output
+      $ci
+      [1] -0.2357582 -0.0563385
+      
+      $se
+      [1] 0.07017465
+      
+
+# estimate_proportion_diff is compatible with rtables
 
     Code
       res
@@ -1127,7 +1481,7 @@
       Difference in Response rate (%)            25.0     
         90% CI (Anderson-Hauck)             (-92.0, 100.0)
 
-# estimate_proportion_diff() and cmh is compatible with rtables
+# estimate_proportion_diff and cmh is compatible with rtables
 
     Code
       res
@@ -1276,7 +1630,7 @@
       [1] "Difference in Response rate (%) and 95% CI (Wald, without correction)"
       
 
-# estimate_proportion_diff() with diff_est_ci builds single-row table
+# estimate_proportion_diff with diff_est_ci builds single-row table
 
     Code
       res

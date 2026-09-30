@@ -1,4 +1,4 @@
-test_that("prop_diff_ha() (proportion difference by Anderson-Hauck)", {
+test_that("prop_diff_ha (proportion difference by Anderson-Hauck)", {
   # "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
   rsp <- c(TRUE, FALSE, FALSE, TRUE, TRUE, TRUE)
   grp <- factor(c("A", "B", "A", "B", "A", "A"), levels = c("B", "A"))
@@ -17,7 +17,7 @@ test_that("prop_diff_ha() (proportion difference by Anderson-Hauck)", {
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("prop_diff_nc() (proportion difference by Newcombe)", {
+testthat::test_that("prop_diff_nc (proportion difference by Newcombe)", {
   # "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
   rsp <- c(TRUE, FALSE, FALSE, TRUE, TRUE, TRUE)
   grp <- factor(c("A", "B", "A", "B", "A", "A"), levels = c("B", "A"))
@@ -38,7 +38,7 @@ testthat::test_that("prop_diff_nc() (proportion difference by Newcombe)", {
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("prop_diff_wald() (proportion difference by Wald's test: with correction)", {
+testthat::test_that("prop_diff_wald (proportion difference by Wald's test: with correction)", {
   # "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
   rsp <- c(TRUE, FALSE, FALSE, TRUE, TRUE, TRUE)
   grp <- factor(c("A", "B", "A", "B", "A", "A"), levels = c("B", "A"))
@@ -68,7 +68,7 @@ testthat::test_that("prop_diff_wald() (proportion difference by Wald's test: wit
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("prop_diff_wald() (proportion difference by Wald's test: without correction)", {
+testthat::test_that("prop_diff_wald (proportion difference by Wald's test: without correction)", {
   # "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
   rsp <- c(TRUE, FALSE, FALSE, TRUE, TRUE, TRUE)
   grp <- factor(c("A", "B", "A", "B", "A", "A"), levels = c("B", "A"))
@@ -100,7 +100,7 @@ testthat::test_that("prop_diff_wald() (proportion difference by Wald's test: wit
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("prop_diff_cmh() (proportion difference by CMH)", {
+testthat::test_that("prop_diff_cmh (proportion difference by CMH)", {
   set.seed(2, kind = "Mersenne-Twister")
   rsp <- sample(c(TRUE, FALSE), 100, TRUE)
   grp <- sample(c("Placebo", "Treatment"), 100, TRUE)
@@ -124,7 +124,7 @@ testthat::test_that("prop_diff_cmh() (proportion difference by CMH)", {
   ))
 })
 
-testthat::test_that("prop_diff_cmh() with Sato variance estimator for difference", {
+testthat::test_that("prop_diff_cmh with Sato variance estimator for difference", {
   set.seed(2, kind = "Mersenne-Twister")
   rsp <- sample(c(TRUE, FALSE), 100, TRUE)
   grp <- sample(c("Placebo", "Treatment"), 100, TRUE)
@@ -148,7 +148,7 @@ testthat::test_that("prop_diff_cmh() with Sato variance estimator for difference
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("prop_diff_cmh() works correctly with Miettinen-Nurminen variance estimator", {
+testthat::test_that("prop_diff_cmh works correctly with Miettinen-Nurminen variance estimator", {
   # Example from the Lu (2008) paper, described in Melikov and Mosier (2025),
   # https://pharmasug.org/proceedings/2025/SA/PharmaSUG-2025-SA-198.pdf
 
@@ -189,7 +189,7 @@ testthat::test_that("prop_diff_cmh() works correctly with Miettinen-Nurminen var
   expect_equal(result$se_diff, 0.08753, tolerance = 1e-4)
 })
 
-testthat::test_that("prop_diff_cmh() works correctly when some strata don't have both groups", {
+testthat::test_that("prop_diff_cmh works correctly when some strata don't have both groups", {
   set.seed(2, kind = "Mersenne-Twister")
   rsp <- sample(c(TRUE, FALSE), 100, TRUE)
   grp <- sample(c("Placebo", "Treatment"), 100, TRUE)
@@ -215,7 +215,7 @@ testthat::test_that("prop_diff_cmh() works correctly when some strata don't have
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("prop_diff_cmh() works correctly when strata combinations are empty", {
+testthat::test_that("prop_diff_cmh works correctly when strata combinations are empty", {
   set.seed(2, kind = "Mersenne-Twister")
   rsp <- sample(c(TRUE, FALSE), 100, TRUE)
   grp <- sample(c("Placebo", "Treatment"), 100, TRUE)
@@ -246,7 +246,7 @@ testthat::test_that("prop_diff_cmh() works correctly when strata combinations ar
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("prop_strat_nc() (proportion difference by stratified Newcombe) with cmh weights", {
+testthat::test_that("prop_strat_nc (proportion difference by stratified Newcombe) with cmh weights", {
   set.seed(1)
   rsp <- c(
     sample(c(TRUE, FALSE), size = 40, prob = c(3 / 4, 1 / 4), replace = TRUE),
@@ -272,7 +272,7 @@ testthat::test_that("prop_strat_nc() (proportion difference by stratified Newcom
   expect_equal(as.numeric(results$diff_ci), c(0.0347, 0.4454), tolerance = 1e-3)
 })
 
-testthat::test_that("prop_strat_nc() (proportion difference by stratified Newcombe) with wilson_h weights", {
+testthat::test_that("prop_strat_nc (proportion difference by stratified Newcombe) with wilson_h weights", {
   set.seed(1)
   rsp <- c(
     sample(c(TRUE, FALSE), size = 40, prob = c(3 / 4, 1 / 4), replace = TRUE),
@@ -299,7 +299,7 @@ testthat::test_that("prop_strat_nc() (proportion difference by stratified Newcom
   expect_equal(as.numeric(results$diff_ci), c(0.0391, 0.4501), tolerance = 1e-3)
 })
 
-testthat::test_that("prop_diff_strat_nc() output matches equivalent SAS function output", {
+testthat::test_that("prop_diff_strat_nc output matches equivalent SAS function output", {
   set.seed(1)
   rsp <- c(
     sample(c(TRUE, FALSE), size = 40, prob = c(3 / 4, 1 / 4), replace = TRUE),
@@ -322,7 +322,7 @@ testthat::test_that("prop_diff_strat_nc() output matches equivalent SAS function
 })
 
 
-testthat::test_that("prop_diff_uncond_exact() matches reference values and works with edge cases", {
+testthat::test_that("prop_diff_uncond_exact matches reference values and works with edge cases", {
   mk_data <- function(n11, n21, n1, n2) {
     rsp <- c(rep(TRUE, n21), rep(FALSE, n2 - n21), rep(TRUE, n11), rep(FALSE, n1 - n11))
     grp <- factor(c(rep("B", n2), rep("A", n1)), levels = c("B", "A"))
@@ -378,150 +378,67 @@ testthat::test_that("prop_diff_uncond_exact() matches reference values and works
   )
 })
 
-dimnames <- list(grp = c("ref", "Not-ref"), rsp = c("TRUE", "FALSE"), strata = c("S1", "S2", "S3"))
-tables <- list(
-  tbl1 = array(
-    c(
-      12, 8, 18, 22, # S1
-      15, 10, 20, 25, # S2
-      9, 6, 14, 21 # S3
-    ),
-    dim = c(2L, 2L, 3L),
-    dimnames = dimnames
-  ),
-  tbl2 = array(
-    c(
-      1, 0, 7, 13, # S1
-      42, 3, 8, 67, # S2
-      0, 2, 95, 11 # S3
-    ),
-    dim = c(2L, 2L, 3L),
-    dimnames = dimnames
-  ),
-  tbl3 = array(
-    c(1, 0, 7, 13), # S1
-    dim = c(2L, 2L, 1L),
-    dimnames = list(grp = c("ref", "Not-ref"), rsp = c("TRUE", "FALSE"), strata = "S1")
-  )
-)
+test_that("h_prop_cmh works as expected with non-sparse tables", {
+  tables <- h_get_prop_data()
 
-sparse_tables <- list(
-  tbl1 = array(
-    c(
-      0, 0, 0, 0,
-      0, 0, 0, 0,
-      0, 0, 0, 0
-    ),
-    dim = c(2L, 2L, 3L), dimnames = dimnames
-  ),
-  tbl2 = array(
-    c(
-      1, 0, 0, 0,
-      0, 0, 0, 0,
-      0, 0, 0, 0
-    ),
-    dim = c(2L, 2L, 3L), dimnames = dimnames
-  ),
-  tbl3 = array(
-    c(
-      0, 0, 0, 0,
-      1, 0, 0, 0,
-      0, 0, 0, 0
-    ),
-    dim = c(2L, 2L, 3L), dimnames = dimnames
-  ),
-  tbl4 = array(
-    c(
-      0, 0, 3, 0,
-      0, 0, 0, 0,
-      0, 0, 0, 0
-    ),
-    dim = c(2L, 2L, 3L), dimnames = dimnames
-  ),
-  tbl5 = array(
-    c(
-      0, 0, 0, 0,
-      0, 0, 0, 0,
-      0, 0, 1, 0
-    ),
-    dim = c(2L, 2L, 3L), dimnames = dimnames
-  ),
-  tbl6 = array(
-    c(
-      4, 0, 0, 0,
-      0, 7, 0, 0,
-      0, 0, 0, 0
-    ),
-    dim = c(2L, 2L, 3L), dimnames = dimnames
-  ),
-  tbl7 = array(
-    c(
-      0, 0, 9, 0,
-      0, 0, 0, 12,
-      0, 0, 0, 0
-    ),
-    dim = c(2L, 2L, 3L), dimnames = dimnames
-  ),
-  tbl8 = array(
-    c(
-      4, 0, 0, 0,
-      0, 0, 0, 0,
-      10, 40, 12, 43
-    ),
-    dim = c(2L, 2L, 3L), dimnames = dimnames
-  )
-)
-
-test_that("h_prop_cmh() works as expected with non-sparse tables", {
   for (tbl in tables) {
     res <- h_prop_cmh(tbl)
     expect_snapshot(res)
   }
 })
 
-test_that("h_prop_cmh() handles empty and sparse contingency tables", {
-  for (tbl in sparse_tables) {
+test_that("h_prop_cmh handles empty and sparse contingency tables", {
+  tables <- h_get_prop_data(sparse = TRUE)
+
+  for (tbl in tables) {
     res <- h_prop_cmh(tbl)
     expect_snapshot(res)
   }
 })
 
-test_that("h_prop_cmh() respects a custom confidence level", {
+test_that("h_prop_cmh respects a custom confidence level", {
+  tables <- h_get_prop_data()
+
   res <- h_prop_cmh(tables$tbl1, conf_level = 0.8)
   expect_snapshot(res)
 })
 
-test_that("h_cmh_sato_var() works as expected with non-sparse tables", {
+test_that("h_cmh_sato_var works as expected with non-sparse tables", {
+  tables <- h_get_prop_data()
+
   res1 <- h_cmh_sato_var(h_prop_cmh(tables$tbl1))
   res2 <- h_cmh_sato_var(h_prop_cmh(tables$tbl2))
   res3 <- h_cmh_sato_var(h_prop_cmh(tables$tbl3))
 
-  expect_equal(res1, 0.004847091, tolerance = 1e-6)
-  expect_equal(res2, 0.003013894, tolerance = 1e-6)
-  expect_equal(res3, 0.01367188, tolerance = 1e-6)
+  expect_snapshot_value(res1, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res2, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res3, style = "deparse", tolerance = 1e-6)
 })
 
-test_that("h_cmh_sato_var() empty and sparse contingency tables", {
-  res1 <- h_cmh_sato_var(h_prop_cmh(sparse_tables$tbl1))
-  res2 <- h_cmh_sato_var(h_prop_cmh(sparse_tables$tbl2))
-  res3 <- h_cmh_sato_var(h_prop_cmh(sparse_tables$tbl3))
-  res4 <- h_cmh_sato_var(h_prop_cmh(sparse_tables$tbl4))
-  res5 <- h_cmh_sato_var(h_prop_cmh(sparse_tables$tbl5))
-  res6 <- h_cmh_sato_var(h_prop_cmh(sparse_tables$tbl6))
-  res7 <- h_cmh_sato_var(h_prop_cmh(sparse_tables$tbl7))
-  res8 <- h_cmh_sato_var(h_prop_cmh(sparse_tables$tbl8))
+test_that("h_cmh_sato_var empty and sparse contingency tables", {
+  tables <- h_get_prop_data(sparse = TRUE)
 
-  expect_identical(res1, NA_real_)
-  expect_identical(res2, NA_real_)
-  expect_identical(res3, NA_real_)
-  expect_identical(res4, NA_real_)
-  expect_identical(res5, NA_real_)
-  expect_identical(res6, NA_real_)
-  expect_identical(res7, NA_real_)
-  expect_equal(res8, 0.01427784, tolerance = 1e-6)
+  res1 <- h_cmh_sato_var(h_prop_cmh(tables$tbl1))
+  res2 <- h_cmh_sato_var(h_prop_cmh(tables$tbl2))
+  res3 <- h_cmh_sato_var(h_prop_cmh(tables$tbl3))
+  res4 <- h_cmh_sato_var(h_prop_cmh(tables$tbl4))
+  res5 <- h_cmh_sato_var(h_prop_cmh(tables$tbl5))
+  res6 <- h_cmh_sato_var(h_prop_cmh(tables$tbl6))
+  res7 <- h_cmh_sato_var(h_prop_cmh(tables$tbl7))
+  res8 <- h_cmh_sato_var(h_prop_cmh(tables$tbl8))
+
+  expect_snapshot_value(res1, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res2, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res3, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res4, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res5, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res6, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res7, style = "deparse", tolerance = 1e-6)
+  expect_snapshot_value(res8, style = "deparse", tolerance = 1e-6)
 })
 
-test_that("h_miettinen_nurminen_var() works as expected with non-sparse tables", {
+test_that("h_miettinen_nurminen_var works as expected with non-sparse tables", {
+  tables <- h_get_prop_data()
   t1 <- h_prop_cmh(tables$tbl1)
   t2 <- h_prop_cmh(tables$tbl2)
   t3 <- h_prop_cmh(tables$tbl3)
@@ -530,36 +447,21 @@ test_that("h_miettinen_nurminen_var() works as expected with non-sparse tables",
   res2 <- h_miettinen_nurminen_var(t2$est1, t2$est2, t2$x1, t2$x2, t2$n1, t2$n2)
   res3 <- h_miettinen_nurminen_var(t3$est1, t3$est2, t3$x1, t3$x2, t3$n1, t3$n2)
 
-  exp1 <- list(
-    p1_est = c(S1 = 0.4075605, S2 = 0.4307970, S3 = 0.3778246),
-    p2_est = c(S1 = 0.2606327, S2 = 0.2838692, S3 = 0.2308967),
-    var_est = c(S1 = 0.01471723, S2 = 0.01299995, S3 = 0.01714055)
-  )
-  exp2 <- list(
-    p1_est = c(S1 = 0.4853509, S2 = 0.6010255, S3 = 0.4953824),
-    p2_est = c(S1 = 0, S2 = 0.11567462, S3 = 0.01003146),
-    var_est = c(S1 = 0.032784334, S2 = 0.006309801, S3 = 0.003426996)
-  )
-  exp3 <- list(
-    p1_est = c(S1 = 0.125),
-    p2_est = c(S1 = 1.110223e-16),
-    var_est = c(S1 = 0.01435547)
-  )
-
-  expect_equal(res1, exp1, tolerance = 1e-6)
-  expect_equal(res2, exp2, tolerance = 1e-6)
-  expect_equal(res3, exp3, tolerance = 1e-6)
+  expect_snapshot(res1)
+  expect_snapshot(res2)
+  expect_snapshot(res3)
 })
 
-test_that("h_miettinen_nurminen_var() empty and sparse contingency tables", {
-  t1 <- h_prop_cmh(sparse_tables$tbl1)
-  t2 <- h_prop_cmh(sparse_tables$tbl2)
-  t3 <- h_prop_cmh(sparse_tables$tbl3)
-  t4 <- h_prop_cmh(sparse_tables$tbl4)
-  t5 <- h_prop_cmh(sparse_tables$tbl5)
-  t6 <- h_prop_cmh(sparse_tables$tbl6)
-  t7 <- h_prop_cmh(sparse_tables$tbl7)
-  t8 <- h_prop_cmh(sparse_tables$tbl8)
+test_that("h_miettinen_nurminen_var empty and sparse contingency tables", {
+  tables <- h_get_prop_data(sparse = TRUE)
+  t1 <- h_prop_cmh(tables$tbl1)
+  t2 <- h_prop_cmh(tables$tbl2)
+  t3 <- h_prop_cmh(tables$tbl3)
+  t4 <- h_prop_cmh(tables$tbl4)
+  t5 <- h_prop_cmh(tables$tbl5)
+  t6 <- h_prop_cmh(tables$tbl6)
+  t7 <- h_prop_cmh(tables$tbl7)
+  t8 <- h_prop_cmh(tables$tbl8)
 
   res1 <- h_miettinen_nurminen_var(t1$est1, t1$est2, t1$x1, t1$x2, t1$n1, t1$n2)
   res2 <- h_miettinen_nurminen_var(t2$est1, t2$est2, t2$x1, t2$x2, t2$n1, t2$n2)
@@ -570,28 +472,17 @@ test_that("h_miettinen_nurminen_var() empty and sparse contingency tables", {
   res7 <- h_miettinen_nurminen_var(t7$est1, t7$est2, t7$x1, t7$x2, t7$n1, t7$n2)
   res8 <- h_miettinen_nurminen_var(t8$est1, t8$est2, t8$x1, t8$x2, t8$n1, t8$n2)
 
-  exp_na <- list(
-    p1_est = c(S1 = NA_real_, S2 = NA_real_, S3 = NA_real_),
-    p2_est = c(S1 = NA_real_, S2 = NA_real_, S3 = NA_real_),
-    var_est = c(S1 = NA_real_, S2 = NA_real_, S3 = NA_real_)
-  )
-  exp8 <- list(
-    p1_est = c(S1 = 0.9726177, S2 = NA_real_, S3 = 0.4545455),
-    p2_est = c(S1 = 1, S2 = NA_real_, S3 = 0.4819277),
-    var_est = c(S1 = NA_real_, S2 = NA_real_, S3 = 0.01441512)
-  )
-
-  expect_identical(res1, exp_na)
-  expect_identical(res2, exp_na)
-  expect_identical(res3, exp_na)
-  expect_identical(res4, exp_na)
-  expect_identical(res5, exp_na)
-  expect_identical(res6, exp_na)
-  expect_identical(res7, exp_na)
-  expect_equal(res8, exp8, tolerance = 1e-6)
+  expect_snapshot(res1)
+  expect_snapshot(res2)
+  expect_snapshot(res3)
+  expect_snapshot(res4)
+  expect_snapshot(res5)
+  expect_snapshot(res6)
+  expect_snapshot(res7)
+  expect_snapshot(res8)
 })
 
-testthat::test_that("h_miettinen_nurminen_var() works as expected", {
+testthat::test_that("h_miettinen_nurminen_var works as expected", {
   result <- h_miettinen_nurminen_var(
     est2 = 0.2, est1 = 0.1,
     x1 = 4, x2 = 6,
@@ -607,64 +498,48 @@ testthat::test_that("h_miettinen_nurminen_var() works as expected", {
   expect_snapshot_value(result2, style = "deparse", tolerance = 1e-4)
 })
 
-test_that("h_miettinen_nurminen_stratified_ci() works as expected with non-sparse tables", {
+test_that("h_miettinen_nurminen_stratified_ci works as expected with non-sparse tables", {
+  tables <- h_get_prop_data()
+
   res1 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl1))
   res2 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl2))
   res3 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl3))
 
-  expect_equal(
-    res1,
-    list(ci = c(-0.281568259, -0.008104148), se = 0.07017465),
-    tolerance = 1e-6
-  )
-  expect_equal(
-    res2,
-    list(ci = c(-0.5899410, -0.3703714), se = 0.05648034),
-    tolerance = 1e-6
-  )
-  expect_equal(
-    res3,
-    list(ci = c(-0.4797396, 0.1311335), se = 0.1198143),
-    tolerance = 1e-6
-  )
+  expect_snapshot(res1)
+  expect_snapshot(res2)
+  expect_snapshot(res3)
 })
 
-test_that("h_miettinen_nurminen_stratified_ci() empty and sparse contingency tables", {
-  res1 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(sparse_tables$tbl1))
-  res2 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(sparse_tables$tbl2))
-  res3 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(sparse_tables$tbl3))
-  res4 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(sparse_tables$tbl4))
-  res5 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(sparse_tables$tbl5))
-  res6 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(sparse_tables$tbl6))
-  res7 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(sparse_tables$tbl7))
-  res8 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(sparse_tables$tbl8))
+test_that("h_miettinen_nurminen_stratified_ci empty and sparse contingency tables", {
+  tables <- h_get_prop_data(sparse = TRUE)
 
-  exp_na <- list(ci = c(NA_real_, NA_real_), se = NA_real_)
+  res1 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl1))
+  res2 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl2))
+  res3 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl3))
+  res4 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl4))
+  res5 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl5))
+  res6 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl6))
+  res7 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl7))
+  res8 <- h_miettinen_nurminen_stratified_ci(h_prop_cmh(tables$tbl8))
 
-  expect_identical(res1, exp_na)
-  expect_identical(res2, exp_na)
-  expect_identical(res3, exp_na)
-  expect_identical(res4, exp_na)
-  expect_identical(res5, exp_na)
-  expect_identical(res6, exp_na)
-  expect_identical(res7, exp_na)
-  expect_equal(
-    res8,
-    list(ci = c(-0.2015304, 0.2461176), se = 0.120063),
-    tolerance = 1e-6
-  )
+  expect_snapshot(res1)
+  expect_snapshot(res2)
+  expect_snapshot(res3)
+  expect_snapshot(res4)
+  expect_snapshot(res5)
+  expect_snapshot(res6)
+  expect_snapshot(res7)
+  expect_snapshot(res8)
 })
 
-test_that("h_miettinen_nurminen_stratified_ci() respects a custom confidence level", {
+test_that("h_miettinen_nurminen_stratified_ci respects a custom confidence level", {
+  tables <- h_get_prop_data()
+
   res <- h_miettinen_nurminen_stratified_ci(
     h_prop_cmh(tables$tbl1),
     conf_level = 0.8
   )
-  expect_equal(
-    res,
-    list(ci = c(-0.2357582, -0.0563385), se = 0.07017465),
-    tolerance = 1e-6
-  )
+  expect_snapshot(res)
 })
 
 testthat::test_that("h_worst_case_tail_probability returns valid tail probabilities", {
@@ -783,7 +658,7 @@ test_that("d_proportion_diff returns correct descriptions", {
   )
 })
 
-testthat::test_that("estimate_proportion_diff() is compatible with rtables", {
+testthat::test_that("estimate_proportion_diff is compatible with rtables", {
   # "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
   dta <- data.frame(
     rsp = c(TRUE, FALSE, FALSE, TRUE, TRUE, TRUE),
@@ -804,7 +679,7 @@ testthat::test_that("estimate_proportion_diff() is compatible with rtables", {
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("estimate_proportion_diff() and cmh is compatible with rtables", {
+testthat::test_that("estimate_proportion_diff and cmh is compatible with rtables", {
   set.seed(1)
   nex <- 100 # Number of test rows
   dta <- data.frame(
@@ -830,7 +705,7 @@ testthat::test_that("estimate_proportion_diff() and cmh is compatible with rtabl
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("estimate_proportion_diff() and strat_newcombe is compatible with rtables", {
+testthat::test_that("estimate_proportion_diff and strat_newcombe is compatible with rtables", {
   set.seed(1)
   rsp <- c(
     sample(c(TRUE, FALSE), size = 40, prob = c(3 / 4, 1 / 4), replace = TRUE),
@@ -1125,7 +1000,7 @@ testthat::test_that("s_proportion_diff ref column returns empty diff_est_ci", {
   testthat::expect_snapshot(res)
 })
 
-testthat::test_that("estimate_proportion_diff() with diff_est_ci builds single-row table", {
+testthat::test_that("estimate_proportion_diff with diff_est_ci builds single-row table", {
   set.seed(42, kind = "Mersenne-Twister")
   dta <- data.frame(
     rsp = sample(c(TRUE, FALSE), 100, TRUE),

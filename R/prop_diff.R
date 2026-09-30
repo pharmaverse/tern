@@ -1271,12 +1271,12 @@ h_prop_cmh <- function(tbl, conf_level = 0.95) {
     var1 <- sum(w_normalized^2 * p1 * (1 - p1) / n1, na.rm = TRUE)
     var2 <- sum(w_normalized^2 * p2 * (1 - p2) / n2, na.rm = TRUE)
     z <- stats::qnorm((1 + conf_level) / 2)
-    ci1 <- est1 + c(lwr = -1, upr = 1) * z * sqrt(var1)
-    ci2 <- est2 + c(lwr = -1, upr = 1) * z * sqrt(var2)
+    ci1 <- est1 + c(-1, 1) * z * sqrt(var1)
+    ci2 <- est2 + c(-1, 1) * z * sqrt(var2)
   } else {
     w_normalized <- setNames(rep(NA_real_, dim(tbl)[3L]), strata_names)
     est1 <- est2 <- var1 <- var2 <- NA_real_
-    ci1 <- ci2 <- c(lwr = NA_real_, upr = NA_real_)
+    ci1 <- ci2 <- c(NA_real_, NA_real_)
   }
 
   group_names <- dimnames(tbl)[[1L]] # Can be NULL.
@@ -1483,26 +1483,10 @@ h_miettinen_nurminen_var <- function(est1, est2, x1, x2, n1, n2) {
   # nolint end
 
   # Solution for group 1 proportion.
-  q <- ifelse(
-    L3 > 0,
-    L2^3 / (3 * L3)^3 - L1 * L2 / (6 * L3^2) + L0 / (2 * L3),
-    NA_real_
-  )
-  p <- ifelse(
-    L3 > 0,
-    sign(q) * sqrt(L2^2 / (3 * L3)^2 - L1 / (3 * L3)),
-    NA_real_
-  )
-  a <- ifelse(
-    !is.na(p) & !is.na(q) & p != 0 & q / p^3 >= -1 & q / p^3 <= 1,
-    (1 / 3) * (base::pi + acos(q / p^3)),
-    NA_real_
-  )
-  p1_mle <- ifelse(
-    L3 > 0,
-    2 * p * cos(a) - L2 / (3 * L3),
-    NA_real_
-  )
+  q <- L2^3 / (3 * L3)^3 - L1 * L2 / (6 * L3^2) + L0 / (2 * L3)
+  p <- sign(q) * sqrt(L2^2 / (3 * L3)^2 - L1 / (3 * L3))
+  a <- (1 / 3) * (base::pi + acos(q / p^3))
+  p1_mle <- 2 * p * cos(a) - L2 / (3 * L3)
 
   # Estimated group 2 proportion.
   p2_mle <- p1_mle + RD
@@ -1593,9 +1577,9 @@ h_miettinen_nurminen_stratified_ci <- function(prop, conf_level = 0.95) {
     n1 = p$n1, n2 = p$n2
   )$var_est
 
-  wvar <- p$w_normalized^2 * var_est
-  se <- if (any(!is.na(wvar))) {
-    sqrt(sum(wvar, na.rm = TRUE))
+  w_var <- p$w_normalized^2 * var_est
+  se <- if (any(!is.na(w_var))) {
+    sqrt(sum(w_var, na.rm = TRUE))
   } else {
     NA_real_
   }
