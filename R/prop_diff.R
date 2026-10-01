@@ -1221,9 +1221,9 @@ prop_diff_uncond_exact <- function(rsp,
 #'   observations in that stratum.
 #'
 #'   `est1` and `est2` are the overall CMH-weighted proportion estimates for the
-#'   two groups, respectively. `est_for_groups` contains these two estimates in
+#'   two groups, respectively. `est_both_groups` contains these two estimates in
 #'   group order.
-#'   `ci_for_groups` contains the corresponding confidence intervals in the same
+#'   `ci_both_groups` contains the corresponding confidence intervals in the same
 #'   group order.
 #'
 #'   If no stratum contains observations in both groups, the CMH weights
@@ -1321,9 +1321,9 @@ h_prop_cmh <- function(tbl, conf_level = 0.95) {
 #'   atomic vectors:
 #'   \describe{
 #'    \item{`est1`}{CMH-weighted estimated proportion for group 1.
-#'    May be `NA_real` when a CMH-weighted estimate cannot be calculated.}
+#'    May be `NA_real_` when a CMH-weighted estimate cannot be calculated.}
 #'    \item{`est2`}{CMH-weighted estimated proportion for group 2.
-#'    May be `NA_real` when a CMH-weighted estimate cannot be calculated.}
+#'    May be `NA_real_` when a CMH-weighted estimate cannot be calculated.}
 #'    \item{`x1`}{Number of responders in group 1 for each stratum.}
 #'    \item{`x2`}{Number of responders in group 2 for each stratum.}
 #'    \item{`n1`}{Number of observations in group 1 for each stratum.}
@@ -1421,11 +1421,11 @@ h_cmh_sato_var <- function(prop) {
 #' @param est1 (`numeric(1)`) \cr
 #'   Estimated proportion for group 1. Used together with `est2` to define the
 #'   risk difference.
-#'   May be `NA_real` when an estimate cannot be calculated.
+#'   May be `NA_real_` when an estimate cannot be calculated.
 #' @param est2 (`numeric(1)`) \cr
 #'   Estimated proportion for group 2. Used together with `est1` to define the
 #'   risk difference.
-#'   May be `NA_real` when an estimate cannot be calculated.
+#'   May be `NA_real_` when an estimate cannot be calculated.
 #' @param x1 (`numeric`) \cr
 #'   Number of responders in group 1 for each stratum.
 #'   Must have length at least 1.
@@ -1523,9 +1523,9 @@ h_miettinen_nurminen_var <- function(est1, est2, x1, x2, n1, n2) {
 #'   atomic vectors:
 #'   \describe{
 #'    \item{`est1`}{CMH-weighted estimated proportion for group 1.
-#'    May be `NA_real` when a CMH-weighted estimate cannot be calculated.}
+#'    May be `NA_real_` when a CMH-weighted estimate cannot be calculated.}
 #'    \item{`est2`}{CMH-weighted estimated proportion for group 2.
-#'    May be `NA_real` when a CMH-weighted estimate cannot be calculated.}
+#'    May be `NA_real_` when a CMH-weighted estimate cannot be calculated.}
 #'    \item{`x1`}{Number of responders in group 1 for each stratum.}
 #'    \item{`x2`}{Number of responders in group 2 for each stratum.}
 #'    \item{`n1`}{Number of observations in group 1 for each stratum.}
@@ -1558,7 +1558,7 @@ h_miettinen_nurminen_stratified_ci <- function(prop, conf_level = 0.95) {
   )
   checkmate::assert_number(prop$est1, lower = -1, upper = 1, na.ok = TRUE, finite = TRUE)
   checkmate::assert_number(prop$est2, lower = -1, upper = 1, na.ok = TRUE, finite = TRUE)
-  checkmate::assert_numeric(prop$p1, min.len = 1L, lower = 0, , upper = 1, finite = TRUE)
+  checkmate::assert_numeric(prop$p1, min.len = 1L, lower = 0, upper = 1, finite = TRUE)
   checkmate::assert_numeric(prop$p2, len = length(prop$p1), lower = 0, upper = 1, finite = TRUE)
   checkmate::assert_numeric(prop$w, len = length(prop$p1), lower = 0, finite = TRUE)
   checkmate::assert_numeric(prop$w_normalized, len = length(prop$p1), lower = 0, finite = TRUE)

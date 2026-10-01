@@ -31,9 +31,9 @@ In particular, \code{p1} or \code{p2} is \code{NA} when the corresponding group 
 observations in that stratum.
 
 \code{est1} and \code{est2} are the overall CMH-weighted proportion estimates for the
-two groups, respectively. \code{est_for_groups} contains these two estimates in
+two groups, respectively. \code{est_both_groups} contains these two estimates in
 group order.
-\code{ci_for_groups} contains the corresponding confidence intervals in the same
+\code{ci_both_groups} contains the corresponding confidence intervals in the same
 group order.
 
 If no stratum contains observations in both groups, the CMH weights

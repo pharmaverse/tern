@@ -246,6 +246,19 @@ testthat::test_that("prop_diff_cmh works correctly when strata combinations are 
   testthat::expect_snapshot(res)
 })
 
+testthat::test_that("prop_diff_cmh ignores strata with only one group", {
+  rsp <- rep(rep(c(TRUE, FALSE), 5), c(6, 4, 3, 7, 5, 5, 8, 2, 4, 2))
+  grp <- factor(rep(c("a", "b", "a", "b", "a"), c(10, 10, 10, 10, 6)))
+  strata <- factor(rep(c("s1", "s1", "s2", "s2", "s3"), c(10, 10, 10, 10, 6)))
+  keep <- strata != "s3" # s3 has group "a" only
+
+  for (diff_se in c("standard", "sato", "miettinen_nurminen")) {
+    res <- prop_diff_cmh(rsp, grp, strata, diff_se = diff_se)
+    res_keep <- prop_diff_cmh(rsp[keep], grp[keep], droplevels(strata[keep]), diff_se = diff_se)
+    testthat::expect_equal(res[c("diff", "diff_ci", "se_diff")], res_keep[c("diff", "diff_ci", "se_diff")])
+  }
+})
+
 testthat::test_that("prop_strat_nc (proportion difference by stratified Newcombe) with cmh weights", {
   set.seed(1)
   rsp <- c(

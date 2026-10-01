@@ -4,22 +4,24 @@
 \alias{uniroot_catch_na}
 \title{Find a root while returning NA for missing function values}
 \usage{
-uniroot_catch_na(...)
+uniroot_catch_na(f, interval, ...)
 }
 \arguments{
-\item{...}{Arguments passed directly to \code{\link[stats:uniroot]{stats::uniroot()}}.}
+\item{f}{(\code{function})\cr function for which the root is sought.}
+
+\item{interval}{(\code{numeric(2)})\cr end points of the interval to be searched.}
+
+\item{...}{further arguments passed to \code{\link[stats:uniroot]{stats::uniroot()}}.}
 }
 \value{
-A numeric scalar containing the estimated root, or \code{NA_real_} if
-\code{\link[stats:uniroot]{stats::uniroot()}} fails because the function evaluates to \code{NA}.
+A numeric scalar containing the estimated root, or \code{NA_real_} if \code{f} is
+\code{NA} at either end of \code{interval}.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
-A wrapper around \code{\link[stats:uniroot]{stats::uniroot()}} that returns the estimated root when
-root-finding succeeds. If \code{\link[stats:uniroot]{stats::uniroot()}} fails because the function
-evaluates to \code{NA}, the function returns \code{NA_real_} instead of raising an
-error. All other errors are propagated unchanged.
+A wrapper around \code{\link[stats:uniroot]{stats::uniroot()}} that returns \code{NA_real_} when \code{f} is \code{NA}
+at either end of \code{interval}.
 }
 \seealso{
 \code{\link[stats:uniroot]{stats::uniroot()}}

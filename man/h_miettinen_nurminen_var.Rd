@@ -10,12 +10,12 @@ h_miettinen_nurminen_var(est1, est2, x1, x2, n1, n2)
 \item{est1}{(\code{numeric(1)}) \cr
 Estimated proportion for group 1. Used together with \code{est2} to define the
 risk difference.
-May be \code{NA_real} when an estimate cannot be calculated.}
+May be \code{NA_real_} when an estimate cannot be calculated.}
 
 \item{est2}{(\code{numeric(1)}) \cr
 Estimated proportion for group 2. Used together with \code{est1} to define the
 risk difference.
-May be \code{NA_real} when an estimate cannot be calculated.}
+May be \code{NA_real_} when an estimate cannot be calculated.}
 
 \item{x1}{(\code{numeric}) \cr
 Number of responders in group 1 for each stratum.

@@ -12,9 +12,9 @@ A named list returned by \code{\link[=h_prop_cmh]{h_prop_cmh()}}. It must contai
 atomic vectors:
 \describe{
 \item{\code{est1}}{CMH-weighted estimated proportion for group 1.
-May be \code{NA_real} when a CMH-weighted estimate cannot be calculated.}
+May be \code{NA_real_} when a CMH-weighted estimate cannot be calculated.}
 \item{\code{est2}}{CMH-weighted estimated proportion for group 2.
-May be \code{NA_real} when a CMH-weighted estimate cannot be calculated.}
+May be \code{NA_real_} when a CMH-weighted estimate cannot be calculated.}
 \item{\code{x1}}{Number of responders in group 1 for each stratum.}
 \item{\code{x2}}{Number of responders in group 2 for each stratum.}
 \item{\code{n1}}{Number of observations in group 1 for each stratum.}

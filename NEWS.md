@@ -1,6 +1,13 @@
 # tern 0.9.12
 
 * Fixing CRAN release issue.
+* Fixed `prop_diff_cmh()` giving wrong Sato and Miettinen-Nurminen results when
+  some strata have only one group, and failing with a single stratum. (#1535)
+* `prop_diff_cmh()` returns `weights`, `n1` and `n2` for all strata now, with `NA`
+  weights for empty strata. It returns `NA` instead of `0` when no stratum has
+  both groups. (#1535)
+* `prop_cmh()` returns `NA` instead of `1` for the Sato p-value when the response
+  has no variation. (#1535)
 
 # tern 0.9.11
 
@@ -26,10 +33,6 @@
   rows from the forest plot before plotting. (#1498)
   
 ### Bug Fixes
-* Fixed a bug in `prop_diff_cmh()` that could produce incorrect results for the
-  Sato and Miettinen–Nurminen methods when there were insufficient observations
-  within strata. Refactored `prop_diff_cmh()` and its helper functions to
-  address the issue. (#1535)
 * Fixed an issue in `s_proportion_diff()` where the `weights_method` argument
   was ignored. The `variables` argument, if supplied, can now only contain the
   `strata` element. Other elements, including `weights_method`, are no longer
