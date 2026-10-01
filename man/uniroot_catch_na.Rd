@@ -14,8 +14,8 @@ uniroot_catch_na(f, interval, ...)
 \item{...}{further arguments passed to \code{\link[stats:uniroot]{stats::uniroot()}}.}
 }
 \value{
-A numeric scalar containing the estimated root, or \code{NA_real_} if \code{f} is
-\code{NA} at either end of \code{interval}.
+A numeric scalar containing the found root, or \code{NA_real_} if \code{f} returns
+\code{NA} at either endpoint of \code{interval}.
 }
 \description{
 \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}

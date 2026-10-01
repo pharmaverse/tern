@@ -552,8 +552,8 @@ get_complete_cases <- function(df, quiet = FALSE, additional_message = ".") {
 #' @param ... further arguments passed to [stats::uniroot()].
 #'
 #' @return
-#'   A numeric scalar containing the estimated root, or `NA_real_` if `f` is
-#'   `NA` at either end of `interval`.
+#'   A numeric scalar containing the found root, or `NA_real_` if `f` returns
+#'   `NA` at either endpoint of `interval`.
 #'
 #' @seealso [stats::uniroot()]
 #' @keywords internal
