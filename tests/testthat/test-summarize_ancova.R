@@ -249,3 +249,34 @@ testthat::test_that("s_ancova returns lsmean_se and lsmean_ci for ref column", {
   testthat::expect_true(all(is.na(result$lsmean_diff_with_ci)))
   testthat::expect_length(result$lsmean_diff, 0)
 })
+
+testthat::test_that("s_ancova works with regex metacharacters in arm levels", {
+  arm_lvls <- c("Tirzepatide + Placebo", "Tirzepatide", "Drug (1.5 mg)")
+  df <- iris
+  df$Species <- factor(df$Species, levels = levels(iris$Species), labels = arm_lvls)
+  variables <- list(arm = "Species", covariates = "Petal.Length")
+  emmeans_fit <- h_ancova(.var = "Sepal.Length", variables = variables, .df_row = df)
+
+  for (ref in seq_along(arm_lvls)) {
+    expected <- summary(
+      emmeans::contrast(emmeans_fit, method = "trt.vs.ctrl", ref = ref),
+      infer = TRUE,
+      adjust = "none"
+    )
+    for (trt in setdiff(seq_along(arm_lvls), ref)) {
+      result <- s_ancova(
+        df = df[df$Species == arm_lvls[trt], ],
+        .var = "Sepal.Length",
+        .df_row = df,
+        variables = variables,
+        .ref_group = df[df$Species == arm_lvls[ref], ],
+        .in_ref_col = FALSE,
+        conf_level = 0.95
+      )
+      exp_row <- expected[match(trt, setdiff(seq_along(arm_lvls), ref)), ]
+      testthat::expect_equal(result$lsmean_diff, exp_row$estimate, ignore_attr = TRUE)
+      testthat::expect_equal(result$lsmean_diff_ci, c(exp_row$lower.CL, exp_row$upper.CL), ignore_attr = TRUE)
+      testthat::expect_equal(result$pval, exp_row$p.value, ignore_attr = TRUE)
+    }
+  }
+})

@@ -139,15 +139,15 @@
     Code
       res
     Output
-                                  ARM A       ARM B (x)   ARM C 
-                                 (N=69)        (N=73)     (N=58)
-      ——————————————————————————————————————————————————————————
-      Unadjusted comparison                                     
-        n                          552           584       464  
-        Mean                      0.01          0.01      -0.05 
-        Difference in Means       0.06                          
-          95% CI              (-0.07, 0.19)                     
-          p-value                0.3442                         
+                                  ARM A         ARM B (x)     ARM C 
+                                 (N=69)          (N=73)       (N=58)
+      ——————————————————————————————————————————————————————————————
+      Unadjusted comparison                                         
+        n                          552             584         464  
+        Mean                      0.01            0.01        -0.05 
+        Difference in Means       0.06            0.06              
+          95% CI              (-0.07, 0.19)   (-0.06, 0.19)         
+          p-value                0.3442          0.3186             
 
 ---
 

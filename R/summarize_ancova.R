@@ -204,12 +204,13 @@ s_ancova <- function(df,
     )
 
     contrast_lvls <- gsub(
-      "^\\(|\\)$", "", gsub(paste0(" - \\(*", .ref_group[[arm]][1], ".*"), "", sum_contrasts$contrast)
+      paste0(" - \\(*", escape_regex(.ref_group[[arm]][1]), ".*"), "", sum_contrasts$contrast
     )
     if (!is.null(interaction_item)) {
       sum_contrasts_level <- sum_contrasts[grepl(sum_level, contrast_lvls, fixed = TRUE), ]
     } else {
-      sum_contrasts_level <- sum_contrasts[sum_level == contrast_lvls, ]
+      # emmeans wraps some levels in parentheses in the contrast labels.
+      sum_contrasts_level <- sum_contrasts[contrast_lvls %in% c(sum_level, paste0("(", sum_level, ")")), ]
     }
     if (interaction_y != FALSE) {
       sum_contrasts_level <- sum_contrasts_level[interaction_y, ]

@@ -187,6 +187,17 @@ make_names <- function(nams) {
   gsub(".", "", x = orig, fixed = TRUE)
 }
 
+#' Escape regular expression metacharacters
+#'
+#' @param x (`character`)\cr strings to be used literally inside a regular expression.
+#'
+#' @return A `character` `vector` where all regular expression metacharacters in `x` are escaped.
+#'
+#' @keywords internal
+escape_regex <- function(x) {
+  gsub("([.\\\\|()[{}^$*+?]|\\])", "\\\\\\1", x)
+}
+
 #' Conversion of months to days
 #'
 #' @description `r lifecycle::badge("stable")`
