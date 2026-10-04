@@ -6,8 +6,8 @@
 \alias{prop_diff_nc}
 \alias{prop_diff_cmh}
 \alias{prop_diff_strat_nc}
-\alias{h_prop_diff}
 \alias{prop_diff_uncond_exact}
+\alias{h_prop_diff}
 \title{Helper functions to calculate proportion difference}
 \usage{
 prop_diff_wald(rsp, grp, conf_level = 0.95, correct = FALSE)

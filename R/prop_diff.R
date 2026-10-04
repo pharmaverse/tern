@@ -1106,6 +1106,7 @@ prop_diff_strat_nc <- function(rsp,
 #'
 #' prop_diff_uncond_exact(rsp = rsp, grp = grp, conf_level = 0.95)
 #'
+#' @order 6
 #' @export
 prop_diff_uncond_exact <- function(rsp,
                                    grp,
