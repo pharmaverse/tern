@@ -404,13 +404,9 @@ testthat::test_that("check discrepancy example for prop_diff_uncond_exact", {
 
   result <- prop_diff_uncond_exact(rsp = rsp, grp = grp, conf_level = 0.95)
 
-  # Compare with exact2x2 package.
-  skip_if_not_installed("exact2x2")
-  exact2x2_result <- exact2x2::uncondExact2x2(
-    x1 = tab[1, 1], n1 = sum(tab[1, ]), x2 = tab[2, 1], n2 = sum(tab[2, ]), 
-    conf.int = TRUE, method = "simple"
-  )
-  expect_equal(result$diff_ci, as.numeric(exact2x2_result$conf.int), tolerance = 1e-5)
+  # Expected SAS result.
+  sas_result <- c(-0.2514531, 0.4907849)
+  expect_equal(result$diff_ci, sas_result, tolerance = 1e-5)
 })
 
 testthat::test_that("h_worst_case_tail_probability returns valid tail probabilities", {
