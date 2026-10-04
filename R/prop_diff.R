@@ -1091,12 +1091,10 @@ prop_diff_strat_nc <- function(rsp,
   )
 }
 
-
 #' @describeIn h_prop_diff Unconditional exact confidence interval for the difference in
 #'   proportions by inverting one-sided tail tests over a nuisance parameter. This is
 #'   the "tail method" described by Santner and Snell \insertCite{SantnerSnell1980}{tern}.
 #'
-#' @order 6
 #' @examples
 #' # Unconditional exact confidence interval
 #' n11 <- 40
@@ -1122,8 +1120,9 @@ prop_diff_uncond_exact <- function(rsp,
 
   # Step 0: Calculate the observed difference in proportions
   # and the observed test statistic value.
-  n2 <- sum(tbl[1, ])
-  n1 <- sum(tbl[2, ])
+  # Store counts as doubles to avoid 32-bit integer overflow in cross-products.
+  n2 <- as.double(sum(tbl[1, ]))
+  n1 <- as.double(sum(tbl[2, ]))
 
   if (n1 == 0 || n2 == 0) {
     return(list(
@@ -1138,6 +1137,9 @@ prop_diff_uncond_exact <- function(rsp,
 
   # Step 1: Enumerate all tables in A with fixed row margins
   # n1 and n2.
+  if (n1 * n2 > 2^53) {
+    stop("uncond_exact_diff: Sample sizes exceed the exact integer comparison limit.")
+  }
   if (n1 * n2 > 1e5) {
     warning("uncond_exact_diff: Large sample sizes may lead to long computation time.")
   }
@@ -1146,9 +1148,12 @@ prop_diff_uncond_exact <- function(rsp,
     n21 = 0:n2
   )
 
-  # Step 2: Compute T(a) = n11 / n1 - n21 / n2 for each table a in A.
-  t_values <- tables$n11 / n1 - tables$n21 / n2
-  t0 <- diff_est
+  # Step 2: Compare integer numerators of T(a) = n11 / n1 - n21 / n2.
+  # The positive denominator n1 * n2 is common to all tables. These cross-products
+  # and their differences are exact for n1 * n2 <= 2^53, preserving ties without
+  # a floating-point tolerance. Compute the observed numerator from counts too.
+  t_values <- tables$n11 * n2 - tables$n21 * n1
+  t0 <- n11_obs * n2 - n21_obs * n1
 
   # Step 3: For each hypothesized difference d*, compute the worst-case
   # tail probabilities P_U(d*) and P_L(d*) by maximizing over the nuisance
@@ -1749,113 +1754,4 @@ h_find_ci_bound_uniroot <- function(p_value_function,
     tol = tol,
     maxiter = maxiter
   )$root
-}
-
-#' @describeIn h_prop_diff Unconditional exact confidence interval for the difference in
-#'   proportions by inverting one-sided tail tests over a nuisance parameter. This is
-#'   the "tail method" described by Santner and Snell \insertCite{SantnerSnell1980}{tern}.
-#'
-#' @examples
-#' # Unconditional exact confidence interval
-#' n11 <- 40
-#' n21 <- 5
-#' n1 <- 78
-#' n2 <- 17
-#' rsp <- c(rep(TRUE, n21), rep(FALSE, n2 - n21), rep(TRUE, n11), rep(FALSE, n1 - n11))
-#' grp <- factor(c(rep("B", n2), rep("A", n1)), levels = c("B", "A"))
-#'
-#' prop_diff_uncond_exact(rsp = rsp, grp = grp, conf_level = 0.95)
-#'
-#' @export
-prop_diff_uncond_exact <- function(rsp,
-                                   grp,
-                                   conf_level = 0.95) {
-  grp <- as_factor_keep_attributes(grp)
-  check_diff_prop_ci(rsp = rsp, grp = grp, conf_level = conf_level)
-
-  alpha <- 1 - conf_level
-  cutoff <- alpha / 2
-
-  tbl <- table(grp, factor(rsp, levels = c(TRUE, FALSE)))
-
-  # Step 0: Calculate the observed difference in proportions
-  # and the observed test statistic value.
-  # Store counts as doubles to avoid 32-bit integer overflow in cross-products.
-  n2 <- as.double(sum(tbl[1, ]))
-  n1 <- as.double(sum(tbl[2, ]))
-
-  if (n1 == 0 || n2 == 0) {
-    return(list(
-      diff = NaN,
-      diff_ci = c(NaN, NaN)
-    ))
-  }
-
-  n21_obs <- tbl[1, 1]
-  n11_obs <- tbl[2, 1]
-  diff_est <- n11_obs / n1 - n21_obs / n2
-
-  # Step 1: Enumerate all tables in A with fixed row margins
-  # n1 and n2.
-  if (n1 * n2 > 2^53) {
-    stop("uncond_exact_diff: Sample sizes exceed the exact integer comparison limit.")
-  }
-  if (n1 * n2 > 1e5) {
-    warning("uncond_exact_diff: Large sample sizes may lead to long computation time.")
-  }
-  tables <- expand.grid(
-    n11 = 0:n1,
-    n21 = 0:n2
-  )
-
-  # Step 2: Compare integer numerators of T(a) = n11 / n1 - n21 / n2.
-  # The positive denominator n1 * n2 is common to all tables. These cross-products
-  # and their differences are exact for n1 * n2 <= 2^53, preserving ties without
-  # a floating-point tolerance. Compute the observed numerator from counts too.
-  t_values <- tables$n11 * n2 - tables$n21 * n1
-  t0 <- n11_obs * n2 - n21_obs * n1
-
-  # Step 3: For each hypothesized difference d*, compute the worst-case
-  # tail probabilities P_U(d*) and P_L(d*) by maximizing over the nuisance
-  # parameter p2.
-  p_upper <- function(d_star) {
-    # Step 4a: Compute worst-case one-sided tail probability:
-    # P_U(d*) = sup_p2 sum_{T(a) >= t0} f(...)
-    h_worst_case_tail_probability(
-      d_star = d_star,
-      n1 = n1,
-      n2 = n2,
-      t_values = t_values,
-      t0 = t0,
-      tables = tables,
-      tail = "upper"
-    )
-  }
-  p_lower <- function(d_star) {
-    # Step 4b: Compute worst-case one-sided tail probability:
-    # P_L(d*) = sup_p2 sum_{T(a) <= t0} f(...)
-    h_worst_case_tail_probability(
-      d_star = d_star,
-      n1 = n1,
-      n2 = n2,
-      t_values = t_values,
-      t0 = t0,
-      tables = tables,
-      tail = "lower"
-    )
-  }
-
-  # Step 5: Invert one-sided tests to obtain the two-sided
-  # 100 * (1 - alpha)% CI for d = p1 - p2.
-  # For monotone one-sided p-value functions, use uniroot to solve
-  # P_U(d) = alpha/2 and P_L(d) = alpha/2 directly.
-  diff_ci <- c(
-    h_find_ci_bound_uniroot(p_upper, cutoff = cutoff, direction = "increasing"),
-    h_find_ci_bound_uniroot(p_lower, cutoff = cutoff, direction = "decreasing")
-  )
-
-  list(
-    diff = diff_est,
-    diff_ci = diff_ci
-  )
 }
