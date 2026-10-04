@@ -1,4 +1,4 @@
-testthat::test_that("prop_chisq returns right result", {
+test_that("prop_chisq returns right result", {
   set.seed(1, kind = "Mersenne-Twister")
   rsp <- c(
     sample(c(TRUE, FALSE), size = 20, prob = c(3 / 4, 1 / 4), replace = TRUE),

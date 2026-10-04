@@ -760,6 +760,7 @@ NULL
 #' @param correct (`flag`)\cr whether to include the continuity correction. For further
 #'   information, see [stats::prop.test()].
 #'
+#' @order 1
 #' @examples
 #' # Wald confidence interval
 #' set.seed(2)
@@ -804,6 +805,7 @@ prop_diff_wald <- function(rsp,
 
 #' @describeIn h_prop_diff Anderson-Hauck confidence interval \insertCite{HauckAnderson1986}{tern}.
 #'
+#' @order 2
 #' @examples
 #' # Anderson-Hauck confidence interval
 #' ## "Mid" case: 3/4 respond in group A, 1/2 respond in group B.
@@ -840,8 +842,10 @@ prop_diff_ha <- function(rsp,
 }
 
 #' @describeIn h_prop_diff Newcombe confidence interval. It is based on
-#'   the Wilson score confidence interval for a single binomial proportion \insertCite{Newcombe1998}{tern}.
+#'   the Wilson score confidence interval for a single binomial proportion
+#'   \insertCite{Newcombe1998}{tern}.
 #'
+#' @order 3
 #' @examples
 #' # Newcombe confidence interval
 #'
@@ -884,91 +888,19 @@ prop_diff_nc <- function(rsp,
   )
 }
 
-#' @describeIn h_prop_diff Helper function to calculate the CMH weighted
-#' difference in proportions.
-#'
-#' @param tbl (`array`)\cr 3-dimensional array with dimensions corresponding to
-#'   group, response, and strata. The second dimension (response) should have names
-#'   "TRUE" and "FALSE".
-#'
-#' @keywords internal
-h_diff_cmh <- function(tbl) {
-  checkmate::assert_array(tbl)
-  checkmate::assert_integer(c(ncol(tbl), nrow(tbl)), lower = 2, upper = 2)
-  checkmate::assert_integer(length(dim(tbl)), lower = 3, upper = 3)
-  checkmate::assert_true(identical(dimnames(tbl)[[2]], c("TRUE", "FALSE")))
-
-  n1 <- colSums(tbl[1, 1:2, ])
-  n2 <- colSums(tbl[2, 1:2, ])
-  x1 <- tbl[1, 1, ]
-  p1 <- x1 / n1
-  x2 <- tbl[2, 1, ]
-  p2 <- x2 / n2
-  # CMH weights
-  use_stratum <- (n1 > 0) & (n2 > 0)
-  n1 <- n1[use_stratum]
-  n2 <- n2[use_stratum]
-  p1 <- p1[use_stratum]
-  p2 <- p2[use_stratum]
-  wt <- (n1 * n2 / (n1 + n2))
-  wt_normalized <- wt / sum(wt)
-  est1 <- sum(wt_normalized * p1)
-  est2 <- sum(wt_normalized * p2)
-  diff_est <- est2 - est1
-
-  list(
-    x1 = x1,
-    n1 = n1,
-    p1 = p1,
-    x2 = x2,
-    n2 = n2,
-    p2 = p2,
-    wt = wt,
-    wt_normalized = wt_normalized,
-    est1 = est1,
-    est2 = est2,
-    diff_est = diff_est
-  )
-}
-
-#' @describeIn h_prop_diff Helper function to calculate the standard error for the
-#'   CMH weighted difference in proportions.
-#'
-#' @param cmh_results (`list`)\cr output of [h_diff_cmh()].
-#'
-#' @keywords internal
-h_diff_cmh_se <- function(cmh_results, diff_se = c("standard", "sato")) {
-  checkmate::assert_list(cmh_results, types = "numeric", any.missing = FALSE, names = "unique")
-  diff_se <- match.arg(diff_se)
-  l <- cmh_results # For easier readability of the formulas below.
-  if (diff_se == "standard") {
-    terms1 <- l$p1 * (1 - l$p1) / l$n1
-    terms2 <- l$p2 * (1 - l$p2) / l$n2
-    sqrt(sum((terms1 + terms2) * l$wt_normalized^2))
-  } else {
-    # Sato variance estimator.
-    p_terms_num <- l$n2^2 * l$x1 -
-      l$n1^2 * l$x2 +
-      l$n1 * l$n2 * (l$n1 - l$n2) / 2
-    p_terms <- p_terms_num / (l$n1 + l$n2)^2
-    q_terms_num <- l$x1 * (l$n2 - l$x2) + l$x2 * (l$n1 - l$x1)
-    q_terms <- q_terms_num / (2 * (l$n1 + l$n2))
-    num <- l$diff_est * sum(p_terms) + sum(q_terms)
-    denom <- sum(l$wt)^2
-    sqrt(num / denom)
-  }
-}
-
-#' @describeIn h_prop_diff Calculates the weighted difference. This is defined as the difference in
-#'   response rates between the experimental treatment group and the control treatment group, adjusted
-#'   for stratification factors by applying Cochran-Mantel-Haenszel (CMH) weights. For the CMH chi-squared
+#' @describeIn h_prop_diff Calculates the weighted difference. This is defined
+#'   as the difference in response rates between the experimental treatment
+#'   group and the control treatment group, adjusted for stratification factors
+#'   by applying Cochran-Mantel-Haenszel (CMH) weights. For the CMH chi-squared
 #'   test, use [stats::mantelhaen.test()].
 #'
-#' @param strata (`factor`)\cr variable with one level per stratum and same length as `rsp`.
-#' @param diff_se (`string`)\cr method to estimate the standard error for the difference, either
-#'   `standard`, `sato` \insertCite{Sato1989}{tern} or
+#' @param strata (`factor`)\cr variable with one level per stratum and same
+#'   length as `rsp`.
+#' @param diff_se (`string`)\cr method to estimate the standard error for the
+#'   difference, either `standard`, `sato` \insertCite{Sato1989}{tern} or
 #'   `miettinen_nurminen` \insertCite{MiettinenNurminen1985}{tern}.
 #'
+#' @order 4
 #' @examples
 #' # Cochran-Mantel-Haenszel confidence interval
 #'
@@ -997,142 +929,51 @@ prop_diff_cmh <- function(rsp,
                           strata,
                           conf_level = 0.95,
                           diff_se = c("standard", "sato", "miettinen_nurminen")) {
+  diff_se <- match.arg(diff_se)
+
   grp <- as_factor_keep_attributes(grp)
   strata <- as_factor_keep_attributes(strata)
-  diff_se <- match.arg(diff_se)
   check_diff_prop_ci(
     rsp = rsp, grp = grp, conf_level = conf_level, strata = strata
   )
 
-  if (any(tapply(rsp, strata, length, default = 0) < 5)) {
+  # 1st dimension: CONTROL, TX
+  # 2nd dimension: TRUE, FALSE
+  # 3rd dimension: levels of strata
+  # Note: rsp needs to be a factor to handle edge case of no FALSE (or TRUE).
+  tbl <- table(grp, factor(rsp, levels = c("TRUE", "FALSE")), strata)
+
+  if (any(marginSums(tbl, margin = 3L) < 5L)) {
     warning("Less than 5 observations in some strata.")
   }
 
-  # first dimension: CONTROL, TX
-  # 2nd dimension: TRUE, FALSE
-  # 3rd dimension: levels of strata
-  # Note: rsp needs to be a factor to handle edge case of
-  #       no FALSE (or TRUE) rsp records.
-  t_tbl <- table(
-    grp,
-    factor(rsp, levels = c("TRUE", "FALSE")),
-    strata
-  )
-  cmh <- h_diff_cmh(t_tbl)
-
-  estimate <- c(cmh$est1, cmh$est2)
-  names(estimate) <- levels(grp)
-  se1 <- sqrt(sum(cmh$wt_normalized^2 * cmh$p1 * (1 - cmh$p1) / cmh$n1))
-  se2 <- sqrt(sum(cmh$wt_normalized^2 * cmh$p2 * (1 - cmh$p2) / cmh$n2))
-  z <- stats::qnorm((1 + conf_level) / 2)
-  err1 <- z * se1
-  err2 <- z * se2
-  ci1 <- c((cmh$est1 - err1), (cmh$est1 + err1))
-  ci2 <- c((cmh$est2 - err2), (cmh$est2 + err2))
-  estimate_ci <- list(ci1, ci2)
-  names(estimate_ci) <- levels(grp)
+  prop <- h_prop_cmh(tbl, conf_level = conf_level)
+  prop_diff_est <- unname(prop$est2 - prop$est1)
 
   if (diff_se %in% c("standard", "sato")) {
-    se_diff <- h_diff_cmh_se(cmh, diff_se = diff_se)
-    diff_ci <- c(cmh$diff_est - z * se_diff, cmh$diff_est + z * se_diff)
-  } else {
-    # Miettinen and Nurminen method is used.
-    z_stat_fun <- function(delta) {
-      var_est <- h_miettinen_nurminen_var_est(
-        n1 = cmh$n1, n2 = cmh$n2,
-        x1 = cmh$x1, x2 = cmh$x2,
-        diff_par = delta
-      )$var_est
-      num <- sum(cmh$wt * (cmh$p2 - cmh$p1 - delta))
-      denom <- sqrt(sum(cmh$wt^2 * var_est))
-      num / denom
+    prop_diff_var <- if (diff_se == "standard") {
+      unname(prop$var1 + prop$var2)
+    } else { # "sato"
+      h_cmh_sato_var(prop)
     }
-    # Find upper and lower confidence limits by root finding such that
-    # z_stat_fun(limit) = +/- z quantile:
-    root_lower <- function(delta) z_stat_fun(delta) - z
-    root_upper <- function(delta) z_stat_fun(delta) + z
-    diff_ci <- c(
-      stats::uniroot(root_lower, interval = c(-0.99, cmh$diff_est))$root,
-      stats::uniroot(root_upper, interval = c(cmh$diff_est, 0.99))$root
-    )
-    # Calculate the standard error separately.
-    var_est <- h_miettinen_nurminen_var_est(
-      n1 = cmh$n1, n2 = cmh$n2,
-      x1 = cmh$x1, x2 = cmh$x2,
-      diff_par = cmh$diff_est
-    )$var_est
-    se_diff <- sqrt(sum(cmh$wt_normalized^2 * var_est))
+    prop_diff_se <- sqrt(prop_diff_var)
+    z <- stats::qnorm((1 + conf_level) / 2)
+    prop_diff_ci <- prop_diff_est + c(-1, 1) * z * prop_diff_se
+  } else { # "miettinen_nurminen"
+    mn <- h_miettinen_nurminen_stratified_ci(prop, conf_level = conf_level)
+    prop_diff_se <- mn$se
+    prop_diff_ci <- mn$ci
   }
 
   list(
-    prop = estimate,
-    prop_ci = estimate_ci,
-    diff = cmh$diff_est,
-    diff_ci = diff_ci,
-    se_diff = se_diff,
-    weights = cmh$wt_normalized,
-    n1 = cmh$n1,
-    n2 = cmh$n2
-  )
-}
-
-#' Variance Estimates in Strata following Miettinen and Nurminen
-#'
-#' The variable names in this function follow the notation in the original
-#' paper by \insertCite{MiettinenNurminen1985;textual}{tern}, cf. Appendix 1.
-#'
-#' @param n1 (`numeric`)\cr sample sizes in group 1.
-#' @param n2 (`numeric`)\cr sample sizes in group 2.
-#' @param x1 (`numeric`)\cr number of responders in group 1.
-#' @param x2 (`numeric`)\cr number of responders in group 2.
-#' @param diff_par (`numeric`)\cr assumed difference in true proportions
-#'   (group 2 minus group 1).
-#' @return A named `list` with elements:
-#'
-#' - `p1_hat`: estimated proportion in group 1
-#' - `p2_hat`: estimated proportion in group 2
-#' - `var_est`: variance estimate of the difference in proportions
-#'
-#' @keywords internal
-#' @references
-#'   \insertAllCited{}
-h_miettinen_nurminen_var_est <- function(n1, n2, x1, x2, diff_par) {
-  # nolint start
-  # Translate to the notation in the paper.
-  S0 <- n1
-  S1 <- n2
-  c0 <- x1
-  c1 <- x2
-  RD <- diff_par
-
-  # Further definitions.
-  S <- S0 + S1
-  c <- c0 + c1
-
-  # Coefficients of the third-degree polynomial.
-  L3 <- S
-  L2 <- (S1 + 2 * S0) * RD - S - c
-  L1 <- (S0 * RD - S - 2 * c0) * RD + c
-  L0 <- c0 * RD * (1 - RD)
-  # nolint end
-
-  # Solution for group 1 proportion.
-  q <- L2^3 / (3 * L3)^3 - L1 * L2 / (6 * L3^2) + L0 / (2 * L3)
-  p <- sign(q) * sqrt(L2^2 / (3 * L3)^2 - L1 / (3 * L3))
-  a <- (1 / 3) * (base::pi + acos(q / p^3))
-  p1_hat <- 2 * p * cos(a) - L2 / (3 * L3)
-
-  # Estimated group 2 proportion.
-  p2_hat <- p1_hat + RD
-
-  # Variance estimate.
-  var_est <- (p1_hat * (1 - p1_hat) / n1 + p2_hat * (1 - p2_hat) / n2) *
-    S / (S - 1)
-
-  list(
-    p1_hat = p1_hat,
-    p2_hat = p2_hat,
-    var_est = var_est
+    prop = prop$est_both_groups,
+    prop_ci = prop$ci_both_groups,
+    diff = prop_diff_est,
+    diff_ci = prop_diff_ci,
+    se_diff = prop_diff_se,
+    weights = prop$w_normalized,
+    n1 = prop$n1,
+    n2 = prop$n2
   )
 }
 
@@ -1149,6 +990,7 @@ h_miettinen_nurminen_var_est <- function(n1, n2, x1, x2, diff_par) {
 #'   the Cochran-Mantel-Haenszel method, while `"wilson_h"` uses the heuristic
 #'   weights proposed by [prop_strat_wilson()].
 #'
+#' @order 5
 #' @examples
 #' # Stratified Newcombe confidence interval
 #'
@@ -1247,6 +1089,535 @@ prop_diff_strat_nc <- function(rsp,
     "diff" = diff_est,
     "diff_ci" = c("lower" = lower, "upper" = upper)
   )
+}
+
+
+#' @describeIn h_prop_diff Unconditional exact confidence interval for the difference in
+#'   proportions by inverting one-sided tail tests over a nuisance parameter. This is
+#'   the "tail method" described by Santner and Snell \insertCite{SantnerSnell1980}{tern}.
+#'
+#' @order 6
+#' @examples
+#' # Unconditional exact confidence interval
+#' n11 <- 40
+#' n21 <- 5
+#' n1 <- 78
+#' n2 <- 17
+#' rsp <- c(rep(TRUE, n21), rep(FALSE, n2 - n21), rep(TRUE, n11), rep(FALSE, n1 - n11))
+#' grp <- factor(c(rep("B", n2), rep("A", n1)), levels = c("B", "A"))
+#'
+#' prop_diff_uncond_exact(rsp = rsp, grp = grp, conf_level = 0.95)
+#'
+#' @export
+prop_diff_uncond_exact <- function(rsp,
+                                   grp,
+                                   conf_level = 0.95) {
+  grp <- as_factor_keep_attributes(grp)
+  check_diff_prop_ci(rsp = rsp, grp = grp, conf_level = conf_level)
+
+  alpha <- 1 - conf_level
+  cutoff <- alpha / 2
+
+  tbl <- table(grp, factor(rsp, levels = c(TRUE, FALSE)))
+
+  # Step 0: Calculate the observed difference in proportions
+  # and the observed test statistic value.
+  n2 <- sum(tbl[1, ])
+  n1 <- sum(tbl[2, ])
+
+  if (n1 == 0 || n2 == 0) {
+    return(list(
+      diff = NaN,
+      diff_ci = c(NaN, NaN)
+    ))
+  }
+
+  n21_obs <- tbl[1, 1]
+  n11_obs <- tbl[2, 1]
+  diff_est <- n11_obs / n1 - n21_obs / n2
+
+  # Step 1: Enumerate all tables in A with fixed row margins
+  # n1 and n2.
+  if (n1 * n2 > 1e5) {
+    warning("uncond_exact_diff: Large sample sizes may lead to long computation time.")
+  }
+  tables <- expand.grid(
+    n11 = 0:n1,
+    n21 = 0:n2
+  )
+
+  # Step 2: Compute T(a) = n11 / n1 - n21 / n2 for each table a in A.
+  t_values <- tables$n11 / n1 - tables$n21 / n2
+  t0 <- diff_est
+
+  # Step 3: For each hypothesized difference d*, compute the worst-case
+  # tail probabilities P_U(d*) and P_L(d*) by maximizing over the nuisance
+  # parameter p2.
+  p_upper <- function(d_star) {
+    # Step 4a: Compute worst-case one-sided tail probability:
+    # P_U(d*) = sup_p2 sum_{T(a) >= t0} f(...)
+    h_worst_case_tail_probability(
+      d_star = d_star,
+      n1 = n1,
+      n2 = n2,
+      t_values = t_values,
+      t0 = t0,
+      tables = tables,
+      tail = "upper"
+    )
+  }
+  p_lower <- function(d_star) {
+    # Step 4b: Compute worst-case one-sided tail probability:
+    # P_L(d*) = sup_p2 sum_{T(a) <= t0} f(...)
+    h_worst_case_tail_probability(
+      d_star = d_star,
+      n1 = n1,
+      n2 = n2,
+      t_values = t_values,
+      t0 = t0,
+      tables = tables,
+      tail = "lower"
+    )
+  }
+
+  # Step 5: Invert one-sided tests to obtain the two-sided
+  # 100 * (1 - alpha)% CI for d = p1 - p2.
+  # For monotone one-sided p-value functions, use uniroot to solve
+  # P_U(d) = alpha/2 and P_L(d) = alpha/2 directly.
+  diff_ci <- c(
+    h_find_ci_bound_uniroot(p_upper, cutoff = cutoff, direction = "increasing"),
+    h_find_ci_bound_uniroot(p_lower, cutoff = cutoff, direction = "decreasing")
+  )
+
+  list(
+    diff = diff_est,
+    diff_ci = diff_ci
+  )
+}
+
+#' Helper function to calculate the CMH-weighted proportions and their
+#' confidence intervals.
+#'
+#' @description `r lifecycle::badge("stable")`
+#'
+#' @param tbl (`array`)\cr
+#'   A three-dimensional contingency table containing counts for each
+#'   combination of group, response, and stratum, in that order.
+#'   The first two dimensions must each have exactly two levels, and the second
+#'   dimension (response) must have names `"TRUE"` and `"FALSE"`.
+#'   At least one stratum must be present. Strata with all cell counts equal to
+#'   zero are allowed.
+#'   All cell values must be finite, non-missing integer counts.
+#' @param conf_level (`number(1)`)\cr
+#'   Confidence level for the confidence intervals.
+#'
+#' @return A named list containing the CMH-weighted proportion estimates,
+#'   confidence intervals, and intermediate quantities.
+#'   The stratum-specific quantities `x1`, `n1`, `p1`, `x2`, `n2`, `p2`, `w`,
+#'   and `w_normalized` are vectors with a length equal to the number of strata
+#'   in `tbl` and retain the same stratum order.
+#'   Some of these quantities may be `NA` for strata where they are not defined.
+#'   In particular, `p1` or `p2` is `NA` when the corresponding group has no
+#'   observations in that stratum.
+#'
+#'   `est1` and `est2` are the overall CMH-weighted proportion estimates for the
+#'   two groups, respectively. `est_both_groups` contains these two estimates in
+#'   group order.
+#'   `ci_both_groups` contains the corresponding confidence intervals in the same
+#'   group order.
+#'
+#'   If no stratum contains observations in both groups, the CMH weights
+#'   cannot be normalized and the overall estimates and confidence intervals
+#'   are `NA`
+#'
+#' @seealso [prop_diff_cmh()]
+#' @keywords internal
+#'
+h_prop_cmh <- function(tbl, conf_level = 0.95) {
+  checkmate::assert_array(tbl, mode = "integerish", any.missing = FALSE, d = 3L)
+  checkmate::assert_true(nrow(tbl) == 2L)
+  checkmate::assert_true(ncol(tbl) == 2L)
+  checkmate::assert_true(dim(tbl)[3L] > 0L)
+  checkmate::assert_true(identical(dimnames(tbl)[[2]], c("TRUE", "FALSE")))
+  checkmate::assert_true(all(tbl >= 0))
+  checkmate::assert_true(all(is.finite(tbl)))
+  assert_proportion_value(conf_level)
+
+  strata_names <- dimnames(tbl)[[3L]] # Can be NULL.
+
+  x1 <- setNames(tbl[1L, "TRUE", ], strata_names)
+  x2 <- setNames(tbl[2L, "TRUE", ], strata_names)
+  n1 <- apply(tbl[1L, , , drop = FALSE], MARGIN = 3L, sum)
+  n2 <- apply(tbl[2L, , , drop = FALSE], MARGIN = 3L, sum)
+  p1 <- ifelse(n1 > 0, x1 / n1, NA_real_)
+  p2 <- ifelse(n2 > 0, x2 / n2, NA_real_)
+
+  # CMH weights.
+  w <- ifelse(n1 + n2 > 0, (n1 * n2) / (n1 + n2), NA_real_)
+  w_sum <- sum(w, na.rm = TRUE)
+
+  if (w_sum > 0) {
+    # In addition to ensuring a non-zero denominator, w_sum > 0 ensures that
+    # for at least one stratum h, w[h] is non-NA and > 0, and therefore,
+    # n1[h] > 0 and n2[h] > 0.
+    # Consequently, p1[h], p2[h], and w_normalized[h] are all non-NA.
+    # Thus, all four sums below contain at least one non-NA element and cannot
+    # yield an unjustified 0.
+    # This is important to note because sum(numeric(0)) returns 0.
+    w_normalized <- w / w_sum
+    est1 <- sum(w_normalized * p1, na.rm = TRUE)
+    est2 <- sum(w_normalized * p2, na.rm = TRUE)
+
+    var1 <- sum(w_normalized^2 * p1 * (1 - p1) / n1, na.rm = TRUE)
+    var2 <- sum(w_normalized^2 * p2 * (1 - p2) / n2, na.rm = TRUE)
+    z <- stats::qnorm((1 + conf_level) / 2)
+    ci1 <- est1 + c(-1, 1) * z * sqrt(var1)
+    ci2 <- est2 + c(-1, 1) * z * sqrt(var2)
+  } else {
+    w_normalized <- setNames(rep(NA_real_, dim(tbl)[3L]), strata_names)
+    est1 <- est2 <- var1 <- var2 <- NA_real_
+    ci1 <- ci2 <- c(NA_real_, NA_real_)
+  }
+
+  group_names <- dimnames(tbl)[[1L]] # Can be NULL.
+
+  list(
+    x1 = x1, n1 = n1, p1 = p1, # Quantities for group 1.
+    x2 = x2, n2 = n2, p2 = p2, # Quantities for group 2.
+    w = w,
+    w_normalized = w_normalized,
+    est1 = setNames(est1, group_names[1L]),
+    est2 = setNames(est2, group_names[2L]),
+    est_both_groups = setNames(c(est1, est2), group_names),
+    var1 = setNames(var1, group_names[1L]),
+    var2 = setNames(var2, group_names[2L]),
+    ci_both_groups = setNames(list(ci1, ci2), group_names)
+  )
+}
+
+#' Sato Variance Estimate for the CMH-weighted Difference in Proportions
+#'
+#' @description `r lifecycle::badge("stable")`
+#'
+#' Calculates the Sato variance estimate for the difference between two
+#' Cochran-Mantel-Haenszel (CMH)-weighted proportions. The estimate is used to
+#' obtain the standard error and confidence interval for the stratified
+#' difference in response proportions.
+#'
+#' The calculation follows the variance estimator proposed by
+#' \insertCite{Sato1989;textual}{tern}. The required stratum-specific counts,
+#' sample sizes, CMH weights, and overall CMH-weighted proportion estimates are
+#' supplied in the `prop` object returned by [h_prop_cmh()].
+#'
+#' @details
+#'   `h_cmh_sato_var()` takes a `prop` list as returned by [h_prop_cmh()].
+#'   The `prop` object must contain vectors `est1`, `est2`, `x1`, `x2`,
+#'   `n1`, `n2`, and `w`, which provide the overall CMH-weighted estimates
+#'   and the stratum-specific quantities required for the Sato variance
+#'   calculation.
+#'
+#' @param prop (`list`)\cr
+#'   A named list returned by [h_prop_cmh()]. It must contain the following
+#'   atomic vectors:
+#'   \describe{
+#'    \item{`est1`}{CMH-weighted estimated proportion for group 1.
+#'    May be `NA_real_` when a CMH-weighted estimate cannot be calculated.}
+#'    \item{`est2`}{CMH-weighted estimated proportion for group 2.
+#'    May be `NA_real_` when a CMH-weighted estimate cannot be calculated.}
+#'    \item{`x1`}{Number of responders in group 1 for each stratum.}
+#'    \item{`x2`}{Number of responders in group 2 for each stratum.}
+#'    \item{`n1`}{Number of observations in group 1 for each stratum.}
+#'    \item{`n2`}{Number of observations in group 2 for each stratum.}
+#'    \item{`w`}{Unnormalized CMH weights for each stratum.}
+#'   }
+#'
+#'   The vectors `x1`, `x2`, `n1`, `n2`, and `w` must be of the same length.
+#'
+#'   The unnormalized CMH weights for stratum \eqn{i} given by
+#'   \deqn{
+#'    \frac{n_{1i} n_{2i}}{n_{1i} + n_{2i}},
+#'   }
+#'   for \eqn{n_{1i} + n_{2i} > 0}, where \eqn{n_{1i}} is the total number of
+#'   observations in group \eqn{1} in stratum \eqn{i}, and \eqn{n_{2i}} is the
+#'   total number of observations in group \eqn{2} in stratum \eqn{i}.
+#'
+#'   Missing weights in `w` are allowed and are ignored when calculating their
+#'   sum.
+#'
+#' @return A `numeric(1)` containing the Sato estimate of the variance of
+#'   the CMH-weighted difference in proportions. Returns `NA_real_` when
+#'   the variance cannot be estimated because there are no usable strata
+#'   or the sum of the supplied CMH weights is zero.
+#'
+#' @seealso [prop_diff_cmh()], [h_prop_cmh()]
+#'
+#' @references
+#'   \insertAllCited{}
+#'
+#' @keywords internal
+#'
+h_cmh_sato_var <- function(prop) {
+  checkmate::assert_list(prop, min.len = 7L, names = "named")
+  checkmate::assert_subset(c("est1", "est2", "x1", "x2", "n1", "n2", "w"), names(prop))
+  checkmate::assert_number(prop$est1, lower = -1, upper = 1, na.ok = TRUE, finite = TRUE)
+  checkmate::assert_number(prop$est2, lower = -1, upper = 1, na.ok = TRUE, finite = TRUE)
+  checkmate::assert_integerish(prop$x1, min.len = 1L, lower = 0, any.missing = FALSE)
+  checkmate::assert_integerish(prop$x2, len = length(prop$x1), lower = 0, any.missing = FALSE)
+  checkmate::assert_integerish(prop$n1, len = length(prop$x1), lower = 0, any.missing = FALSE)
+  checkmate::assert_integerish(prop$n2, len = length(prop$x1), lower = 0, any.missing = FALSE)
+  checkmate::assert_true(all(prop$x1 <= prop$n1))
+  checkmate::assert_true(all(prop$x2 <= prop$n2))
+  checkmate::assert_numeric(prop$w, len = length(prop$x1), lower = 0, finite = TRUE)
+
+  # For easier readability of the formulas below.
+  est1 <- prop$est1
+  est2 <- prop$est2
+  x1 <- prop$x1
+  x2 <- prop$x2
+  n1 <- prop$n1
+  n2 <- prop$n2
+  w_unnormalized <- prop$w
+
+  n <- n1 + n2
+
+  p_numerator <- n2^2 * x1 - n1^2 * x2 + n1 * n2 * (n1 - n2) / 2
+  p <- ifelse(n > 0, p_numerator / n^2, NA_real_)
+
+  q_numerator <- x1 * (n2 - x2) + x2 * (n1 - x1)
+  q <- ifelse(n > 0, q_numerator / (2 * n), NA_real_)
+
+  w_sum <- sum(w_unnormalized, na.rm = TRUE)
+  if (any(!is.na(p)) && w_sum > 0) { # Note: any(!is.na(p)) == TRUE <=> any(!is.na(q)) == TRUE.
+    num <- (est2 - est1) * sum(p, na.rm = TRUE) + sum(q, na.rm = TRUE)
+    unname(num) / w_sum^2
+  } else {
+    NA_real_
+  }
+}
+
+#' Variance Estimate Following Miettinen and Nurminen
+#'
+#' @description `r lifecycle::badge("stable")`
+#'
+#' Calculates the \insertCite{MiettinenNurminen1985;textual}{tern} variance
+#' estimate for the difference between two proportions. The estimate is based on
+#' the constrained maximum likelihood estimates of the two proportions under the
+#' specified risk difference and is used to obtain the standard error for the
+#' Miettinen-Nurminen confidence interval.
+#'
+#' @details
+#' The risk difference is defined as `est2` - `est1`. For each stratum, the
+#' function calculates the constrained maximum likelihood estimate for the
+#' proportion in group 1 and obtains the corresponding estimate for group 2
+#' by adding the risk difference. The variance is then calculated from these
+#' estimates using the Miettinen-Nurminen variance formula.
+#'
+#' The variance is returned as `NA_real_` for strata where the variance cannot
+#' be calculated.
+#'
+#' The variable names in this function follow the notation in the original
+#' paper by \insertCite{MiettinenNurminen1985;textual}{tern}, cf. Appendix 1.
+#'
+#' @param est1 (`numeric(1)`) \cr
+#'   Estimated proportion for group 1. Used together with `est2` to define the
+#'   risk difference.
+#'   May be `NA_real_` when an estimate cannot be calculated.
+#' @param est2 (`numeric(1)`) \cr
+#'   Estimated proportion for group 2. Used together with `est1` to define the
+#'   risk difference.
+#'   May be `NA_real_` when an estimate cannot be calculated.
+#' @param x1 (`numeric`) \cr
+#'   Number of responders in group 1 for each stratum.
+#'   Must have length at least 1.
+#' @param x2 (`numeric`) \cr
+#'   Number of responders in group 2 for each stratum.
+#'   Must have the same length as `x1`.
+#' @param n1 (`numeric`) \cr
+#'   Number of observations in group 1 for each stratum.
+#'   Must have the same length as `x1`.
+#' @param n2 (`numeric`) \cr
+#'   Number of observations in group 2 for each stratum.
+#'   Must have the same length as `x1`.
+#'
+#' @return A named `list` with elements:
+#'
+#' - `p1_est`: constrained maximum likelihood estimate of the proportion in
+#'   group 1 for each stratum.
+#' - `p2_est`: constrained maximum likelihood estimate of the proportion in
+#'   group 2 for each stratum.
+#' - `var_est`: Miettinen-Nurminen variance estimate for each stratum.
+#'
+#' @seealso [prop_diff_cmh()], [h_prop_cmh()], [h_miettinen_nurminen_stratified_ci()]
+#' @references
+#'   \insertAllCited{}
+#'
+#' @keywords internal
+#'
+h_miettinen_nurminen_var <- function(est1, est2, x1, x2, n1, n2) {
+  checkmate::assert_number(est1, lower = -1, upper = 1, na.ok = TRUE, finite = TRUE)
+  checkmate::assert_number(est2, lower = -1, upper = 1, na.ok = TRUE, finite = TRUE)
+  checkmate::assert_integerish(x1, min.len = 1L, lower = 0, any.missing = FALSE)
+  checkmate::assert_integerish(x2, len = length(x1), lower = 0, any.missing = FALSE)
+  checkmate::assert_integerish(n1, len = length(x1), lower = 0, any.missing = FALSE)
+  checkmate::assert_integerish(n2, len = length(x1), lower = 0, any.missing = FALSE)
+  checkmate::assert_true(all(x1 <= n1))
+  checkmate::assert_true(all(x2 <= n2))
+
+  # nolint start
+  # Translate to the notation in the paper.
+  S0 <- n1
+  S1 <- n2
+  c0 <- x1
+  c1 <- x2
+  RD <- est2 - est1
+
+  # Further definitions.
+  S <- S0 + S1
+  c <- c0 + c1
+
+  # Coefficients of the third-degree polynomial.
+  L3 <- S
+  L2 <- (S1 + 2 * S0) * RD - S - c
+  L1 <- (S0 * RD - S - 2 * c0) * RD + c
+  L0 <- c0 * RD * (1 - RD)
+  # nolint end
+
+  # Solution for group 1 proportion.
+  q <- L2^3 / (3 * L3)^3 - L1 * L2 / (6 * L3^2) + L0 / (2 * L3)
+  p <- sign(q) * sqrt(L2^2 / (3 * L3)^2 - L1 / (3 * L3))
+  a <- (1 / 3) * (base::pi + acos(q / p^3))
+  p1_mle <- 2 * p * cos(a) - L2 / (3 * L3)
+
+  # Estimated group 2 proportion.
+  p2_mle <- p1_mle + RD
+
+  # Variance estimate.
+  var_est <- ifelse(
+    n1 > 0 & n2 > 0 & S > 1,
+    (p1_mle * (1 - p1_mle) / n1 + p2_mle * (1 - p2_mle) / n2) * S / (S - 1),
+    NA_real_
+  )
+
+  list(
+    p1_est = p1_mle,
+    p2_est = p2_mle,
+    var_est = var_est
+  )
+}
+
+#' Stratified Miettinen-Nurminen Confidence Interval
+#'
+#' @description `r lifecycle::badge("experimental")`
+#'
+#' Calculates the stratified Miettinen-Nurminen confidence interval and
+#' standard error for the difference in proportions. The method uses
+#' constrained maximum likelihood estimates within each stratum and combines
+#' the stratum-specific variance estimates using the normalized CMH weights.
+#'
+#' @details
+#' The difference in proportions is defined as the proportion in group 2
+#' minus the proportion in group 1.
+#'
+#' @param prop (`list`)\cr
+#'   A named list returned by [h_prop_cmh()]. It must contain the following
+#'   atomic vectors:
+#'   \describe{
+#'    \item{`est1`}{CMH-weighted estimated proportion for group 1.
+#'    May be `NA_real_` when a CMH-weighted estimate cannot be calculated.}
+#'    \item{`est2`}{CMH-weighted estimated proportion for group 2.
+#'    May be `NA_real_` when a CMH-weighted estimate cannot be calculated.}
+#'    \item{`x1`}{Number of responders in group 1 for each stratum.}
+#'    \item{`x2`}{Number of responders in group 2 for each stratum.}
+#'    \item{`n1`}{Number of observations in group 1 for each stratum.}
+#'    \item{`n2`}{Number of observations in group 2 for each stratum.}
+#'    \item{`p1`}{Observed response proportion in group 1 for each stratum.}
+#'    \item{`p2`}{Observed response proportion in group 2 for each stratum.}
+#'    \item{`w`}{Unnormalized CMH weight for each stratum.}
+#'    \item{`w_normalized`}{Normalized CMH weight for each stratum.}
+#'   }
+#'
+#' @param conf_level (`number(1)`) \cr
+#'   Confidence level for the confidence interval.
+#'
+#' @return A named list containing:
+#'   \describe{
+#'    \item{`ci`}{(`numeric(2)`) Lower and upper confidence limits for the
+#'    stratified difference in proportions.}
+#'    \item{`se`}{(`numeric(1)`) Standard error of the stratified difference
+#'    in proportions.}
+#'   }
+#'
+#' @seealso [prop_diff_cmh()], [h_prop_cmh()], [h_miettinen_nurminen_var()]
+#'
+#' @keywords internal
+h_miettinen_nurminen_stratified_ci <- function(prop, conf_level = 0.95) {
+  checkmate::assert_list(prop, min.len = 10L, names = "named")
+  checkmate::assert_subset(
+    c("est1", "est2", "x1", "x2", "n1", "n2", "p1", "p2", "w", "w_normalized"),
+    names(prop)
+  )
+  checkmate::assert_number(prop$est1, lower = -1, upper = 1, na.ok = TRUE, finite = TRUE)
+  checkmate::assert_number(prop$est2, lower = -1, upper = 1, na.ok = TRUE, finite = TRUE)
+  checkmate::assert_numeric(prop$p1, min.len = 1L, lower = 0, upper = 1, finite = TRUE)
+  checkmate::assert_numeric(prop$p2, len = length(prop$p1), lower = 0, upper = 1, finite = TRUE)
+  checkmate::assert_numeric(prop$w, len = length(prop$p1), lower = 0, finite = TRUE)
+  checkmate::assert_numeric(prop$w_normalized, len = length(prop$p1), lower = 0, finite = TRUE)
+  assert_proportion_value(conf_level)
+
+  p <- prop # For easier readability of the formulas below.
+
+  if (is.na(p$est1) || is.na(p$est2)) {
+    return(list(ci = c(NA_real_, NA_real_), se = NA_real_))
+  }
+
+  # Calculate the standard error.
+  var_est <- h_miettinen_nurminen_var(
+    est1 = p$est1, est2 = p$est2,
+    x1 = p$x1, x2 = p$x2,
+    n1 = p$n1, n2 = p$n2
+  )$var_est
+
+  w_var <- p$w_normalized^2 * var_est
+  se <- if (any(!is.na(w_var))) {
+    sqrt(sum(w_var, na.rm = TRUE))
+  } else {
+    NA_real_
+  }
+
+  # Calculate the confidence interval.
+
+  # Stratified Miettinen-Nurminen score function.
+  score_fun <- function(delta) {
+    var_est <- h_miettinen_nurminen_var(
+      est1 = 0, est2 = delta,
+      x1 = p$x1, x2 = p$x2,
+      n1 = p$n1, n2 = p$n2
+    )$var_est
+
+    # Ensure that both the numerator and denominator are computed
+    # using the same set of strata.
+    non_na <- !is.na(p$w) & !is.na(p$p1) & !is.na(p$p2) & !is.na(var_est)
+
+    denom <- sqrt(sum(p$w[non_na]^2 * var_est[non_na]))
+    if (any(non_na) && denom > 0) {
+      sum(p$w[non_na] * (p$p2[non_na] - p$p1[non_na] - delta)) / denom
+    } else {
+      NA_real_
+    }
+  }
+
+  # Confidence interval consists of all values of delta for which
+  # score_fun(delta) falls in the two-sided acceptance region,
+  # {delta: -z <= score_fun(delta) <= z}, where z = z_{1 - alpha/2}.
+  z <- stats::qnorm((1 + conf_level) / 2)
+  root_lower <- function(delta) score_fun(delta) - z
+  root_upper <- function(delta) score_fun(delta) + z
+  ci <- c(
+    uniroot_catch_na(root_lower, interval = c(-0.99, p$est2 - p$est1)),
+    uniroot_catch_na(root_upper, interval = c(p$est2 - p$est1, 0.99))
+  )
+
+  list(ci = ci, se = se)
 }
 
 #' Worst case tail probability for unconditional exact CI calculation

@@ -1,4 +1,4 @@
-# `prop_diff_ha` (proportion difference by Anderson-Hauck)
+# prop_diff_ha (proportion difference by Anderson-Hauck)
 
     Code
       res
@@ -22,7 +22,7 @@
       [1] -0.8451161  0.8451161
       
 
-# `prop_diff_nc` (proportion difference by Newcombe)
+# prop_diff_nc (proportion difference by Newcombe)
 
     Code
       res
@@ -46,7 +46,7 @@
       [1] -0.361619  0.361619
       
 
-# `prop_diff_wald` (proportion difference by Wald's test: with correction)
+# prop_diff_wald (proportion difference by Wald's test: with correction)
 
     Code
       res
@@ -82,7 +82,7 @@
       [1] -0.375  0.375
       
 
-# `prop_diff_wald` (proportion difference by Wald's test: without correction)
+# prop_diff_wald (proportion difference by Wald's test: without correction)
 
     Code
       res
@@ -118,7 +118,7 @@
       [1] 0 0
       
 
-# `prop_diff_cmh` (proportion difference by CMH)
+# prop_diff_cmh (proportion difference by CMH)
 
     Code
       res
@@ -157,7 +157,7 @@
         8   9   4   9   6   6 
       
 
-# `prop_diff_cmh` with Sato variance estimator for difference
+# prop_diff_cmh with Sato variance estimator for difference
 
     Code
       res
@@ -196,17 +196,6 @@
         8   9   4   9   6   6 
       
 
-# h_miettinen_nurminen_var_est works as expected
-
-    list(p1_hat = 0.342213591803752, p2_hat = 0.442213591803752, 
-        var_est = 0.0405774934104561)
-
----
-
-    list(p1_hat = c(0.342213591803752, 0.265846883932378), p2_hat = c(0.442213591803752, 
-    0.365846883932378), var_est = c(0.0405774934104561, 0.0301587022300622
-    ))
-
 # prop_diff_cmh works correctly when some strata don't have both groups
 
     Code
@@ -234,16 +223,16 @@
       [1] 0.09489839
       
       $weights
-            b.x       a.y       b.y       a.z       b.z 
-      0.2408257 0.1297378 0.2408257 0.1997279 0.1888829 
+            a.x       b.x       a.y       b.y       a.z       b.z 
+      0.0000000 0.2408257 0.1297378 0.2408257 0.1997279 0.1888829 
       
       $n1
-      b.x a.y b.y a.z b.z 
-       11   8  11  13  11 
+      a.x b.x a.y b.y a.z b.z 
+       12  11   8  11  13  11 
       
       $n2
-      b.x a.y b.y a.z b.z 
-        9   4   9   6   6 
+      a.x b.x a.y b.y a.z b.z 
+        0   9   4   9   6   6 
       
 
 # prop_diff_cmh works correctly when strata combinations are empty
@@ -273,16 +262,16 @@
       [1] 0.09489839
       
       $weights
-            b.x       a.y       b.y       a.z       b.z 
-      0.2408257 0.1297378 0.2408257 0.1997279 0.1888829 
+            a.x       b.x       a.y       b.y       a.z       b.z 
+             NA 0.2408257 0.1297378 0.2408257 0.1997279 0.1888829 
       
       $n1
-      b.x a.y b.y a.z b.z 
-       11   8  11  13  11 
+      a.x b.x a.y b.y a.z b.z 
+        0  11   8  11  13  11 
       
       $n2
-      b.x a.y b.y a.z b.z 
-        9   4   9   6   6 
+      a.x b.x a.y b.y a.z b.z 
+        0   9   4   9   6   6 
       
 
 # prop_diff_strat_nc output matches equivalent SAS function output
@@ -293,7 +282,1196 @@
            value      lower      upper 
       0.25390590 0.03467969 0.44544132 
 
-# `estimate_proportion_diff` is compatible with `rtables`
+# h_prop_cmh works as expected with non-sparse tables
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+      12 15  9 
+      
+      $n1
+      S1 S2 S3 
+      30 35 23 
+      
+      $p1
+             S1        S2        S3 
+      0.4000000 0.4285714 0.3913043 
+      
+      $x2
+      S1 S2 S3 
+       8 10  6 
+      
+      $n2
+      S1 S2 S3 
+      30 35 27 
+      
+      $p2
+             S1        S2        S3 
+      0.2666667 0.2857143 0.2222222 
+      
+      $w
+         S1    S2    S3 
+      15.00 17.50 12.42 
+      
+      $w_normalized
+             S1        S2        S3 
+      0.3339270 0.3895815 0.2764915 
+      
+      $est1
+            ref 
+      0.4087266 
+      
+      $est2
+        Not-ref 
+      0.2617988 
+      
+      $est_both_groups
+            ref   Not-ref 
+      0.4087266 0.2617988 
+      
+      $var1
+              ref 
+      0.002745713 
+      
+      $var2
+          Not-ref 
+      0.002101216 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] 0.3060254 0.5114279
+      
+      $ci_both_groups$`Not-ref`
+      [1] 0.1719559 0.3516416
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       1 42  0 
+      
+      $n1
+      S1 S2 S3 
+       8 50 95 
+      
+      $p1
+         S1    S2    S3 
+      0.125 0.840 0.000 
+      
+      $x2
+      S1 S2 S3 
+       0  3  2 
+      
+      $n2
+      S1 S2 S3 
+      13 70 13 
+      
+      $p2
+              S1         S2         S3 
+      0.00000000 0.04285714 0.15384615 
+      
+      $w
+             S1        S2        S3 
+       4.952381 29.166667 11.435185 
+      
+      $w_normalized
+             S1        S2        S3 
+      0.1087140 0.6402625 0.2510235 
+      
+      $est1
+            ref 
+      0.5514097 
+      
+      $est2
+         Not-ref 
+      0.06605883 
+      
+      $est_both_groups
+             ref    Not-ref 
+      0.55140974 0.06605883 
+      
+      $var1
+              ref 
+      0.001263492 
+      
+      $var2
+           Not-ref 
+      0.0008712136 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] 0.4817416 0.6210779
+      
+      $ci_both_groups$`Not-ref`
+      [1] 0.00820789 0.12390977
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 
+       1 
+      
+      $n1
+      S1 
+       8 
+      
+      $p1
+         S1 
+      0.125 
+      
+      $x2
+      S1 
+       0 
+      
+      $n2
+      S1 
+      13 
+      
+      $p2
+      S1 
+       0 
+      
+      $w
+            S1 
+      4.952381 
+      
+      $w_normalized
+      S1 
+       1 
+      
+      $est1
+        ref 
+      0.125 
+      
+      $est2
+      Not-ref 
+            0 
+      
+      $est_both_groups
+          ref Not-ref 
+        0.125   0.000 
+      
+      $var1
+             ref 
+      0.01367188 
+      
+      $var2
+      Not-ref 
+            0 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] -0.1041723  0.3541723
+      
+      $ci_both_groups$`Not-ref`
+      [1] 0 0
+      
+      
+
+# h_prop_cmh handles empty and sparse contingency tables
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       0  0  0 
+      
+      $n1
+      S1 S2 S3 
+       0  0  0 
+      
+      $p1
+      S1 S2 S3 
+      NA NA NA 
+      
+      $x2
+      S1 S2 S3 
+       0  0  0 
+      
+      $n2
+      S1 S2 S3 
+       0  0  0 
+      
+      $p2
+      S1 S2 S3 
+      NA NA NA 
+      
+      $w
+      S1 S2 S3 
+      NA NA NA 
+      
+      $w_normalized
+      S1 S2 S3 
+      NA NA NA 
+      
+      $est1
+      ref 
+       NA 
+      
+      $est2
+      Not-ref 
+           NA 
+      
+      $est_both_groups
+          ref Not-ref 
+           NA      NA 
+      
+      $var1
+      ref 
+       NA 
+      
+      $var2
+      Not-ref 
+           NA 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] NA NA
+      
+      $ci_both_groups$`Not-ref`
+      [1] NA NA
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       1  0  0 
+      
+      $n1
+      S1 S2 S3 
+       1  0  0 
+      
+      $p1
+      S1 S2 S3 
+       1 NA NA 
+      
+      $x2
+      S1 S2 S3 
+       0  0  0 
+      
+      $n2
+      S1 S2 S3 
+       0  0  0 
+      
+      $p2
+      S1 S2 S3 
+      NA NA NA 
+      
+      $w
+      S1 S2 S3 
+       0 NA NA 
+      
+      $w_normalized
+      S1 S2 S3 
+      NA NA NA 
+      
+      $est1
+      ref 
+       NA 
+      
+      $est2
+      Not-ref 
+           NA 
+      
+      $est_both_groups
+          ref Not-ref 
+           NA      NA 
+      
+      $var1
+      ref 
+       NA 
+      
+      $var2
+      Not-ref 
+           NA 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] NA NA
+      
+      $ci_both_groups$`Not-ref`
+      [1] NA NA
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       0  1  0 
+      
+      $n1
+      S1 S2 S3 
+       0  1  0 
+      
+      $p1
+      S1 S2 S3 
+      NA  1 NA 
+      
+      $x2
+      S1 S2 S3 
+       0  0  0 
+      
+      $n2
+      S1 S2 S3 
+       0  0  0 
+      
+      $p2
+      S1 S2 S3 
+      NA NA NA 
+      
+      $w
+      S1 S2 S3 
+      NA  0 NA 
+      
+      $w_normalized
+      S1 S2 S3 
+      NA NA NA 
+      
+      $est1
+      ref 
+       NA 
+      
+      $est2
+      Not-ref 
+           NA 
+      
+      $est_both_groups
+          ref Not-ref 
+           NA      NA 
+      
+      $var1
+      ref 
+       NA 
+      
+      $var2
+      Not-ref 
+           NA 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] NA NA
+      
+      $ci_both_groups$`Not-ref`
+      [1] NA NA
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       0  0  0 
+      
+      $n1
+      S1 S2 S3 
+       3  0  0 
+      
+      $p1
+      S1 S2 S3 
+       0 NA NA 
+      
+      $x2
+      S1 S2 S3 
+       0  0  0 
+      
+      $n2
+      S1 S2 S3 
+       0  0  0 
+      
+      $p2
+      S1 S2 S3 
+      NA NA NA 
+      
+      $w
+      S1 S2 S3 
+       0 NA NA 
+      
+      $w_normalized
+      S1 S2 S3 
+      NA NA NA 
+      
+      $est1
+      ref 
+       NA 
+      
+      $est2
+      Not-ref 
+           NA 
+      
+      $est_both_groups
+          ref Not-ref 
+           NA      NA 
+      
+      $var1
+      ref 
+       NA 
+      
+      $var2
+      Not-ref 
+           NA 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] NA NA
+      
+      $ci_both_groups$`Not-ref`
+      [1] NA NA
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       0  0  0 
+      
+      $n1
+      S1 S2 S3 
+       0  0  1 
+      
+      $p1
+      S1 S2 S3 
+      NA NA  0 
+      
+      $x2
+      S1 S2 S3 
+       0  0  0 
+      
+      $n2
+      S1 S2 S3 
+       0  0  0 
+      
+      $p2
+      S1 S2 S3 
+      NA NA NA 
+      
+      $w
+      S1 S2 S3 
+      NA NA  0 
+      
+      $w_normalized
+      S1 S2 S3 
+      NA NA NA 
+      
+      $est1
+      ref 
+       NA 
+      
+      $est2
+      Not-ref 
+           NA 
+      
+      $est_both_groups
+          ref Not-ref 
+           NA      NA 
+      
+      $var1
+      ref 
+       NA 
+      
+      $var2
+      Not-ref 
+           NA 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] NA NA
+      
+      $ci_both_groups$`Not-ref`
+      [1] NA NA
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       4  0  0 
+      
+      $n1
+      S1 S2 S3 
+       4  0  0 
+      
+      $p1
+      S1 S2 S3 
+       1 NA NA 
+      
+      $x2
+      S1 S2 S3 
+       0  7  0 
+      
+      $n2
+      S1 S2 S3 
+       0  7  0 
+      
+      $p2
+      S1 S2 S3 
+      NA  1 NA 
+      
+      $w
+      S1 S2 S3 
+       0  0 NA 
+      
+      $w_normalized
+      S1 S2 S3 
+      NA NA NA 
+      
+      $est1
+      ref 
+       NA 
+      
+      $est2
+      Not-ref 
+           NA 
+      
+      $est_both_groups
+          ref Not-ref 
+           NA      NA 
+      
+      $var1
+      ref 
+       NA 
+      
+      $var2
+      Not-ref 
+           NA 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] NA NA
+      
+      $ci_both_groups$`Not-ref`
+      [1] NA NA
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       0  0  0 
+      
+      $n1
+      S1 S2 S3 
+       9  0  0 
+      
+      $p1
+      S1 S2 S3 
+       0 NA NA 
+      
+      $x2
+      S1 S2 S3 
+       0  0  0 
+      
+      $n2
+      S1 S2 S3 
+       0 12  0 
+      
+      $p2
+      S1 S2 S3 
+      NA  0 NA 
+      
+      $w
+      S1 S2 S3 
+       0  0 NA 
+      
+      $w_normalized
+      S1 S2 S3 
+      NA NA NA 
+      
+      $est1
+      ref 
+       NA 
+      
+      $est2
+      Not-ref 
+           NA 
+      
+      $est_both_groups
+          ref Not-ref 
+           NA      NA 
+      
+      $var1
+      ref 
+       NA 
+      
+      $var2
+      Not-ref 
+           NA 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] NA NA
+      
+      $ci_both_groups$`Not-ref`
+      [1] NA NA
+      
+      
+
+---
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+       4  0 10 
+      
+      $n1
+      S1 S2 S3 
+       4  0 22 
+      
+      $p1
+             S1        S2        S3 
+      1.0000000        NA 0.4545455 
+      
+      $x2
+      S1 S2 S3 
+       0  0 40 
+      
+      $n2
+      S1 S2 S3 
+       0  0 83 
+      
+      $p2
+             S1        S2        S3 
+             NA        NA 0.4819277 
+      
+      $w
+            S1       S2       S3 
+       0.00000       NA 17.39048 
+      
+      $w_normalized
+      S1 S2 S3 
+       0 NA  1 
+      
+      $est1
+            ref 
+      0.4545455 
+      
+      $est2
+        Not-ref 
+      0.4819277 
+      
+      $est_both_groups
+            ref   Not-ref 
+      0.4545455 0.4819277 
+      
+      $var1
+             ref 
+      0.01126972 
+      
+      $var2
+          Not-ref 
+      0.003008113 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] 0.2464777 0.6626132
+      
+      $ci_both_groups$`Not-ref`
+      [1] 0.3744310 0.5894244
+      
+      
+
+# h_prop_cmh respects a custom confidence level
+
+    Code
+      res
+    Output
+      $x1
+      S1 S2 S3 
+      12 15  9 
+      
+      $n1
+      S1 S2 S3 
+      30 35 23 
+      
+      $p1
+             S1        S2        S3 
+      0.4000000 0.4285714 0.3913043 
+      
+      $x2
+      S1 S2 S3 
+       8 10  6 
+      
+      $n2
+      S1 S2 S3 
+      30 35 27 
+      
+      $p2
+             S1        S2        S3 
+      0.2666667 0.2857143 0.2222222 
+      
+      $w
+         S1    S2    S3 
+      15.00 17.50 12.42 
+      
+      $w_normalized
+             S1        S2        S3 
+      0.3339270 0.3895815 0.2764915 
+      
+      $est1
+            ref 
+      0.4087266 
+      
+      $est2
+        Not-ref 
+      0.2617988 
+      
+      $est_both_groups
+            ref   Not-ref 
+      0.4087266 0.2617988 
+      
+      $var1
+              ref 
+      0.002745713 
+      
+      $var2
+          Not-ref 
+      0.002101216 
+      
+      $ci_both_groups
+      $ci_both_groups$ref
+      [1] 0.3415739 0.4758794
+      
+      $ci_both_groups$`Not-ref`
+      [1] 0.2030537 0.3205438
+      
+      
+
+# h_cmh_sato_var works as expected with non-sparse tables
+
+    0.00484709089617089
+
+---
+
+    0.00301389352651087
+
+---
+
+    0.013671875
+
+# h_cmh_sato_var empty and sparse contingency tables
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    NA_real_
+
+---
+
+    0.0142778351745434
+
+# h_miettinen_nurminen_var works as expected with non-sparse tables
+
+    Code
+      res1
+    Output
+      $p1_est
+             S1        S2        S3 
+      0.4075605 0.4307970 0.3778246 
+      
+      $p2_est
+             S1        S2        S3 
+      0.2606327 0.2838692 0.2308967 
+      
+      $var_est
+              S1         S2         S3 
+      0.01471723 0.01299995 0.01714055 
+      
+
+---
+
+    Code
+      res2
+    Output
+      $p1_est
+             S1        S2        S3 
+      0.4853509 0.6010255 0.4953824 
+      
+      $p2_est
+              S1         S2         S3 
+      0.00000000 0.11567462 0.01003146 
+      
+      $var_est
+               S1          S2          S3 
+      0.032784334 0.006309801 0.003426996 
+      
+
+---
+
+    Code
+      res3
+    Output
+      $p1_est
+         S1 
+      0.125 
+      
+      $p2_est
+                S1 
+      1.110223e-16 
+      
+      $var_est
+              S1 
+      0.01435547 
+      
+
+# h_miettinen_nurminen_var empty and sparse contingency tables
+
+    Code
+      res1
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res2
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res3
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res4
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res5
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res6
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res7
+    Output
+      $p1_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $p2_est
+      S1 S2 S3 
+      NA NA NA 
+      
+      $var_est
+      S1 S2 S3 
+      NA NA NA 
+      
+
+---
+
+    Code
+      res8
+    Output
+      $p1_est
+             S1        S2        S3 
+      0.9726177       NaN 0.4545455 
+      
+      $p2_est
+             S1        S2        S3 
+      1.0000000       NaN 0.4819277 
+      
+      $var_est
+              S1         S2         S3 
+              NA         NA 0.01441512 
+      
+
+# h_miettinen_nurminen_var works as expected
+
+    list(p1_est = 0.342213591803752, p2_est = 0.442213591803752, 
+        var_est = 0.0405774934104561)
+
+---
+
+    list(p1_est = c(0.342213591803752, 0.265846883932378), p2_est = c(0.442213591803752, 
+    0.365846883932378), var_est = c(0.0405774934104561, 0.0301587022300622
+    ))
+
+# h_miettinen_nurminen_stratified_ci works as expected with non-sparse tables
+
+    Code
+      res1
+    Output
+      $ci
+      [1] -0.281568259 -0.008104148
+      
+      $se
+      [1] 0.07017465
+      
+
+---
+
+    Code
+      res2
+    Output
+      $ci
+      [1] -0.5899410 -0.3703714
+      
+      $se
+      [1] 0.05648034
+      
+
+---
+
+    Code
+      res3
+    Output
+      $ci
+      [1] -0.4797396  0.1311335
+      
+      $se
+      [1] 0.1198143
+      
+
+# h_miettinen_nurminen_stratified_ci empty and sparse contingency tables
+
+    Code
+      res1
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res2
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res3
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res4
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res5
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res6
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res7
+    Output
+      $ci
+      [1] NA NA
+      
+      $se
+      [1] NA
+      
+
+---
+
+    Code
+      res8
+    Output
+      $ci
+      [1] -0.2015304  0.2461176
+      
+      $se
+      [1] 0.120063
+      
+
+# h_miettinen_nurminen_stratified_ci respects a custom confidence level
+
+    Code
+      res
+    Output
+      $ci
+      [1] -0.2357582 -0.0563385
+      
+      $se
+      [1] 0.07017465
+      
+
+# estimate_proportion_diff is compatible with rtables
 
     Code
       res
@@ -303,7 +1481,7 @@
       Difference in Response rate (%)            25.0     
         90% CI (Anderson-Hauck)             (-92.0, 100.0)
 
-# `estimate_proportion_diff` and cmh is compatible with `rtables`
+# estimate_proportion_diff and cmh is compatible with rtables
 
     Code
       res
@@ -452,7 +1630,7 @@
       [1] "Difference in Response rate (%) and 95% CI (Wald, without correction)"
       
 
-# `estimate_proportion_diff` with diff_est_ci builds single-row table
+# estimate_proportion_diff with diff_est_ci builds single-row table
 
     Code
       res

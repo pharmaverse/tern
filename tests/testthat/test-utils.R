@@ -167,9 +167,7 @@ testthat::test_that("n_available works as expected", {
   testthat::expect_snapshot(res)
 })
 
-##################
-## range_noinf
-##################
+# range_noinf ----
 
 # INTEGER no zero-len data, no NAs, no Inf
 
@@ -777,3 +775,14 @@ testthat::test_that(
     testthat::expect_equal(mod, mod2)
   }
 )
+
+testthat::test_that("uniroot_catch_na returns the root on success", {
+  res <- uniroot_catch_na(function(x) x^2 - 2, interval = c(0, 2))
+  testthat::expect_equal(res, 1.414213, tolerance = 1e-6)
+})
+
+testthat::test_that("uniroot_catch_na returns NA when function evaluates to NA", {
+  f <- function(x) if (x > 0.5) NA_real_ else x - 0.25
+  res <- uniroot_catch_na(f, interval = c(0, 1))
+  testthat::expect_identical(res, NA_real_)
+})

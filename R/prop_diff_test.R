@@ -412,9 +412,9 @@ prop_cmh <- function(ary,
     sqrt(unname(mh_res$statistic)) * stat_sign
   } else {
     # Use the Sato variance estimator.
-    cmh <- h_diff_cmh(ary)
-    cmh_se <- h_diff_cmh_se(cmh, diff_se = "sato")
-    cmh$diff_est / cmh_se
+    prop <- h_prop_cmh(ary)
+    prop_diff_var <- h_cmh_sato_var(prop)
+    unname(prop$est2 - prop$est1) / sqrt(prop_diff_var)
   }
 
   if (transform == "wilson_hilferty") {
