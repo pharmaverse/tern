@@ -11,7 +11,8 @@ h_worst_case_tail_probability(
   t_values,
   t0,
   tables,
-  tail = c("upper", "lower")
+  tail = c("upper", "lower"),
+  tol = 1e-09
 )
 }
 \arguments{
@@ -29,6 +30,9 @@ h_worst_case_tail_probability(
 outcomes in each group.}
 
 \item{tail}{(\code{string}) one of \code{"upper"} or \code{"lower"} indicating which tail to compute.}
+
+\item{tol}{(\code{number}) non-negative, finite absolute tolerance for comparing
+table statistics in the tail tests.}
 }
 \value{
 A \code{number} between 0 and 1 corresponding to the worst-case one-sided tail probability

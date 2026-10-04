@@ -33,7 +33,7 @@ prop_diff_strat_nc(
   correct = FALSE
 )
 
-prop_diff_uncond_exact(rsp, grp, conf_level = 0.95)
+prop_diff_uncond_exact(rsp, grp, conf_level = 0.95, tol = 1e-09)
 }
 \arguments{
 \item{rsp}{(\code{logical})\cr vector indicating whether each subject is a responder or not.}
@@ -57,6 +57,9 @@ stratified Newcombe method.
 Must be either \code{"cmh"} or \code{"wilson_h"}. \code{"cmh"} uses weights derived from
 the Cochran-Mantel-Haenszel method, while \code{"wilson_h"} uses the heuristic
 weights proposed by \code{\link[=prop_strat_wilson]{prop_strat_wilson()}}.}
+
+\item{tol}{(\code{number}) non-negative, finite absolute tolerance for comparing
+table statistics in the tail tests.}
 }
 \value{
 A named \code{list} of elements \code{diff} (proportion difference) and \code{diff_ci}

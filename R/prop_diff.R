@@ -1096,6 +1096,9 @@ prop_diff_strat_nc <- function(rsp,
 #'   proportions by inverting one-sided tail tests over a nuisance parameter. This is
 #'   the "tail method" described by Santner and Snell \insertCite{SantnerSnell1980}{tern}.
 #'
+#' @param tol (`number`) non-negative, finite absolute tolerance for comparing
+#'   table statistics in the tail tests.
+#'
 #' @order 6
 #' @examples
 #' # Unconditional exact confidence interval
@@ -1111,7 +1114,9 @@ prop_diff_strat_nc <- function(rsp,
 #' @export
 prop_diff_uncond_exact <- function(rsp,
                                    grp,
-                                   conf_level = 0.95) {
+                                   conf_level = 0.95,
+                                   tol = 1e-9) {
+  checkmate::assert_number(tol, lower = 0, finite = TRUE)
   grp <- as_factor_keep_attributes(grp)
   check_diff_prop_ci(rsp = rsp, grp = grp, conf_level = conf_level)
 
@@ -1163,7 +1168,8 @@ prop_diff_uncond_exact <- function(rsp,
       t_values = t_values,
       t0 = t0,
       tables = tables,
-      tail = "upper"
+      tail = "upper",
+      tol = tol
     )
   }
   p_lower <- function(d_star) {
@@ -1176,7 +1182,8 @@ prop_diff_uncond_exact <- function(rsp,
       t_values = t_values,
       t0 = t0,
       tables = tables,
-      tail = "lower"
+      tail = "lower",
+      tol = tol
     )
   }
 
@@ -1632,6 +1639,7 @@ h_miettinen_nurminen_stratified_ci <- function(prop, conf_level = 0.95) {
 #' @param tables (`data.frame`) with columns `n11` and `n21` containing enumerated
 #'   outcomes in each group.
 #' @param tail (`string`) one of `"upper"` or `"lower"` indicating which tail to compute.
+#' @inheritParams prop_diff_uncond_exact
 #'
 #' @return A `number` between 0 and 1 corresponding to the worst-case one-sided tail probability
 #'   at the hypothesized difference.
@@ -1643,7 +1651,8 @@ h_worst_case_tail_probability <- function(d_star,
                                           t_values,
                                           t0,
                                           tables,
-                                          tail = c("upper", "lower")) {
+                                          tail = c("upper", "lower"),
+                                          tol = 1e-9) {
   checkmate::assert_number(d_star, lower = -1, upper = 1)
   checkmate::assert_int(n1, lower = 1)
   checkmate::assert_int(n2, lower = 1)
@@ -1652,6 +1661,7 @@ h_worst_case_tail_probability <- function(d_star,
   checkmate::assert_data_frame(tables, min.rows = 1)
   checkmate::assert_names(names(tables), must.include = c("n11", "n21"))
   checkmate::assert_true(length(t_values) == nrow(tables))
+  checkmate::assert_number(tol, lower = 0, finite = TRUE)
 
   tail <- match.arg(tail)
 
@@ -1659,9 +1669,9 @@ h_worst_case_tail_probability <- function(d_star,
   # statistic value and the tail direction.
   # Include mathematically tied tables despite floating point rounding.
   include_table <- if (tail == "upper") {
-    t_values >= (t0 - 1e-9)
+    t_values >= (t0 - tol)
   } else {
-    t_values <= (t0 + 1e-9)
+    t_values <= (t0 + tol)
   }
 
   # Step 1: For fixed d_star, and given p2,

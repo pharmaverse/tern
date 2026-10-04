@@ -425,6 +425,53 @@ test_that("h_worst_case_tail_probability includes ties but excludes distinct sta
   }
 })
 
+test_that("prop_diff_uncond_exact uses a configurable tolerance in both tails", {
+  tbl <- matrix(c(5, 7, 10, 8), nrow = 2)
+  rsp <- c(rep(c(TRUE, FALSE), tbl[1, ]), rep(c(TRUE, FALSE), tbl[2, ]))
+  grp <- factor(rep(c("ref", "trt"), rowSums(tbl)), levels = c("ref", "trt"))
+
+  default <- prop_diff_uncond_exact(rsp, grp)
+  expect_equal(prop_diff_uncond_exact(rsp, grp, tol = 1e-9), default)
+
+  strict <- prop_diff_uncond_exact(rsp, grp, tol = 0)
+  expect_gt(strict$diff_ci[1], default$diff_ci[1])
+  expect_lt(strict$diff_ci[2], default$diff_ci[2])
+
+  wider <- prop_diff_uncond_exact(rsp, grp, tol = 0.1)
+  expect_lt(wider$diff_ci[1], default$diff_ci[1])
+  expect_gt(wider$diff_ci[2], default$diff_ci[2])
+})
+
+test_that("h_worst_case_tail_probability respects custom and zero tolerances", {
+  tables <- expand.grid(n11 = 0:15, n21 = 0:15)
+  t_values <- tables$n11 / 15 - tables$n21 / 15
+
+  for (tail in c("upper", "lower")) {
+    sign <- if (tail == "upper") 1 else -1
+    t0 <- sign * (2 / 15 + 1e-6)
+    default <- h_worst_case_tail_probability(0, 15L, 15L, t_values, t0, tables, tail)
+    custom <- h_worst_case_tail_probability(0, 15L, 15L, t_values, t0, tables, tail, tol = 2e-6)
+    expect_equal(default, stats::pbinom(17, 30, 0.5, lower.tail = FALSE), tolerance = 1e-8)
+    expect_equal(custom, stats::pbinom(16, 30, 0.5, lower.tail = FALSE), tolerance = 1e-8)
+
+    t0 <- sign * (2 / 15 + 5e-10)
+    strict <- h_worst_case_tail_probability(0, 15L, 15L, t_values, t0, tables, tail, tol = 0)
+    expect_equal(strict, stats::pbinom(17, 30, 0.5, lower.tail = FALSE), tolerance = 1e-8)
+  }
+})
+
+test_that("unconditional exact functions reject invalid tolerances", {
+  rsp <- c(TRUE, FALSE, TRUE, FALSE)
+  grp <- factor(c("ref", "ref", "trt", "trt"))
+  tables <- expand.grid(n11 = 0:2, n21 = 0:2)
+  t_values <- tables$n11 / 2 - tables$n21 / 2
+
+  for (tol in list(-1, NA_real_, NaN, Inf, -Inf, c(0, 1), "invalid")) {
+    expect_error(prop_diff_uncond_exact(rsp, grp, tol = tol), "Assertion on 'tol'")
+    expect_error(h_worst_case_tail_probability(0, 2L, 2L, t_values, 0, tables, tol = tol), "Assertion on 'tol'")
+  }
+})
+
 test_that("h_prop_cmh works as expected with non-sparse tables", {
   tables <- h_get_prop_data()
 
