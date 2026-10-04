@@ -343,22 +343,32 @@ import(ggplot2)
 import(rtables)
 importFrom(Rdpack,reprompt)
 importFrom(broom,tidy)
-importFrom(formatters,format_value)
-importFrom(formatters,propose_column_widths)
-importFrom(grid,drawDetails)
-importFrom(grid,heightDetails)
-importFrom(grid,validDetails)
-importFrom(grid,widthDetails)
+importFrom(formatters,
+  format_value,
+  propose_column_widths
+)
+importFrom(grid,
+  drawDetails,
+  heightDetails,
+  validDetails,
+  widthDetails
+)
 importFrom(methods,new)
 importFrom(nestcolor,theme_nest)
-importFrom(rlang,"%||%")
-importFrom(rlang,.data)
-importFrom(stats,complete.cases)
-importFrom(stats,pchisq)
-importFrom(stats,qnorm)
-importFrom(stats,qt)
-importFrom(stats,sd)
-importFrom(stats,setNames)
-importFrom(survival,Surv)
-importFrom(survival,coxph)
-importFrom(survival,strata)
+importFrom(rlang,
+  "%||%",
+  .data
+)
+importFrom(stats,
+  complete.cases,
+  pchisq,
+  qnorm,
+  qt,
+  sd,
+  setNames
+)
+importFrom(survival,
+  Surv,
+  coxph,
+  strata
+)

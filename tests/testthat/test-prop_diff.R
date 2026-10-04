@@ -392,21 +392,36 @@ testthat::test_that("`prop_diff_uncond_exact` matches reference values and works
   )
 })
 
-testthat::test_that("check discrepancy example for prop_diff_uncond_exact", {
-  rsp <- c(
-    FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE,
-    TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE, FALSE,
-    TRUE, TRUE, FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE
+testthat::test_that("prop_diff_uncond_exact preserves ties in the SAS regression example", {
+  tbl <- array(
+    c(5, 7, 10, 8),
+    dim = c(2L, 2L),
+    dimnames = list(c("ref", "Non-ref"), c("TRUE", "FALSE"))
   )
-  grp <- factor(c(rep("ref", 15), rep("Not-ref", 15)), levels = c("ref", "Not-ref"))
-
-  tab <- table(grp, factor(rsp, levels = c("TRUE", "FALSE")))
+  rsp <- rep(c(TRUE, FALSE, TRUE, FALSE), times = as.vector(t(tbl)))
+  grp <- factor(rep(rownames(tbl), rowSums(tbl)), levels = rownames(tbl))
 
   result <- prop_diff_uncond_exact(rsp = rsp, grp = grp, conf_level = 0.95)
 
   # Expected SAS result.
   sas_result <- c(-0.2514531, 0.4907849)
   expect_equal(result$diff_ci, sas_result, tolerance = 1e-5)
+})
+
+testthat::test_that("prop_diff_uncond_exact respects response and group reversal with ties", {
+  # Equal and unequal margins, both with multiple tables tied at the observed statistic.
+  for (n1 in c(15L, 20L)) {
+    rsp <- c(rep(TRUE, 5), rep(FALSE, 10), rep(TRUE, 7), rep(FALSE, n1 - 7))
+    grp <- factor(rep(c("ref", "Non-ref"), c(15L, n1)), levels = c("ref", "Non-ref"))
+    result <- prop_diff_uncond_exact(rsp, grp)
+    complemented <- prop_diff_uncond_exact(!rsp, grp)
+    swapped <- prop_diff_uncond_exact(rsp, factor(grp, levels = rev(levels(grp))))
+
+    expect_equal(complemented$diff, -result$diff)
+    expect_equal(complemented$diff_ci, -rev(result$diff_ci), tolerance = 1e-6)
+    expect_equal(swapped$diff, -result$diff)
+    expect_equal(swapped$diff_ci, -rev(result$diff_ci), tolerance = 1e-6)
+  }
 })
 
 testthat::test_that("h_worst_case_tail_probability returns valid tail probabilities", {
