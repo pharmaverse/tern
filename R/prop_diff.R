@@ -1657,10 +1657,11 @@ h_worst_case_tail_probability <- function(d_star,
 
   # Step 0: Determine which tables are in the tail based on the observed test
   # statistic value and the tail direction.
+  # Include mathematically tied tables despite floating point rounding.
   include_table <- if (tail == "upper") {
-    t_values >= t0
+    t_values >= (t0 - 1e-9)
   } else {
-    t_values <= t0
+    t_values <= (t0 + 1e-9)
   }
 
   # Step 1: For fixed d_star, and given p2,

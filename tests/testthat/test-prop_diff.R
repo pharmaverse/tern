@@ -391,6 +391,40 @@ testthat::test_that("prop_diff_uncond_exact matches reference values and works w
   )
 })
 
+test_that("prop_diff_uncond_exact includes tied tables despite floating point rounding", {
+  tbl <- array(
+    c(5, 7, 10, 8),
+    dim = c(2L, 2L),
+    dimnames = list(c("ref", "Non-ref"), c("TRUE", "FALSE"))
+  )
+  rsp <- c(rep(c(TRUE, FALSE), tbl[1, ]), rep(c(TRUE, FALSE), tbl[2, ]))
+  grp <- factor(rep(rownames(tbl), rowSums(tbl)), levels = rownames(tbl))
+
+  result <- prop_diff_uncond_exact(rsp = rsp, grp = grp)
+  expect_equal(result$diff, 2 / 15)
+  expect_equal(result$diff_ci, c(-0.2515, 0.4908), tolerance = 1e-4)
+
+  reversed <- prop_diff_uncond_exact(rsp = rsp, grp = relevel(grp, "Non-ref"))
+  expect_equal(reversed$diff, -2 / 15)
+  expect_equal(reversed$diff_ci, c(-0.4908, 0.2515), tolerance = 1e-4)
+})
+
+test_that("h_worst_case_tail_probability includes ties but excludes distinct statistics", {
+  tables <- expand.grid(n11 = 0:15, n21 = 0:15)
+  t_values <- tables$n11 / 15 - tables$n21 / 15
+
+  # At equal probabilities of 0.5, X - Y + 15 has a Binomial(30, 0.5) distribution.
+  for (tail in c("upper", "lower")) {
+    t0 <- if (tail == "upper") 7 / 15 - 5 / 15 else 5 / 15 - 7 / 15
+    probability <- h_worst_case_tail_probability(0, 15L, 15L, t_values, t0, tables, tail)
+    expect_equal(probability, stats::pbinom(16, 30, 0.5, lower.tail = FALSE), tolerance = 1e-8)
+
+    t0 <- t0 + if (tail == "upper") 1e-6 else -1e-6
+    probability <- h_worst_case_tail_probability(0, 15L, 15L, t_values, t0, tables, tail)
+    expect_equal(probability, stats::pbinom(17, 30, 0.5, lower.tail = FALSE), tolerance = 1e-8)
+  }
+})
+
 test_that("h_prop_cmh works as expected with non-sparse tables", {
   tables <- h_get_prop_data()
 

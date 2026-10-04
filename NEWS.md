@@ -1,5 +1,8 @@
 # tern 0.9.12
 
+* Fixed `prop_diff_uncond_exact()` omitting tied tables due to floating point
+  rounding, which could produce too narrow confidence intervals. (#1539)
+
 * Fixing CRAN release issue.
 * Fixed `prop_diff_cmh()` giving wrong Sato and Miettinen-Nurminen results when
   some strata have only one group, and failing with a single stratum. (#1535)
