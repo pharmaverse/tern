@@ -1146,8 +1146,8 @@ prop_diff_uncond_exact <- function(rsp,
   # Independent warning for long computation times.
   if (n1_double * n2_double > 1e5) {
     warning(paste(
-        "uncond_exact_diff: Large sample sizes n1 =", n1_int, 
-        "and n2 =", n2_int, "may lead to long computation time."
+      "uncond_exact_diff: Large sample sizes n1 =", n1_int,
+      "and n2 =", n2_int, "may lead to long computation time."
     ))
   }
 
