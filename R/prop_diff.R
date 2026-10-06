@@ -1121,40 +1121,49 @@ prop_diff_uncond_exact <- function(rsp,
 
   # Step 0: Calculate the observed difference in proportions
   # and the observed test statistic value.
-  # Store counts as doubles to avoid 32-bit integer overflow in cross-products.
-  n2 <- as.double(sum(tbl[1, ]))
-  n1 <- as.double(sum(tbl[2, ]))
+  
+  n2_int <- sum(tbl[1, ])
+  n1_int <- sum(tbl[2, ])
 
-  if (n1 == 0 || n2 == 0) {
+  if (n1_int == 0 || n2_int == 0) {
     return(list(
-      diff = NaN,
-      diff_ci = c(NaN, NaN)
+      diff = NA,
+      diff_ci = c(NA, NA)
     ))
+  }
+
+  # Store counts as doubles to avoid 32-bit integer overflow in cross-products.  
+  n1_double <- as.double(n1_int)
+  n2_double <- as.double(n2_int)
+
+  # The positive denominator n1 * n2 is common to all tables. These cross-products
+  # and their differences are exact for `n1 * n2 <= 2^.Machine$double.digits`, 
+  # preserving ties without a floating-point tolerance. 
+  if (n1_double * n2_double > 2^.Machine$double.digits) {
+    stop("uncond_exact_diff: Sample sizes exceed the exact integer comparison limit.")
+  }
+
+  # Independent warning for long computation times.
+  if (n1_double * n2_double > 1e5) {
+    warning("uncond_exact_diff: Large sample sizes may lead to long computation time.")
   }
 
   n21_obs <- tbl[1, 1]
   n11_obs <- tbl[2, 1]
-  diff_est <- n11_obs / n1 - n21_obs / n2
+  diff_est <- n11_obs / n1_double - n21_obs / n2_double
 
   # Step 1: Enumerate all tables in A with fixed row margins
   # n1 and n2.
-  if (n1 * n2 > 2^53) {
-    stop("uncond_exact_diff: Sample sizes exceed the exact integer comparison limit.")
-  }
-  if (n1 * n2 > 1e5) {
-    warning("uncond_exact_diff: Large sample sizes may lead to long computation time.")
-  }
   tables <- expand.grid(
-    n11 = 0:n1,
-    n21 = 0:n2
+    n11 = 0:n1_int,
+    n21 = 0:n2_int
   )
 
   # Step 2: Compare integer numerators of T(a) = n11 / n1 - n21 / n2.
-  # The positive denominator n1 * n2 is common to all tables. These cross-products
-  # and their differences are exact for n1 * n2 <= 2^53, preserving ties without
-  # a floating-point tolerance. Compute the observed numerator from counts too.
-  t_values <- tables$n11 * n2 - tables$n21 * n1
-  t0 <- n11_obs * n2 - n21_obs * n1
+
+  # Compute the observed numerator from counts too.
+  t_numerator <- tables$n11 * n2_double - tables$n21 * n1_double
+  t_obs_numerator <- n11_obs * n2_double - n21_obs * n1_double
 
   # Step 3: For each hypothesized difference d*, compute the worst-case
   # tail probabilities P_U(d*) and P_L(d*) by maximizing over the nuisance
@@ -1164,10 +1173,10 @@ prop_diff_uncond_exact <- function(rsp,
     # P_U(d*) = sup_p2 sum_{T(a) >= t0} f(...)
     h_worst_case_tail_probability(
       d_star = d_star,
-      n1 = n1,
-      n2 = n2,
-      t_values = t_values,
-      t0 = t0,
+      n1 = n1_double,
+      n2 = n2_double,
+      t_values = t_numerator,
+      t0 = t_obs_numerator,
       tables = tables,
       tail = "upper"
     )
@@ -1177,10 +1186,10 @@ prop_diff_uncond_exact <- function(rsp,
     # P_L(d*) = sup_p2 sum_{T(a) <= t0} f(...)
     h_worst_case_tail_probability(
       d_star = d_star,
-      n1 = n1,
-      n2 = n2,
-      t_values = t_values,
-      t0 = t0,
+      n1 = n1_double,
+      n2 = n2_double,
+      t_values = t_numerator,
+      t0 = t_obs_numerator,
       tables = tables,
       tail = "lower"
     )

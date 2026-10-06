@@ -380,8 +380,8 @@ testthat::test_that("prop_diff_uncond_exact matches reference values and works w
   # No observations: Same behavior as other methods.
   case7 <- mk_data(n11 = 0, n21 = 0, n1 = 0, n2 = 0)
   result7 <- prop_diff_uncond_exact(rsp = case7$rsp, grp = case7$grp)
-  expect_true(is.nan(result7$diff))
-  expect_equal(result7$diff_ci, c(NaN, NaN))
+  expect_true(is.na(result7$diff))
+  expect_equal(result7$diff_ci, c(NA, NA))
 
   skip_on_cran()
   case8 <- mk_data(n11 = 200, n21 = 100, n1 = 330, n2 = 330)
@@ -421,6 +421,18 @@ testthat::test_that("prop_diff_uncond_exact respects response and group reversal
     expect_equal(swapped$diff, -result$diff)
     expect_equal(swapped$diff_ci, -rev(result$diff_ci), tolerance = 1e-6)
   }
+})
+
+testthat::test_that("prop_diff_uncond_exact gives expected error for exceeding n1 * n2 threshold", {
+    skip_on_cran()
+    n_each <- 2^(ceiling(.Machine$double.digits / 2))
+    expect_error(
+      prop_diff_uncond_exact(
+        rsp = c(rep(TRUE, n_each), rep(FALSE, n_each)),
+        grp = factor(c(rep("B", n_each), rep("A", n_each)), levels = c("B", "A"))
+      ),
+      "exceed"
+    )
 })
 
 test_that("h_prop_cmh works as expected with non-sparse tables", {
