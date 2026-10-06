@@ -384,10 +384,10 @@ testthat::test_that("prop_diff_uncond_exact matches reference values and works w
   expect_equal(result7$diff_ci, c(NA, NA))
 
   skip_on_cran()
-  case8 <- mk_data(n11 = 200, n21 = 100, n1 = 330, n2 = 330)
+  case8 <- mk_data(n11 = 200, n21 = 100, n1 = 335, n2 = 330)
   expect_warning(
     prop_diff_uncond_exact(rsp = case8$rsp, grp = case8$grp),
-    "long computation"
+    "n1 = 335 and n2 = 330 may lead to long computation tim"
   )
 })
 
