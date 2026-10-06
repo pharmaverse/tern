@@ -1,5 +1,15 @@
 # Changelog
 
+## tern 0.9.12.9000
+
+#### Bug Fixes
+
+- Fixed overly narrow confidence intervals in
+  [`prop_diff_uncond_exact()`](https://pharmaverse.github.io/tern/reference/h_prop_diff.md)
+  caused by floating-point comparisons excluding tied tables from the
+  tails. Tail comparisons now use integer cross-products to preserve
+  ties without a numerical tolerance.
+
 ## tern 0.9.12
 
 CRAN release: 2026-09-29
