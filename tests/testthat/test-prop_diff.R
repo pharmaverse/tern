@@ -424,15 +424,15 @@ testthat::test_that("prop_diff_uncond_exact respects response and group reversal
 })
 
 testthat::test_that("prop_diff_uncond_exact gives expected error for exceeding n1 * n2 threshold", {
-    skip_on_cran()
-    n_each <- 2^(ceiling(.Machine$double.digits / 2))
-    expect_error(
-      prop_diff_uncond_exact(
-        rsp = c(rep(TRUE, n_each), rep(FALSE, n_each)),
-        grp = factor(c(rep("B", n_each), rep("A", n_each)), levels = c("B", "A"))
-      ),
-      "exceed"
-    )
+  skip_on_cran()
+  n_each <- 2^(ceiling(.Machine$double.digits / 2))
+  expect_error(
+    prop_diff_uncond_exact(
+      rsp = c(rep(TRUE, n_each), rep(FALSE, n_each)),
+      grp = factor(c(rep("B", n_each), rep("A", n_each)), levels = c("B", "A"))
+    ),
+    "exceed"
+  )
 })
 
 test_that("h_prop_cmh works as expected with non-sparse tables", {

@@ -1121,7 +1121,7 @@ prop_diff_uncond_exact <- function(rsp,
 
   # Step 0: Calculate the observed difference in proportions
   # and the observed test statistic value.
-  
+
   n2_int <- sum(tbl[1, ])
   n1_int <- sum(tbl[2, ])
 
@@ -1132,13 +1132,13 @@ prop_diff_uncond_exact <- function(rsp,
     ))
   }
 
-  # Store counts as doubles to avoid 32-bit integer overflow in cross-products.  
+  # Store counts as doubles to avoid 32-bit integer overflow in cross-products.
   n1_double <- as.double(n1_int)
   n2_double <- as.double(n2_int)
 
   # The positive denominator n1 * n2 is common to all tables. These cross-products
-  # and their differences are exact for `n1 * n2 <= 2^.Machine$double.digits`, 
-  # preserving ties without a floating-point tolerance. 
+  # and their differences are exact for `n1 * n2 <= 2^.Machine$double.digits`,
+  # preserving ties without a floating-point tolerance.
   if (n1_double * n2_double > 2^.Machine$double.digits) {
     stop("uncond_exact_diff: Sample sizes exceed the exact integer comparison limit.")
   }
