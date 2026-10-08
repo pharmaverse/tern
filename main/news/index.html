@@ -63,6 +63,7 @@
 <code><a href="../reference/h_prop_diff.html">prop_diff_cmh()</a></code> returns <code>weights</code>, <code>n1</code> and <code>n2</code> for all strata now, with <code>NA</code> weights for empty strata. It returns <code>NA</code> instead of <code>0</code> when no stratum has both groups. (<a href="https://github.com/pharmaverse/tern/issues/1535" class="external-link">#1535</a>)</li>
 <li>
 <code><a href="../reference/h_prop_diff_test.html">prop_cmh()</a></code> returns <code>NA</code> instead of <code>1</code> for the Sato p-value when the response has no variation. (<a href="https://github.com/pharmaverse/tern/issues/1535" class="external-link">#1535</a>)</li>
+<li>Fixed <code><a href="../reference/summarize_ancova.html">summarize_ancova()</a></code> returning empty difference, confidence interval and p-value cells when arm levels contain regular expression metacharacters such as <code>+</code>, <code>(</code> or <code>.</code>. (<a href="https://github.com/pharmaverse/tern/issues/1471" class="external-link">#1471</a>)</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.9.11" id="tern-0911">tern 0.9.11<a class="anchor" aria-label="anchor" href="#tern-0911"></a></h2><p class="text-muted">CRAN release: 2026-07-17</p>

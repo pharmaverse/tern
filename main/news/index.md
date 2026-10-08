@@ -29,6 +29,11 @@ CRAN release: 2026-09-29
   returns `NA` instead of `1` for the Sato p-value when the response has
   no variation.
   ([\#1535](https://github.com/pharmaverse/tern/issues/1535))
+- Fixed
+  [`summarize_ancova()`](https://pharmaverse.github.io/tern/reference/summarize_ancova.md)
+  returning empty difference, confidence interval and p-value cells when
+  arm levels contain regular expression metacharacters such as `+`, `(`
+  or `.`. ([\#1471](https://github.com/pharmaverse/tern/issues/1471))
 
 ## tern 0.9.11
 
