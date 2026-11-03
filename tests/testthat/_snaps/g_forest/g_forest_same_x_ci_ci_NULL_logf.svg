@@ -43,12 +43,12 @@
   </clipPath>
 </defs>
 <g clip-path='url(#cpMjAuMjV8ODEwLjAwfDAuMDB8MTg5LjAx)'>
-<line x1='28.35' y1='73.03' x2='801.90' y2='73.03' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<line x1='28.35' y1='70.88' x2='801.90' y2='70.88' style='stroke-width: 1.07; stroke-linecap: butt;' />
 <text x='28.35' y='98.80' style='font-size: 12.00px; font-family: "Arial";' textLength='29.34px' lengthAdjust='spacingAndGlyphs'>row 1</text>
-<text x='28.35' y='141.76' style='font-size: 12.00px; font-family: "Arial";' textLength='29.34px' lengthAdjust='spacingAndGlyphs'>row 2</text>
-<text x='525.63' y='55.85' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='68.67px' lengthAdjust='spacingAndGlyphs'>point est (CI)</text>
+<text x='28.35' y='146.06' style='font-size: 12.00px; font-family: "Arial";' textLength='29.34px' lengthAdjust='spacingAndGlyphs'>row 2</text>
+<text x='525.63' y='51.55' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='68.67px' lengthAdjust='spacingAndGlyphs'>point est (CI)</text>
 <text x='525.63' y='98.80' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='55.34px' lengthAdjust='spacingAndGlyphs'>10 (8 - 12)</text>
-<text x='525.63' y='141.76' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='54.45px' lengthAdjust='spacingAndGlyphs'>11 (7 - 13)</text>
+<text x='525.63' y='146.06' text-anchor='middle' style='font-size: 12.00px; font-family: "Arial";' textLength='54.45px' lengthAdjust='spacingAndGlyphs'>11 (7 - 13)</text>
 </g>
 <g clip-path='url(#cpMC4wMHwxMDgwLjAwfDAuMDB8MjE2LjAw)'>
 </g>

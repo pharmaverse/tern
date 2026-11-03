@@ -279,8 +279,8 @@ g_forest <- function(tbl,
     theme(plot.margin = margin(0, 0, 0, 0.025, "npc"))
   gg_table$scales$scales[[1]]$expand <- c(0.01, 0.01)
   gg_table$scales$scales[[2]]$limits[2] <- nrow(mat_strings) + 1
+  gg_table$scales$scales[[2]]$expand <- c(0, 0)
   arms <- if (nlines_hdr == 2) {
-    gg_table$scales$scales[[2]]$expand <- c(0, 0)
     unique(mat_strings[1, ][nzchar(trimws(mat_strings[1, ]))])
   } else {
     NULL
@@ -290,7 +290,8 @@ g_forest <- function(tbl,
   if (!is.null(exclude_rows)) {
     tbl_df <- tbl_df[-exclude_rows, ]
   }
-  row_num <- nrow(mat_strings) - tbl_df[["row_num"]] - as.numeric(nlines_hdr == 2)
+  # Body rows are drawn top to bottom at `nrows_body, ..., 1`, independently of the header height.
+  row_num <- nrows_body - tbl_df[["row_num"]] + 1
   node_class_idx <- match("node_class", names(tbl_df))
   tbl_df <- tbl_df[, -seq_len(node_class_idx), drop = FALSE]
   names(tbl_df) <- make.unique(mat_strings[nlines_hdr, -1])

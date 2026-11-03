@@ -3,6 +3,7 @@
 ### Bug Fixes
 
 * Fixed overly narrow confidence intervals in `prop_diff_uncond_exact()` caused by floating-point comparisons excluding tied tables from the tails. Tail comparisons now use integer cross-products to preserve ties without a numerical tolerance.
+* Fixed `g_forest()` drawing the forest plot rows misaligned with the table rows when the table header was not exactly two rows high. (#1543)
 
 # tern 0.9.12
 
