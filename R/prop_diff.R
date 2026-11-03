@@ -23,8 +23,9 @@
 #'     correction \insertCite{Yan2010-jt}{tern}.
 #' - `"strat_newcombecc"`: Stratified Newcombe confidence interval with continuity
 #'     correction \insertCite{Yan2010-jt}{tern}.
-#' - `"uncond_exact_diff"`: Unconditional exact confidence interval for the difference in
-#'      proportions \insertCite{SantnerSnell1980}{tern}.
+#' - `"uncond_exact"`: Unconditional exact confidence interval for the difference in
+#'      proportions \insertCite{SantnerSnell1980}{tern}. The former name `"uncond_exact_diff"` is
+#'      deprecated and will be removed in a future release.
 #'
 #' @inheritParams prop_diff_strat_nc
 #' @inheritParams argument_convention
@@ -59,7 +60,7 @@ NULL
 #'
 #' @note When performing an unstratified analysis, methods `"cmh"`, `"cmh_sato"`, `"strat_newcombe"`,
 #'   and `"strat_newcombecc"` are not permitted. For stratified analysis, method
-#'   `"uncond_exact_diff"` is not permitted.
+#'   `"uncond_exact"` is not permitted.
 #'
 #' @seealso [h_prepare_rsp_table()]
 #'
@@ -95,7 +96,7 @@ s_proportion_diff <- function(df,
                                 "waldcc", "wald", "cmh", "cmh_sato", "cmh_mn",
                                 "ha", "newcombe", "newcombecc",
                                 "strat_newcombe", "strat_newcombecc",
-                                "uncond_exact_diff"
+                                "uncond_exact"
                               ),
                               weights_method = c("cmh", "wilson_h"),
                               val = TRUE,
@@ -111,6 +112,14 @@ s_proportion_diff <- function(df,
   }
   checkmate::assert_atomic(val)
 
+  if (isTRUE(method == "uncond_exact_diff")) {
+    lifecycle::deprecate_warn(
+      when = "0.9.13",
+      what = I("`method = \"uncond_exact_diff\"`"),
+      with = I("`method = \"uncond_exact\"`")
+    )
+    method <- "uncond_exact"
+  }
   method <- match.arg(method)
 
   if (is.null(.in_ref_col) || .in_ref_col) {
@@ -152,7 +161,7 @@ s_proportion_diff <- function(df,
       "cmh" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "standard")[cmh_stats],
       "cmh_sato" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "sato")[cmh_stats],
       "cmh_mn" = prop_diff_cmh(rsp, grp, strata, conf_level, diff_se = "miettinen_nurminen")[cmh_stats],
-      "uncond_exact_diff" = prop_diff_uncond_exact(rsp, grp, conf_level)
+      "uncond_exact" = prop_diff_uncond_exact(rsp, grp, conf_level)
     )
 
     y$diff <- setNames(y$diff * 100, paste0("diff_", method))
@@ -212,7 +221,8 @@ d_proportion_diff <- function(conf_level,
     "newcombecc" = "Newcombe, with correction",
     "strat_newcombe" = "Stratified Newcombe, without correction",
     "strat_newcombecc" = "Stratified Newcombe, with correction",
-    "uncond_exact_diff" = "Unconditional exact",
+    "uncond_exact" = ,
+    "uncond_exact_diff" = "Unconditional exact", # `"uncond_exact_diff"` is the deprecated former name.
     stop(paste(method, "does not have a description"))
   )
 
@@ -355,7 +365,7 @@ estimate_proportion_diff <- function(lyt,
                                      method = c(
                                        "waldcc", "wald", "cmh", "cmh_sato", "cmh_mn",
                                        "ha", "newcombe", "newcombecc",
-                                       "strat_newcombe", "strat_newcombecc", "uncond_exact_diff"
+                                       "strat_newcombe", "strat_newcombecc", "uncond_exact"
                                      ),
                                      weights_method = c("cmh", "wilson_h"),
                                      var_labels = vars,
@@ -1140,13 +1150,13 @@ prop_diff_uncond_exact <- function(rsp,
   # and their differences are exact for `n1 * n2 <= 2^.Machine$double.digits`,
   # preserving ties without a floating-point tolerance.
   if (n1_double * n2_double > 2^.Machine$double.digits) {
-    stop("uncond_exact_diff: Sample sizes exceed the exact integer comparison limit.")
+    stop("uncond_exact: Sample sizes exceed the exact integer comparison limit.")
   }
 
   # Independent warning for long computation times.
   if (n1_double * n2_double > 1e5) {
     warning(paste(
-      "uncond_exact_diff: Large sample sizes n1 =", n1_int,
+      "uncond_exact: Large sample sizes n1 =", n1_int,
       "and n2 =", n2_int, "may lead to long computation time."
     ))
   }

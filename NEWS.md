@@ -1,5 +1,9 @@
 # tern 0.9.13
 
+### Deprecations
+
+* Renamed the proportion difference method `"uncond_exact_diff"` to `"uncond_exact"` in `estimate_proportion_diff()` and `s_proportion_diff()`, so the statistic names are now `diff_uncond_exact` and `diff_ci_uncond_exact_l` / `diff_ci_uncond_exact_u`. The old name still works but is deprecated and gives a warning. (#1534)
+
 ### Bug Fixes
 
 * Fixed overly narrow confidence intervals in `prop_diff_uncond_exact()` caused by floating-point comparisons excluding tied tables from the tails. Tail comparisons now use integer cross-products to preserve ties without a numerical tolerance.

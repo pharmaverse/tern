@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette explains the construction of the unconditional exact confidence interval for the difference in proportions using the `estimate_proportion_diff()` function with `method = "uncond_exact_diff"` from the `tern` package. This method is particularly useful when dealing with small sample sizes or when the assumptions of other methods (like the normal approximation) are not met.
+This vignette explains the construction of the unconditional exact confidence interval for the difference in proportions using the `estimate_proportion_diff()` function with `method = "uncond_exact"` from the `tern` package. This method is particularly useful when dealing with small sample sizes or when the assumptions of other methods (like the normal approximation) are not met.
 In SAS this method is implemented in the `FREQ` procedure with the `RISKDIFF(METHOD = NOSCORE)` option in the `EXACT` statement.
 
 ## Definition

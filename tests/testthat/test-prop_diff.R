@@ -896,7 +896,7 @@ testthat::test_that("s_proportion_diff works with CMH Miettinen and Nurminen met
 })
 
 
-testthat::test_that("s_proportion_diff works with uncond_exact_diff", {
+testthat::test_that("s_proportion_diff works with uncond_exact", {
   dta <- data.frame(
     rsp = c(rep(TRUE, 5), rep(FALSE, 12), rep(TRUE, 40), rep(FALSE, 38)),
     grp = c(rep("B", 17), rep("A", 78)),
@@ -909,12 +909,47 @@ testthat::test_that("s_proportion_diff works with uncond_exact_diff", {
     .ref_group = subset(dta, grp == "B"),
     .in_ref_col = FALSE,
     conf_level = 0.95,
-    method = "uncond_exact_diff"
+    method = "uncond_exact"
   )
 
   expect_equal(as.numeric(result$diff), 21.87, tolerance = 1e-2)
   expect_equal(as.numeric(result$diff_ci), c(-4.66, 46.76), tolerance = 1e-2)
   expect_identical(attr(result$diff_ci, "label"), "95% CI (Unconditional exact)")
+  expect_identical(names(result$diff), "diff_uncond_exact")
+  expect_identical(names(result$diff_ci), c("diff_ci_uncond_exact_l", "diff_ci_uncond_exact_u"))
+})
+
+testthat::test_that("s_proportion_diff still accepts the deprecated method name uncond_exact_diff", {
+  dta <- data.frame(
+    rsp = c(rep(TRUE, 5), rep(FALSE, 12), rep(TRUE, 40), rep(FALSE, 38)),
+    grp = c(rep("B", 17), rep("A", 78)),
+    stringsAsFactors = FALSE
+  )
+  args <- list(
+    df = subset(dta, grp == "A"),
+    .var = "rsp",
+    .ref_group = subset(dta, grp == "B"),
+    .in_ref_col = FALSE,
+    conf_level = 0.95
+  )
+
+  lifecycle::expect_deprecated(
+    result <- do.call(s_proportion_diff, c(args, list(method = "uncond_exact_diff"))),
+    "uncond_exact"
+  )
+  expect_identical(result, do.call(s_proportion_diff, c(args, list(method = "uncond_exact"))))
+
+  # A named scalar (e.g. taken from a config vector) is still accepted by `match.arg()`.
+  lifecycle::expect_deprecated(
+    result_named <- do.call(s_proportion_diff, c(args, list(method = c(m = "uncond_exact_diff")))),
+    "uncond_exact"
+  )
+  expect_identical(result_named, result)
+})
+
+testthat::test_that("d_proportion_diff describes uncond_exact and its deprecated name", {
+  expect_identical(d_proportion_diff(0.95, "uncond_exact"), "95% CI (Unconditional exact)")
+  expect_identical(d_proportion_diff(0.95, "uncond_exact_diff"), "95% CI (Unconditional exact)")
 })
 
 test_that("s_proportion_diff supports a custom response value", {
@@ -966,7 +1001,7 @@ test_that("s_proportion_diff errors when stratified method is chosen without str
   )
 })
 
-test_that("s_proportion_diff errors when strata are provided with the non-stratified method uncond_exact_diff", {
+test_that("s_proportion_diff errors when strata are provided with the non-stratified method uncond_exact", {
   dta <- data.frame(
     rsp = sample(c("Y", "N"), 10, TRUE),
     grp = factor(rep(c("A", "B"), each = 5)),
@@ -980,7 +1015,7 @@ test_that("s_proportion_diff errors when strata are provided with the non-strati
       .ref_group = subset(dta, grp == "B"),
       .in_ref_col = FALSE,
       variables = list(strata = "strata"),
-      method = "uncond_exact_diff",
+      method = "uncond_exact",
       val = "Y"
     ),
     "strat"
