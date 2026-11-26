@@ -1,3 +1,12 @@
+# tern 0.9.13.9000
+
+### Bug Fixes
+
+* `prop_strat_wilson()` now gives an informative error when no stratum has both responders and
+  non-responders, because the stratified Wilson interval is not defined in that case. `prop_diff_strat_nc()`
+  gives the same error when this holds within one treatment group. Previously these cases failed with
+  "subscript out of bounds" or a `prop.test()` error. (#1416)
+
 # tern 0.9.13
 
 ### Bug Fixes

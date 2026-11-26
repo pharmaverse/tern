@@ -312,6 +312,22 @@ testthat::test_that("prop_strat_nc (proportion difference by stratified Newcombe
   expect_equal(as.numeric(results$diff_ci), c(0.0391, 0.4501), tolerance = 1e-3)
 })
 
+testthat::test_that("prop_diff_strat_nc gives an informative error when a group has no stratum with both outcomes", {
+  grp <- factor(rep(c("A", "B"), each = 10))
+  strata <- factor(rep(rep(c("a", "b"), each = 5), 2))
+  rsp_b <- rep(c(TRUE, FALSE), 5)
+
+  # Group A has no responders at all: the interval is not defined.
+  testthat::expect_error(
+    prop_diff_strat_nc(rsp = c(rep(FALSE, 10), rsp_b), grp = grp, strata = strata),
+    "no stratum has both responders and non-responders"
+  )
+
+  # Group A has no responders in stratum "a" only: the interval is still computed.
+  result <- prop_diff_strat_nc(rsp = c(rep(FALSE, 5), rsp_b[1:5], rsp_b), grp = grp, strata = strata)
+  testthat::expect_true(all(is.finite(c(result$diff, result$diff_ci))))
+})
+
 testthat::test_that("prop_diff_strat_nc output matches equivalent SAS function output", {
   set.seed(1)
   rsp <- c(

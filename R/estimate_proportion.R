@@ -371,7 +371,7 @@ prop_strat_wilson <- function(rsp,
   checkmate::assert_factor(strata, len = length(rsp))
   assert_proportion_value(conf_level)
 
-  tbl <- table(rsp, strata)
+  tbl <- table(factor(rsp, levels = c(FALSE, TRUE)), strata)
   n_strata <- length(unique(strata))
 
   # Checking the weights and maximum number of iterations.
@@ -395,6 +395,12 @@ prop_strat_wilson <- function(rsp,
   xs <- xs[use_stratum]
   ests <- xs / ns
   vars <- ests * (1 - ests) / ns
+  if (all(vars == 0)) {
+    stop(
+      "The stratified Wilson confidence interval is not defined when no stratum ",
+      "has both responders and non-responders."
+    )
+  }
 
   strata_qnorm <- strata_normal_quantile(vars, weights, conf_level)
 
