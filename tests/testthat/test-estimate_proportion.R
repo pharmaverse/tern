@@ -131,6 +131,18 @@ testthat::test_that("prop_strat_wilson returns right result with inserted weight
   testthat::expect_snapshot(res)
 })
 
+testthat::test_that("prop_strat_wilson gives an informative error when no stratum has both outcomes", {
+  strata <- factor(rep(c("a", "b"), each = 5))
+  msg <- "no stratum has both responders and non-responders"
+
+  testthat::expect_error(prop_strat_wilson(rep(FALSE, 10), strata), msg)
+  testthat::expect_error(prop_strat_wilson(rep(TRUE, 10), strata), msg)
+  testthat::expect_error(
+    prop_strat_wilson(rep(c(FALSE, TRUE), each = 5), strata, weights = c(0.5, 0.5)),
+    msg
+  )
+})
+
 testthat::test_that("prop_clopper_pearson returns right result", {
   rsp <- c(
     TRUE, TRUE, TRUE, TRUE, TRUE,
